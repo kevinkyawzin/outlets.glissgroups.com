@@ -1,0 +1,1074 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Security;
+using BigMac.Models;
+using System.Web.Configuration;
+
+namespace BigMac.Controllers
+{
+    public class InventoryController : Controller
+    {
+        //
+        // GET: /Inventory/
+        private BigMacEntities db = new BigMacEntities();
+        private GeneralController gc = new GeneralController();
+
+        //New Stock Received Code
+        //----------(START)-----------
+        public ActionResult StockReceiveOverview(string rcode = "Stock Received", string acode = "")
+        {
+            int i = 0;
+//            ViewBag.SupplierOptions = db.CusSup.Where(x => x.status == "Active").ToList();
+            ViewBag.SupplierOptions = db.CusSup.Where(x => x.cussuptype.Contains("SUPPLIER") || x.cussuptype.Contains("SUPPLIER")).OrderBy(x => x.cussupname).Select(x => new { x.id, x.cussupname, x.inhousecode }).ToList();
+            ICollection<Configuration_m_Branches> branches = db.Branches.ToList();
+            for (i = 0; i < branches.Count; i++)
+            {
+                branches.ElementAt(i).branchname = cAESEncryption.getDecryptedString(branches.ElementAt(i).branchname);
+            }
+            ViewBag.BranchOptions = branches;
+
+            ViewBag.CurrencyOptions = db.Currency.Select(x => new { x.value, x.ExchangeRate }).OrderBy(x => x.value).ToList();
+            ViewBag.Rcode = rcode;
+            ViewBag.Acode = acode;
+            return View();
+        }
+
+        [Authorize]
+        public JsonResult getStockReceiveListWithPaging(jQueryDataTableParamModel param)
+        {
+            try
+            {
+                var solist = db.stockReceived.ToList();
+                var searchValue = "";
+                if (param.sSearch == null) searchValue = "";
+                else searchValue = param.sSearch.ToUpper();
+
+                var filtertpList = solist.Where(x => x.branchcode.ToUpper().Contains(searchValue) || x.resourcecode.ToUpper().Contains(searchValue) || x.cussupname.ToUpper().Contains(searchValue)).OrderBy(x => x.createdate).ToList();
+                var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
+                var sortDirection = Request["sSortDir_0"];  // asc or desc
+                if (sortDirection == "asc")
+                {
+                    if (sortColumnIndex == 0)
+                        filtertpList = filtertpList.OrderBy(x => x.createdate).ToList();
+                    else if (sortColumnIndex == 1)
+                        filtertpList = filtertpList.OrderBy(x => x.branchcode).ToList();
+                    else if (sortColumnIndex == 2)
+                        filtertpList = filtertpList.OrderBy(x => x.resourcecode).ToList();
+                    else if (sortColumnIndex == 3)
+                        filtertpList = filtertpList.OrderBy(x => x.cussupname).ToList();
+                    else if (sortColumnIndex == 4)
+                        filtertpList = filtertpList.OrderBy(x => x.total_salestax).ToList();
+                    else if (sortColumnIndex == 5)
+                        filtertpList = filtertpList.OrderBy(x => x.total_salestax).ToList();
+                    else if (sortColumnIndex == 6)
+                        filtertpList = filtertpList.OrderBy(x => x.total_total).ToList();
+                    else if (sortColumnIndex == 7)
+                        filtertpList = filtertpList.OrderBy(x => x.status).ToList();
+                }
+                else
+                {
+                    if (sortColumnIndex == 0)
+                        filtertpList = filtertpList.OrderByDescending(x => x.createdate).ToList();
+                    else if (sortColumnIndex == 1)
+                        filtertpList = filtertpList.OrderByDescending(x => x.branchcode).ToList();
+                    else if (sortColumnIndex == 2)
+                        filtertpList = filtertpList.OrderByDescending(x => x.resourcecode).ToList();
+                    else if (sortColumnIndex == 3)
+                        filtertpList = filtertpList.OrderByDescending(x => x.cussupname).ToList();
+                    else if (sortColumnIndex == 4)
+                        filtertpList = filtertpList.OrderByDescending(x => x.total_salestax).ToList();
+                    else if (sortColumnIndex == 5)
+                        filtertpList = filtertpList.OrderByDescending(x => x.total_salestax).ToList();
+                    else if (sortColumnIndex == 6)
+                        filtertpList = filtertpList.OrderByDescending(x => x.total_total).ToList();
+                    else if (sortColumnIndex == 7)
+                        filtertpList = filtertpList.OrderByDescending(x => x.status).ToList();
+                }
+
+                var paginatedtpList = filtertpList.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
+
+                return Json(new
+                {
+                    sEcho = param.sEcho,
+                    iTotalRecords = solist.Count,    //paginatedQPList.TotalCount,
+                    iTotalDisplayRecords = filtertpList.Count,   //paginatedQPList.TotalCount,
+                    aaData = paginatedtpList
+                },
+                JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json("Failed", JsonRequestBehavior.AllowGet);
+            }
+            //return View(db.products.ToList());
+        }
+
+        [HttpPost]
+        [Authorize]
+        public JsonResult CreateStockReceive(int custid, string custname, string rcode = "Stock Received")
+        {
+            var returnStr = "FAIL";
+            int rid = 0;
+            try
+            {
+                string curr = "";
+                double exrate = 0;
+
+                var ridtmp = db.Resources.Where(x => x.resource == rcode).FirstOrDefault().id;
+                if (ridtmp != null) rid = Convert.ToInt32(ridtmp);
+
+                ICollection<Configuration_m_Default> config = db.ConfigDefault.Where(x => x.key == "CURR").ToList();
+
+                if (config.Count > 0)
+                    curr = config.ElementAt(0).value;
+                else
+                    curr = "";
+
+                config = db.ConfigDefault.Where(x => x.key == "EXCH").ToList();
+                if (config.Count > 0)
+                    exrate = Convert.ToDouble(config.ElementAt(0).value);
+                else
+                    exrate = 0;
+
+                var uniquecode = "";
+                uniquecode = DateTime.Now.Year.ToString().Trim() + DateTime.Now.Month.ToString().Trim() + DateTime.Now.Day.ToString().Trim() + DateTime.Now.Hour.ToString().Trim() + DateTime.Now.Minute.ToString().Trim() + DateTime.Now.Second.ToString().Trim();
+                Stock_m_StockReceived stmp = new Stock_m_StockReceived();
+                stmp.cussupid = custid;
+                stmp.cussupname = custname;
+                //stmp.uniquecode = uniquecode;
+                stmp.createdate = DateTime.Now;
+                //stmp.resourcedate = DateTime.Now;
+                stmp.lastmodifieddate = DateTime.Now;
+                stmp.createid = Convert.ToInt32(Session["userid"]);
+                stmp.cocode = Convert.ToString(Session["cocode"]);
+                stmp.branchcode = Convert.ToString(Session["branchcode"]);
+                stmp.status = "Active";
+                stmp.currency = curr;
+                stmp.exchangerate = exrate;
+                //stmp.aracctid = ""; //db.ConfigDefault.Where(x => x.key == "ARID").FirstOrDefault().value;
+                //stmp.salestaxacctid = ""; //db.ConfigDefault.Where(x => x.key == "ARGD").FirstOrDefault().value;
+                //stmp.discountacctid = ""; //db.ConfigDefault.Where(x => x.key == "ARDD").FirstOrDefault().value;
+                stmp.resourcecode = GeneralController.getGeneratedNewID("stock_m_stockreceived", "resourcecode", "STRPREFIX", "STR");
+                db.stockReceived.Add(stmp);
+                db.SaveChanges();
+                saveToLog(rid, stmp.id, "CREATE", "Add New Sales Order for cust id - " + stmp.cussupid.ToString(), "Redeem Ref no- " + stmp.resourcecode + ", ID- " + stmp.id.ToString());
+                returnStr = stmp.resourcecode.ToString();
+            }
+            catch (Exception e)
+            {
+                returnStr = "ERROR";
+                //saveToErrorLog(rid, 0, "CREATE", "Error for create sales order ," + e.InnerException.Message);
+            }
+            return Json(returnStr, JsonRequestBehavior.AllowGet);
+        }
+
+        //Stock Received
+        [Authorize]
+        public ActionResult StockReceive(string id = "", string rcode = "StockReceived Listing", string acode = "")
+        {
+            try
+            {
+                ViewBag.RCode = rcode;
+                string bcode = Session["branchcode"].ToString();
+
+                ViewBag.BranchOptions = db.Branches.Select(x => new { x.branchcode }).OrderBy(x => x.branchcode).ToList();
+                ViewBag.SupplierOptions = db.CusSup.Where(x => x.cussuptype.Contains("SUPPLIER") || x.cussuptype.Contains("SUPPLIER")).OrderBy(x => x.cussupname).Select(x => new { x.id, x.cussupname, x.inhousecode }).ToList();
+                ViewBag.CurrencyOptions = db.Currency.Select(x => new { x.value, x.ExchangeRate }).OrderBy(x => x.value).ToList();
+
+                if (id == "0")
+                {
+                    Stock_m_StockReceived sr = new Stock_m_StockReceived();
+                    return View(sr);
+                }
+                else
+                {
+                    Stock_m_StockReceived stockreceived = db.stockReceived.Where(x => x.resourcecode.ToUpper().Contains(id.ToUpper())).FirstOrDefault();
+                    return View(stockreceived);
+                }
+            }
+            catch (Exception e)
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public JsonResult StockReceivedSave(Stock_m_StockReceived stockreceived, string rcode = "StockReceived Listing", string itemids = "")
+        {
+            var returnStr = "FAIL";
+            int rid = 0;
+
+            if (Session["userid"] != null)
+            {
+                try
+                {
+                    if (stockreceived.id == 0)
+                    {
+                        ICollection<Configuration_m_Default> config = db.ConfigDefault.Where(x => x.key == "CURR").ToList();
+
+                        var uniquecode = "";
+                        uniquecode = DateTime.Now.Year.ToString().Trim() + DateTime.Now.Month.ToString().Trim() + DateTime.Now.Day.ToString().Trim() + DateTime.Now.Hour.ToString().Trim() + DateTime.Now.Minute.ToString().Trim() + DateTime.Now.Second.ToString().Trim();
+                        Stock_m_StockReceived stmp = new Stock_m_StockReceived();
+
+                        stmp.branchcode = stockreceived.branchcode;
+                        stmp.cussupid = stockreceived.cussupid;
+                        stmp.cussupname = stockreceived.cussupname;
+                        stmp.currency = stockreceived.currency;
+                        stmp.exchangerate = stockreceived.exchangerate;
+                        stmp.refno = stockreceived.refno;
+                        stmp.total_subtotal = stockreceived.total_subtotal;
+                        stmp.total_salestax = stockreceived.total_salestax;
+                        stmp.total_total = stockreceived.total_total;
+                        stmp.createdate = DateTime.Now;
+                        stmp.lastmodifieddate = DateTime.Now;
+                        stmp.createid = Convert.ToInt32(Session["userid"]);
+                        stmp.cocode = Convert.ToString(Session["cocode"]);
+                        stmp.remark = stockreceived.remark;
+                        stmp.resourcedate = stockreceived.resourcedate;
+                        stmp.suprefno = stockreceived.suprefno;
+                        stmp.status = "Active";
+
+                        stmp.resourcecode = GeneralController.getGeneratedNewID("stock_m_stockreceived", "resourcecode", "STKRECPREF", "STKREC");
+                        db.stockReceived.Add(stmp);
+                        db.SaveChanges();
+
+                        saveToLog(rid, stmp.id, "CREATE", "Add New Stock Received for cust id - " + stmp.cussupid.ToString(), "Redeem Ref no- " + stmp.resourcecode + ", ID- " + stmp.id.ToString());
+                        
+                        using (var context = new BigMacEntities())
+                        {
+                            itemids = itemids + "0";
+                            var value = context.Database.ExecuteSqlCommand("Delete from stock_m_stockreceived_items where stockreceivedid=" + stockreceived.id.ToString() + " and id not in (" + itemids + ")");
+                        }
+
+                        if (stockreceived.items != null)
+                        {
+                            for (int i = 0; i < (stockreceived.items.Count()); i++)
+                            {
+                                if (stockreceived.items.ElementAt(i).id == 0)
+                                {
+                                    stockreceived.items.ElementAt(i).stockreceivedid = stmp.id;
+                                    SaveNewStockReceivedDetailItem(stockreceived.items.ElementAt(i), rid);
+                                }
+                                else
+                                {
+                                    UpdateStockReceivedDetailItem(stockreceived.items.ElementAt(i), rid);
+                                }
+                            }
+                        }
+                        returnStr = stmp.resourcecode.ToString();
+                    }
+                    else {
+                        var ridtmp = db.Resources.Where(x => x.resource == rcode).FirstOrDefault().id;
+                        if (ridtmp != null) rid = Convert.ToInt32(ridtmp);
+
+                        Stock_m_StockReceived StockReceivedtmp = db.stockReceived.Find(stockreceived.id);
+                        string from = ""; string to = "";
+                        from = "Status -" + StockReceivedtmp.status + ", Create By -" + StockReceivedtmp.createid + ", total -" + StockReceivedtmp.total_total.ToString();
+                        to = "Status -" + stockreceived.status + ", Create By -" + Session["userid"].ToString() + ", total -" + stockreceived.total_total.ToString() + itemids;
+                        StockReceivedtmp.branchcode = stockreceived.branchcode;
+                        StockReceivedtmp.cussupid = stockreceived.cussupid;
+                        StockReceivedtmp.cussupname = stockreceived.cussupname;
+                        StockReceivedtmp.currency = stockreceived.currency;
+                        StockReceivedtmp.exchangerate = stockreceived.exchangerate;
+                        StockReceivedtmp.refno = stockreceived.refno;
+                        StockReceivedtmp.total_subtotal = stockreceived.total_subtotal;
+                        StockReceivedtmp.total_salestax = stockreceived.total_salestax;
+                        StockReceivedtmp.total_total = stockreceived.total_total;
+
+                        db.SaveChanges();
+                        saveToLog(rid, StockReceivedtmp.id, "UPDATE", "UPDATE Redeem - refno -" + StockReceivedtmp.resourcecode + ", id - " + StockReceivedtmp.id.ToString(), from, to);
+                        using (var context = new BigMacEntities())
+                        {
+                            itemids = itemids + "0";
+                            var value = context.Database.ExecuteSqlCommand("Delete from stock_m_stockreceived_items where stockreceivedid=" + stockreceived.id.ToString() + " and id not in (" + itemids + ")");
+                        }
+
+                        if (stockreceived.items != null)
+                        {
+                            for (int i = 0; i < (stockreceived.items.Count()); i++)
+                            {
+                                if (stockreceived.items.ElementAt(i).id == 0)
+                                {
+                                    SaveNewStockReceivedDetailItem(stockreceived.items.ElementAt(i), rid);
+                                }
+                                else
+                                {
+                                    UpdateStockReceivedDetailItem(stockreceived.items.ElementAt(i), rid);
+                                }
+                            }                         
+                        }
+                        returnStr = stockreceived.resourcecode.ToString();
+                    }
+                }
+                catch (Exception e)
+                { returnStr = e.Message.ToString(); }
+            }
+            else
+            {
+                Response.RedirectToRoute(new { controller = "Access", action = "Login" });
+                returnStr = "SESSIONEXPIRED";
+            }            
+            return Json(returnStr, JsonRequestBehavior.AllowGet);
+        }
+        //----------(END)-----------
+
+        //Stock Received
+        [Authorize]
+        public ActionResult StockReceived(int id = 0, string rcode = "Stock Received", string acode = "")
+        {
+            try
+            {
+                ViewBag.RCode = rcode;                
+                string bcode = Session["branchcode"].ToString();
+
+                ViewBag.BranchOptions = db.Branches.Select(x => new { x.branchcode }).OrderBy(x => x.branchcode).ToList();
+                ViewBag.CustomerOptions = db.CusSup.Where(x => x.cussuptype.Contains("Customer") || x.cussuptype.Contains("CUSTOMER")).OrderBy(x => x.cussupname).Select(x => new { x.id, x.cussupname, x.inhousecode }).ToList();
+                ViewBag.CurrencyOptions = db.Currency.Select(x => new { x.value, x.ExchangeRate }).OrderBy(x => x.value).ToList();
+
+                if (id == 0)
+                {
+                    Stock_m_StockReceived sr = new Stock_m_StockReceived();
+                    return View(sr);
+                }
+                else
+                {
+                    Stock_m_StockReceived stockreceived = db.stockReceived.Find(id);
+                    return View(stockreceived);
+                }
+            }
+            catch (Exception e)
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public JsonResult PostReceivedSave(Stock_m_StockReceived stockreceived, string rcode = "Stock Received", string itemids = "")
+        {
+            var returnStr = "FAIL";
+            //int rid = 0;
+            double? stockBalance = 0.0;
+            string pcode = "";
+
+            if (Session["userid"] != null)
+            {
+                try
+                {
+
+                    Stock_m_StockReceived sr = db.stockReceived.Find(stockreceived.id);
+                    sr.items = db.stockReceivedItems.Where(x => x.stockreceivedid == stockreceived.id).ToList();
+
+                    if (stockreceived.items != null) {
+                        for (int i = 0; i < (stockreceived.items.Count()); i++)
+                        {
+                            stock_m_stockmovement stockmovement = new stock_m_stockmovement();
+                            stockmovement.createdate = DateTime.Now;                            
+                            stockmovement.lastmodifieddate = DateTime.Now;                            
+                            stockmovement.stockmoduletype = "";
+                            stockmovement.stockrefid = 0;
+                            stockmovement.resourcecode = sr.resourcecode;
+                            stockmovement.createid = Convert.ToInt32(Session["userid"]);
+                            stockmovement.productid = sr.items.ElementAt(i).productid;
+                            stockmovement.productcode = sr.items.ElementAt(i).productcode;
+                            stockmovement.productdesc = sr.items.ElementAt(i).productdesc;
+                            stockmovement.uom = sr.items.ElementAt(i).uom;
+                            stockmovement.qty = sr.items.ElementAt(i).qty;
+                            stockmovement.currency = sr.items.ElementAt(i).currency;
+                            stockmovement.exchangerate = sr.items.ElementAt(i).exchangerate;
+                            stockmovement.unitprice = sr.items.ElementAt(i).unitprice;
+                            stockmovement.discountamount = sr.items.ElementAt(i).discountamount;
+                            stockmovement.taxamount = sr.items.ElementAt(i).taxamount;
+                            stockmovement.lineamount = sr.items.ElementAt(i).lineamount;
+                            stockmovement.lastbalance = sr.items.ElementAt(i).qty;
+                            stockmovement.cocode = sr.cocode;
+
+                            pcode = sr.items.ElementAt(i).productcode;
+                            stockBalance = db.StockMovement.Where(t => t.productcode.ToUpper() == pcode).Sum(x => x.qty) ?? 0;
+                            stockmovement.productbalance = stockBalance+ sr.items.ElementAt(i).qty;
+
+
+                            db.StockMovement.Add(stockmovement);
+                            db.SaveChanges();
+                        }
+                    }
+
+                    sr.post = 1;
+                    sr.postdate = DateTime.Now;                    
+                    db.SaveChanges();
+
+
+
+
+
+                    //var ridtmp = db.Resources.Where(x => x.resource == rcode).FirstOrDefault().id;
+                    //if (ridtmp != null) rid = Convert.ToInt32(ridtmp);
+
+                    
+                    //Stock_m_StockReceived StockReceivedtmp = db.stockReceived.Find(stockreceived.id);
+                    
+                    //string from = ""; string to = "";
+                    //from = "Status -" + StockReceivedtmp.status + ", Create By -" + StockReceivedtmp.createid + ", total -" + StockReceivedtmp.total_total.ToString();
+                    //to = "Status -" + stockreceived.status + ", Create By -" + Session["userid"].ToString() + ", total -" + stockreceived.total_total.ToString() + itemids;
+
+                    //StockReceivedtmp.branchcode = stockreceived.branchcode;
+                    //StockReceivedtmp.cussupid = stockreceived.cussupid;
+                    //StockReceivedtmp.cussupname = stockreceived.cussupname;
+                    //StockReceivedtmp.currency = stockreceived.currency;
+                    //StockReceivedtmp.exchangerate = stockreceived.exchangerate;
+                    //StockReceivedtmp.refno = stockreceived.refno;
+                    //StockReceivedtmp.total_subtotal = stockreceived.total_subtotal;
+                    //StockReceivedtmp.total_salestax = stockreceived.total_salestax;
+                    //StockReceivedtmp.total_total = stockreceived.total_total;
+
+                    //db.SaveChanges();
+                    //saveToLog(rid, StockReceivedtmp.id, "UPDATE", "UPDATE Redeem - refno -" + StockReceivedtmp.resourcecode + ", id - " + StockReceivedtmp.id.ToString(), from, to);
+
+                    //using (var context = new BigMacEntities())
+                    //{
+                    //    itemids = itemids + "0";
+                    //    var value = context.Database.ExecuteSqlCommand("Delete from stock_m_stockreceived_items where stockreceivedid=" + stockreceived.id.ToString() + " and id not in (" + itemids + ")");
+                    //}
+
+                    //if (stockreceived.items != null)
+                    //{
+                    //    for (int i = 0; i < (stockreceived.items.Count()); i++)
+                    //    {
+                    //        if (stockreceived.items.ElementAt(i).id == 0)
+                    //        {
+                    //            SaveNewStockReceivedDetailItem(stockreceived.items.ElementAt(i), rid);
+                    //        }
+                    //        else
+                    //        {
+                    //            UpdateStockReceivedDetailItem(stockreceived.items.ElementAt(i), rid);
+                    //        }
+                    //    }                        
+                    //}                    
+                    returnStr = stockreceived.resourcecode.ToString();
+                }
+                catch (Exception e)
+                { returnStr = e.Message.ToString(); }
+            }
+            else
+            {
+                Response.RedirectToRoute(new { controller = "Access", action = "Login" });
+                returnStr = "SESSIONEXPIRED";
+            }            
+            return Json(returnStr, JsonRequestBehavior.AllowGet);
+        }
+
+        public void SaveNewStockReceivedDetailItem(Stock_m_StockReceived_Items sodtl, int rid = 0)
+        {
+            sodtl.createdate = DateTime.Now;
+            sodtl.lastmodifieddate = DateTime.Now;
+            sodtl.createid = Convert.ToInt32(Session["userid"]);
+            db.stockReceivedItems.Add(sodtl);
+            db.SaveChanges();
+            saveToLog(rid, sodtl.id, "CREATE", "Add New Deatil Item - product ID -" + sodtl.productid, "RefNo no- " + sodtl.resourcecode + ", Item ID- " + sodtl.id.ToString());
+        }
+
+        public void UpdateStockReceivedDetailItem(Stock_m_StockReceived_Items sodtl, int rid)
+        {
+            Stock_m_StockReceived_Items tmp = db.stockReceivedItems.Find(sodtl.id);
+            string from = ""; string to = "";
+            if (tmp != null)
+            {
+                from = "proudctid -" + tmp.productid + ",product desc -" + tmp.productdesc + ",Price -" + tmp.unitprice.ToString() + ",Qty -" + tmp.qty.ToString() +  ",Price-" + tmp.unitprice.ToString() + ", Disc -" + tmp.discountamount.ToString() + ",Tax -" + tmp.taxamount.ToString() + ",LineAmt-" + tmp.lineamount.ToString();
+                to = "proudctid -" + sodtl.productid + ",product desc -" + sodtl.productdesc + ",Price -" + sodtl.unitprice.ToString() + ",Qty -" + tmp.qty.ToString() + ",Price-" + sodtl.unitprice.ToString() + ", Disc -" + sodtl.discountamount.ToString() + ",Tax -" + sodtl.taxamount.ToString() + ",LineAmt-" + sodtl.lineamount.ToString();
+
+                tmp.productid = sodtl.productid;
+                tmp.lineno = sodtl.lineno;
+                tmp.productcode = sodtl.productcode;
+                tmp.productdesc = sodtl.productdesc;
+                tmp.qty = sodtl.qty;
+                tmp.uom = sodtl.uom;
+                tmp.unitprice = sodtl.unitprice;
+                tmp.discountamount = sodtl.discountamount;
+                tmp.taxamount = sodtl.taxamount;
+                tmp.lineamount = sodtl.lineamount;
+                tmp.resourcecode = sodtl.resourcecode;
+                tmp.currency = sodtl.currency;
+                tmp.exchangerate = sodtl.exchangerate;
+                tmp.lastmodifieddate = DateTime.Now;
+                db.SaveChanges();
+                saveToLog(rid, sodtl.id, "UPDATE", "Update Detail Item ID-" + sodtl.id.ToString() + " RefNo -" + sodtl.resourcecode, from, to);
+            }
+        }
+
+        [Authorize]
+        public ActionResult getProductListWithPaging(jQueryDataTableParamModel param)
+        {
+            try
+            {
+                int pagesize = Convert.ToInt32(WebConfigurationManager.AppSettings["pagesize"]);
+                ICollection<Product_m_Productdtl> PList = ProductController.ProductList("%", "%", 0, "", "", "", 0, 0);
+                
+                var searchValue = "";
+                if (param.sSearch == null) searchValue = "";
+                else searchValue = param.sSearch;
+                var filterPList = PList.Where(x => x.desc.ToUpper().Contains(searchValue.ToUpper()) || x.category.ToUpper().Contains(searchValue.ToUpper()) || x.categorysub.ToUpper().Contains(searchValue.ToUpper()) || x.brand.ToUpper().Contains(searchValue.ToUpper()) || x.productcode.ToUpper().Contains(searchValue.ToUpper())).ToList();
+                var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
+                var sortDirection = Request["sSortDir_0"];  // asc or desc
+                if (sortDirection == "asc")
+                {
+                    if (sortColumnIndex == 1)
+                        filterPList = filterPList.OrderBy(x => x.productcode).ToList();
+                    else if (sortColumnIndex == 2)
+                        filterPList = filterPList.OrderBy(x => x.category).ToList();
+                    else if (sortColumnIndex == 3)
+                        filterPList = filterPList.OrderBy(x => x.categorysub).ToList();
+                    else if (sortColumnIndex == 4)
+                        filterPList = filterPList.OrderBy(x => x.brand).ToList();
+                    else if (sortColumnIndex == 5)
+                        filterPList = filterPList.OrderBy(x => x.desc).ToList();
+                    else if (sortColumnIndex == 6)
+                        filterPList = filterPList.OrderBy(x => x.redeemdollars).ToList();
+                    else if (sortColumnIndex == 7)
+                        filterPList = filterPList.OrderBy(x => x.redeembonus).ToList();
+                    else if (sortColumnIndex == 8)
+                        filterPList = filterPList.OrderBy(x => x.sellprice).ToList();
+                }
+                else
+                {
+                    if (sortColumnIndex == 1)
+                        filterPList = filterPList.OrderByDescending(x => x.productcode).ToList();
+                    else if (sortColumnIndex == 2)
+                        filterPList = filterPList.OrderByDescending(x => x.category).ToList();
+                    else if (sortColumnIndex == 3)
+                        filterPList = filterPList.OrderByDescending(x => x.categorysub).ToList();
+                    else if (sortColumnIndex == 4)
+                        filterPList = filterPList.OrderByDescending(x => x.brand).ToList();
+                    else if (sortColumnIndex == 5)
+                        filterPList = filterPList.OrderByDescending(x => x.desc).ToList();
+                    else if (sortColumnIndex == 6)
+                        filterPList = filterPList.OrderByDescending(x => x.redeemdollars).ToList();
+                    else if (sortColumnIndex == 7)
+                        filterPList = filterPList.OrderByDescending(x => x.redeembonus).ToList();
+                    else if (sortColumnIndex == 8)
+                        filterPList = filterPList.OrderByDescending(x => x.sellprice).ToList();
+                }
+
+                var paginatedQPList = filterPList.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
+                
+                return Json(new
+                {
+                    sEcho = param.sEcho,
+                    iTotalRecords = PList.Count, //paginatedQPList.TotalCount,
+                    iTotalDisplayRecords = filterPList.Count, //paginatedQPList.TotalCount,
+                    aaData = paginatedQPList
+                },
+                JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            { return Json("Failed", JsonRequestBehavior.AllowGet); }            
+        }
+
+        public JsonResult getStockReceivedDetailWithPaging(int pageno = 0, int id = 0)
+        {
+            try
+            {
+                int pagesize = Convert.ToInt32(WebConfigurationManager.AppSettings["pagesize"]);                
+                ICollection<Stock_m_StockReceived_Items> SList = db.stockReceivedItems.Where(x => x.stockreceivedid == id).ToList();
+                var paginatedQSList = new PaginatedList<Stock_m_StockReceived_Items>(SList.AsQueryable(), pageno, pagesize);
+                var paginatedSList = paginatedQSList.ToList();
+
+                if (paginatedSList != null)
+                {
+                    if (paginatedSList.Count > 0)
+                        paginatedSList.ElementAt(0).TotalPages = paginatedQSList.TotalPages;                    
+                }
+
+                return Json(paginatedSList, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            { return Json("Failed", JsonRequestBehavior.AllowGet); }
+
+        }
+
+        public ActionResult StockReceivedListing(string rcode = "Stock Received", string acode = "")
+        {
+            int i = 0;
+            ViewBag.CustomerOptions = db.CusSup.Where(x => x.status == "Active").ToList();
+            ICollection<Configuration_m_Branches> branches = db.Branches.ToList();
+            for (i = 0; i < branches.Count; i++)
+            {
+                branches.ElementAt(i).branchname = cAESEncryption.getDecryptedString(branches.ElementAt(i).branchname);
+            }
+            ViewBag.BranchOptions = branches;
+
+            ViewBag.CurrencyOptions = db.Currency.Select(x => new { x.value, x.ExchangeRate }).OrderBy(x => x.value).ToList();
+            ViewBag.Rcode = rcode;
+            ViewBag.Acode = acode;
+            return View();
+        }
+
+        //public ActionResult StockReceived(string rcode = "StockReceived")
+        //{
+        //    int i = 0;
+        //    ViewBag.CustomerOptions = db.CusSup.Where(x => x.status == "Active").ToList();
+        //    ICollection<Configuration_m_Branches> branches = db.Branches.ToList();
+        //    for (i = 0; i < branches.Count; i++)
+        //    {
+        //        branches.ElementAt(i).branchname = cAESEncryption.getDecryptedString(branches.ElementAt(i).branchname);
+        //    }
+        //    ViewBag.BranchOptions = branches;
+
+        //    ViewBag.CurrencyOptions = db.Currency.Select(x => new { x.value, x.ExchangeRate }).OrderBy(x => x.value).ToList();
+        //    ViewBag.Rcode = rcode;
+            
+        //    return View();
+        //}
+
+        [HttpPost]
+        [Authorize]
+        public JsonResult CreateStockReceived(int custid, string custname, string rcode = "Stock Received")
+        {
+            var returnStr = "FAIL";            
+            int rid = 0;
+            try
+            {
+                string curr = "";
+                double exrate = 0;
+
+                var ridtmp = db.Resources.Where(x => x.resource == rcode).FirstOrDefault().id;                
+                if (ridtmp != null) rid = Convert.ToInt32(ridtmp);
+
+                ICollection<Configuration_m_Default> config = db.ConfigDefault.Where(x => x.key == "CURR").ToList();
+
+                if (config.Count > 0)
+                    curr = config.ElementAt(0).value;
+                else
+                    curr = "";
+
+                config = db.ConfigDefault.Where(x => x.key == "EXCH").ToList();
+                if (config.Count > 0)
+                    exrate = Convert.ToDouble(config.ElementAt(0).value);
+                else
+                    exrate = 0;
+
+                var uniquecode = "";
+                uniquecode = DateTime.Now.Year.ToString().Trim() + DateTime.Now.Month.ToString().Trim() + DateTime.Now.Day.ToString().Trim() + DateTime.Now.Hour.ToString().Trim() + DateTime.Now.Minute.ToString().Trim() + DateTime.Now.Second.ToString().Trim();
+                Stock_m_StockReceived stmp = new Stock_m_StockReceived();
+                stmp.cussupid = custid;
+                stmp.cussupname = custname;
+                //stmp.uniquecode = uniquecode;
+                stmp.createdate = DateTime.Now;
+                //stmp.resourcedate = DateTime.Now;
+                stmp.lastmodifieddate = DateTime.Now;
+                stmp.createid = Convert.ToInt32(Session["userid"]);
+                stmp.cocode = Convert.ToString(Session["cocode"]);
+                stmp.branchcode = Convert.ToString(Session["branchcode"]);
+                stmp.status = "Active";
+                stmp.currency = curr;
+                stmp.exchangerate = exrate;
+                //stmp.aracctid = ""; //db.ConfigDefault.Where(x => x.key == "ARID").FirstOrDefault().value;
+                //stmp.salestaxacctid = ""; //db.ConfigDefault.Where(x => x.key == "ARGD").FirstOrDefault().value;
+                //stmp.discountacctid = ""; //db.ConfigDefault.Where(x => x.key == "ARDD").FirstOrDefault().value;
+                stmp.resourcecode = GeneralController.getGeneratedNewID("stock_m_stockreceived", "resourcecode", "STRPREFIX", "STR");
+                db.stockReceived.Add(stmp);
+                db.SaveChanges();
+                saveToLog(rid, stmp.id, "CREATE", "Add New Sales Order for cust id - " + stmp.cussupid.ToString(), "Redeem Ref no- " + stmp.resourcecode + ", ID- " + stmp.id.ToString());
+                returnStr = stmp.id.ToString();
+            }
+            catch (Exception e)
+            {
+                returnStr = e.Message.ToString();
+                //saveToErrorLog(rid, 0, "CREATE", "Error for create sales order ," + e.InnerException.Message);
+            }            
+            return Json(returnStr, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        public JsonResult getStockReceivedListWithPaging(jQueryDataTableParamModel param)
+        {
+            try
+            {
+                var solist = db.stockReceived.ToList();
+                var searchValue = "";
+                if (param.sSearch == null) searchValue = "";
+                else searchValue = param.sSearch.ToUpper();
+                
+                var filtertpList = solist.Where(x => x.branchcode.ToUpper().Contains(searchValue) || x.resourcecode.ToUpper().Contains(searchValue) || x.cussupname.ToUpper().Contains(searchValue)).OrderBy(x => x.createdate).ToList();
+                var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
+                var sortDirection = Request["sSortDir_0"];  // asc or desc
+                if (sortDirection == "asc")
+                {
+                    if (sortColumnIndex == 0)
+                        filtertpList = filtertpList.OrderBy(x => x.createdate).ToList();
+                    else if (sortColumnIndex == 1)
+                        filtertpList = filtertpList.OrderBy(x => x.branchcode).ToList();
+                    else if (sortColumnIndex == 2)
+                        filtertpList = filtertpList.OrderBy(x => x.resourcecode).ToList();
+                    else if (sortColumnIndex == 3)
+                        filtertpList = filtertpList.OrderBy(x => x.cussupname).ToList();
+                    else if (sortColumnIndex == 4)
+                        filtertpList = filtertpList.OrderBy(x => x.total_salestax).ToList();
+                    else if (sortColumnIndex == 5)
+                        filtertpList = filtertpList.OrderBy(x => x.total_salestax).ToList();
+                    else if (sortColumnIndex == 6)
+                        filtertpList = filtertpList.OrderBy(x => x.total_total).ToList();
+                    else if (sortColumnIndex == 7)
+                        filtertpList = filtertpList.OrderBy(x => x.status).ToList();
+                }
+                else
+                {
+                    if (sortColumnIndex == 0)
+                        filtertpList = filtertpList.OrderByDescending(x => x.createdate).ToList();
+                    else if (sortColumnIndex == 1)
+                        filtertpList = filtertpList.OrderByDescending(x => x.branchcode).ToList();
+                    else if (sortColumnIndex == 2)
+                        filtertpList = filtertpList.OrderByDescending(x => x.resourcecode).ToList();
+                    else if (sortColumnIndex == 3)
+                        filtertpList = filtertpList.OrderByDescending(x => x.cussupname).ToList();
+                    else if (sortColumnIndex == 4)
+                        filtertpList = filtertpList.OrderByDescending(x => x.total_salestax).ToList();
+                    else if (sortColumnIndex == 5)
+                        filtertpList = filtertpList.OrderByDescending(x => x.total_salestax).ToList();
+                    else if (sortColumnIndex == 6)
+                        filtertpList = filtertpList.OrderByDescending(x => x.total_total).ToList();
+                    else if (sortColumnIndex == 7)
+                        filtertpList = filtertpList.OrderByDescending(x => x.status).ToList();
+                }
+
+                var paginatedtpList = filtertpList.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
+
+                return Json(new
+                {
+                    sEcho = param.sEcho,
+                    iTotalRecords = solist.Count,    //paginatedQPList.TotalCount,
+                    iTotalDisplayRecords = filtertpList.Count,   //paginatedQPList.TotalCount,
+                    aaData = paginatedtpList
+                },
+                JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json("Failed", JsonRequestBehavior.AllowGet);
+            }
+            //return View(db.products.ToList());
+        }
+
+        public Boolean saveToLog(int resourceid, int resourcecode, string logtype, string description, string from = "", string to = "", string ip = "")
+        {
+            GeneralController gc = new GeneralController();
+            int uid = Convert.ToInt32(Session["userid"].ToString());
+            string visitorIPAddress = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+
+            if (String.IsNullOrEmpty(visitorIPAddress))
+                visitorIPAddress = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+
+            if (string.IsNullOrEmpty(visitorIPAddress))
+                visitorIPAddress = System.Web.HttpContext.Current.Request.UserHostAddress;
+
+            return gc.SaveToLog(uid, Session["cocode"].ToString(), Session.SessionID, resourceid, resourcecode, logtype, description, from, to, visitorIPAddress);
+        }
+
+        public ActionResult StockReceivedIndex()
+        {
+            return View(db.stockReceived.Include("Branch").Include("Create").Where(x => x.status == "Active").ToList());
+        }
+
+        //////public ActionResult StockReceived(int id = 0)
+        //////{
+        //////    try
+        //////    {
+        //////        int i = 0;
+        //////        ViewBag.CusSupOptions = db.CusSup.Where(x => x.status == "Active").ToList();
+        //////        ViewBag.StatusOptions = db.CommonStatus.ToList();
+        //////        ICollection<Configuration_m_Branches> branches = db.Branches.ToList();
+        //////        for (i = 0; i < branches.Count; i++)
+        //////        {
+        //////            branches.ElementAt(i).branchname = cAESEncryption.getDecryptedString(branches.ElementAt(i).branchname);
+        //////        }
+        //////        ViewBag.BranchOptions = branches;
+        //////        ICollection<Configuration_m_Company> companies = db.Companies.ToList();
+        //////        for (i = 0; i < companies.Count; i++)
+        //////        {
+        //////            companies.ElementAt(i).name = cAESEncryption.getDecryptedString(companies.ElementAt(i).name);
+        //////        }
+        //////        ViewBag.CompanyOptions = companies;
+
+        //////        if (id == 0)
+        //////        {
+        //////            Stock_m_StockReceived s = new Stock_m_StockReceived();
+        //////            s.items = db.stockReceivedItems.Where(x => x.stockreceivedid == 0).OrderBy(x => x.lineno).AsEnumerable();
+        //////            s.currency = db.ConfigDefault.Where(x => x.key == "CURR").FirstOrDefault().value;
+        //////            var ex = db.ConfigDefault.Where(x => x.key == "EXCH").FirstOrDefault().value;
+        //////            if (ex.Length > 0)
+        //////                s.exchangerate = Convert.ToDouble(ex);
+        //////            else
+        //////                s.exchangerate = 0;
+        //////            return View(s);
+        //////        }
+        //////        else
+        //////        {
+        //////            Stock_m_StockReceived s = db.stockReceived.Find(id);
+        //////            s.items = db.stockReceivedItems.Where(x => x.stockreceivedid == id).OrderBy(x => x.lineno).AsEnumerable();
+        //////            return View(s);
+        //////        }
+        //////    }
+        //////    catch (Exception e)
+        //////    {
+        //////        return View();
+        //////    }
+
+        //////}
+
+        //////[HttpPost]
+        //////public ActionResult StockReceived(Stock_m_StockReceived s)
+        //////{
+        //////    int i = 0;
+        //////    ViewBag.CusSupOptions = db.CusSup.Where(x => x.status == "Active").ToList();
+        //////    ViewBag.StatusOptions = db.CommonStatus.ToList();
+        //////    ICollection<Configuration_m_Branches> branches = db.Branches.ToList();
+        //////    for (i = 0; i < branches.Count; i++)
+        //////    {
+        //////        branches.ElementAt(i).branchname = cAESEncryption.getDecryptedString(branches.ElementAt(i).branchname);
+        //////    }
+        //////    ViewBag.BranchOptions = branches;
+        //////    ICollection<Configuration_m_Company> companies = db.Companies.ToList();
+        //////    for (i = 0; i < companies.Count; i++)
+        //////    {
+        //////        companies.ElementAt(i).name = cAESEncryption.getDecryptedString(companies.ElementAt(i).name);
+        //////    }
+        //////    ViewBag.CompanyOptions = companies;
+        //////    return View(s);
+        //////}
+
+        public ActionResult StockRecedivedDetail(int srid = 0)
+        {
+            try
+            {
+                ViewBag.ProductOptions = db.products.Where(x => x.status == "Active").OrderBy(x => x.desc).ToList();
+                ViewBag.UOMOptions = db.UOM.ToList();
+                ViewBag.SRItemOptions = db.stockReceivedItems.Where(x => x.stockreceivedid == srid).OrderBy(x => x.lineno).ToList();
+                Stock_m_StockReceived_Items sitem = new Stock_m_StockReceived_Items();
+                sitem.stockreceivedid = srid;
+                sitem.currency = db.ConfigDefault.Where(x => x.key == "CURR").FirstOrDefault().value;                
+                var ex = db.ConfigDefault.Where(x => x.key == "EXCH").FirstOrDefault().value;
+
+                if (ex.Length > 0)
+                    sitem.exchangerate = Convert.ToDouble(ex);
+                else
+                    sitem.exchangerate = 0;
+
+                return View(sitem);
+            }
+            catch (Exception e)
+            {
+                return View();
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult StockRecedivedDetail(Stock_m_StockReceived_Items sitem)
+        {
+            return View(sitem);
+        }
+
+        public ActionResult StockAdjustmentIndex()
+        {
+            return View(db.stockAdjustment.Include("Branch").Include("Create").Where(x => x.status == "Active").ToList());
+        }
+
+        public ActionResult StockAdjustment(int id = 0)
+        {
+            try
+            {
+                int i = 0;                
+                ViewBag.StatusOptions = db.CommonStatus.ToList();
+                ICollection<Configuration_m_Branches> branches = db.Branches.ToList();
+                for (i = 0; i < branches.Count; i++)
+                {
+                    branches.ElementAt(i).branchname = cAESEncryption.getDecryptedString(branches.ElementAt(i).branchname);
+                }
+                ViewBag.BranchOptions = branches;
+                ICollection<Configuration_m_Company> companies = db.Companies.ToList();
+                for (i = 0; i < companies.Count; i++)
+                {
+                    companies.ElementAt(i).name = cAESEncryption.getDecryptedString(companies.ElementAt(i).name);
+                }
+                ViewBag.CompanyOptions = companies;
+
+                if (id == 0)
+                {
+                    Stock_m_StockAdjustment s = new Stock_m_StockAdjustment();
+                    s.items = db.stockAdjustmentItems.Where(x => x.stockadjustmentid == 0).OrderBy(x => x.lineno).AsEnumerable();
+                    s.currency = db.ConfigDefault.Where(x => x.key == "CURR").FirstOrDefault().value;
+                    var ex = db.ConfigDefault.Where(x => x.key == "EXCH").FirstOrDefault().value;
+                    if (ex.Length > 0)
+                        s.exchangerate = Convert.ToDouble(ex);
+                    else
+                        s.exchangerate = 0;
+                    return View(s);
+                }
+                else
+                {
+                    Stock_m_StockAdjustment s = db.stockAdjustment.Find(id);
+                    s.items = db.stockAdjustmentItems.Where(x => x.stockadjustmentid == id).OrderBy(x => x.lineno).AsEnumerable();
+                    return View(s);
+                }
+            }
+            catch (Exception e)
+            {
+                return View();
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult StockAdjustment(Stock_m_StockAdjustment s)
+        {
+            int i = 0;            
+            ViewBag.StatusOptions = db.CommonStatus.ToList();
+            ICollection<Configuration_m_Branches> branches = db.Branches.ToList();
+            for (i = 0; i < branches.Count; i++)
+            {
+                branches.ElementAt(i).branchname = cAESEncryption.getDecryptedString(branches.ElementAt(i).branchname);
+            }
+            ViewBag.BranchOptions = branches;
+            ICollection<Configuration_m_Company> companies = db.Companies.ToList();
+            for (i = 0; i < companies.Count; i++)
+            {
+                companies.ElementAt(i).name = cAESEncryption.getDecryptedString(companies.ElementAt(i).name);
+            }
+            ViewBag.CompanyOptions = companies;
+            return View(s);
+        }
+
+        public ActionResult StockAdjustmentDetail(int said = 0)
+        {
+            try
+            {
+                ViewBag.ProductOptions = db.products.Where(x => x.status == "Active").OrderBy(x => x.desc).ToList();
+                ViewBag.UOMOptions = db.UOM.ToList();
+                ViewBag.SAItemOptions = db.stockAdjustmentItems.Where(x => x.stockadjustmentid == said).OrderBy(x => x.lineno).ToList();
+                Stock_m_StockAdjustment_Items sitem = new Stock_m_StockAdjustment_Items();
+                sitem.stockadjustmentid = said;
+                sitem.currency = db.ConfigDefault.Where(x => x.key == "CURR").FirstOrDefault().value;
+                var ex = db.ConfigDefault.Where(x => x.key == "EXCH").FirstOrDefault().value;
+
+                if (ex.Length > 0)
+                    sitem.exchangerate = Convert.ToDouble(ex);
+                else
+                    sitem.exchangerate = 0;
+                return View(sitem);
+
+            }
+            catch (Exception e)
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public ActionResult StockAdjustmentDetail(Stock_m_StockAdjustment_Items sitem)
+        {
+            return View(sitem);
+        }
+
+        public ActionResult StockTransferIndex()
+        {
+            return View(db.stockTransfer.Include("Branch").Include("Create").Where(x => x.status == "Active").ToList());
+        }
+
+        public ActionResult StockTransfer(int id = 0)
+        {
+            try
+            {
+                int i = 0;
+                ViewBag.StatusOptions = db.CommonStatus.ToList();
+                ICollection<Configuration_m_Branches> branches = db.Branches.ToList();
+                for (i = 0; i < branches.Count; i++)
+                {
+                    branches.ElementAt(i).branchname = cAESEncryption.getDecryptedString(branches.ElementAt(i).branchname);
+                }
+                ViewBag.BranchOptions = branches;
+                ICollection<Configuration_m_Company> companies = db.Companies.ToList();
+                for (i = 0; i < companies.Count; i++)
+                {
+                    companies.ElementAt(i).name = cAESEncryption.getDecryptedString(companies.ElementAt(i).name);
+                }
+                ViewBag.CompanyOptions = companies;
+
+                if (id == 0)
+                {
+                    Stock_m_StockTransfer s = new Stock_m_StockTransfer();
+                    s.items = db.stockTransferItems.Where(x => x.stocktransferid == 0).OrderBy(x => x.lineno).AsEnumerable();
+                    s.currency = db.ConfigDefault.Where(x => x.key == "CURR").FirstOrDefault().value;
+                    var ex = db.ConfigDefault.Where(x => x.key == "EXCH").FirstOrDefault().value;
+                    if (ex.Length > 0)
+                        s.exchangerate = Convert.ToDouble(ex);
+                    else
+                        s.exchangerate = 0;
+                    return View(s);
+                }
+                else
+                {
+                    Stock_m_StockTransfer s = db.stockTransfer.Find(id);
+                    s.items = db.stockTransferItems.Where(x => x.stocktransferid == id).OrderBy(x => x.lineno).AsEnumerable();
+                    return View(s);
+                }
+            }
+            catch (Exception e)
+            {
+                return View();
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult StockTransfer(Stock_m_StockTransfer s)
+        {
+            int i = 0;
+            ViewBag.StatusOptions = db.CommonStatus.ToList();
+            ICollection<Configuration_m_Branches> branches = db.Branches.ToList();
+            for (i = 0; i < branches.Count; i++)
+            {
+                branches.ElementAt(i).branchname = cAESEncryption.getDecryptedString(branches.ElementAt(i).branchname);
+            }
+            ViewBag.BranchOptions = branches;
+            ICollection<Configuration_m_Company> companies = db.Companies.ToList();
+            for (i = 0; i < companies.Count; i++)
+            {
+                companies.ElementAt(i).name = cAESEncryption.getDecryptedString(companies.ElementAt(i).name);
+            }
+            ViewBag.CompanyOptions = companies;
+            return View(s);
+        }
+
+        public ActionResult StockTransferDetail(int stid = 0)
+        {
+            try
+            {
+                ViewBag.ProductOptions = db.products.Where(x => x.status == "Active").OrderBy(x => x.desc).ToList();
+                ViewBag.UOMOptions = db.UOM.ToList();
+                ViewBag.STItemOptions = db.stockTransferItems.Where(x => x.stocktransferid == stid).OrderBy(x => x.lineno).ToList();
+                Stock_m_StockTransfer_Items sitem = new Stock_m_StockTransfer_Items();
+                sitem.stocktransferid = stid;
+                sitem.currency = db.ConfigDefault.Where(x => x.key == "CURR").FirstOrDefault().value;
+                var ex = db.ConfigDefault.Where(x => x.key == "EXCH").FirstOrDefault().value;
+
+                if (ex.Length > 0)
+                    sitem.exchangerate = Convert.ToDouble(ex);
+                else
+                    sitem.exchangerate = 0;
+                return View(sitem);
+
+            }
+            catch (Exception e)
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public ActionResult StockTransferDetail(Stock_m_StockTransfer_Items sitem)
+        {
+            return View(sitem);
+        }
+    }
+}

@@ -1,0 +1,2481 @@
+﻿
+@{
+    ViewBag.Title = "Listing";
+    Layout = "~/Views/Shared/_GeneralLayoutPage.cshtml";
+
+}
+
+@section partialCSS {
+    <link href="@Url.Content("~/css/app/common/main.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/app/staffSchedule/staffschedule_main.css")" rel="stylesheet" type="text/css" />
+}
+
+
+<input type="hidden" id="rcode" value="@ViewBag.Rcode" />
+<input type="hidden" id="bcode" value="@ViewBag.Bcode" />
+<input type="hidden" id="userid" value="@ViewBag.UserID" />
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box">
+            <div class="box-header" data-original-title>
+                <h2><i class="fa fa-list-alt"></i><span class="break"></span>Staff Schedule</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+                    <a href="#" class="btn-minimize"><i class="fa fa-chev1on-up"></i></a>
+                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+
+                <div class="col-sm-12" style="padding-bottom:10px;">
+                    <table class="" id="tblHeading" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Deparment:
+                                </th>
+                                <th style="width:15%;">
+                                    @Html.DropDownList("cboDepartment", new SelectList(@ViewBag.DepartmentOptions, "id", "departmentname"), new { @class = "form-control", style = "width:90% !important" })
+                                </th>
+                                <th>
+                                    Staff:
+                                </th>
+                                <th style="width:15%;">
+                                    @Html.DropDownList("cbobkstaff", new SelectList(@ViewBag.StaffOptions, "id", "name"), string.Empty, new { @class = "form-control" })
+                                </th>
+                                <th style="padding-left:1%;">
+                                    <button id="btnStaffSchedule" type="button" class="btn btn-primary" value="Staff Schedule" onclick="showPanelStaffSchedule();">Staff Schedule</button>
+                                </th>
+                                <th>
+                                    <button id="btnWorkSchedule" type="button" class="btn btn-primary" value="Work Schedule" onclick="showPanelWorkSchedule();">Work Schedule</button>
+                                </th>
+                                <th style="width:5%;">
+
+                                </th>
+                                <th>
+
+                                </th>
+                                <th>
+                                    Period:
+                                </th>
+                                <th style="width:10%;">
+                                    <input type='text' class='form-control' id="txtPeriod" />
+                                </th>
+                                <th style="padding-left:1%;">
+                                    <button id="btnSummarySchedule" type="button" class="btn btn-primary" value="Summary Schedule" style="width:100px;" onclick="showPanelSummarySchedule();">Summary</button>
+                                </th>
+                                <th style="width:10%;">
+                                    <a class="quick-button" onclick="showPanelLeaveConfig();" style="padding-top:1px;padding-bottom:1px;">
+                                        <i class=" fa fa-wrench">
+                                        </i>
+                                        <p style="margin:0px;">Leave Config</p>
+                                    </a>
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+
+                    </div>
+                <div id="panelLeaveConfig" class="box-content" style="display:none;">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="box">
+                                <div class="box-header">
+                                    <i class="fa fa-list-alt"></i>&nbsp;Leave Type Entry
+                                </div>
+                                <div class="box-content">
+                                    <div class="col-sm-12">
+                                        <div class="row" style="">
+                                            <div class="col-lg-5 hidden-sm">
+                                                <div class="form-group">
+                                                    <label class="control-label">Leave Name</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-7 hidden-sm">
+                                                <div class="form-group">
+                                                    <div class="controls" style="width:180px;margin-left:-20px;">
+                                                        <input type='text' class='form-control' style="color:black" id="txtLeaveName" placeholder="" />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding-top:10px;">
+                                            <div class="col-lg-6 hidden-sm">
+                                                <div class="form-group">
+                                                    <label class="control-label"><input type="radio" name="rbLeave" checked value="1"> Whole Day</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 hidden-sm">
+                                                <div class="form-group">
+                                                    <label class="control-label"><input type="radio" name="rbLeave" value="0"> Partial Leave</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding-top:10px;">
+                                            <div class="col-lg-2 hidden-sm">
+                                                <div class="form-group">
+                                                    <label class="control-label">From</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 hidden-sm">
+                                                <div class="form-group">
+                                                    <select class="form-control" id="selectFrom" style="width:70px;">
+                                                        <option>08:00</option>
+                                                        <option>09:00</option>
+                                                        <option>10:00</option>
+                                                        <option>11:00</option>
+                                                        <option>12:00</option>
+                                                        <option>13:00</option>
+                                                        <option>14:00</option>
+                                                        <option>15:00</option>
+                                                        <option>16:00</option>
+                                                        <option>17:00</option>
+                                                        <option>18:00</option>
+                                                        <option>19:00</option>
+                                                        <option>20:00</option>
+                                                        <option>21:00</option>
+                                                        <option>22:00</option>
+                                                        <option>23:00</option>
+                                                        <option>24:00</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 hidden-sm">
+                                                <div class="form-group">
+                                                    <label class="control-label">To</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 hidden-sm">
+                                                <div class="form-group">
+                                                    <select class="form-control" id="selectTo" style="width:70px;margin-left:-20px;">
+                                                        <option>08:00</option>
+                                                        <option>09:00</option>
+                                                        <option>10:00</option>
+                                                        <option>11:00</option>
+                                                        <option>12:00</option>
+                                                        <option>13:00</option>
+                                                        <option>14:00</option>
+                                                        <option>15:00</option>
+                                                        <option>16:00</option>
+                                                        <option>17:00</option>
+                                                        <option>18:00</option>
+                                                        <option>19:00</option>
+                                                        <option>20:00</option>
+                                                        <option>21:00</option>
+                                                        <option>22:00</option>
+                                                        <option>23:00</option>
+                                                        <option>24:00</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding-top:10px;">
+                                            <div class="col-lg-6 hidden-sm">
+                                                <div class="form-group">
+                                                    <label class="control-label">Text Color</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 hidden-sm">
+                                                <div class="form-group">
+                                                    <input type='text' id="textColorPicker" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding-top:10px;">
+                                            <div class="col-lg-6 hidden-sm">
+                                                <div class="form-group">
+                                                    <label class="control-label">Background Color</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 hidden-sm">
+                                                <div class="form-group">
+                                                    <input type='text' id="backgroundColorPicker" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding-top:20px;">
+                                            <div class="col-lg-2 hidden-sm">
+                                            </div>
+                                            <div class="col-lg-5 hidden-sm" style="padding-left: 30px;">
+                                                <button type="button" id="btnSaveLeave" class="btn btn-primary" style="background-color: #931313; width: 110px;" onclick='saveLeaveItem();'>Save</button>
+                                            </div>
+                                            <div class="col-lg-5 hidden-sm">
+                                                <button type="button" id="btnCancelLeave" class="btn btn-primary" style="background-color: #931313; width: 100px;" onclick="clearLeaveEntry()">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="box">
+                                <div class="box-header">
+                                    <i class="fa fa-list-alt"></i>&nbsp;Leave Type Listing
+                                </div>
+                                <div class="box-content" style="height:400px;">
+                                    <table class="table table-striped table-bordered" id="tblLeaveItem" style="overflow-y: auto;">
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="box">
+                                <div class="box-header">
+                                    <i class="fa fa-list-alt"></i>&nbsp;Public Holiday
+                                </div>
+                                <div class="box-content">
+                                    <div style="height:260px;overflow-y:auto">
+                                        <table class="table table-striped table-bordered" id="tblHolidayItem">
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div> 
+                                    <div class="box-content" style="height:120px;">
+                                        <div class="row ptop5">
+                                        <div class="col-lg-5">
+                                           <label> Holiday </label>
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <input id="txtHolidayName" type="text" class="form-control" value="" />
+                                        </div>
+                                        </div>
+                                        <div class="row ptop5">
+                                           <div class="col-lg-5">
+                                            <label> Date </label>
+                                           </div>
+                                           <div class="col-lg-7">
+                                             <input type="text" class="form-control date-picker" data-dateformat="dd/mm/yy" id="txtHolidayDate">
+                                            </div>
+                                        </div>
+                 
+                                        <div class="ptop5" style="white-space:nowrap;text-align:right;">
+                                             <button type="button" class="btn btn-primary" onclick="addNewHoliday();">Save</button>
+                                             <button type="button" class="btn btn-primary" onclick="clearHolidayItem();">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="panelStaffSchedule" class="box-content" style="display:none;">
+                    <div class="row">
+                        <div class="col-lg-9 hidden-sm" style="padding-left:50px;border-right:3px solid gray;">
+                            <div class="box">
+                              <div id="scheduler_year" class="dhx_cal_container" style='width:100%; height:400px;'>
+                                    <div class="dhx_cal_navline">
+                                        <div class="dhx_cal_prev_button">&nbsp;</div>
+                                        <div class="dhx_cal_next_button">&nbsp;</div>
+                                        <div class="dhx_cal_today_button"></div>
+                                        <div class="dhx_cal_date"></div>
+                                    </div>
+                                    <div class="dhx_cal_header">
+                                    </div>
+                                    <div class="dhx_cal_data">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div id="panelStaffScheduleBox" class="col-lg-3 hidden-sm" style="display:none !important;margin-top:-10px;">
+                            <div class="box">
+                                <div class="box-header" id="staffSchedSelectedDate" style="text-align:center;">
+                                </div>
+                                <div class="box-content">
+                                    <div id="leaveButtons" style="height:200px;overflow-y:auto;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box">
+                                <div class="box-header">
+                                    Multiple Slots
+                                </div>
+                                <div class="box-content">
+                                    <div style="height:100px;overflow-y:auto;">
+                                        <table id="tblStaffSchedSlot" class="table table-striped table-bordered">
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+                    <div class="container-outer legend" style="overflow-x: auto;padding-top:15px;border-top:2px solid gray;">
+                       
+                    </div>
+                    <div class="container-outer holiday" style="overflow-x: auto;padding-top:15px;">
+                    
+                    </div>
+                </div>
+                <div id="panelWorkSchedule" class="box-content" style="display:none;">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="box">
+                                <div class="box-header">
+                                    <i class="fa fa-list-alt"></i>&nbsp;Work Schedule Entry
+                                </div>
+                                <div class="box-content">
+                                    <div class="col-sm-12">
+                                        <div class="row" style="">
+                                            <div class="col-lg-4 hidden-sm">
+                                                <div class="form-group">
+                                                    <label class="control-label">Description</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8 hidden-sm">
+                                                <div class="form-group">
+                                                    <div class="controls">
+                                                        <input type='text' class='form-control' style="color:black" id="txtWorkDescription" placeholder="" />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding-bottom:0px;">
+                                            <div class="col-lg-4 hidden-sm">
+                                                <label class="control-label">Type</label>
+                                            </div>
+                                            <div class="col-lg-4 hidden-sm">
+                                                <div class="form-group">
+                                                    <label class="control-label"><input type="radio" name="rbWorkSched" checked value="Work"> Work</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 hidden-sm">
+                                                <div class="form-group">
+                                                    <label class="control-label"><input type="radio" name="rbWorkSched" value="Off"> Off</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding-top:10px;padding-left:15px;">
+                                            
+                                        </div>
+                                        <div class="row" style="padding-bottom:0px;">
+                                            <div class="col-lg-5 hidden-sm">
+                                                    <label class="control-label">Duration</label>
+                                            </div>
+                                            <div class="col-lg-7 hidden-sm">
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding-left:15px;">
+                                            <div class="col-lg-2 hidden-sm">
+                                                <div class="form-group">
+                                                    <label class="control-label">From</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 hidden-sm">
+                                                <div class="form-group">
+                                                    <select class="form-control" id="selectDurationFrom" style="width:70px;">
+                                                        <option>08:00</option>
+                                                        <option>08:30</option>
+                                                        <option>09:00</option>
+                                                        <option>09:30</option>
+                                                        <option>10:00</option>
+                                                        <option>10:30</option>
+                                                        <option>11:00</option>
+                                                        <option>11:30</option>
+                                                        <option>12:00</option>
+                                                        <option>12:30</option>
+                                                        <option>13:00</option>
+                                                        <option>13:30</option>
+                                                        <option>14:00</option>
+                                                        <option>14:30</option>
+                                                        <option>15:00</option>
+                                                        <option>15:30</option>
+                                                        <option>16:00</option>
+                                                        <option>16:30</option>
+                                                        <option>17:00</option>
+                                                        <option>17:30</option>
+                                                        <option>18:00</option>
+                                                        <option>18:30</option>
+                                                        <option>19:00</option>
+                                                        <option>19:30</option>
+                                                        <option>20:00</option>
+                                                        <option>20:30</option>
+                                                        <option>21:00</option>
+                                                        <option>21:30</option>
+                                                        <option>22:00</option>
+                                                        <option>22:30</option>
+                                                        <option>23:00</option>
+                                                        <option>23:30</option>
+                                                        <option>24:00</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-1 hidden-sm">
+                                            </div>
+                                            <div class="col-lg-2 hidden-sm">
+                                                <div class="form-group">
+                                                    <label class="control-label">To</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 hidden-sm">
+                                                <div class="form-group">
+                                                    <select class="form-control" id="selectDurationTo" style="width:70px;margin-left:-20px;">
+                                                        <option>08:00</option>
+                                                        <option>08:30</option>
+                                                        <option>09:00</option>
+                                                        <option>09:30</option>
+                                                        <option>10:00</option>
+                                                        <option>10:30</option>
+                                                        <option>11:00</option>
+                                                        <option>11:30</option>
+                                                        <option>12:00</option>
+                                                        <option>12:30</option>
+                                                        <option>13:00</option>
+                                                        <option>13:30</option>
+                                                        <option>14:00</option>
+                                                        <option>14:30</option>
+                                                        <option>15:00</option>
+                                                        <option>15:30</option>
+                                                        <option>16:00</option>
+                                                        <option>16:30</option>
+                                                        <option>17:00</option>
+                                                        <option>17:30</option>
+                                                        <option>18:00</option>
+                                                        <option>18:30</option>
+                                                        <option>19:00</option>
+                                                        <option>19:30</option>
+                                                        <option>20:00</option>
+                                                        <option>20:30</option>
+                                                        <option>21:00</option>
+                                                        <option>21:30</option>
+                                                        <option>22:00</option>
+                                                        <option>22:30</option>
+                                                        <option>23:00</option>
+                                                        <option>23:30</option>
+                                                        <option>24:00</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding-bottom:0px;">
+                                            <div class="col-lg-5 hidden-sm">
+                                                    <label class="control-label">Period</label>
+                                            </div>
+                                            <div class="col-lg-7 hidden-sm">
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding-left:15px;">
+                                            <div class="col-lg-2 hidden-sm">
+                                                <div class="form-group">
+                                                    <label class="control-label">From</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 hidden-sm">
+                                                <div class="form-group">
+                                                    <input class="date-picker form-control" data-date-format="dd/mm/yyyy" id="dpPeriodFrom" style="width:92px;height:22px;">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-1 hidden-sm">
+                                            </div>
+                                            <div class="col-lg-2 hidden-sm">
+                                                <div class="form-group">
+                                                    <label class="control-label">To</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 hidden-sm">
+                                                <div class="form-group">
+                                                    <input class="date-picker form-control" data-date-format="dd/mm/yyyy" id="dpPeriodTo" style="width:92px;height:22px;margin-left:-20px;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding-bottom:0px;">
+                                            <div class="col-lg-5 hidden-sm">
+                                                <label class="control-label">Days</label>
+                                            </div>
+                                            <div class="col-lg-7 hidden-sm">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class ="col-lg-12 hidden-sm">
+                                                <input type="checkbox" name="Mo" value="Monday" class="cbDays">Mo &nbsp
+                                                <input type="checkbox" name="Tu" value="Tuesday" class="cbDays">Tu &nbsp
+                                                <input type="checkbox" name="We" value="Wednesday" class="cbDays">We &nbsp
+                                                <input type="checkbox" name="Th" value="Thursday" class="cbDays">Th &nbsp
+                                                <input type="checkbox" name="Fr" value="Friday" class="cbDays">Fr &nbsp
+                                                <input type="checkbox" name="Sa" value="Saturday" class="cbDays">Sa &nbsp
+                                                <input type="checkbox" name="Su" value="Sunday" class="cbDays">Su &nbsp
+</div>
+
+                                        </div>
+                                        
+                                        <div class="row" style="padding-top:20px;">
+                                            <div class="col-lg-2 hidden-sm">
+                                            </div>
+                                            <div class="col-lg-5 hidden-sm">
+                                                <button type="button" id="btnSaveWork" class="btn btn-primary" style="background-color: #931313; width: 110px;" onclick='saveWorkSchedule();'>Save</button>
+                                            </div>
+                                            <div class="col-lg-5 hidden-sm">
+                                                <button type="button" id="btnCancelWork" class="btn btn-primary" style="background-color: #931313; width: 100px;" onclick="clearWorkScheduleEntry()">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="box">
+                                <div class="box-header">
+                                    <i class="fa fa-list-alt"></i>&nbsp;Work Schedule Listing
+                                </div>
+                                <div class="box-content" style="height:400px;">
+                                    <table class='table table-striped table-bordered' id="tblWorkSchedule" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th style='width:120px;'>Description</th>
+                                                <th style='width:120px;'>Type</th>
+                                                <th style='width:80px;'>Start Time</th>
+                                                <th style='width:80px;'>End Time</th>
+                                                <th style='width:100px;'>From</th>
+                                                <th style='width:100px;'>To</th>
+                                                <th style='width:100px;'>Days</th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                   
+                    </div>
+                </div>
+                <div id="panelSummarySchedule" class="box-content" style="display:none;">
+                    <div class="row">
+                        <div class="col-lg-12 hidden-sm">
+                            <div class="box">
+                                <div id="" class="col-sm-12">
+                                     <div class="row">
+                                         <div id="scheduler_summary" class="dhx_cal_container" style="width: 100%; height: 400px;zoom:1">
+                                             <div class="dhx_cal_navline">
+                                                 <div class="dhx_cal_prev_button">&nbsp;</div>
+                                                 <div class="dhx_cal_next_button">&nbsp;</div>
+                                                 <div class="dhx_cal_today_button">Today</div>
+                                                 <div id="printschedule_tab" name="printschedule_tab" style="width:150px;">Print Schedule</div>
+                                                 <div class="dhx_cal_date" style="display:none;"></div>
+                                                 <div id="summary_label"></div>
+                                             </div>
+                                             <div class="dhx_cal_header">
+                                             </div>
+                                             <div class="dhx_cal_data">
+                                             </div>
+                                         </div>
+                                  
+
+                                      </div>
+                                   
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                    <div class="container-outer legend" style="overflow-x: auto;padding-top:15px;border-top:2px solid gray;">
+                     
+                    </div>
+                    <div class="container-outer holiday" style="overflow-x: auto;padding-top:15px;">
+                       
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<ul class="noty_cont noty_layout_topRight" id="ulBalance"></ul>
+<button id="btnMessage" class="btn btn-primary noty" data-noty-options='{"text":"Please select Member","layout":"topRight","type":"error"}' style="display:none;">Top Right</button>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box">
+            <div class="col-sm-2">
+                <a class="quick-button" href="~/Access/BranchStaffIndex">
+                    <i class="fa fa-home"></i>
+                    <p>Home</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlHoliday" tabindex="-1" role="dialog" aria-labelledby="mdlHoliday" aria-hidden="true">
+    <div class="modal-dialog" id="Holiday_dialog-modal" style="width: 400px; top: 150px; ">
+        <div class="modal-content">
+            <div class="modal-header" style="color:white;background-image: -webkit-gradient(linear,left top,left bottom,from(#841A1A),to(#B52F2F));">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="mdlAccessRightLabel">Public Holiday</h4>
+            </div>
+
+            <div class="widget-body no-padding">
+                <div style="padding: 10px 10px 10px 10px; background-color: #FAFAFA;">
+                    <div style="width: 100%;">
+                        <div class="row ptop5">
+                            <div class="col-lg-5">
+                                <label> Public Holiday </label>
+                            </div>
+                            <div class="col-lg-7">
+                                <input id="txtHolidayName" type="text" class="form-control" value="" />
+                            </div>
+                        </div>
+                        <div class="row ptop5">
+                            <div class="col-lg-5">
+                                <label> Date </label>
+                            </div>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control date-picker" data-dateformat="dd/mm/yy" id="txtHolidayDate">
+                            </div>
+                        </div>
+                 
+                        <div class="ptop5" style="white-space:nowrap;text-align:right;">
+                            <button type="button" class="btn btn-primary" onclick="addNewHoliday();">Save</button>
+                            <button type="button" class="btn btn-primary" onclick="closeModal('mdlHoliday');">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="mdlRemoveHoliday" tabindex="-1" role="dialog" aria-labelledby="mdlRemoveHoliday" aria-hidden="true">
+    <div class="modal-dialog" id="Holiday_dialog-modal" style="width: 500px; top: 150px; ">
+        <div class="modal-content">
+            <div class="modal-header" style="color:white;background-image: -webkit-gradient(linear,left top,left bottom,from(#841A1A),to(#B52F2F));">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="mdlAccessRightLabel">Remove Public Holiday</h4>
+            </div>
+
+            <div class="widget-body no-padding">
+                <div style="padding: 10px 10px 10px 10px; background-color: #FAFAFA;">
+                    <div style="width: 100%;">
+                        <div class="row ptop5">
+                            <div class="col-lg-12">
+                                <div id="labelRemoveHoliday"></div>
+                            </div>
+                        </div>
+                        <div class="ptop5" style="white-space:nowrap;text-align:right;">
+                            <button type="button" class="btn btn-primary" onclick="removeHolidayItem()">Remove</button>
+                            <button type="button" class="btn btn-primary" onclick="closeModal('mdlRemoveHoliday');">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="mdlRemoveLeave" tabindex="-1" role="dialog" aria-labelledby="mdlRemoveLeave" aria-hidden="true">
+    <div class="modal-dialog" id="Holiday_dialog-modal" style="width: 500px; top: 150px; ">
+        <div class="modal-content">
+            <div class="modal-header" style="color:white;background-image: -webkit-gradient(linear,left top,left bottom,from(#841A1A),to(#B52F2F));">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="mdlAccessRightLabel">Remove Leave</h4>
+            </div>
+
+            <div class="widget-body no-padding">
+                <div style="padding: 10px 10px 10px 10px; background-color: #FAFAFA;">
+                    <div style="width: 100%;">
+                        <div class="row ptop5">
+                            <div class="col-lg-12">
+                                <div id="labelRemoveLeave"></div>
+                            </div>
+                        </div>
+                        <div class="ptop5" style="white-space:nowrap;text-align:right;">
+                            <button type="button" class="btn btn-primary" onclick="removeLeaveItem()">Remove</button>
+                            <button type="button" class="btn btn-primary" onclick="closeModal('mdlRemoveLeave');">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="mdlRemoveStaffSchedSlot" tabindex="-1" role="dialog" aria-labelledby="mdlRemoveStaffSchedSlot" aria-hidden="true">
+    <div class="modal-dialog" id="Holiday_dialog-modal" style="width: 500px; top: 150px; ">
+        <div class="modal-content">
+            <div class="modal-header" style="color:white;background-image: -webkit-gradient(linear,left top,left bottom,from(#841A1A),to(#B52F2F));">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="mdlAccessRightLabel">Remove Slot</h4>
+            </div>
+
+            <div class="widget-body no-padding">
+                <div style="padding: 10px 10px 10px 10px; background-color: #FAFAFA;">
+                    <div style="width: 100%;">
+                        <div class="row ptop5">
+                            <div class="col-lg-12">
+                                <div id="labelRemoveStaffSchedSlot"></div>
+                            </div>
+                        </div>
+                        <div class="ptop5" style="white-space:nowrap;text-align:right;">
+                            <button type="button" class="btn btn-primary" onclick="removeStaffSchedSlotItem()">Remove</button>
+                            <button type="button" class="btn btn-primary" onclick="closeModal('mdlRemoveStaffSchedSlot');">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="mdlRemoveSummSchedSlot" tabindex="-1" role="dialog" aria-labelledby="mdlRemoveSummSchedSlot" aria-hidden="true" style="z-index:99999;">
+    <div class="modal-dialog" id="Holiday_dialog-modal" style="width: 500px; top: 150px; ">
+        <div class="modal-content">
+            <div class="modal-header" style="color:white;background-image: -webkit-gradient(linear,left top,left bottom,from(#841A1A),to(#B52F2F));">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="mdlAccessRightLabel">Remove Slot</h4>
+            </div>
+
+            <div class="widget-body no-padding">
+                <div style="padding: 10px 10px 10px 10px; background-color: #FAFAFA;">
+                    <div style="width: 100%;">
+                        <div class="row ptop5">
+                            <div class="col-lg-12">
+                                <div id="labelRemoveSummSchedSlot"></div>
+                            </div>
+                        </div>
+                        <div class="ptop5" style="white-space:nowrap;text-align:right;">
+                            <button type="button" class="btn btn-primary" onclick="removeSummSchedSlotItem()">Remove</button>
+                            <button type="button" class="btn btn-primary" onclick="closeModal('mdlRemoveSummSchedSlot');">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="mdlLeave" tabindex="-1" role="dialog" aria-labelledby="mdlLeave" aria-hidden="true">
+    <div class="modal-dialog" id="Leave_dialog-modal" style="width: 350px; top: 5px; ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="mdlAccessRightLabel"></h4>
+            </div>
+
+            <div class="widget-body no-padding">
+                <div style="padding: 10px 10px 10px 10px; background-color: #FAFAFA;">
+                    <div style="width: 100%;">
+                            <div class="box">
+                                <div id="summSchedSelectedDate" class="box-header" style="text-align:center;font-size:13px;">
+                                </div>
+                                <div class="box-content">
+                                    <div id="leaveButtonsSummSched" style="height:300px;overflow-y:auto;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box" style="padding-top:10px;">
+                                <div class="box-header">
+                                    Multiple Slots
+                                </div>
+                                <div class="box-content">
+                                    <div style="height:120px;overflow-y:auto;">
+                                        <table id="tblSummSchedSlot" class="table table-striped table-bordered">
+                                            <tbody>
+                                              
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                 </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="mdlRefresh" tabindex="-1" role="dialog" aria-labelledby="mdlRefresh" aria-hidden="true">
+    <div class="modal-dialog" id="Remarks_dialog-modal" style="width: 500px; top: 200px; ">
+        <div class="modal-content">
+            <div class="modal-header" style="color:white;background-image: -webkit-gradient(linear,left top,left bottom,from(#841A1A),to(#B52F2F));">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="mdlAccessRightLabel">Session Timeout</h4>
+            </div>
+
+            <div class="widget-body no-padding">
+                <div style="padding: 10px 10px 10px 10px; background-color: #FAFAFA;">
+                    <div style="width: 100%;">
+                        <div class="input-group">
+                            <div class="form-group">
+                                <div style="white-space:nowrap;">
+                                    Your session is about to expire. Please click <b>Refresh</b> to continue.
+                                </div>
+                            </div>
+                        </div>
+                        <div style="white-space:nowrap;text-align:right;">
+                            <button type="button" class="btn btn-primary" onclick="refreshTimeout()">Refresh</button>
+                            <button type="button" class="btn btn-primary" onclick="closeModal('mdlRefresh')">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+    var load = 1;
+    var firstClick = false;
+    var newLoad = false;
+
+    var panelLeaveConfig = $("#panelLeaveConfig"),
+        panelStaffSchedule = $("#panelStaffSchedule"),
+        panelWorkSchedule = $("#panelWorkSchedule"),
+        panelSummarySchedule = $("#panelSummarySchedule");
+
+    var _onClickEvent,
+        _onEmptyClickEvent,
+        _onBeforeViewChangeEvent,
+        _onBeforeDragEvent,
+        _onDragEndEvent;
+
+    var leaves = [],
+        holidays = [],
+        staffSched = [],
+        leavesWEvent = [],
+        leavesSummWEvent = [],
+        sections = [],
+        summarySched = [];
+
+    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+    var monthNamesLong = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+
+    var staffSchedSlot = [],
+        summSchedSlot = [];
+
+    var holidayToBeRemoved = 0,
+        leaveToBeRemoved = 0,
+        staffSchedToBeRemoved = 0,
+        summSchedToBeRemoved = 0;
+
+    var editHoliday = false,
+        holidayID = 0;
+
+    var editLeave = false,
+        leaveID = 0;
+
+    var editWorkSchedule = false,
+        workScheduleID = 0;
+
+    var staffSchedDate = "",
+        summSchedDate = "",
+        summSchedStaffId = "";
+
+    var _dragLeaveId = 0,
+        _dragEventId = 0,
+        _dragStaffId = 0,
+        _dragEndDate = "",
+        _dateBeforeDragEndDate = "";
+        _dateBeforeDragStartDate = "";
+
+    var _panel = "";
+
+    var staffWorkScheduleList = [];
+
+    $(document).ready(function () {
+        resetCboStaff();
+        $("#txtPeriod").MonthPicker({ Button: false });
+
+        initSummSchedSlot();
+
+        reloadPublicHoliday();
+        reloadLeave();
+        populateCssRule();
+    
+
+
+        setInterval(function () {
+            if (_panel == "StaffSchedule")
+                reloadStaffSchedule();
+            else if (_panel == "SummarySchedule")
+                reloadSummarySchedule();
+
+        }, 300000);
+
+
+        var idleTime = 0;
+        var idleInterval = setInterval(timerIncrement, 30000);
+
+        function timerIncrement() {
+            idleTime++;
+            if (idleTime >= 59) {
+                openModal('mdlRefresh');
+            }
+            else if  (idleTime >= 60) {
+                refreshTimeout();
+            }
+        }
+
+        $(this).mousemove(function (e) {
+            idleTime = 0;
+        });
+
+
+        $("#printschedule_tab").click(function () {
+            var header = $("#summary_label").text();
+            scheduler.exportToPDF({
+                header: "<h2 style='text-align:center;'>" + header + "</h2>",
+                name: "summary.pdf",
+                format: "A3",
+            });
+
+        });
+
+
+        $('#cboDepartment').on('change', function () {
+            resetCboStaff();
+            getStaff();
+        });
+
+        getStaff();
+    });
+
+    function resetCboStaff() {
+        staffId = 0;
+        $("#cbobkstaff").empty();
+        var html = "";
+        $.ajax({
+            url: '@Url.Action("GetStaffByDepartment", "StaffSchedule")',
+            data: JSON.stringify({ bcode: $("#bcode").val(), departmentid: $("#cboDepartment").val() }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    staffId = data[i].id;
+                    html += "<option selected value=" + data[i].id + ">" + data[i].name.trim() + "</option>";
+
+                }
+            },
+            error: function (ts) { openMessage(ts.responseText, "error") }
+        });
+
+        $("#cbobkstaff").html(html);
+
+    }
+
+    function reloadPublicHoliday() {
+        getPublicHoliday();
+        initHoliday();
+        initHolidayItem();
+    }
+
+    function populateCssRule() {
+        for (var i = 0; i < leaves.length; i++) {
+            var selector = ".leave" + leaves[i].id;
+            var rule = "background-color: " + leaves[i].backgroundcolor + " !important;color:" + leaves[i].textcolor + " !important;";
+           
+            addCSSRule(document.styleSheets[0], selector, rule);
+        }
+    }
+
+    function reloadLeave() {
+        getLeave();
+        initLegend();
+        initLeaveItem();
+    }
+
+
+    function showMessage(attrvalue) {
+        $('#btnMessage').attr('data-noty-options', attrvalue);
+        $('#btnMessage').trigger("click");
+    }
+
+    function openMessage(msg, type) {
+        var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"' + type + '"}';
+        showMessage(attrvalue);
+    }
+
+    //navigation button
+
+    function showPanelLeaveConfig() {
+        panelStaffSchedule.hide();
+        panelSummarySchedule.hide();
+        panelWorkSchedule.hide();
+        panelLeaveConfig.show();
+        initPanelLeaveConfig();
+    }
+
+    function showPanelStaffSchedule() {
+
+        if ($("#cboDepartment option:selected").text() == "") {
+            openMessage("Please select department.", "error");
+            return;
+        }
+
+        if ($("#cbobkstaff option:selected").text() == "") {
+            openMessage("Please select staff.", "error");
+            return;
+        }
+        _panel = "StaffSchedule";
+
+        getStaffSchedule();
+        panelLeaveConfig.hide();
+        panelSummarySchedule.hide();
+        panelWorkSchedule.hide();
+        panelStaffSchedule.show();
+        initPanelStaffSchedule();
+
+    }
+
+
+
+    function showPanelWorkSchedule() {
+
+        if ($("#cboDepartment option:selected").text() == "") {
+            openMessage("Please select department.", "error");
+            return;
+        }
+
+        if ($("#cbobkstaff option:selected").text() == "") {
+            openMessage("Please select staff.", "error");
+            return;
+        }
+
+     
+
+        _panel = "WorkSchedule";
+
+        panelLeaveConfig.hide();
+        panelSummarySchedule.hide();
+        panelStaffSchedule.hide();
+        panelWorkSchedule.show();
+        getWorkingScheduleList();
+
+
+    }
+
+
+    function showPanelSummarySchedule() {
+        if ($("#txtPeriod").val() == "") {
+            openMessage("Please select period.", "error");
+            return;
+        }
+        _panel = "SummarySchedule";
+
+        firstClick = true;
+        getAllStaffSchedule();
+        panelLeaveConfig.hide();
+        panelStaffSchedule.hide();
+        panelWorkSchedule.hide();
+        panelSummarySchedule.show();
+        initPanelSummarySchedule();
+    }
+
+    function reloadSummarySchedule() {
+        firstClick = false;
+        getAllStaffSchedule();
+        initPanelSummarySchedule();
+    }
+
+    function reloadStaffSchedule() {
+        getStaffScheduleByDate();
+        showPanelStaffSchedule();
+    }
+
+    function initPanelStaffSchedule() {
+        scheduler.clearAll();
+        detachEvents();
+
+        scheduler.config.xml_date = "%Y-%m-%d %H:%i";
+        scheduler.locale.labels.year_tab = "Year";
+        scheduler.config.default_date = "%j %M %Y";
+        scheduler.xy.scale_height = 20;
+        scheduler.templates.event_class = function (start, end, event) {
+            if (event.type == 'holiday')
+                return "holiday_event";
+            else if(event.type == 'work')
+                return "work_event";
+            else if (event.type == 'off')
+                return "off_event";
+            else
+                return "leave" + event.type;
+        };
+
+        scheduler.init('scheduler_year', new Date(), "year");
+
+        scheduler.parse(staffSched, "json");
+
+        scheduler.templates.tooltip_date_format = function (date) {
+            var formatFunc = scheduler.date.date_to_str("%Y-%m-%d %h:%i %A");
+            return formatFunc(date);
+        };
+
+        scheduler.templates.tooltip_text = function (start, end, event) {
+
+            var startStr = (scheduler.templates.tooltip_date_format(start)).split(" ");
+            var endStr = (scheduler.templates.tooltip_date_format(end)).split(" ");
+
+            var html = "";
+
+            if (event.type == "holiday") {
+                html += "<b>Public Holiday:</b> " + event.text;
+                html += "<br/><b>Date:</b> " + startStr[0];
+            }
+            else if (event.type == "work" || event.type == "off") {
+                html += "<b>Description:</b> " + event.text;
+                html += "<br/><b>Date:</b> " + startStr[0];
+                html += "<br/><b>Start Time:</b> " + startStr[1] + " " + startStr[2];
+                html += "<br/><b>End Time:</b> " + endStr[1] + " " + endStr[2];
+            }
+            else {
+                html += "<b>Leave Type:</b> " + event.text;
+                html += "<br/><b>Date:</b> " + startStr[0];
+                if (event.isWholeDay == "0") {
+                    html += "<br/><b>Start Time:</b> " + startStr[1] + " " + startStr[2];
+                    html += "<br/><b>End Time:</b> " + endStr[1] + " " + endStr[2];
+                }
+            }
+       
+            if (event.remarks != "") {
+                html += "<br/><b>Remarks:</b> " + event.remarks;
+            }
+
+            return html;
+        };
+
+        _onClickEvent = scheduler.attachEvent("onClick", function (id, e) {
+            var event = scheduler.getEvent(id);
+            staffSchedDate = event.start_date.toLocaleDateString();
+            $("#staffSchedSelectedDate").html("Date:"+staffSchedDate);
+            $("#panelStaffScheduleBox").show();
+            getStaffScheduleByDate();
+
+        })
+
+        _onEmptyClickEvent = scheduler.attachEvent("onEmptyClick", function (date, e) {
+            staffSchedDate = date.toLocaleDateString();
+            $("#staffSchedSelectedDate").html("Date:" + staffSchedDate);
+            $("#panelStaffScheduleBox").show();
+            initLeaveButtons();
+            $("#tblStaffSchedSlot tbody").empty();
+        });
+
+
+    }
+
+    function initPanelLeaveConfig() {
+        $("#textColorPicker").spectrum({
+            color: "white"
+        });
+
+        $("#backgroundColorPicker").spectrum({
+            color: "#f00"
+        });
+    }
+
+    function initPanelSummarySchedule() {
+        scheduler.clearAll();
+        detachEvents();
+   
+     
+        scheduler.locale.labels.timeline_tab = "Timeline";
+        scheduler.locale.labels.section_custom = "Section";
+        scheduler.config.details_on_dblclick = true;
+        scheduler.config.xml_date = "%Y-%m-%d %H:%i";
+        scheduler.config.default_date = "%F %Y";
+        scheduler.config.drag_resize = false;
+        scheduler.xy.scale_height = 40;
+        scheduler.createTimelineView({
+            name: "timeline",
+            dx: 120,
+            x_unit: "day",//measuring unit of the X-Axis.
+            //x_date: "%M  %d (%D)", //date format of the X-Axis
+            x_date: "%j <br/> %D", //date format of the X-Axis
+            x_step: 1, //to show the all days
+            x_size: 31, // number of days in month( max)
+            x_start: 0, // zero offset from a current calendar date
+            x_length: 31, //the number of days that goes back and forward on prev and next button
+            y_unit: sections,
+            y_property: "section_id", //mapped data property
+            render: "bar" //view mode,
+        });
+
+        var year, month, d, monthIndex;
+
+        if (firstClick) {
+            year = $("#txtPeriod").val().split('/')[1];
+            month = $("#txtPeriod").val().split('/')[0];
+        }
+        else {
+            year = $("#summary_label").text().split(" ")[1];
+            month = jQuery.inArray($("#summary_label").text().split(" ")[0], monthNamesLong) + 1;
+        }
+
+        _onBeforeViewChangeEvent = scheduler.attachEvent("onBeforeViewChange", function (old_mode, old_date, mode, date) {
+            var year, month, d, monthIndex;
+
+            if (firstClick) {
+                year = $("#txtPeriod").val().split('/')[1];
+                month = $("#txtPeriod").val().split('/')[0];
+                d = new Date(year, month, 0);
+                monthIndex = d.getMonth();
+            }
+            else {
+
+                year = date.getFullYear();
+                month = (date.getMonth() + 1);
+                d = new Date(year, month, 0);
+                monthIndex = date.getMonth();
+            }
+
+            var days = d.getDate();
+            scheduler.matrix['timeline'].sections
+            scheduler.matrix['timeline'].x_size = days;
+            scheduler.matrix['timeline'].x_length = days;
+            scheduler.date['timeline_start'] = scheduler.date.month_start;
+
+            $("#summary_label").text(monthNamesLong[monthIndex] + " " + year);
+
+            firstClick = false;
+
+            return true;
+        });
+
+        scheduler.templates.tooltip_date_format = function (date) {
+            var formatFunc = scheduler.date.date_to_str("%Y-%m-%d %h:%i %A");
+            return formatFunc(date);
+        };
+
+        scheduler.templates.tooltip_text = function (start, end, event) {
+
+            var startStr = (scheduler.templates.tooltip_date_format(start)).split(" ");
+            var endStr = (scheduler.templates.tooltip_date_format(end)).split(" ");
+
+            var html = "";
+
+            if (event.type == "holiday") {
+                html += "<b>Public Holiday:</b> " + event.text;
+                html += "<br/><b>Date:</b> " + startStr[0];
+            }
+            else if (event.type == "work" || event.type == "off") {
+                html += "<b>Description:</b> " + event.text;
+                html += "<br/><b>Date:</b> " + startStr[0];
+                html += "<br/><b>Start Time:</b> " + startStr[1] + " " + startStr[2];
+                html += "<br/><b>End Time:</b> " + endStr[1] + " " + endStr[2];
+            }
+            else {
+                html += "<b>Leave Type:</b> " + event.text;
+                html += "<br/><b>Date:</b> " + startStr[0];
+                if (event.isWholeDay == "0") {
+                    html += "<br/><b>Start Time:</b> " + startStr[1] + " " + startStr[2];
+                    html += "<br/><b>End Time:</b> " + endStr[1] + " " + endStr[2];
+                }
+            }
+
+            if (event.remarks != "") {
+                html += "<br/><b>Remarks:</b> " + event.remarks;
+            }
+
+            return html;
+        };
+
+        scheduler.templates.event_class = function (start, end, event) {
+            if (event.type == 'holiday') return "holiday_summ_event";
+            else if (event.type == 'work') return "work_summ_event";
+            else if (event.type == 'off') return "off_summ_event";
+            else return "leave_summ_event";
+        };
+
+        scheduler.date.timeline_start = scheduler.date.month_start;
+
+        //getStaffWorkSchedule();
+        //scheduler.deleteMarkedTimespan();
+
+        //for (var i = 0; i < staffWorkScheduleList.length; i++) {
+        //    var fromdate = getDateFromAspString(staffWorkScheduleList[i].startdate);
+        //    var todate = getDateFromAspString(staffWorkScheduleList[i].enddate);
+        //    var stTime;
+        //    var eTime;
+
+        //    if (fromdate.getMinutes() == 30) {
+        //        stTime = fromdate.getHours() + .50;
+        //    }
+
+        //    if (todate.getMinutes() == 30) {
+        //        eTime = todate.getHours() + .50;
+        //    }
+         
+        //    scheduler.addMarkedTimespan({
+        //        days: new Date(fromdate.getFullYear(), fromdate.getMonth(), fromdate.getDate()),
+        //        zones: [stTime * 60, eTime * 60],
+        //        css: "small_lines_section",
+        //        sections: {
+        //            unit: staffWorkScheduleList[i].staffid
+        //        }
+        //    });
+        //}
+
+        scheduler.init('scheduler_summary', new Date(year, month - 1, 1), "timeline");
+
+        scheduler.parse(summarySched, "json");
+
+
+        _onClickEvent = scheduler.attachEvent("onClick", function (id, e) {
+            $('#mdlLeave').modal('show');
+            var event = scheduler.getEvent(id);
+            summSchedStaffId = event.section_id;
+            summSchedDate = event.start_date.toLocaleDateString();
+
+            var staffInfo = $.grep(sections, function (element) {
+                return element.key == summSchedStaffId;
+            });
+
+            $("#summSchedSelectedDate").html(staffInfo[0].label + " " + summSchedDate);
+
+            getSummScheduleByDate();
+
+        });
+
+        _onBeforeDragEvent = scheduler.attachEvent("onBeforeDrag", function (id, mode, e) {
+            if (mode == "create")
+                return false;
+
+            var event = scheduler.getEvent(id);
+
+            if (event.type == "holiday" || event.type == "work" || event.type == "off")
+                return false;
+            else {
+                _dateBeforeDragEndDate = event.end_date.toLocaleDateString();
+                _dateBeforeDragStartDate = event.start_date.toLocaleDateString();
+                return true;
+            }
+        });
+
+        _onEmptyClickEvent = scheduler.attachEvent("onEmptyClick", function (date, e) {
+            $('#mdlLeave').modal('show');
+
+            var action_data = scheduler.getActionData(e);
+
+            summSchedStaffId = action_data.section;
+            summSchedDate = date.toLocaleDateString();
+
+            var staffInfo = $.grep(sections, function (element) {
+                return element.key == summSchedStaffId;
+            });
+
+            $("#summSchedSelectedDate").html(staffInfo[0].label + " " + summSchedDate);
+
+            initLeaveButtonsSumm();
+            $("#tblSummSchedSlot tbody").empty();
+        });
+
+        _onDragEndEvent = scheduler.attachEvent("onDragEnd", function (id, e) {
+            var event = scheduler.getEvent(id);
+            if (_dateBeforeDragEndDate == event.end_date.toLocaleDateString() && _dateBeforeDragStartDate == event.start_date.toLocaleDateString()) {
+                
+            }
+            else {
+                _dragEventId = event.id;
+                _dragLeaveId = event.type;
+                _dragEndDate = event.end_date.toLocaleDateString();
+                _dragStaffId = event.section_id;
+
+                updateStaffSchedule();
+            }
+        });
+
+        firstClick = false;
+        newLoad = false;
+    }
+
+    function addCSSRule(sheet, selector, rules, index) {
+        if ("insertRule" in sheet) {
+            sheet.insertRule(selector + "{" + rules + "}", index);
+        }
+        else if ("addRule" in sheet) {
+            sheet.addRule(selector, rules, index);
+        }
+    }
+
+    function removeCSSRule(sheet, selector, rules, index) {
+            sheet.removeRule(selector + "{" + rules + "}", index);  
+    }
+
+    //detach events
+    function detachEvents() {
+        scheduler.detachEvent(_onClickEvent);
+        scheduler.detachEvent(_onEmptyClickEvent);
+        scheduler.detachEvent(_onBeforeViewChangeEvent);
+        scheduler.detachEvent(_onBeforeDragEvent);
+        scheduler.detachEvent(_onDragEndEvent);
+    }
+
+    //Modal Window
+    function openModal(modalName) {
+        $('#' + modalName).modal('show');
+    }
+
+    function closeModal(modalName) {
+        $('#' + modalName).modal('hide');
+    }
+
+
+    function initLegend() {
+        $(".legend").empty();
+        var html = "";
+
+        html = "<div class='container-inner'>";
+        html += "<b>Legend:</b>";
+        html += "<input type='text' class='summaryleaveColor' style='background-image: url(../Images/small_lines.png);' disabled> Work Schedule";
+        html += "<input type='text' class='summaryleaveColor' style='background-color: #7f7f7f;opacity:.7;' disabled> Off";
+        for (var i = 0; i < leaves.length; i++) {
+            html += "<input type='text' class='summaryleaveColor' style='background-color:" + leaves[i].backgroundcolor + "' disabled> " + leaves[i].name;
+        }
+        html += "</div>";
+
+        $(".legend").append(html);
+    }
+
+    function initHoliday() {
+        $(".holiday").empty();
+        var html = "";
+        html = "<b>Public Holidays</b> <input type='text' class='publicHolidayBox' style='border:3px solid blue !important;' disabled>";
+        html += "<div class='container-inner publicHoliday'>";
+        for (var i = 0; i < holidays.length; i++) {
+            html += "<div style='display:inline;margin-left:20px;'>" + holidays[i].name + "</div>";
+        }
+        html += "</div>";
+
+        $(".holiday").append(html);
+    }
+
+    function initLeaveItem() {
+        $("#tblLeaveItem tbody").empty();
+        var html = "";
+        for (var i = 0; i < leaves.length; i++) {
+            html += "<tr>";
+            html += "<td width='70%' class='noBorderRight'><b>" + leaves[i].name + "</b></td>";
+            html += "<td width='10%' class='noBorderRight noBorderLeft' style='padding:5px;'><input type='text' class='leaveColor' style='background-color:" + leaves[i].backgroundcolor + "' disabled /></td>";
+            html += "<td width='10%' class='noBorderRight noBorderLeft' style='padding:5px;'><a class='btn btn-primary' title='Edit Item' onclick='editLeaveItem(" + leaves[i].id + ")'><i class='fa fa-edit'></i></a></td>";
+            html += "<td width='10%' class='noBorderLeft' style='padding:5px;'><a class='btn btn-danger' title='Remove Item' onclick='openRemoveLeaveItem(" + leaves[i].id + ",\"" + leaves[i].name + "\")'><i class='fa fa-times '></i></a></td>";
+            html += "</tr>";
+        }
+
+        $("#tblLeaveItem tbody").append(html);
+
+    }
+
+    function initHolidayItem() {
+        $("#tblHolidayItem tbody").empty();
+        var html = "";
+
+        for (var i = 0; i < holidays.length; i++) {
+            html += "<tr>";
+            html += "<td width='70%' class='noBorderRight'><b>" + holidays[i].name + "</b></td>";
+            html += "<td width='10%' class='noBorderRight noBorderLeft' style='padding:5px;'><a class='btn btn-primary' title='Edit Item'  onclick='editHolidayItem(" + holidays[i].id + ")'><i class='fa fa-edit'></i></a></td>";
+            html += "<td width='10%' class='noBorderLeft' style='padding:5px;'><a class='btn btn-danger' title='Remove Item' onclick='openRemoveHolidayItem(" + holidays[i].id + ",\"" + holidays[i].name + "\")'><i class='fa fa-times '></i></a></td>";
+            html += "</tr>";
+        }
+
+        $("#tblHolidayItem tbody").append(html);
+    }
+
+    function initStaffSchedSlot() {
+        $("#tblStaffSchedSlot tbody").empty();
+        var html = "";
+
+        for (var i = 0; i < staffSchedSlot.length; i++) {
+            html += "<tr>";
+            html += "<td width='90%' class='noBorderRight'><b>" + staffSchedSlot[i].name + "</b></td>";
+            html += "<td width='10%' class='noBorderLeft' style='padding:5px;'><a class='btn btn-danger' title='Remove Item' onclick='openRemoveStaffSchedSlotItem(" + staffSchedSlot[i].id + ",\"" + staffSchedSlot[i].name + "\")'><i class='fa fa-times '></i></a></td>";
+            html += "</tr>";
+        }
+
+        $("#tblStaffSchedSlot tbody").append(html);
+    }
+
+    function initSummSchedSlot() {
+        $("#tblSummSchedSlot tbody").empty();
+        var html = "";
+
+        for (var i = 0; i < summSchedSlot.length; i++) {
+            html += "<tr>";
+            html += "<td width='90%' class='noBorderRight'><b>" + summSchedSlot[i].name + "</b></td>";
+            html += "<td width='10%' class='noBorderLeft' style='padding:5px;'><a class='btn btn-danger' title='Remove Item' onclick='openRemoveSummSchedSlotItem(" + summSchedSlot[i].id + ",\"" + summSchedSlot[i].name + "\")'><i class='fa fa-times '></i></a></td>";
+            html += "</tr>";
+        }
+
+        $("#tblSummSchedSlot tbody").append(html);
+    }
+
+    function initLeaveButtons() {
+        $("#leaveButtons").empty();
+        var html = "";
+
+        for (var i = 0; i < leaves.length; i++) {
+            html += "<button type='button' onclick='saveStaffSchedule(\"" + leaves[i].id + "\")' class='btn btn-primary' style='color:" + leaves[i].textcolor + ";background-image: -webkit-gradient(linear,left top,left bottom,from(" + leaves[i].backgroundcolor + "),to(" + leaves[i].backgroundcolor + "));width:100%;margin-bottom:5px;'>" + leaves[i].name + "</button>";
+        }
+
+        $("#leaveButtons").append(html);
+    }
+
+    function initLeaveButtonsWoEvent() {
+        $("#leaveButtons").empty();
+        var html = "";
+
+        for (var i = 0; i < leavesWEvent.length; i++) {
+            html += "<button type='button' onclick='saveStaffSchedule(\"" + leavesWEvent[i].id + "\")' class='btn btn-primary' style='color:" + leavesWEvent[i].textcolor + ";background-image: -webkit-gradient(linear,left top,left bottom,from(" + leavesWEvent[i].backgroundcolor + "),to(" + leavesWEvent[i].backgroundcolor + "));width:100%;margin-bottom:5px;'>" + leavesWEvent[i].name + "</button>";
+        }
+
+        $("#leaveButtons").append(html);
+    }
+
+    function initLeaveButtonsSumm() {
+
+        $("#leaveButtonsSummSched").empty();
+        var html = "";
+
+        for (var i = 0; i < leaves.length; i++) {
+            html += "<button type='button' onclick='saveSummSchedule(\"" + leaves[i].id + "\")' class='btn btn-primary' style='color:" + leaves[i].textcolor + ";background-image: -webkit-gradient(linear,left top,left bottom,from(" + leaves[i].backgroundcolor + "),to(" + leaves[i].backgroundcolor + "));width:100%;margin-bottom:5px;'>" + leaves[i].name + "</button>";
+        }
+
+        $("#leaveButtonsSummSched").append(html);
+    }
+
+    function initLeaveButtonsSummWEvent() {
+        $("#leaveButtonsSummSched").empty();
+        var html = "";
+
+        for (var i = 0; i < leavesSummWEvent.length; i++) {
+            html += "<button type='button' onclick='saveSummSchedule(\"" + leavesSummWEvent[i].id + "\")' class='btn btn-primary' style='color:" + leavesSummWEvent[i].textcolor + ";background-image: -webkit-gradient(linear,left top,left bottom,from(" + leavesSummWEvent[i].backgroundcolor + "),to(" + leavesSummWEvent[i].backgroundcolor + "));width:100%;margin-bottom:5px;'>" + leavesSummWEvent[i].name + "</button>";
+        }
+
+        $("#leaveButtonsSummSched").append(html);
+    }
+
+
+    //Holiday Methods
+    function getPublicHoliday() {
+        holidays = [];
+        $.ajax({
+            url: '@Url.Action("GetPublicHoliday", "StaffSchedule")',
+            data: {},
+            type: 'POST',
+            async: false,
+            success: function (data) {
+                holidays = data;
+            },
+            error: function (ts) { showMessage(ts.responseText, "error") }
+        });
+    }
+
+
+    function editHolidayItem(id) {
+        var holidayItem = $.grep(holidays, function (element) {
+            return element.id == id;
+        });
+
+        $("#txtHolidayName").val(holidayItem[0].shortName);
+        $("#txtHolidayDate").val(holidayItem[0].date);
+        editHoliday = true;
+        holidayID = id;
+
+    }
+
+    function addHolidayItem() {
+        editHoliday = false;
+        clearHolidayItemModal();
+        openModal('mdlHoliday');
+    }
+
+
+    function addNewHoliday() {
+        var obj = new Object();
+        obj.holidayName = $("#txtHolidayName").val();
+        obj.holidayDate = $("#txtHolidayDate").val();
+
+        if (obj.holidayName.trim() == "") {
+            openMessage("Please enter public holiday name.", "error");
+            return;
+        }
+
+        if (obj.holidayDate.trim() == "") {
+            openMessage("Please enter public holiday date.", "error");
+            return;
+        }
+
+
+        if (editHoliday) {
+            obj.id = holidayID;
+            $.ajax({
+                url: '@Url.Action("UpdateHoliday", "StaffSchedule")',
+                data: JSON.stringify({ publicHoliday: obj }),
+                type: 'POST',
+                async: false,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    if (data == "SUCCESS") {
+                        reloadPublicHoliday();
+                        openMessage("Successfully saved.", "success");
+                    }
+                    else {
+                        openMessage("An error occured while updating. Please contact the administrator.", "error");
+                    }
+
+                },
+                error: function (req, status, err) {
+                    openMessage("An error occured while updating. Please contact the administrator.", "error");
+                }
+            });
+        }
+        else {
+
+            $.ajax({
+                url: '@Url.Action("AddNewHoliday", "StaffSchedule")',
+                data: JSON.stringify({ publicHoliday: obj }),
+                type: 'POST',
+                async: false,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    if (data == "SUCCESS") {
+                        reloadPublicHoliday();
+                        openMessage("Successfully saved.", "success");
+                    }
+                    else {
+                        openMessage("An error occured while saving. Please contact the administrator.", "error");
+                    }
+
+                },
+                error: function (req, status, err) {
+                    openMessage("An error occured while saving. Please contact the administrator.", "error");
+                }
+            });
+        }
+        clearHolidayItem();
+    }
+
+    function removeHolidayItem() {
+
+        $.ajax({
+            url: '@Url.Action("RemoveHoliday", "StaffSchedule")',
+            data: JSON.stringify({ id: holidayToBeRemoved }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == "SUCCESS") {
+                    closeModal('mdlRemoveHoliday');
+                    reloadPublicHoliday();
+                    openMessage("Successfully removed.", "success");
+                }
+                else {
+                    openMessage("An error occured while removing. Please contact the administrator.", "error");
+                }
+
+            },
+            error: function (req, status, err) {
+                openMessage("An error occured while removing. Please contact the administrator.", "error");
+            }
+        });
+
+        clearHolidayItem();
+
+    }
+
+    function openRemoveHolidayItem(id, name) {
+        holidayToBeRemoved = id;
+        $("#labelRemoveHoliday").html("Are you sure you want to remove <b>" + name + "</b> holiday ?");
+        openModal("mdlRemoveHoliday");
+    }
+
+    function clearHolidayItem() {
+        $("#txtHolidayName").val("");
+        $("#txtHolidayDate").val("");
+    }
+
+
+    //Leave Methods
+    function getLeave() {
+
+        leaves = [];
+
+        $.ajax({
+            url: '@Url.Action("GetLeave", "StaffSchedule")',
+            data: {},
+            type: 'POST',
+            async: false,
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    leaves.push({ id: data[i].id, name: data[i].leaveName, backgroundcolor: data[i].backgroundColor, textcolor: data[i].textColor, start: data[i].start, end: data[i].end, isWholeDay: data[i].isWholeDay });
+                }
+            },
+            error: function (ts) { showMessage(ts.responseText, "error") }
+        });
+
+    }
+
+    function editLeaveItem(id) {
+
+        var leaveItem = $.grep(leaves, function (element) {
+            return element.id == id;
+        });
+
+        $("#txtLeaveName").val(leaveItem[0].name);
+        $('input[name="rbLeave"][value="' + leaveItem[0].isWholeDay + '"]').attr('checked', true);
+        $("#selectFrom").val(leaveItem[0].start);
+        $("#selectTo").val(leaveItem[0].end);
+        $("#backgroundColorPicker").spectrum("set", leaveItem[0].backgroundcolor);
+        $("#textColorPicker").spectrum("set", leaveItem[0].textcolor);
+
+        editLeave = true;
+        leaveID = id;
+
+    }
+
+
+    function saveLeaveItem() {
+
+        if ($("#txtLeaveName").val().trim() == "") {
+            openMessage("Please enter leave name.", "error");
+            return;
+        }
+
+        var obj = new Object();
+        obj.leaveName = $("#txtLeaveName").val();
+        obj.isWholeDay = $('input[name="rbLeave"]:checked').val();
+
+        if (obj.isWholeDay == "1") {
+            obj.start = "08:00";
+            obj.end = "24:00";
+        }
+        else {
+            var strt = $("#selectFrom option:selected").text().split(':')[0].replace(/^0+/, '');
+            var end = $("#selectTo option:selected").text().split(':')[0].replace(/^0+/, '');
+    
+            if (parseInt(strt) >= parseInt(end)) {
+                openMessage("Please enter a valid duration.", "error");
+                return;
+            }
+
+            obj.start = $("#selectFrom option:selected").text();
+            obj.end = $("#selectTo option:selected").text();
+        }
+
+        obj.backgroundColor = $("#backgroundColorPicker").spectrum('get').toHexString();
+        obj.textColor = $("#textColorPicker").spectrum('get').toHexString();
+
+        if (obj.leaveName.trim() == "") {
+            openMessage("Please enter leave name.", "error");
+            return;
+        }
+
+
+        if (editLeave) {
+            obj.id = leaveID;
+            $.ajax({
+                url: '@Url.Action("UpdateLeave", "StaffSchedule")',
+                data: JSON.stringify({ leave: obj }),
+                type: 'POST',
+                async: false,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    if (data == "SUCCESS") {
+                        var editleave = $.grep(leaves, function (element) {
+                            return element.id != leaveID;
+                        });
+                        var selector = ".leave" + editleave[0].id;
+                        var rule = "background-color: " + editleave[0].backgroundcolor + " !important;color:" + editleave[0].textcolor + " !important;";
+                        removeCSSRule(document.styleSheets[0], selector, rule);
+
+                        reloadLeave();
+                        populateCssRule();
+                        openMessage("Successfully saved.", "success");
+                    }
+                    else {
+                        openMessage("An error occured while updating. Please contact the administrator.", "error");
+                    }
+
+                },
+                error: function (req, status, err) {
+                    openMessage("An error occured while updating. Please contact the administrator.", "error");
+                }
+            });
+        }
+        else {
+
+            $.ajax({
+                url: '@Url.Action("AddNewLeave", "StaffSchedule")',
+                data: JSON.stringify({ leave: obj }),
+                type: 'POST',
+                async: false,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    if (data == "SUCCESS") {
+                        reloadLeave();
+                        populateCssRule();
+                        openMessage("Successfully saved.", "success");
+                    }
+                    else {
+                        openMessage("An error occured while saving. Please contact the administrator.", "error");
+                    }
+
+                },
+                error: function (req, status, err) {
+                    openMessage("An error occured while saving. Please contact the administrator.", "error");
+                }
+            });
+        }
+
+        clearLeaveEntry();
+    }
+
+    function removeLeaveItem() {
+
+        $.ajax({
+            url: '@Url.Action("RemoveLeave", "StaffSchedule")',
+            data: JSON.stringify({ id: leaveToBeRemoved }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == "SUCCESS") {
+                    reloadLeave();
+                    openMessage("Successfully removed.", "success");
+                }
+                else {
+                    openMessage("An error occured while removing. Please contact the administrator.", "error");
+                }
+
+            },
+            error: function (req, status, err) {
+                openMessage("An error occured while removing. Please contact the administrator.", "error");
+            }
+        });
+        clearLeaveEntry();
+        closeModal("mdlRemoveLeave");
+    }
+
+    function openRemoveLeaveItem(id, name) {
+        leaveToBeRemoved = id;
+        $("#labelRemoveLeave").html("Are you sure you want to remove <b>" + name + "</b> ?");
+        openModal("mdlRemoveLeave");
+    }
+
+    function clearLeaveEntry() {
+        editLeave = false;
+        leaveToBeRemoved = 0;
+        $("#txtLeaveName").val('');
+        $('input[name="rbLeave"][value="1"]').attr('checked', true);
+        $("#selectFrom").val('08:00');
+        $("#selectTo").val('08:00');
+        $("#backgroundColorPicker").spectrum("set", "#f00");
+        $("#textColorPicker").spectrum("set", "white");
+    }
+
+
+
+    //Staff Sched Slot Methods
+    function getStaffSchedule() {
+        staffSched = [];
+        var staffid = $("#cbobkstaff option:selected").val();
+
+        $.ajax({
+            url: '@Url.Action("GetStaffSchedule", "StaffSchedule")',
+            data: JSON.stringify({ id: staffid, bcode: $("#bcode").val() }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                staffSched = data;
+            },
+            error: function (ts) { showMessage(ts.responseText, "error") }
+        });
+    }
+
+    function getStaffScheduleByDate() {
+        staffSchedSlot = [];
+        leavesWEvent = [];
+
+        var staffid = $("#cbobkstaff option:selected").val();
+
+        $.ajax({
+            url: '@Url.Action("GetStaffScheduleByDate", "StaffSchedule")',
+            data: JSON.stringify({ id: staffid, date: staffSchedDate }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                staffSchedSlot = data;
+            },
+            error: function (ts) { showMessage(ts.responseText, "error") }
+        });
+
+        leavesWEvent = leaves;
+
+        for (var i = 0; i < staffSchedSlot.length; i++) {
+            leavesWEvent = $.grep(leavesWEvent, function (element) {
+                return element.id != staffSchedSlot[i].type;
+            });
+        }
+
+        initLeaveButtonsWoEvent();
+        initStaffSchedSlot();
+    }
+
+
+    function saveStaffSchedule(id) {
+        var obj = new Object();
+        obj.staffId = $("#cbobkstaff option:selected").val();
+        obj.leaveId = id;
+        obj.startDate = staffSchedDate;
+        obj.endDate = staffSchedDate;
+
+        $.ajax({
+            url: '@Url.Action("AddNewStaffSchedule", "StaffSchedule")',
+            data: JSON.stringify({ staffSched: obj, bcode: $("#bcode").val() }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                if (data == "SUCCESS") {
+                    reloadStaffSchedule();
+                    openMessage("Successfully saved.", "success");
+                }
+                else {
+                    openMessage("An error occured while saving. Please contact the administrator.", "error");
+                }
+
+            },
+            error: function (req, status, err) {
+                openMessage("An error occured while saving. Please contact the administrator.", "error");
+            }
+        });
+    }
+
+
+    function removeStaffSchedSlotItem() {
+        $.ajax({
+            url: '@Url.Action("RemoveStaffSchedule", "StaffSchedule")',
+            data: JSON.stringify({ id: staffSchedToBeRemoved }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == "SUCCESS") {
+                    reloadStaffSchedule();
+                    openMessage("Successfully removed.", "success");
+                }
+                else {
+                    openMessage("An error occured while removing. Please contact the administrator.", "error");
+                }
+
+            },
+            error: function (req, status, err) {
+                openMessage("An error occured while removing. Please contact the administrator.", "error");
+            }
+        });
+        closeModal("mdlRemoveStaffSchedSlot");
+    }
+
+    function openRemoveStaffSchedSlotItem(id, name) {
+        staffSchedToBeRemoved = id;
+        $("#labelRemoveStaffSchedSlot").html("Are you sure you want to remove <b>" + name + "</b> ?");
+        openModal("mdlRemoveStaffSchedSlot");
+    }
+
+
+    //Summary Sched Slot Methods
+    function getStaff() {
+        sections = [];
+
+        $.ajax({
+            url: '@Url.Action("GetStaff", "StaffSchedule")',
+            data: JSON.stringify({ bcode : $("#bcode").val(),departmentid: $("#cboDepartment").val()}),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    sections.push({ key: data[i].id, label: data[i].name });
+                }
+            },
+            error: function (ts) { showMessage(ts.responseText, "error") }
+        });
+
+ 
+    }
+
+    function getAllStaffSchedule() {
+
+        summarySched = [];
+
+        $.ajax({
+            url: '@Url.Action("GetAllStaffSchedule", "StaffSchedule")',
+            data: JSON.stringify({ bcode: $("#bcode").val(),departmentid: $("#cboDepartment").val() }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                summarySched = data;
+            },
+            error: function (ts) { showMessage(ts.responseText, "error") }
+        });
+    }
+
+    function getSummScheduleByDate() {
+        summSchedSlot = [];
+        leavesSummWEvent = [];
+
+        $.ajax({
+            url: '@Url.Action("GetStaffScheduleByDate", "StaffSchedule")',
+            data: JSON.stringify({ id: summSchedStaffId, date: summSchedDate }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                summSchedSlot = data;
+            },
+            error: function (ts) { showMessage(ts.responseText, "error") }
+        });
+
+        leavesSummWEvent = leaves;
+
+        for (var i = 0; i < summSchedSlot.length; i++) {
+            leavesSummWEvent = $.grep(leavesSummWEvent, function (element) {
+                return element.id != summSchedSlot[i].type;
+            });
+        }
+
+        initLeaveButtonsSummWEvent();
+        initSummSchedSlot();
+    }
+
+    function saveSummSchedule(id) {
+        var obj = new Object();
+        obj.staffId = summSchedStaffId;
+        obj.leaveId = id;
+        obj.startDate = summSchedDate;
+        obj.endDate = summSchedDate;
+
+        $.ajax({
+            url: '@Url.Action("AddNewStaffSchedule", "StaffSchedule")',
+            data: JSON.stringify({ staffSched: obj, bcode: $("#bcode").val() }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == "SUCCESS") {
+                    openMessage("Successfully saved.", "success");
+                    reloadSummarySchedule();
+                }
+                else {
+                    openMessage("An error occured while saving. Please contact the administrator.", "error");
+                }
+
+            },
+            error: function (req, status, err) {
+                openMessage("An error occured while saving. Please contact the administrator.", "error");
+            }
+        });
+
+        closeModal('mdlLeave');
+    }
+
+    function updateStaffSchedule() {
+
+        var obj = new Object();
+        obj.id = _dragEventId
+        obj.leaveId = _dragLeaveId;
+        obj.endDate = _dragEndDate;
+        obj.startDate = _dragEndDate;
+        obj.staffId = _dragStaffId;
+
+        $.ajax({
+            url: '@Url.Action("UpdateStaffSchedule", "StaffSchedule")',
+            data: JSON.stringify({ staffSched: obj }),
+            type: 'POST',
+            async: true,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                if (data == "SUCCESS") {
+                    openMessage("Successfully saved.", "success");
+                    reloadSummarySchedule();
+                }
+                else {
+                    openMessage("An error occured while saving. Please contact the administrator.", "error");
+                }
+
+            },
+            error: function (req, status, err) {
+                openMessage("An error occured while saving. Please contact the administrator.", "error");
+            }
+        });
+   
+    }
+
+    function removeSummSchedSlotItem() {
+        $.ajax({
+            url: '@Url.Action("RemoveStaffSchedule", "StaffSchedule")',
+            data: JSON.stringify({ id: summSchedToBeRemoved }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == "SUCCESS") {
+                    reloadSummarySchedule();
+                    openMessage("Successfully removed.", "success");
+                }
+                else {
+                    openMessage("An error occured while removing. Please contact the administrator.", "error");
+                }
+
+            },
+            error: function (req, status, err) {
+                openMessage("An error occured while removing. Please contact the administrator.", "error");
+            }
+        });
+
+        closeModal("mdlLeave");
+        closeModal("mdlRemoveSummSchedSlot");
+    }
+
+
+    function openRemoveSummSchedSlotItem(id, name) {
+        summSchedToBeRemoved = id;
+        $("#labelRemoveSummSchedSlot").html("Are you sure you want to remove <b>" + name + "</b> ?");
+        openModal("mdlRemoveSummSchedSlot");
+    }
+
+
+    function refreshTimeout() {
+        location.reload();
+    }
+
+    //Work Schedule
+    function clearWorkScheduleEntry() {
+        editWorkSchedule = false;
+        $("#txtWorkDescription").val('');
+        $("#selectDurationFrom").val('08:00');
+        $("#selectDurationTo").val('08:00');
+        $(".cbDays").each(function () {
+            $(this).attr("checked", false);
+        });
+        $("#dpPeriodFrom").val('');
+        $("#dpPeriodTo").val('');
+
+    }
+
+    function saveWorkSchedule() {
+        if ($("#txtWorkDescription").val().trim() == "") {
+            openMessage("Please enter description.", "error");
+            return;
+        }
+
+        if ($("#dpPeriodFrom").val().trim() == "") {
+            openMessage("Please enter date from.", "error");
+            return;
+        }
+
+        if ($("#dpPeriodTo").val().trim() == "") {
+            openMessage("Please enter date to.", "error");
+            return;
+        }
+
+        if ($.datepicker.parseDate('dd/mm/yy', $("#dpPeriodTo").val().trim()) < $.datepicker.parseDate('dd/mm/yy', $("#dpPeriodFrom").val().trim())) {
+            openMessage("Please enter a valid period.", "error");
+            return;
+        }
+
+        var strt = $("#selectDurationFrom option:selected").text().split(':')[0].replace(/^0+/, '');
+        var end = $("#selectDurationTo option:selected").text().split(':')[0].replace(/^0+/, '');
+
+        if (parseInt(strt) >= parseInt(end)) {
+            openMessage("Please enter a valid duration.", "error");
+            return;
+        }
+       
+        var days = "";
+        $(".cbDays").each(function () {
+            if ($(this).is(':checked')) {
+                days += $(this).val() + " ";
+            }
+        });
+
+        if (days == "") {
+            openMessage("Please select day.", "error");
+            return;
+        }
+
+        var obj = new Object();
+        obj.description = $("#txtWorkDescription").val();
+        obj.staffid = $("#cbobkstaff option:selected").val();
+        obj.starttime = $("#selectDurationFrom option:selected").text();
+        obj.endtime = $("#selectDurationTo option:selected").text();
+        obj.departmentid = $("#cboDepartment").val();
+        obj.branchcode = $("#bcode").val();
+        obj.days = days;
+        obj.type = $('input[name="rbWorkSched"]:checked').val();
+
+        if (editWorkSchedule) {
+            obj.id = workScheduleID;
+            $.ajax({
+                url: '@Url.Action("UpdateWorkSchedule", "StaffSchedule")',
+                data: JSON.stringify({ work: obj, datefrom: $("#dpPeriodFrom").val(), dateto: $("#dpPeriodTo").val() }),
+                type: 'POST',
+                async: false,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    if (data == "SUCCESS") {
+                        openMessage("Successfully updated.", "success");
+                        refreshWorkingScheduleList();
+                    }
+                    else {
+                        openMessage("An error occured while updating record. Please contact the administrator.", "error");
+                    }
+
+                },
+                error: function (req, status, err) {
+                    openMessage("An error occured while updating record. Please contact the administrator.", "error");
+                }
+            });
+        }
+        else {
+
+            $.ajax({
+                url: '@Url.Action("AddNewWorkSchedule", "StaffSchedule")',
+                data: JSON.stringify({ work: obj, datefrom: $("#dpPeriodFrom").val(), dateto: $("#dpPeriodTo").val() }),
+                type: 'POST',
+                async: false,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    if (data == "SUCCESS") {
+                        openMessage("Successfully saved.", "success");
+                        refreshWorkingScheduleList();
+                    }
+                    else {
+                        openMessage("An error occured while saving record. Please contact the administrator.", "error");
+                    }
+
+                },
+                error: function (req, status, err) {
+                    openMessage("An error occured while saving record. Please contact the administrator.", "error");
+                }
+            });
+        }
+
+        clearWorkScheduleEntry();
+    }
+
+    function getWorkingScheduleList() {
+         $('#tblWorkSchedule').dataTable({
+            "iDisplayLength": 5, // Default No of Records per page on 1st load
+            "aLengthMenu": [[5, 10, 15], [5, 10, 15]], // Set no of records in per page
+            "aaSorting": [[0, "description"]], // Default 1st column sorting
+            "bProcessing": true,
+            "aoColumnDefs": [
+                {
+                    "aTargets": [4],
+                    "mRender": function (data, type, full) {
+                        if (data) {
+                            var date = "";
+                            var month = "";
+
+                            var ctmp = getDateFromAspString(data);
+                      
+                            if (ctmp.getDate().toString().length == 1)
+                                date = "0";
+
+                            if ((ctmp.getMonth() + 1).toString().length == 1)
+                                month = "0";
+
+                            return (date + ctmp.getDate() + "/" + month + (ctmp.getMonth() + 1) + "/" + ctmp.getFullYear());
+                        }
+                        return "";
+                    }
+                },
+                 {
+                     "aTargets": [5],
+                     "mRender": function (data, type, full) {
+                         if (data) {
+                             var date = "";
+                             var month = "";
+
+                             var ctmp = getDateFromAspString(data);
+                             if (ctmp.getDate().toString().length == 1)
+                                 date = "0";
+
+                             if ((ctmp.getMonth() + 1).toString().length == 1)
+                                 month = "0";
+                             
+                             return (date + ctmp.getDate() + "/" + month+ (ctmp.getMonth() + 1) + "/" + ctmp.getFullYear());
+                         }
+                         return "";
+                     }
+                 },
+                {
+                    "aTargets": [7],
+                    "mRender": function (data, type, full) {
+                        var str = "<a class='btn btn-primary' title ='Click to edit.' onclick='EditWorkSchedule(" + data + ",this);'><i class='fa fa-edit '></i></a>";
+                        return str;
+                    }
+                },
+                {
+                    "aTargets": [8],
+                    "mRender": function (data, type, full) {
+                        var str = "<a class='btn btn-danger' title ='Click to cancel.' onclick='DeleteWorkSchedule(" + data + ");'><i class='fa fa-trash-o '></i></a>";
+                        return str;
+                    }
+                }
+            ],
+            "sAjaxSource": 'getWorkScheduleList?staffid=' + $("#cbobkstaff option:selected").val(),
+            "bStateSave": false, // Remember paging & filters
+            "bDeferRender": false,
+            "bServerSide": true,
+            "bDestroy": true,
+            "oSearch": { "sSearch": "" },
+            "aoColumns": [
+                         { "sWidth": "120px", "mDataProp": "description" },
+                         { "sWidth": "80px", "mDataProp": "type" },
+                         { "sWidth": "80px", "mDataProp": "starttime" },
+                         { "sWidth": "80px", "mDataProp": "endtime" },
+                         { "sWidth": "80px", "mDataProp": "datefrom" },
+                         { "sWidth": "80px", "mDataProp": "dateto" },
+                         { "sWidth": "50px", "mDataProp": "days" },
+                         { "sWidth": "30px", "mDataProp": "id" },
+                         { "sWidth": "30px", "mDataProp": "id" }
+            ],
+            "fnDrawCallback": function () {
+            }
+        });
+    }
+
+    function refreshWorkingScheduleList() {
+      
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: 'getWorkScheduleList?staffid=' + $("#cbobkstaff option:selected").val(),
+            success: function (data) {
+                var oTable = $('#tblWorkSchedule').dataTable();
+                oTable.fnReloadAjax();
+            },
+            error: function () {
+            }
+        });
+    }
+
+
+    function EditWorkSchedule(id,paramtr) {
+        clearWorkScheduleEntry();
+
+        var tds = $(paramtr).closest('tr').find('td');
+
+        $("#txtWorkDescription").val(tds.eq(0).html());
+        $('input[name="rbWorkSched"][value="' + tds.eq(1).html() + '"]').attr('checked', true);
+        $("#selectDurationFrom").val(tds.eq(2).html());
+        $("#selectDurationTo").val(tds.eq(3).html());
+        $("#dpPeriodFrom").val(tds.eq(4).html());
+        $("#dpPeriodTo").val(tds.eq(5).html());
+       
+        $(".cbDays").each(function () {
+           
+            if (tds.eq(6).html().indexOf($(this).val()) >= 0) {
+                $(this).attr("checked", true);
+            }
+        });
+
+        
+        editWorkSchedule = true;
+        workScheduleID = id;
+    }
+
+    function DeleteWorkSchedule(id) {
+        
+        $.ajax({
+            url: '@Url.Action("RemoveWorkSchedule", "StaffSchedule")',
+            data: JSON.stringify({ id:id }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                if (data == "SUCCESS") {
+                    openMessage("Successfully removed.", "success");
+                    refreshWorkingScheduleList();
+                }
+                else {
+                    openMessage("An error occured while removing record. Please contact the administrator.", "error");
+                }
+
+            },
+            error: function (req, status, err) {
+                openMessage("An error occured while removing record. Please contact the administrator.", "error");
+            }
+        });
+    }
+
+
+    function getStaffWorkSchedule() {
+        staffWorkScheduleList = [];
+
+        $.ajax({
+            url: '@Url.Action("GetStaffWorkScheduleListByDay", "StaffSchedule")',
+            data: JSON.stringify({ bcode: $("#bcode").val(), departmentid: $("#cboDepartment").val() }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                staffWorkScheduleList = data;
+            },
+            error: function (ts) { openMessage(ts.responseText, "error") }
+        });
+    }
+
+
+    //End Work Schedule
+
+
+</script>
+
+@*<script type="text/javascript" src="@Url.Content("~/js/app/staffschedule.js")"></script>*@

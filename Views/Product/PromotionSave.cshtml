@@ -1,0 +1,294 @@
+﻿@model BigMac.Models.Product_m_ProductPromotion
+
+@{
+    ViewBag.Title = "PromotionSave";
+    Layout = "~/Views/Shared/_Layout.cshtml";     
+}
+
+    <div class="row">
+        <div class ="col-lg-12">
+            <div class="box">
+                <div class ="box-header">
+							<h2><i class="fa fa-edit"></i>Promotion Entry</h2>
+							<div class="box-icon">
+								<a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+								<a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+								<a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+							</div>
+                </div>
+                <div class ="box-content">
+                @using (Html.BeginForm("PromotionSave","Product",FormMethod.Post)) 
+                {
+                    @Html.ValidationSummary(true)
+                    <fieldset  class ="col-sm-12">
+                        @*<input type="hidden" id ="promoid" value="@Model.id" />*@
+                        @Html.HiddenFor(model=>model.id)
+                        <input type="hidden" id ="ptype" value="@ViewBag.ptype" />
+                        <input type="hidden" id ="pcat" value="@ViewBag.pcat" />
+                        <input type="hidden" id ="pbrand" value="@ViewBag.pbrand" />
+                        <input type="hidden" id ="prns" value="@ViewBag.prns" />
+                        <input type="hidden" id="rcode" value="@ViewBag.RCode" />
+
+                        <table style="width:100%;border-spacing:5px;border-collapse:separate;padding-left:10px;">
+                            <tr>
+                                <td style="width:150px;"><label class="control-label">Type</label></td>
+                                <td colspan ="2">@Html.DropDownList("cboBptype", new SelectList(@ViewBag.CategoryOptions, "category", "category"), new { @class = "form-control"})</td>
+                                <td  style="width:20px;"></td>
+                                <td  style="width:100px;"></td>
+                                <td  style="width:240px;"></td>
+                                <td></td>
+                            </tr> 
+                            <tr>
+                                <td><label class="control-label">Category</label></td>
+                                <td colspan ="2">@Html.DropDownList("cboBpcategory", new SelectList(@ViewBag.SubCategoryOptions, "category", "category"), new { @class = "form-control"})</td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label">Brand</label></td>
+                                <td colspan ="2">@Html.DropDownList("cboBpbrand", new SelectList(@ViewBag.BrandOptions, "value", "value"), new { @class = "form-control"})</td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-labell">Ranges & Series</label></td>
+                                <td colspan ="2">@Html.DropDownList("cboBprnc", new SelectList(@ViewBag.RangesNSeriesOptions, "value", "value"), new { @class = "form-control"})</td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label">Product</label></td>
+                                <td colspan ="2"><select id="cboProduct" class = "form-control" ></select></td>
+                                <td>@Html.HiddenFor(model=> model.productid)  @*<input id="pid" type="hidden" value="@Model.productid" />*@</td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label">UOM</label></td>
+                                <td colspan="2">@Html.DropDownListFor(model=>model.uom, new SelectList(@ViewBag.UOMOptions, "UOM", "UOM",@Model.uom), new { @class = "form-control",@data_rel="chosen" })</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td >@Html.LabelFor(model => model.startdate,new { @class="control-label" })</td>
+                                <td colspan ="2">                                
+                                    <div class="input-group date" style="width:100%;border-spacing:0px;">									        
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    @Html.TextBoxFor(model => model.startdate,string.Format("{0:d}",Model.startdate), new { @class ="form-control date-picker",@data_date_format="dd/mm/yyyy"})									      
+                                    </div>                               
+                                </td>                                
+                                <td></td>
+                                <td ><label class="control-label" >@Html.LabelFor(model => model.enddate)</label></td>
+                                <td >
+                                    <div class="input-group date" style="border-spacing:0px;">	
+									    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        @Html.TextBoxFor(model => model.enddate,string.Format("{0:d}",Model.enddate), new { @class ="form-control date-picker",@data_date_format="dd/mm/yyyy"})	
+                                    </div>
+                                </td>
+                                <td ></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td style="width:120px;text-align:center;"><label class="control-label"></label></td>
+                                <td style="width:120px;text-align:center;"><label class="control-label"></label></td>
+                            </tr>
+                        </table>
+                        <table class ="table table-striped table-bordered" style="width: 800px;">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">Price</th>
+                                    <th rowspan="2">Service Commission</th>
+                                    <th colspan ="2" style="text-align:center;">Redeem</th>
+                                    <th colspan ="2" style="text-align:center;">Award</th>
+                                </tr>
+                                <tr>
+                                    <th style="text-align:center;">@ViewBag.CitiDesc</th>
+                                    <th style="text-align:center;">@ViewBag.BonusDesc</th>
+                                    <th style="text-align:center;">@ViewBag.CitiDesc</th>
+                                    <th style="text-align:center;">@ViewBag.BonusDesc</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td> @Html.TextBoxFor(model => model.price, new { @class ="form-control",@style="text-align:right"})  </td>
+                                    <td> @Html.TextBoxFor(model => model.servicecommission, new { @class ="form-control",@style="text-align:right"}) </td>
+                                    <td style="width:100px;padding-right:20px;text-align:right;"> @Html.TextBoxFor(model => model.redeemdollars, new { @class ="form-control",@style="text-align:right"})  </td>
+                                    <td style="width:100px;padding-right:20px;text-align:right;"> @Html.TextBoxFor(model => model.redeembonus, new { @class ="form-control",@style="text-align:right"}) </td>
+                                    <td style="width:100px;padding-right:20px;text-align:right;"> @Html.TextBoxFor(model => model.awarddollars, new { @class ="form-control",@style="text-align:right"}) </td>
+                                    <td style="width:100px;padding-right:20px;text-align:right;"> @Html.TextBoxFor(model => model.awardbonus, new { @class ="form-control",@style="text-align:right"}) </td>
+                                </tr>
+                            </tbody>
+                        </table>
+ @*
+                            <tr>
+                                <td><label class="control-label" >@Html.LabelFor(model => model.price)</label></td>
+                                <td colspan ="2">                      
+				                    @Html.TextBoxFor(model => model.price, new { @class ="form-control"})                              
+                                </td>
+                                <td></td>
+                                <td><label class="control-label" >@Html.LabelFor(model => model.servicecommission)</label></td>
+                                <td>                      
+				                    @Html.TextBoxFor(model => model.servicecommission, new { @class ="form-control"})
+                                </td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td></td>
+                                <td style="width:120px;text-align:center;"><label class="control-label">@ViewBag.CitiDesc</label></td>
+                                <td style="width:120px;text-align:center;"><label class="control-label">@ViewBag.BonusDesc</label></td>
+                            </tr>
+                            <tr>
+                                <td ><label class="control-label" >Redeem</label></td>
+                                <td>
+				                   @Html.TextBoxFor(model => model.redeemdollars, new { @class ="form-control"})      
+                                                
+                                </td>
+                                <td>@Html.TextBoxFor(model => model.redeemdollars, new { @class ="form-control"})</td>                                
+                            </tr>
+
+                            <tr>
+                                <td ><label class="control-label" >Award</label></td>
+                                <td>
+				                   @Html.TextBoxFor(model => model.awarddollars, new { @class ="form-control"})      
+                                                
+                                </td>
+                                <td>@Html.TextBoxFor(model => model.awardbonus, new { @class ="form-control"})</td>
+                            </tr>*@
+                        <table style="width:100%;">
+                            <tr>
+                                <td colspan ="7">
+		                            <div class="form-actions">
+                                        <button type="submit" id="btnSave" class="btn btn-primary" value="Save" >Save changes</button>
+                                        @*<a class="btn btn-primary" href="@Url.Action("UserSave", "Access", new { id = item.id })" title ="Edit User"></a>*@
+			                            <button type="reset" class="btn">Cancel</button>
+                                        <a class="btn btn-primary" href="@Url.Action("PromotionListing", "Product")" title ="Go to Listing">Back to List</a>
+		                            </div>
+                                </td>     
+                            </tr>
+                        </table>           
+                    </fieldset>                
+                }
+            </div> @*box*@
+        </div>
+    </div>@*row*@
+
+<div class="row" >	
+	<div class="col-lg-12" >
+		<div class="box">
+                                          
+		    <div class="col-sm-2">
+			    <a class="quick-button" href="~/Sales/Redeem">
+				    <i class="fa fa-ticket"></i>
+				    <p>Redeem</p>
+			    </a>
+		    </div>
+
+		    <div class="col-sm-2">
+			    <a class="quick-button" href="~/Sales/TopUp">
+				    <i class="fa fa-money"></i>
+				    <p>Top Up</p>
+			    </a>
+		    </div>
+
+		    <div class="col-sm-2">
+			    <a class="quick-button" href="~/CusSup/CreateMember">
+				    <i class="fa fa-user" ></i>
+				    <p>Create Member</p>
+			    </a>
+		    </div>
+                                   
+		    @*<div class="col-sm-2">
+			    <a class="quick-button" href="~/POS/DailySales">
+				    <i class="fa fa-bar-chart-o"></i>
+				    <p>Daily Sales Summary</p>
+			    </a>
+		    </div>*@                          
+
+		    <div class="col-sm-2">
+                <a class="quick-button" href="~/CusSup/MemberListing?rcode=MEMBERLISTING">
+                    <i class="fa fa-users"></i>
+                    <p>Membership Enquiry</p>
+                </a>
+		    </div>   
+
+		    <div class="col-sm-2">
+			    <a class="quick-button" href="~/Home/Index">
+				    <i class="fa fa-home"></i>
+				    <p>Home</p>
+			    </a>
+		    </div> 
+        </div>
+    </div><!--/col-->				
+</div><!--/row-->
+
+<script type ="text/javascript">
+    var load = 1;
+    $(function () {
+
+        $('#cboBptype').change(function e() { getProducts(); });
+        $('#cboBpcategory').change(function e() { getProducts(); });
+        $('#cboBpbrand').change(function e() { getProducts(); });
+        $('#cboBprnc').change(function e() { getProducts(); });
+        
+        if ($('#id').val() > "0")
+        {
+            $('#cboBptype').val($('#ptype').val());
+            $('#cboBpcategory').val($('#pcat').val());
+            $('#cboBpbrand').val($('#pbrand').val());
+            $('#cboBprnc').val($('#prns').val());
+        }
+
+        getProducts();
+        $('#btnSave').on("click", function (event) {
+            //$(this).off(event);
+            $('#productid').val($('#cboProduct').val());
+            if (load == 1)
+            { load = 0;return true; }
+            else
+                return false;
+            //$(this).prop('disabled', true);
+            //$(this).attr('disabled', 'disabled'); // for jQuery versions < 1.6.
+        });
+    });
+
+    function getProducts() {
+        var ptype = $('#cboBptype').val();
+        var pcategory = $('#cboBpcategory').val();
+        var pbrand = $('#cboBpbrand').val();
+        var prnc = $('#cboBprnc').val();
+
+        $.ajax({
+            url: '@Url.Action("getProducts", "Product")',
+            data: { ptype: ptype, pcategory: pcategory, pbrand: pbrand, prnc: prnc },
+            type: 'POST',
+            success: function (data) {
+                //$("#tese").html(data);
+                //$("#cbobranch").html("<option value = \"\"></option>")
+                var Htmlstr = "";
+                //alert(data);
+                for (var x = 0; x < data.length; x++) {
+
+                    Htmlstr += "<option value=" + data[x].id + ">" + data[x].desc + " (" + data[x].productcode + ")</option>";
+                }
+                $('#cboProduct').html(Htmlstr).show();
+                //alert($('#productid').val());
+                //if (value != '0') $('#cboProduct').val(value);
+                if ($('#id').val() > "0") {
+                    if (load == 1) {
+                        //alert('ini' + $('#productid').val());
+                        $('#cboProduct').val($('#productid').val()); //load = 0;
+                    }
+                }
+            }
+        });
+    }
+
+    //function AssignPID()
+    //{
+    //    //alert($('#cboProduct').val());
+    //    $('#productid').val($('#cboProduct').val());
+    //    return true;
+    //}
+
+    //function SaveValidation()
+    //{
+    //    $('#btnSave').attr("disabled", "true");
+    //    return true;
+    //}
+
+</script>

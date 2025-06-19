@@ -1,0 +1,192 @@
+﻿@{
+    ViewBag.Title = "AccessTypeIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+	<div class="box col-sm-12">			                    
+        <div >
+            <p >
+                <a onclick="DisplayEntry()">
+	                <i class="fa fa-plus" ></i> 
+                    Add New AccessType
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div style ="display: none;" id="divEntry">
+    <table>
+        <tr>
+            <td>Access Type</td>
+            <td style="width:5%;"></td>
+            <td><input id="txtAccessType" type ="text" class="form-control"/></td>
+            <td style="width:5%;"></td>
+            <td><button id="btnSave" type ="button" onclick="SaveAccessType()" class ="btn btn-info" value ="0">Add</button></td>
+            <td><input id="txtID" type ="text" style="display:none;"/></td> 
+        </tr>
+    </table>
+</div>
+@*<div class="row">	*@	
+@*	<div class="col-lg-12">
+		<div class="box">
+			<div class="box-header" data-original-title>
+				<h2><i class="fa fa-user"></i><span class="break"></span>Access Type Entry</h2>
+				<div class="box-icon">
+					<a href="table.html#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+					<a href="table.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+					<a href="table.html#" class="btn-close"><i class="fa fa-times"></i></a>
+				</div>
+			</div>*@
+
+@*        </div>
+    </div>
+</div>*@
+
+<div class="row">		
+	<div class="col-lg-12">
+		<div class="box">
+			<div class="box-header" data-original-title>
+				<h2><i class="fa fa-user"></i><span class="break"></span>Access Type List</h2>
+				<div class="box-icon">
+					<a href="table.html#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+					<a href="table.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+					<a href="table.html#" class="btn-close"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div id="grdDetail" class="box-content">
+                <table class="table table-striped table-bordered bootstrap-datatable datatable">                    
+                        <thead>
+                            <tr>
+                                <th>Sr.</th>
+                                <th>Access Type</th>
+                                <th>Create Date</th>
+                                <th>Last Modified Date</th>
+                                <th></th>
+                            </tr>
+                        </thead> 
+                        <tbody  id ="tbyDetail" >
+                        <tr><td>bb</td>
+                            <td>bb</td>
+                            <td>bb</td>
+                            <td>bb</td>
+                            <td>bb</td>
+                        </tr>
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type ="text/javascript">
+    var i = 0;
+    getAccessType();
+
+    function getAccessType() {
+
+        $.ajax({
+            url: '@Url.Action("getAccessType", "General")',            
+            type: 'POST',
+            success: function (data) {
+                //alert(data);                
+                populateGrid(data);
+            },
+            error: function (ts) { alert(ts.responseText) }
+        });
+
+    }
+
+    function populateGrid(data)
+    {
+        var Htmlstr = "<table class='table table-striped table-bordered bootstrap-datatable datatable'><thead><tr><th>Sr.</th><th>Access Type</th><th>Create Date</th><th>Last Modified Date</th><th></th></tr></thead><tbody>";
+        var editfun = "";
+        var ctmp = new Date();
+        var mtmp = new Date();
+        for (var x = 0; x < data.length; x++)
+        {
+            ctmp = getDateFromAspString(data[x].createdate);
+            //alert(data[x].createdate);
+            mtmp = getDateFromAspString(data[x].lastmodifieddate);
+            editfun = "EidtAccessType(" + data[x].id + ",'" + encodeURI(data[x].accesstype) + "')";
+            Htmlstr += "<tr><td>" + (x + 1) + "</td><td>" + data[x].accesstype + "</td><td>" + ctmp.getDate() + "/" + (ctmp.getMonth() + 1) + '/' + ctmp.getFullYear() + "</td><td>" + mtmp.getDate() + "/" + (mtmp.getMonth() + 1) + '/' + mtmp.getFullYear() + "</td><td class='center'><a class='btn btn-info' title ='Edit Access Type' onclick=" + editfun + "><i class='fa fa-edit'></i></a><a class='btn btn-danger' title ='Remove Access Type' onclick ='RemoveRow(this," + data[x].id + ")'><i class='fa fa-trash-o '></i></a></td></tr>";
+            //Htmlstr += "<tr><td>" + (x + 1) + "</td><td>" + data[x].accesstype + "</td><td>" + data[x].createdate + "</td><td>" + data[x].lastmodifieddate + "</td><td class='center'><a class='btn btn-info' title ='Edit Access Type' onclick =" + '"EidtAccessType(' + data[x].id + ',"' + data[x].accesstype + '")" >'+ "<i class='fa fa-edit'></i></a><a class='btn btn-danger' title ='Remove Access Type' onclick ='RemoveRow(" + data.id + ")'><i class='fa fa-trash-o '></i></a></td></tr>";
+            //Htmlstr += '<tr><td>' + (x + 1) + '</td><td>' + data[x].accesstype + "</td><td>" + data[x].createdate + "</td><td>" + data[x].lastmodifieddate + "</td><td class='center'><a class='btn btn-info' title ='Edit Access Type' onclick ='EidtAccessType(" + data[x].id + "," + data[x].accesstype + ")' ><i class='fa fa-edit'></i></a><a class='btn btn-danger' title ='Remove Access Type' onclick ='RemoveRow(" + data.id + ")'><i class='fa fa-trash-o '></i></a></td></tr>";
+            //Htmlstr += "<option value=" + data[x].branchcode + ">" + data[x].Branch.branchname + "</option>";
+        }
+        Htmlstr += "</tbody></table>";
+        //alert(Htmlstr);
+        $('#grdDetail').html(Htmlstr);
+        $('#grdDetail table').last().dataTable({
+            //"sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>"
+        });
+    }
+
+    function RemoveRow(paramtr, aid)
+    {
+        var result = confirm("Are you sure you Want to delete this Access Type?");
+        if (result == true)
+        {
+            $.ajax({
+                url: '@Url.Action("AccessTypeDelete", "General")',
+                data: { id: aid },
+                type: 'POST',
+                success: function (data) {
+                    if (data == "SUCCESS")
+                    { $(paramtr).closest('tr').remove(); }
+                    //alert(data);
+                }
+            });
+        }
+    }
+
+    function SaveAccessType()
+    {
+        var accesstype = $('#txtAccessType').val();
+        var i = $('#btnSave').val();
+        $.ajax({
+            url: '@Url.Action("AccessTypeSave", "General")',
+            data: { id: i, uname: 'Admin', at: accesstype },
+                type: 'POST',
+                success: function (data) {
+                    //alert(data);
+                    if (data == "SUCCESS")
+                    {
+                        $('#btnSave').val("0");
+                        $('#btnSave').html("Add");
+                        getAccessType();
+                        $('#txtAccessType').val("");
+                    }
+                    //alert(data);
+                }
+            });
+    }
+
+    function DisplayEntry()
+    {
+        if (i == 0) {
+            $('#divEntry').attr("style", "display: none;");
+            i = 1;
+        }
+        else {
+            $('#divEntry').attr("style", "padding:10px;border: 1px solid #F1F1F1;");
+            i = 0;
+        }
+    }
+
+    function EidtAccessType(id,at)
+    {
+        //alert(at);
+        at = decodeURI(at);
+        $('#txtAccessType').val(at);
+        $('#txtID').val(id);
+        i = 1;
+        DisplayEntry();
+        $('#btnSave').html("Update");
+        $('#btnSave').val(id);
+
+    }
+
+
+</script>

@@ -1,0 +1,723 @@
+﻿@using BigMac 
+@model BigMac.Models.CusSup_m_Citibella
+      
+@{
+    Layout = null;
+    var i = 0;
+}
+
+
+<button id="btnMessage" class="btn btn-primary noty" data-noty-options='{"text":"Please select Member","layout":"topRight","type":"error"}' style="display:none;">Top Right</button>
+ <div class="row">
+    <div class="col-lg-12">					
+	    <div class="box">
+            <div class="box-header" style="background-color:#EEE;"></div>
+		    <div class="box-content">                
+                 @Html.HiddenFor(model => model.id)
+                 @Html.HiddenFor(model => model.Cust_JoinDate, new { id = "joinDate" })
+                 @Html.HiddenFor(model => model.Cust_DOB, new { id = "dobDate" })
+                <input type="hidden" id ="c" value ="@ViewBag.CitiDesc"/>
+                <input type="hidden" id ="b" value ="@ViewBag.BonusDesc"/>                
+
+                <div>
+                    <ul class="nav tab-menu nav-tabs" id="myTab" style="padding-left:10px;list-style: none;">
+                        <li id="liMember" class="active" style='float: left;'><a href="#member" id="lnkMember">Customer Information</a></li>
+                        <li id="liMember" style='float: left;'><a href="#liability" id="lnkliability">Liability</a></li>
+                        <li id="liCusCode" style='float: left;'><a href="#custcode" id="lnkcustcode">CustCode</a></li>
+                    </ul>
+
+                    <div id="myTabContent" class="tab-content">
+                        <div class="tab-pane active" id="member">
+                            <div id="divMember">
+                                <table style="width:100%;border-spacing:5px;border-collapse:separate;">
+                                    <tr>
+                                        <td style="width:15%;">@Html.LabelFor(model => model.Cust_name, new {@class="control-label" })</td>
+                                        <td colspan="2">
+                                            @Html.TextBoxFor(model => model.Cust_name, new { @class ="form-control"})
+                                        </td>
+                                        <td style="width:5%;"></td>
+                                        <td style="width:15%;">@Html.LabelFor(model => model.Cust_code, new {@class="control-label" })</td>
+                                        <td style="width:30%;">
+                                            @Html.TextBoxFor(model => model.Cust_code, new { @class ="form-control disabled",@disabled =""})
+                                        </td>
+                                        <td style="width:5%;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.LabelFor(model => model.Cust_nric, new {@class="control-label" })</td>
+                                        <td style="width:15%;" >
+                                            @Html.TextBoxFor(model => model.NRICType, new { @class = "form-control", @placeholder = "NRIC Type" })
+                                        </td>
+                                        <td style="width:15%;">
+                                            @Html.TextBoxFor(model => model.Cust_nric, new { @class = "form-control", @placeholder = "NRIC" })
+                                        </td>
+                                        <td><span style="color:red;">*</span></td>
+                                        <td >@Html.LabelFor(model => model.nationality, new {@class="control-label" })</td>
+                                        <td >
+                                            @Html.DropDownListFor(model => model.nationality,new SelectList(@ViewBag.NationalityOptions,"value","value") ,new { @class ="form-control"})
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                    
+                                        <td><label class="control-label" for="Branch">Branch</label></td>
+                                        <td colspan="2">
+                                            <input class="form-control" id="branchcode" name="branchcode" type="text" value="@ViewBag.branchcode">
+                                         </td>
+                                        <td></td>
+                                        <td>@Html.LabelFor(model => model.race, new {@class="control-label" })</td>
+                                        <td>@Html.DropDownListFor(model => model.race,new SelectList(@ViewBag.RaceOptions,"value","value") ,new { @class ="form-control"}) </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.LabelFor(model => model.Cust_email, new { @class = "control-label" })</td>
+                                        <td colspan="2">
+                                          @Html.TextBoxFor(model => model.Cust_email, new { @class = "form-control" })
+                                        </td>
+                                        <td><span style="color:red;">*</span></td>
+                                        <td><label class="control-label" style="margin-top:8px;">Gender</label></td>
+                                        <td>
+                                            <table>
+                                                <tr>
+                                                    <td> <input type="radio" name="gender" id="gMale" /> </td>
+                                                    <td style="width:80px;"><label class="control-label" style="margin-top:4px;">Male</label></td>
+                                                    <td style="width:50px;"></td>
+                                                    <td> <input type="radio" name="gender" id="gFMale" /> </td>
+                                                    <td><label class="control-label" style="margin-top:4px;">Female</label> <input type="hidden" id="mgender" value="@Model.Gender" /> </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.LabelFor(model => model.Cust_phone1, new {@class="control-label" })</td>
+                                        <td colspan="2">
+                                            @Html.TextBoxFor(model => model.Cust_phone1, new { @class ="form-control"})
+                                        </td>
+                                        <td></td>
+                                        <td><label class="control-label" style="margin-top:8px;">Status</label></td>
+                                        <td>
+                                            @Html.DropDownList("cboStatus", new SelectList(@ViewBag.StatusOptions,"status","status"), new { @class ="form-control"})
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.LabelFor(model => model.Cust_phone2, new {@class="control-label" })</td>
+                                        <td colspan="2">
+                                            @Html.TextBoxFor(model => model.Cust_phone2, new { @class ="form-control"})
+                                        </td>
+                                        <td><span style="color:red;">*</span></td>
+                                        <td colspan="3">
+                                            <table>
+                                                <tr>
+                                                    <td style="width:40px;"><input type="checkbox" value="@Model.Email" id="canemail" class="form-control" /> </td>
+                                                    <td><label class="control-label" style="margin-top:8px;">Can Email?</label></td>
+                                                    <td style="width:50px;"></td>
+                                                    <td style="width:40px;"><input type="checkbox" value="@Model.SMS" id="cansms" class="form-control" /> </td>
+                                                    <td><label class="control-label" style="margin-top:8px;">Can SMS?</label></td>
+                                                    <td style="width:50px;"></td>
+                                                    <td style="width:40px;"><input type="checkbox" value="@Model.Call" id="cancall" class="form-control" /> </td>
+                                                    <td><label class="control-label" style="margin-top:8px;">Can Call?</label></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.LabelFor(model => model.Cust_address, new {@class="control-label" })</td>
+                                        <td colspan="5">
+                                            @Html.TextBoxFor(model => model.Cust_address, new { @class ="form-control"})
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.LabelFor(model => model.Cust_PostCode, new {@class="control-label" })</td>
+                                        <td colspan="2">
+                                            @Html.TextBoxFor(model => model.Cust_PostCode, new { @class ="form-control"})
+                                        </td>
+                                        <td><span style="color:red;">*</span></td>
+                                        <td><span style="font-weight:bold;" id="lblJoinDate">Join Date</span></td>
+                                        <td>
+                                            <input class="form-control date-picker" id="Cust_JoinDate" name="Cust_JoinDate" type="text" value="" data-date-format="dd/mm/yyyy">
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr id="trTransferNumber" style="display:none;">
+                                        <td></td>
+                                        <td colspan="2">
+                                        </td>
+                                        <td></td>
+                                        <td><span style="font-weight:bold;">Transfer Number</span></td>
+                                        <td>
+                                            <input class="form-control date-picker" id="transferNumber" name="transferNumber" type="text" value="" disabled="disabled">
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                    <tr id="trTransferredBy" style="display:none;" >
+                                        <td></td>
+                                        <td colspan="2"></td>
+                                        <td></td>
+                                        <td><span style="font-weight:bold;">Transferred By</span></td>
+                                        <td>
+                                            <input class="form-control date-picker" id="transferredBy" name="transferredBy" type="text" value="" disabled="disabled">
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="liability">
+                            <div id="divMember">
+                                @if (Model.Liability.Count() > 0)
+                                {
+                                    var Litem = Model.Liability.ElementAt(0);
+                                    <input type="hidden" id="transferdate" value="@Litem.transferdate" />
+                                    <input type="hidden" id="transfernumber" value="@Litem.transfernumber" />
+                                    <input type="hidden" id="transferby" value="@Litem.staff" />
+
+                                    <table style="width:100%;border-spacing:5px;border-collapse:separate;">
+                                        <tr>
+                                            <td style="width:15%;">Cust Code</td>
+                                            <td>
+                                                @Html.TextBoxFor(modelItem => Litem.CustCode, new { @class = "form-control" })
+                                                @Html.HiddenFor(modelItem => Litem.id)
+                                            </td>
+                                            <td style="width:5%;"></td>
+                                            <td style="width:15%;">Name</td>
+                                            <td style="width:30%;">
+                                                @Html.TextBoxFor(modelItem => Litem.CustName, new { @class = "form-control" })
+                                            </td>
+                                            <td style="width:5%;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Description</td>
+                                            <td>
+                                                @Html.TextBoxFor(modelItem => Litem.Description, new { @class = "form-control" })
+                                            </td>
+                                            <td></td>
+                                            <td>Description2</td>
+                                            <td>
+                                                @Html.TextBoxFor(modelItem => Litem.Description2, new { @class = "form-control" })
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Receipt No</td>
+                                            <td>
+                                                @Html.TextBoxFor(modelItem => Litem.ReceiptNo, new { @class = "form-control" })
+                                            </td>
+                                            <td></td>
+                                            <td>Status</td>
+                                            <td>
+                                                @Html.TextBoxFor(modelItem => Litem.Status, new { @class = "form-control" })
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Converstion Rate</td>
+                                            <td>
+                                                @Html.DropDownListFor(modelitem => Litem.rateid, new SelectList(@ViewBag.RateOptions, "id", "description"), new { @class = "form-control" })
+                                            </td>
+                                            <td></td>
+                                            <td>From Amount</td>
+                                            <td>
+                                                @Html.TextBoxFor(modelItem => Litem.FromAmount, new { @class = "form-control", @disabled = "" })
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Citi Rate</td>
+                                            <td>
+                                                @Html.TextBoxFor(modelItem => Litem.ToCitiDollar, new { @class = "form-control", @disabled = "" })
+                                            </td>
+                                            <td></td>
+                                            <td>Bonus Rate</td>
+                                            <td>
+                                                @Html.TextBoxFor(modelItem => Litem.ToRewardDollar, new { @class = "form-control", @disabled = "" })
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Admission Fees</td>
+                                            <td colspan="5">
+                                                @Html.TextBoxFor(modelItem => Litem.AdmissionFees, new { @class = "form-control", @disabled = "" })
+                                            </td>
+                                        </tr>
+                                </table>
+                                <table style="width:100%;" class="table table-striped table-bordered">
+                                    <tr>
+                                        <td colspan="2" align="center">
+                                            <b>From Sequioa POS</b>
+                                            <input type="hidden" value="@ViewBag.ProductCode" id="hidProductCode" />
+                                            <input type="hidden" value="@ViewBag.ProductDesc" id="hidProductDesc" />
+                                        </td>
+                                        <td colspan="4" align="center">
+                                            <b>To Jumbo Jet Loyalty Program</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="250px">Total Purchased Qty</td>
+                                        <td width="150px">
+                                            @Html.TextBoxFor(modelItem => Litem.Total, new { @class = "form-control", @disabled = "" })
+                                        </td>
+                                        <td colspan="4"></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="250px">Unit Price</td>
+                                        <td width="150px">
+                                            @Html.TextBoxFor(modelItem => Litem.UnitPrice, new { @class = "form-control", @disabled = "" })
+                                        </td>
+                                        <td colspan="4"></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="250px">Total Purchased Amt</td>
+                                        <td width="150px">
+                                            @Html.TextBoxFor(modelItem => Litem.TotalAmt, new { @class = "form-control", @disabled = "" })
+                                        </td>
+                                        <td colspan="4"></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="250px"></td>
+                                        <td width="150px"></td>
+                                        <td width="100px">Qty</td>
+                                        <td width="150px">C$</td>
+                                        <td width="150px">R$</td>
+                                        <td width="50px">Select</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="250px">Unused Qty</td>
+                                        <td width="150px">
+                                            @Html.TextBoxFor(modelItem =>Litem.Open , new { @class = "form-control", @disabled = "" })
+                                        </td>
+                                        <td width="100px">@Html.TextBox("txtQty", "", new { @class = "form-control", @disabled = "" })</td>
+                                        <td width="150px">@Html.TextBox("txtCitiDollarDis", "", new { @class = "form-control", @disabled = "" })</td>
+                                        <td width="150px">@Html.TextBox("txtRewardDollarDis", "", new { @class = "form-control", @disabled = "" })</td>
+                                        <td width="50px"><input type="radio" name="optSel" id="optQty" value="Qty" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="250px">Unused Amount</td>
+                                        <td width="150px">
+                                            @Html.TextBoxFor(modelItem => Litem.Liability, new { @class = "form-control", @disabled = "" })
+                                        </td>
+                                        <td width="100px">@Html.TextBox("txtQtyDis", "", new { @class = "form-control", @disabled = "" })</td>
+                                        <td width="150px">@Html.TextBox("txtCitiDollar", "", new { @class = "form-control", @disabled = "" })</td>
+                                        <td width="150px">@Html.TextBox("txtRewardDollar", "", new { @class = "form-control", @disabled = "" })</td>
+                                        <td width="50px"><input type="radio" name="optSel" id="optCitiDollar" value="Gliss$" /></td>
+                                    </tr>
+
+                                </table>
+                                }
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane" id="custcode">
+                            <div id="divcustcode">
+                                <div class="box">
+                                    <div class="box-header" data-original-title>
+                                        <h2><i class="fa fa-list"></i><span class="break"></span>Customer Code Listing (@Model.Cust_name - @Model.Cust_code)</h2>
+                                        <div class="box-icon">
+                                            <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+                                            <a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                                            <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="box-content">
+                                        <table class="table table-striped table-bordered bootstrap-datatable datatable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr.</th>
+                                                    <th>Card No</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.CustCode)
+                                                {
+                                                    i++;
+                                                    <tr>
+                                                        <td>@i</td>
+                                                        <td>@item.LinkCustCode</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+    </div>
+</div>
+<div>
+	<div style="padding: 19px 20px 20px;background-color: whiteSmoke;">
+		<button id="btnPrint" type="button" class="btn btn-primary" value="Print" onclick="previewAgreement();">Preview Transfer Agreement</button>                            
+        <button id="btnTransfer" type="button" class="btn btn-primary" value="Save" onclick="TransferCustomer();">Transfer</button>                            
+		<button type="button" class="btn" onclick="window.history.back();">Back</button>
+    </div>
+</div>
+
+
+<script type ="text/javascript">
+    var load = 0;
+    //var edate = $('#txtExpiryDate').val();
+    //alert($('#expyear').val());
+    //alert($('#txtExpiryDate').val());
+    //$('#txtExpiryDate').val($('#expyear').val());
+    $('#optQty').attr("checked", "");
+    $('#optCitiDollar').attr("checked", "");
+    if ($('#mgender').val().toUpperCase() == "MALE")
+        $('#gMale').attr("checked", "");
+    else
+        $('#gFMale').attr("checked", "");
+
+
+
+    $(function () {
+
+        var dateval = "";
+
+        if(@ViewBag.Status==1){
+            $("#btnPrint").attr("disabled",true);
+            $("#btnTransfer").attr("disabled", true);
+            $("#trTransferNumber").show();
+            $("#trTransferredBy").show();
+            $("#lblJoinDate").text("Transferred Date");
+            dateval = $("#transferdate").val();
+
+            $("#transferNumber").val($("#transfernumber").val());
+            $("#transferredBy").val($("#transferby").val());
+        }
+        else{
+            $("#btnPrint").attr("disabled",false);
+            $("#btnTransfer").attr("disabled", false);
+            $("#trTransferNumber").hide();
+            $("#trTransferredBy").hide();
+            $("#lblJoinDate").text("Join Date");
+            dateval =  $("#joinDate").val();
+        }
+
+
+        $("#Cust_JoinDate").datepicker();
+        var pt = $('#cussuptype').val();
+        var mid = $('#id').val();
+
+        $('#Litem_rateid').change(function e() { getCitiRate(); });
+        getCitiRate();
+
+
+
+        var d = $.datepicker.parseDate("mm/dd/yy", dateval);
+        var datestrInNewFormat = $.datepicker.formatDate("dd/mm/yy", d);
+        var dateSplit = datestrInNewFormat.split("/")
+        var myDate = new Date(dateSplit[2], dateSplit[1]-1, dateSplit[0]);
+
+        var $datepicker = $('#Cust_JoinDate');
+        $datepicker.datepicker('setDate', myDate);
+
+
+    });
+    // $('#dateofbirth').val($('#dateofbirth').val());
+    //alert($('#dateofbirth').val());
+    //var a = $('#dateofbirth').val();
+    //alert(a);
+    //var ctmp = getDateFromAspString(a);
+    //alert(ctmp);
+    //var d = new Date(ctmp.getFullYear(), ctmp.getMonth(), ctmp.getDate());
+    ////var d = new Date($('#dateofbirth').val().getFullYear(), $('#dateofbirth').val().getMonth(), $('#dateofbirth').val().getDate());
+    //alert(d);
+    ////d = $('#dateofbirth').val();
+    //$('#dateofbirth').val(d);
+    //$('#dateofbirth').datepicker({ data-date-format: 'dd/MM/yy' });
+    //$('#dateofbirth').attr("data - date - format", "dd/MM/yyyy");
+
+    function getCitiRate() {
+        var id = $('#Litem_rateid').val();
+        $.ajax({
+            url: '@Url.Action("getCitiRate", "CusSup")',
+            data: { id: id },
+            type: 'POST',
+            success: function (data) {
+        
+                if (data != "FAIL") {
+                    //Changed by ZawZO on 13 Jul 2016
+                    $('#Litem_FromAmount').val(data.fromamount);
+                    $('#Litem_ToCitiDollar').val(data.tocitidollar);
+                    $('#Litem_ToRewardDollar').val(data.torewarddollar);
+                    $('#Litem_AdmissionFees').val(data.admissionfees);
+                    $('#txtQty').val($('#Litem_Open').val());
+                    $('#txtCitiDollarDis').val("-");
+                    $('#txtRewardDollarDis').val("-");
+                    $('#txtQtyDis').val("-");
+                    var CitiAmt = Math.ceil($('#Litem_Liability').val() - $('#Litem_AdmissionFees').val()) * ($('#Litem_ToCitiDollar').val() / $('#Litem_FromAmount').val());
+                    var RewardAmt = Math.ceil($('#Litem_Liability').val() * ($('#Litem_ToRewardDollar').val() / $('#Litem_FromAmount').val()));
+                    if (CitiAmt < 0) { CitiAmt = 0; $('#optQty').attr("checked", "checked"); }
+                    if (RewardAmt < 0) { RewardAmt = 0; }
+                    $('#txtCitiDollar').val(CitiAmt);
+                    $('#txtRewardDollar').val(RewardAmt);
+                }
+            },
+            error: function (ts) { alert(ts.responseText) }
+        });
+    }
+
+
+    function Validation() {
+        //Changed by ZawZO on 6 Jun 2016
+        if ($('#Cust_name').val().trim() == "") {
+            alert("Please Key in Name.");
+            return false;
+        }
+        /*
+        if ($('#NRICType').val().trim() == "") {
+            alert("Please Key in NRIC Type.");
+            return false;
+        }
+
+        if ($('#Cust_nric').val().trim() == "")
+        {
+            alert("Please Key in NRIC.");
+            return false;
+        }
+
+        if ($('#Cust_phone2').val().trim() == "") {
+            alert("Please Key in mobile.");
+            return false;
+        }
+
+        if ($('#Cust_PostCode').val().trim() == "") {
+            alert("Please Key in postalcode.");
+            return false;
+        }
+
+        if ($('#Cust_email').val().trim() == "") {
+            alert("Please Key in email.");
+            return false;
+        }
+        */
+    }
+
+    function CHKDuplicateNRICTransferCustomer() {
+        var mid = $('#id').val();
+        var nric = $('#Cust_nric').val();
+
+        $.ajax({
+            url: '@Url.Action("isDuplicateNRIC", "CusSup")',
+            data: JSON.stringify({ nric: nric, mid: mid }),
+            type: 'POST',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == "1") {
+                    alert("NRIC already exist.Please Key in again.");
+                    return false;
+                }
+                else {
+                    TransferCustomer();
+                }
+            },
+            error: function (req, status, err) {
+                return false;
+            }
+        });
+    }
+    function previewAgreement() {
+        var id = $('#Litem_id').val();
+        var cDollar = "";
+
+        var tmp = $("input[name='optSel']:checked").val();
+
+        if (tmp=="Qty") {
+            cDollar = "0";
+        }
+        else {
+            cDollar = $('#txtCitiDollar').val();
+        }
+        var rDollar = "";
+        if (tmp == "Qty") {
+            rDollar = "0";
+        }
+        else {
+            rDollar = $('#txtRewardDollar').val();
+        }
+        var qty = "";
+        if (tmp == "Qty") {
+            qty = $('#txtQty').val();
+        }
+        else {
+            qty = "0";
+        }
+        var membercode = " ";
+        var admFees = "";
+        if (tmp == "Qty") {
+            admFees = "0";
+        }
+        else {
+            admFees = $('#Litem_AdmissionFees').val();
+        }
+        var pcode = $('#hidProductCode').val();
+        var pdesc = $('#hidProductDesc').val();
+        window.open("../Reports/MemberTransferAgreement.aspx?id=" + id + "&cDollar=" + cDollar + "&rDollar=" + rDollar + "&qty=" + qty + "&membercode=" + membercode + "&pcode=" + pcode + "&pdesc=" + pdesc + "&admfees=" + admFees);
+    }
+
+    function TransferCustomer() {
+        if (Validation() == false) return false;
+
+        var mid = $('#id').val();
+        var rcode = $('#rcode').val();
+        var obj = new Object();
+        obj.id = mid;
+        obj.NRICType = $('#NRICType').val();
+        obj.nationality = $('#nationality').val();
+        obj.race = $('#race').val();
+        obj.Litem_CustCode = $('#Litem_CustCode').val();
+        obj.Cust_name = $('#Cust_name').val();
+        obj.Cust_code = $('#Cust_code').val();
+        //Added by ZawZO on 11 Jun 2016
+        //obj.cussuptype = $('#cussuptype').val();
+        obj.cussuptype = "Customer";
+
+        obj.Cust_address = $('#Cust_address').val();
+        obj.Cust_PostCode = $('#Cust_PostCode').val();
+        obj.Cust_JoinDate = $('#Cust_JoinDate').val();
+        obj.Cust_nric = $('#Cust_nric').val();
+        obj.Cust_DOB = $('#dobDate').val();
+        obj.Cust_phone1 = $('#Cust_phone1').val();
+        obj.Cust_phone2 = $('#Cust_phone2').val();
+        obj.Cust_email = $('#Cust_email').val();
+        obj.photo = $("#photo").val();
+
+        if ($('#gMale').checked)
+            obj.Gender = "Male";
+        else
+            obj.Gender = "Female";
+
+        if ($('#canemail').checked)
+            obj.Email = 1;
+        else
+            obj.Email = 0;
+
+        if ($('#cansms').checked)
+            obj.SMS = 1;
+        else
+            obj.SMS = 0;
+
+        if ($('#cancall').checked)
+            obj.Call = 1;
+        else
+            obj.Call = 0;
+
+        var lCollection = new Array();
+        var l = new Object();
+        l.CustCode = $('#Litem_CustCode').val();
+        // Changed by ZawZO on 14 Jul 2016
+        //l.FromAmount = $('#Litem_FromAmount').val();
+        //l.ToCitiDollar = $('#Litem_ToCitiDollar').val();
+        //l.ToRewardDollar = $('#Litem_ToRewardDollar').val();
+        l.id = $('#Litem_id').val();
+        var tmp = $("input[name='optSel']:checked").val();
+        if (tmp=="Qty") {
+            l.FromAmount = $('#txtQty').val();
+            l.ToCitiDollar = 0;
+            l.ToRewardDollar = 0;
+        }
+        else {
+            l.FromAmount = 0;
+            l.ToCitiDollar = $('#txtCitiDollar').val();
+            l.ToRewardDollar = $('#txtRewardDollar').val();
+        }
+        l.rateid = $('#Litem_rateid').val();
+        lCollection.push(l);
+        obj.Liability = lCollection;
+
+        $.ajax({
+            url: '@Url.Action("TransferCustomer", "CusSup")',
+            data: JSON.stringify({ c: obj, rcode: rcode, branchcode: $("#branchcode").val() }),
+            type: 'POST',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data > "0") {
+                    var  msg = "The record was successfully transfered.";
+                    attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"success"}';
+                    showMessage(attrvalue);
+
+                    printAgreement(data);
+                    window.open("MemberShipEnquiry?rcode=Member&id=" + data, "_self");
+                }
+            },
+            error: function (req, status, err) {
+                alert(err);
+            }
+        });
+    }
+
+
+    function printAgreement(mid) {
+        var id = $('#Litem_id').val();
+        var cDollar = "";
+        var tmp = $("input[name='optSel']:checked").val();
+        if (tmp=="Qty") {
+            cDollar = "0";
+        }
+        else {
+            cDollar = $('#txtCitiDollar').val();
+        }
+        var rDollar = "";
+        if (tmp == "Qty") {
+            rDollar = "0";
+        }
+        else {
+            rDollar = $('#txtRewardDollar').val();
+        }
+        var qty = "";
+        if (tmp == "Qty") {
+            qty = $('#txtQty').val();
+        }
+        else {
+            qty = "0";
+        }
+
+        var membercode = getMemberCode(mid);
+        var admFees = "";
+        if (tmp == false) {
+            admFees = "0";
+        }
+        else {
+            admFees = $('#Litem_AdmissionFees').val();
+        }
+        var pcode = $('#hidProductCode').val();
+        var pdesc = $('#hidProductDesc').val();
+        window.open("../Reports/MemberTransferAgreement.aspx?id=" + id + "&cDollar=" + cDollar + "&rDollar=" + rDollar + "&qty=" + qty + "&membercode=" + membercode + "&pcode=" + pcode + "&pdesc=" + pdesc + "&admfees=" + admFees);
+    }
+    //Added by ZawZO on 5 Dec 2015
+    function getMemberCode(mid) {
+        var mcode = "";
+        $.ajax({
+            url: '@Url.Action("getMemberCode", "cussup")',
+            data: { id:mid },
+            type: 'POST',
+            async: false,
+            success: function (data) {
+                if (data > "0") {
+                    mcode=data;
+                }
+                return mcode;
+            }
+        });
+        return mcode;
+    }
+    function showMessage(attrvalue) {
+        $('#btnMessage').attr('data-noty-options', attrvalue);
+        $('#btnMessage').trigger("click");
+    }
+ </script>

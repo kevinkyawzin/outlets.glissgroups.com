@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/SMSURL/MsgSender" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/SMSURL/MsgSender" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/SMSURL/MsgSender">
+      <s:element name="SendMessage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SourceCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMessageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SendMessageResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendEmail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MailTo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MailCC" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MailBCC" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MailFrom" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MailSubject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MailBody" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SourceID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendEmailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SendEmailResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendWatsappV1">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SourceCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MobNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendWatsappV1Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SendWatsappV1Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendWatsappV1Multiple">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SourceCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MultipleMsg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendWatsappV1MultipleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SendWatsappV1MultipleResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMessageDetailsText">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CaseID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMessageDetailsTextResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMessageDetailsTextResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMessageDetailsHTML">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CaseID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMessageDetailsHTMLResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMessageDetailsHTMLResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="SendMessageSoapIn">
+    <wsdl:part name="parameters" element="tns:SendMessage" />
+  </wsdl:message>
+  <wsdl:message name="SendMessageSoapOut">
+    <wsdl:part name="parameters" element="tns:SendMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailSoapIn">
+    <wsdl:part name="parameters" element="tns:SendEmail" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailSoapOut">
+    <wsdl:part name="parameters" element="tns:SendEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendWatsappV1SoapIn">
+    <wsdl:part name="parameters" element="tns:SendWatsappV1" />
+  </wsdl:message>
+  <wsdl:message name="SendWatsappV1SoapOut">
+    <wsdl:part name="parameters" element="tns:SendWatsappV1Response" />
+  </wsdl:message>
+  <wsdl:message name="SendWatsappV1MultipleSoapIn">
+    <wsdl:part name="parameters" element="tns:SendWatsappV1Multiple" />
+  </wsdl:message>
+  <wsdl:message name="SendWatsappV1MultipleSoapOut">
+    <wsdl:part name="parameters" element="tns:SendWatsappV1MultipleResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMessageDetailsTextSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMessageDetailsText" />
+  </wsdl:message>
+  <wsdl:message name="GetMessageDetailsTextSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMessageDetailsTextResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMessageDetailsHTMLSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMessageDetailsHTML" />
+  </wsdl:message>
+  <wsdl:message name="GetMessageDetailsHTMLSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMessageDetailsHTMLResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendMessageHttpGetIn">
+    <wsdl:part name="SourceCode" type="s:string" />
+    <wsdl:part name="Message" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SendMessageHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailHttpGetIn">
+    <wsdl:part name="MailTo" type="s:string" />
+    <wsdl:part name="MailCC" type="s:string" />
+    <wsdl:part name="MailBCC" type="s:string" />
+    <wsdl:part name="MailFrom" type="s:string" />
+    <wsdl:part name="MailSubject" type="s:string" />
+    <wsdl:part name="MailBody" type="s:string" />
+    <wsdl:part name="SourceID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="SendWatsappV1HttpGetIn">
+    <wsdl:part name="SourceCode" type="s:string" />
+    <wsdl:part name="MobNo" type="s:string" />
+    <wsdl:part name="Msg" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SendWatsappV1HttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="SendWatsappV1MultipleHttpGetIn">
+    <wsdl:part name="SourceCode" type="s:string" />
+    <wsdl:part name="MultipleMsg" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SendWatsappV1MultipleHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="GetMessageDetailsTextHttpGetIn">
+    <wsdl:part name="CaseID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetMessageDetailsTextHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="GetMessageDetailsHTMLHttpGetIn">
+    <wsdl:part name="CaseID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetMessageDetailsHTMLHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="SendMessageHttpPostIn">
+    <wsdl:part name="SourceCode" type="s:string" />
+    <wsdl:part name="Message" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SendMessageHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailHttpPostIn">
+    <wsdl:part name="MailTo" type="s:string" />
+    <wsdl:part name="MailCC" type="s:string" />
+    <wsdl:part name="MailBCC" type="s:string" />
+    <wsdl:part name="MailFrom" type="s:string" />
+    <wsdl:part name="MailSubject" type="s:string" />
+    <wsdl:part name="MailBody" type="s:string" />
+    <wsdl:part name="SourceID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SendEmailHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="SendWatsappV1HttpPostIn">
+    <wsdl:part name="SourceCode" type="s:string" />
+    <wsdl:part name="MobNo" type="s:string" />
+    <wsdl:part name="Msg" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SendWatsappV1HttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="SendWatsappV1MultipleHttpPostIn">
+    <wsdl:part name="SourceCode" type="s:string" />
+    <wsdl:part name="MultipleMsg" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SendWatsappV1MultipleHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="GetMessageDetailsTextHttpPostIn">
+    <wsdl:part name="CaseID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetMessageDetailsTextHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="GetMessageDetailsHTMLHttpPostIn">
+    <wsdl:part name="CaseID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetMessageDetailsHTMLHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:portType name="MsgSenderSoap">
+    <wsdl:operation name="SendMessage">
+      <wsdl:input message="tns:SendMessageSoapIn" />
+      <wsdl:output message="tns:SendMessageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendEmail">
+      <wsdl:input message="tns:SendEmailSoapIn" />
+      <wsdl:output message="tns:SendEmailSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendWatsappV1">
+      <wsdl:input message="tns:SendWatsappV1SoapIn" />
+      <wsdl:output message="tns:SendWatsappV1SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendWatsappV1Multiple">
+      <wsdl:input message="tns:SendWatsappV1MultipleSoapIn" />
+      <wsdl:output message="tns:SendWatsappV1MultipleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageDetailsText">
+      <wsdl:input message="tns:GetMessageDetailsTextSoapIn" />
+      <wsdl:output message="tns:GetMessageDetailsTextSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageDetailsHTML">
+      <wsdl:input message="tns:GetMessageDetailsHTMLSoapIn" />
+      <wsdl:output message="tns:GetMessageDetailsHTMLSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="MsgSenderHttpGet">
+    <wsdl:operation name="SendMessage">
+      <wsdl:input message="tns:SendMessageHttpGetIn" />
+      <wsdl:output message="tns:SendMessageHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendEmail">
+      <wsdl:input message="tns:SendEmailHttpGetIn" />
+      <wsdl:output message="tns:SendEmailHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendWatsappV1">
+      <wsdl:input message="tns:SendWatsappV1HttpGetIn" />
+      <wsdl:output message="tns:SendWatsappV1HttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendWatsappV1Multiple">
+      <wsdl:input message="tns:SendWatsappV1MultipleHttpGetIn" />
+      <wsdl:output message="tns:SendWatsappV1MultipleHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageDetailsText">
+      <wsdl:input message="tns:GetMessageDetailsTextHttpGetIn" />
+      <wsdl:output message="tns:GetMessageDetailsTextHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageDetailsHTML">
+      <wsdl:input message="tns:GetMessageDetailsHTMLHttpGetIn" />
+      <wsdl:output message="tns:GetMessageDetailsHTMLHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="MsgSenderHttpPost">
+    <wsdl:operation name="SendMessage">
+      <wsdl:input message="tns:SendMessageHttpPostIn" />
+      <wsdl:output message="tns:SendMessageHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendEmail">
+      <wsdl:input message="tns:SendEmailHttpPostIn" />
+      <wsdl:output message="tns:SendEmailHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendWatsappV1">
+      <wsdl:input message="tns:SendWatsappV1HttpPostIn" />
+      <wsdl:output message="tns:SendWatsappV1HttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendWatsappV1Multiple">
+      <wsdl:input message="tns:SendWatsappV1MultipleHttpPostIn" />
+      <wsdl:output message="tns:SendWatsappV1MultipleHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageDetailsText">
+      <wsdl:input message="tns:GetMessageDetailsTextHttpPostIn" />
+      <wsdl:output message="tns:GetMessageDetailsTextHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageDetailsHTML">
+      <wsdl:input message="tns:GetMessageDetailsHTMLHttpPostIn" />
+      <wsdl:output message="tns:GetMessageDetailsHTMLHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MsgSenderSoap" type="tns:MsgSenderSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SendMessage">
+      <soap:operation soapAction="http://tempuri.org/SMSURL/MsgSender/SendMessage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendEmail">
+      <soap:operation soapAction="http://tempuri.org/SMSURL/MsgSender/SendEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendWatsappV1">
+      <soap:operation soapAction="http://tempuri.org/SMSURL/MsgSender/SendWatsappV1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendWatsappV1Multiple">
+      <soap:operation soapAction="http://tempuri.org/SMSURL/MsgSender/SendWatsappV1Multiple" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageDetailsText">
+      <soap:operation soapAction="http://tempuri.org/SMSURL/MsgSender/GetMessageDetailsText" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageDetailsHTML">
+      <soap:operation soapAction="http://tempuri.org/SMSURL/MsgSender/GetMessageDetailsHTML" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="MsgSenderSoap12" type="tns:MsgSenderSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SendMessage">
+      <soap12:operation soapAction="http://tempuri.org/SMSURL/MsgSender/SendMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendEmail">
+      <soap12:operation soapAction="http://tempuri.org/SMSURL/MsgSender/SendEmail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendWatsappV1">
+      <soap12:operation soapAction="http://tempuri.org/SMSURL/MsgSender/SendWatsappV1" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendWatsappV1Multiple">
+      <soap12:operation soapAction="http://tempuri.org/SMSURL/MsgSender/SendWatsappV1Multiple" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageDetailsText">
+      <soap12:operation soapAction="http://tempuri.org/SMSURL/MsgSender/GetMessageDetailsText" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageDetailsHTML">
+      <soap12:operation soapAction="http://tempuri.org/SMSURL/MsgSender/GetMessageDetailsHTML" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="MsgSenderHttpGet" type="tns:MsgSenderHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="SendMessage">
+      <http:operation location="/SendMessage" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendEmail">
+      <http:operation location="/SendEmail" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendWatsappV1">
+      <http:operation location="/SendWatsappV1" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendWatsappV1Multiple">
+      <http:operation location="/SendWatsappV1Multiple" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageDetailsText">
+      <http:operation location="/GetMessageDetailsText" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageDetailsHTML">
+      <http:operation location="/GetMessageDetailsHTML" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="MsgSenderHttpPost" type="tns:MsgSenderHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="SendMessage">
+      <http:operation location="/SendMessage" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendEmail">
+      <http:operation location="/SendEmail" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendWatsappV1">
+      <http:operation location="/SendWatsappV1" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendWatsappV1Multiple">
+      <http:operation location="/SendWatsappV1Multiple" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageDetailsText">
+      <http:operation location="/GetMessageDetailsText" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageDetailsHTML">
+      <http:operation location="/GetMessageDetailsHTML" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MsgSender">
+    <wsdl:port name="MsgSenderSoap" binding="tns:MsgSenderSoap">
+      <soap:address location="http://info121.sytes.net/smsurl/msgSender.asmx" />
+    </wsdl:port>
+    <wsdl:port name="MsgSenderSoap12" binding="tns:MsgSenderSoap12">
+      <soap12:address location="http://info121.sytes.net/smsurl/msgSender.asmx" />
+    </wsdl:port>
+    <wsdl:port name="MsgSenderHttpGet" binding="tns:MsgSenderHttpGet">
+      <http:address location="http://info121.sytes.net/smsurl/msgSender.asmx" />
+    </wsdl:port>
+    <wsdl:port name="MsgSenderHttpPost" binding="tns:MsgSenderHttpPost">
+      <http:address location="http://info121.sytes.net/smsurl/msgSender.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

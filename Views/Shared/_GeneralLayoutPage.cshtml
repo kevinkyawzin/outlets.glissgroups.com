@@ -1,0 +1,551 @@
+﻿
+<!DOCTYPE html>
+<html lang="en" style="min-height:100%;">
+<head>
+
+    <!-- start: Meta -->
+    <meta charset="utf-8">
+    <title>@System.Web.Configuration.WebConfigurationManager.AppSettings["appName"] Outlets</title>
+    <meta name="description" content="CitiBella Dashboard Bootstrap Admin Template.">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword" content="CitiBella, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <!-- end: Meta -->
+    <!-- start: Mobile Specific -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	  <style>
+          .dataTables_processing{padding-left:15px !important;}
+        </style>
+    <!-- end: Mobile Specific -->
+    <!-- start: CSS -->
+    <link rel="stylesheet" href="@Url.Content("~/assets/css/bootstrap.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/assets/css/style.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/assets/css/retina.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/assets/css/spectrum.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/assets/dhtmlx/dhtmlxscheduler.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/assets/sumoselect/sumoselect.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/assets/monthpicker/monthpicker.min.css")" />
+
+    @if (IsSectionDefined("partialCSS"))
+    {
+        @RenderSection("partialCSS", required: false)
+    }
+
+    <!-- end: CSS -->
+    <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <link id="ie-style" href="css/ie.css" rel="stylesheet">
+    <![endif]-->
+    <!--[if IE 9]>
+        <link id="ie9style" href="css/ie9.css" rel="stylesheet">
+    <![endif]-->
+    <!-- start: Favicon and Touch Icons -->
+      <link rel="shortcut icon" href="@Url.Content(@System.Web.Configuration.WebConfigurationManager.AppSettings["favicon"])">
+
+
+
+    <!-- end: JavaScript-->
+    @RenderSection("JavaScript", required: false)
+    @RenderSection("CSS", required: false)
+
+    <!-- end: Favicon and Touch Icons -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='/assets/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
+    </script>
+
+    @*<script type="text/javascript" src="@Url.Content("~/assets/js/jquery-2.0.3.min.js")"></script>*@
+    <script src="@Url.Content("~/js/signaturepad/signature_pad.umd.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/common.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/idle-timer.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/jquery-loader.js")"></script>
+    @*<script type="text/javascript" src="@Url.Content("~/assets/js/idle-timer.min.js")"></script>*@
+    <script type="text/javascript" src="@Url.Content("~/assets/js/jquery-migrate-1.2.1.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/bootstrap.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/jquery-ui-1.10.3.custom.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.noty.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.raty.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.gritter.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.sparkline.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.flot.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.flot.pie.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.flot.stack.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.flot.resize.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.flot.time.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/retina.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/raphael.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/justgage.1.0.1.min.js")"></script>
+
+    <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.chosen.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.cleditor.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.autosize.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.placeholder.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.maskedinput.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.inputlimiter.1.3.1.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/bootstrap-datepicker.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/bootstrap-timepicker.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/moment.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/daterangepicker.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.hotkeys.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/bootstrap-wysiwyg.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/bootstrap-colorpicker.min.js")"></script>
+    
+    
+      @*        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.flot.stack.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.flot.resize.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.chosen.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.uniform.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.cleditor.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.noty.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.elfinder.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.raty.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.iphone.toggle.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.uploadify-3.1.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.gritter.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.masonry.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.knob.modified.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.sparkline.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/counter.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/raphael.2.1.0.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/justgage.1.0.1.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/wizard.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/retina.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/core.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/charts.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/custom.min.js")"></script>*@
+
+    <!-- theme scripts -->
+    <script src="@Url.Content("~/js/qrgenerator/qrcode.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/custom.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/core.min.js")"></script>
+
+    <!-- inline scripts related to this page -->
+    <script src="@Url.Content("~/assets/js/pages/index.js")"></script>
+    <script src="@Url.Content("~/assets/js/pages/form-elements.js")"></script>
+
+    <!-- inline scripts related to this page -->
+    <script src="@Url.Content("~/assets/js/jquery.dataTables.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/jquery.dataTables.fnReloadAjax.js")"></script>
+    <script src="@Url.Content("~/assets/js/jquery.dataTables.editable.js")"></script>
+    <script src="@Url.Content("~/assets/js/dataTables.bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/pages/table.js")"></script>
+    <script src="@Url.Content("~/assets/js/spectrum.js")"></script>
+    <script src="@Url.Content("~/assets/dhtmlx/dhtmlxscheduler.js")"></script>
+    <script src="@Url.Content("~/assets/dhtmlx/ext/dhtmlxscheduler_timeline.js")"></script>
+    <script src="@Url.Content("~/assets/dhtmlx/ext/dhtmlxscheduler_tooltip.js")"></script>
+    <script src="@Url.Content("~/assets/dhtmlx/ext/dhtmlxscheduler_year_view.js")"></script>
+    <script src="@Url.Content("~/assets/dhtmlx/ext/dhtmlxscheduler_units.js")"></script>
+    <script src="@Url.Content("~/assets/dhtmlx/ext/dhtmlxscheduler_pdf.js")"></script>
+    <script src="@Url.Content("~/assets/dhtmlx/ext/dhtmlxscheduler_api.js")"></script>
+    <script src="@Url.Content("~/assets/dhtmlx/ext/dhtmlxscheduler_limit.js")"></script>
+    <script src="@Url.Content("~/assets/sumoselect/jquery.sumoselect.min.js")"></script>
+    <script src="@Url.Content("~/assets/monthpicker/monthpicker.min.js")"></script>
+
+    @*<script>window._$ = jQuery.noConflict(true);</script>*@
+</head>
+
+<body @*style="top:0; bottom:3px; left:0;right:0; position: absolute; overflow-y:auto;"*@>
+    <!-- start: Header -->
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="container">
+                <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".sidebar-nav.nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><span>@Session["company"] ( @Session["branchcode"] ) &nbsp;&nbsp; -  &nbsp;&nbsp;@DateTime.Today.ToString("dd MMM yyyy")</span></a>
+
+
+
+                <!-- start: Header Menu -->
+                <div class="nav-no-collapse header-nav">
+                    <ul class="nav pull-right">
+                        <li class="dropdown hidden-xs">
+                          
+                        </li>
+                    
+                        <!-- start: User Dropdown -->
+                        <li class="dropdown">
+                            <a class="btn dropdown-toggle" data-toggle="dropdown" href="index.html#" style="min-width:191px;">
+                                <i class="halflings user white"></i>
+                                <input type="hidden" id="idleSeconds" value="@System.Configuration.ConfigurationManager.AppSettings["idleSeconds"]" />
+                                <input type="hidden" id="htmlsrc" value="@Url.Content("~/Access/BranchStaffIndex?sid=0")" />
+
+                                @if (Session["userid"] != null)
+                                {
+                                    if (Request.IsAuthenticated)
+                                    {
+                                        <strong>@Html.Encode(User.Identity.Name)</strong>
+                                    }
+                                    else
+                                    {
+                                        Response.RedirectToRoute(new { controller = "Access", action = "Login" }); 
+                                    }
+                                }
+                                else
+                                {
+                                    Response.RedirectToRoute(new { controller = "Access", action = "Login" });
+                                }
+                             
+                                <span class="caret"></span>
+
+                            </a>
+                            <ul class="dropdown-menu">
+                             
+                                <li><a href="~/Access/ChangePassword"><i class="fa fa-unlock-alt"></i> Change Password</a></li>
+                                <li><a href="~/Access/Logout"><i class="halflings off white"></i> Logout</a></li>
+                            </ul>
+                        </li>
+                        <!-- end: User Dropdown -->
+                    </ul>
+                </div>
+                <!-- end: Header Menu -->
+
+            </div>
+        </div>
+    </div>
+    <!-- start: Header -->
+
+    <div class="container" style="min-height:100%;">
+        <div class="row" style="min-height:100%;">
+
+            <!-- start: Main Menu -->
+            <div id="sidebar-left" class="col-sm-1" style="display: none;">
+                <div class="nav-collapse sidebar-nav collapse navbar-collapse bs-navbar-collapse">
+                    <ul class="nav nav-tabs nav-stacked main-menu">
+                        @*<li><a href="~/Home/Index"><i class="fa fa-bar-chart-o"></i><span class="hidden-sm"> Dashboard</span></a></li>*@
+
+
+                        @*                        <li id="Daily" >
+                                <a  class="dropmenu" href="~/Home/Index"><i class="fa fa-suitcase"></i><span class="hidden-sm">Daily</span><span class="badge badge-important"></span></a>
+                                <ul>
+                                    <li><a class="submenu" href="~/Product/Index"><i class="fa fa-ticket"></i><span class="hidden-sm">Redeem</span></a></li>
+                                    <li><a class="submenu" href="~/Product/PromotionIndex"><i class="fa fa-money"></i><span class="hidden-sm">Top Up</span></a></li>
+                                </ul>
+                            </li>*@
+                        <li id="mnuTask"><a href="~/Home/Index"><i class="fa fa-home"></i><span class="hidden-sm">Home</span></a></li>
+                        <li id="mnuRedeem"><a onclick="RedeemFunction(this);" style="display:none;" data-rcode="REDEEM"><i class="fa fa-ticket"></i><span class="hidden-sm">Redeem</span></a></li>
+                        <li id="mnuTopUp"><a onclick="TopUpFunction(this);" style="display:none;" data-rcode="TOPUP"><i class="fa fa-money"></i><span class="hidden-sm">Top Up</span></a></li>
+                        <li id="Membership">
+                            <a class="dropmenu" href="#" style="display:none;" data-rcode="MEMBER"><i class="fa fa-user"></i><span class="hidden-sm">Membership</span><span class="badge badge-important"></span></a>
+                            <ul>
+                                <li id="mnuCreateMember"><a class="submenu" onclick="CreateMemberFunction(this);" style="display:none;" data-rcode="CREATEMEMBER"><i class="fa fa-user"></i><span class="hidden-sm">Create Member</span></a></li>
+                                <li id="mnuMemberListing"><a class="submenu" onclick="MemberSearchFunction(this);" data-rcode="MEMBERLISTING" style="display:none;"><i class="fa fa-users"></i><span class="hidden-sm">Member Enquiry</span></a></li>
+                                <li id="mnuMemberTransfer"><a class="submenu" onclick="CustomerTransferFunction(this);" data-rcode="CUSTOMERTRANSFER" style="display:none;"><i class="fa fa-share-square-o"></i><span class="hidden-sm">Customer Transfer</span></a></li>
+                            </ul>
+                        </li>
+                        <li id="Promotion">
+                            <a class="dropmenu" href="#" style="display:none;" data-rcode="PROMOTION"><i class="fa fa-gift"></i><span class="hidden-sm">Promotion</span><span class="badge badge-important"></span></a>
+                            <ul>
+                                <li id="mnuPromotionSave"><a class="submenu" data-rcode="PROMOTIONSAVE" onclick="PromotionSaveFunction(this);" style="display:none;"><i class="fa fa-gift"></i><span class="hidden-sm">Create Promotion</span></a></li>
+                                <li id="mnuPromotionListing"><a class="submenu" data-rcode="PROMOTIONLISTING" onclick="PromotionListingFunction(this);" style="display:none;"><i class="fa fa-signal"></i><span class="hidden-sm">Listing</span></a></li>
+                            </ul>
+                        </li>
+                        <li id="Sales">
+                            <a class="dropmenu" href="#" style="display:none;" data-rcode="SALE"><i class="fa fa-suitcase"></i><span class="hidden-sm">Sales</span><span class="badge badge-important"></span></a>
+                            <ul>
+                                <li id="mnuPackage"><a class="submenu" href="~/Product/ProductListing?ptype=PACKAGE" data-rcode="PRODUCTPACKAGE"><i class="fa fa-dollar"></i><span class="hidden-sm">Package</span></a></li>
+                                <li id="mnuSaleKit"><a class="submenu" href="~/Product/ProductListing?ptype=SALESKIT" data-rcode="PRODUCTSALESKIT"><i class="fa fa-wrench"></i><span class="hidden-sm">SalesKit</span></a></li>
+                            </ul>
+                        </li>
+                        <li id="mnuProduct"><a href="~/Product/ProductListing?rcode=Product&ptype=%" data-rcode="Product" style="display:none;"><i class="fa fa-list-alt"></i><span class="hidden-sm">Product</span></a></li>
+                        <li id="mnuProductTransfer"><a data-rcode="PRODUCTTRANSFER" onclick="TransferProductFunction(this);" style="display:none;"><i class="fa fa-share-square-o"></i><span class="hidden-sm">Product Transfers</span></a></li>
+                        <li id="AccessRight">
+                            <a class="dropmenu" href="~/Home/Index#"><i class="fa fa-key"></i><span class="hidden-sm">Access Rights</span><span class="badge badge-important"></span></a>
+                            <ul>
+                                <li><a class="submenu" href="~/Access/Index"><span class="hidden-sm">Users</span></a></li>
+                                <li><a class="submenu" href="~/Access/AccessRightIndex"><span class="hidden-sm">Rights</span></a></li>
+                                <li><a class="submenu" href="~/Access/RoleIndex"><span class="hidden-sm">Roles</span></a></li>
+                            </ul>
+                        </li>
+                        <li id="Campaign">
+                            <a href="~/Campaign/Index"><i class="fa fa-list-alt"></i><span class="hidden-sm">Campaign</span><span class="badge badge-important"></span></a>
+                        </li>
+                        <li id="Report">
+                            <a class="dropmenu" href="~/Home/Index#"><i class="fa fa-list-alt"></i><span class="hidden-sm">Reports</span><span class="badge badge-important"></span></a>
+                            <ul>
+                                <li><a class="submenu" href="~/Report/ReportGroupSummary"><i class="fa fa-group"></i><span class="hidden-sm">Group Summary</span></a></li>
+                            </ul>
+                        </li>  
+                    </ul>
+                </div>
+            </div>
+
+            <div class="hidden-sm">
+                <a id="main-menu-toggle" class="hidden-xs close"><i class="fa fa-bars"></i></a>
+            </div>
+
+            <!-- end: Main Menu -->
+            <!-- start: Content -->
+            <div id="content" class="col-sm-12" style="min-height:100%;padding:10px;">
+                @RenderBody()
+            </div>
+
+            <!-- end: Content -->
+            <!-- start: Widgets Area -->
+            @*<div id="widgets-area" class="col-sm-2">
+
+                <ul class="nav tab-menu nav-tabs" id="myTab">
+                    <li class="active"><a href="index.html#charts"><i class="fa fa-bar-chart-o"></i></a></li>
+                    <li><a href="index.html#users"><i class="fa fa-group"></i></a></li>
+                    <li><a href="index.html#messages"><i class="fa fa-envelope"></i></a></li>
+                    <li><a id="close-widgets-area" href="index.html#"><i class="fa fa-sign-in"></i></a></li>
+                </ul>
+
+                <div id="myTabContent" class="tab-content">
+                    <div class="tab-pane active" id="charts">
+
+                        <div class="bar-stat">
+                            <span class="title">Account balance</span>
+                            <span class="value">$19 999,99</span>
+                            <span class="chart green">7,3,2,6,6,3,9,0,1,4</span>
+                        </div>
+                        <hr>
+                        <div class="bar-stat">
+                            <span class="title">Clients</span>
+                            <span class="value">1278</span>
+                            <span class="chart yellow">8,2,5,4,7,4,7,2,5,9</span>
+                        </div>
+                        <hr>
+                        <div class="bar-stat">
+                            <span class="title">Orders</span>
+                            <span class="value">5876</span>
+                            <span class="chart blue">2,4,6,8,3,5,9,3,2,2</span>
+                        </div>
+                        <hr>
+                        <div class="bar-stat">
+                            <span class="title">Messages</span>
+                            <span class="value">673</span>
+                            <span class="chart red">0,3,3,8,3,3,2,7,8,4</span>
+                        </div>
+
+                        <hr>
+
+                        <div id="cpu-usage"></div>
+
+                        <ul class="progress-bars">
+
+                            <li>
+                                <span class="title">Free Memory</span>
+                                <span class="percent"></span>
+                                <div class="taskProgress progressSlim progressGreen">80</div>
+                            </li>
+
+                            <li>
+                                <span class="title">Free HDD Drive</span>
+                                <span class="percent"></span>
+                                <div class="taskProgress progressSlim progressYellow">20</div>
+                            </li>
+
+                            <li>
+                                <span class="title">Free SSD Drive</span>
+                                <span class="percent"></span>
+                                <div class="taskProgress progressSlim progressBlue">57</div>
+                            </li>
+
+                            <li>
+                                <span class="title">Transfer</span>
+                                <span class="percent"></span>
+                                <div class="taskProgress progressSlim progressRed">45</div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="tab-pane" id="users">
+
+                        <ul class="users-list">
+                            <li>
+                                <a href="index.html#">
+                                    <span class="status active"></span>
+                                    <span class="avatar"><img class="img-circle" src="@Url.Content("~/assets/img/avatar.jpg")" alt="Avatar"></span>
+                                    <span class="name">Łukasz Holeczek</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="index.html#">
+                                    <span class="status busy"></span>
+                                    <span class="avatar"><img class="img-circle" src="@Url.Content("~/assets/img/avatar2.jpg")" alt="Avatar"></span>
+                                    <span class="name">Megan Abott</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="index.html#">
+                                    <span class="status disable"></span>
+                                    <span class="avatar"><img class="img-circle" src="@Url.Content("~/assets/img/avatar3.jpg")" alt="Avatar"></span>
+                                    <span class="name">Kate Ross</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="index.html#">
+                                    <span class="status active"></span>
+                                    <span class="avatar"><img class="img-circle" src="@Url.Content("~/assets/img/avatar4.jpg")" alt="Avatar"></span>
+                                    <span class="name">Julie Blank</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="index.html#">
+                                    <span class="status"></span>
+                                    <span class="avatar"><img class="img-circle" src="@Url.Content("~/assets/img/avatar5.jpg")" alt="Avatar"></span>
+                                    <span class="name">Jane Sanders</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="index.html#">View all users</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane" id="messages">
+
+                        <ul class="messages-list">
+                            <li>
+                                <a href="index.html#">
+                                    <div class="avatar"><img class="img-circle" src="" @Url.Content("~/assets/img/avatar.jpg") " alt=" avatar"></div>
+                                    <span class="name">Łukasz Holeczek</span>
+                                    <span class="date">25/6/2013</span>
+                                    <span class="title">Custom Bootstrap design for new client</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="index.html#">
+                                    <div class="avatar"><img class="img-circle" src="@Url.Content("~/assets/img/avatar2.jpg")" alt="Avatar"></div>
+                                    <span class="name">Megan Abott</span>
+                                    <span class="date">25/6/2013</span>
+                                    <span class="title">Custom Bootstrap design for new client</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="index.html#">
+                                    <div class="avatar"><img class="img-circle" src="@Url.Content("~/assets/img/avatar3.jpg")" alt="Avatar"></div>
+                                    <span class="name">Kate Ross</span>
+                                    <span class="date">25/6/2013</span>
+                                    <span class="title">Custom Bootstrap design for new client</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="index.html#">
+                                    <div class="avatar"><img class="img-circle" src="@Url.Content("~/assets/img/avatar4.jpg")" alt="Avatar"></div>
+                                    <span class="name">Julie Blank</span>
+                                    <span class="date">25/6/2013</span>
+                                    <span class="title">Custom Bootstrap design for new client</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="index.html#">
+                                    <div class="avatar"><img class="img-circle" src="@Url.Content("~/assets/img/avatar5.jpg")" alt="Avatar"></div>
+                                    <span class="name">Jane Sanders</span>
+                                    <span class="date">25/6/2013</span>
+                                    <span class="title">Custom Bootstrap design for new client</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="index.html#">View all messages</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>*@
+            <!-- end: Widgets Area -->
+            <div style="Display:none;"><a id="widgets-area-button" class="hidden-sm hidden-xs open"><i class="fa fa-bars"></i></a>	</div>
+
+        </div>
+        <!--/row-->
+
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Here settings can be configured...</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+    </div><!--/container-->
+    @*<div class="clearfix"></div>*@
+
+    @*<footer>
+            <p>
+                <span style="text-align:left;float:left">&copy; 2013 creativeLabs. <a href="http://bootstrapmaster.com">Admin Templates</a> by BootstrapMaster (<span id="state"> Active </span>)</span>
+                <span class="hidden-phone" style="text-align:right;float:right">Powered by: <a href="http://bootstrapmaster.com/demo/acme/" alt="Bootstrap Admin Templates">CitiBella Dashboard</a></span>
+            </p>
+        </footer>*@
+    <div class="clearfix"></div>
+</body>
+
+</html>
+
+<script type="text/javascript">
+    //var $ = jQuery;
+    //alert($('#idleSeconds').val());
+    // $(function () {
+    (function ($) {
+            var timeout = $('#idleSeconds').val();
+    
+            $(document).on("idle.idleTimer", function (event, elem, obj) {
+                $("#state").html("idle");
+                var currenturl = location.href;
+                if (currenturl.toLocaleUpperCase().search("BRANCHSTAFFINDEX") < "0") {
+                    var url = $('#htmlsrc').val();
+                    window.open(url, "_self")
+                }
+            });
+
+            $(document).on("active.idleTimer", function (event, elem, obj, triggerevent) {
+                $("#state").html("active");
+            });
+
+            $.idleTimer(parseInt(timeout));
+            showhidemenu();
+    })(jQuery);
+    //});
+
+        //showhidemenu();
+        function showhidemenu()
+        {
+            //var uname = $('#userid').val();
+            //alert(uname);
+            $.ajax({
+                url: '@Url.Action("getUserAccessRights", "Access")',
+                //data: { username: uname },
+            type: 'POST',
+            success: function (data)
+            {
+                var i = 0;
+                //alert(data.length);
+                if (data)
+                {
+                    for (i = 0; i < data.length;i++)
+                    {
+                        var rcode = data[i].resource;
+                        var cobjs = $('[data-rcode="' + rcode.toUpperCase() + '"]');
+                        //alert(rcode.toUpperCase() + "," + cobjs.length);
+                        for (var c = 0; c < cobjs.length; c++)
+                        {
+                            $(cobjs[c]).attr("style", "display:normal;");
+                        }
+
+                        //alert(data[i].resource);
+                        //var ctl = document.getElementById(data[i].resource);
+                        //if (ctl)
+                        //{
+                        //    //alert(ctl);
+                        //    ctl.removeAttribute("style");
+                        //}
+                    }
+                }
+                //alert(data);
+            }
+            });
+        }
+
+</script>

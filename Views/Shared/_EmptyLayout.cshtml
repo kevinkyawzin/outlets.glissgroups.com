@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">      
+    <title>@System.Web.Configuration.WebConfigurationManager.AppSettings["appName"] Outlets</title>  
+	    <meta name="description" content="CitiBella Dashboard Bootstrap Admin Template.">
+	    <meta name="author" content="Łukasz Holeczek">
+	    <meta name="keyword" content="CitiBella, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+
+	    <!-- start: Mobile Specific -->
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <!-- end: Mobile Specific -->
+	  <style>
+          .dataTables_processing{padding-left:15px !important;}
+        </style>
+	    <!-- start: CSS -->
+         <link rel="stylesheet" href="@Url.Content("~/assets/css/bootstrap.min.css")" />
+         <link rel="stylesheet" href="@Url.Content("~/assets/css/style.min.css")" />
+         <link rel="stylesheet" href="@Url.Content("~/assets/css/retina.css")" />
+	    <!-- end: CSS -->
+
+	    <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+	    <!--[if lt IE 9]>
+	  	    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		    <link id="ie-style" href="css/ie.css" rel="stylesheet">
+	    <![endif]-->
+	
+	    <!--[if IE 9]>
+		    <link id="ie9style" href="css/ie9.css" rel="stylesheet">
+	    <![endif]-->
+	
+	    <!-- start: Favicon and Touch Icons -->
+    <link rel="shortcut icon" href="@Url.Content(@System.Web.Configuration.WebConfigurationManager.AppSettings["favicon"])">
+
+
+
+	
+	<!-- end: JavaScript-->
+         @RenderSection("JavaScript", required: false)
+         @RenderSection("CSS", required: false)
+					
+	    <!-- end: Favicon and Touch Icons -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+		<script type="text/javascript">
+		    window.jQuery || document.write("<script src='/assets/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
+		</script>
+
+        
+        <script type="text/javascript" src="@Url.Content("~/assets/js/common.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/idle-timer.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery-loader.js")"></script>
+        
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery-migrate-1.2.1.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/bootstrap.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery-ui-1.10.3.custom.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.noty.min.js")" ></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.raty.min.js")" ></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.gritter.min.js")" ></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.sparkline.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.flot.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.flot.pie.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.flot.stack.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.flot.resize.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.flot.time.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/retina.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/raphael.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/justgage.1.0.1.min.js")"></script>
+
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.chosen.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.cleditor.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.autosize.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.placeholder.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.maskedinput.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.inputlimiter.1.3.1.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/bootstrap-datepicker.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/bootstrap-timepicker.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/moment.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/daterangepicker.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/jquery.hotkeys.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/bootstrap-wysiwyg.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/assets/js/bootstrap-colorpicker.min.js")"></script>
+
+	<!-- theme scripts -->
+	<script src="@Url.Content("~/assets/js/custom.min.js")"></script>
+	<script src="@Url.Content("~/assets/js/core.min.js")"></script>
+	
+	<!-- inline scripts related to this page -->
+	<script src="@Url.Content("~/assets/js/pages/index.js")"></script>
+    <script src="@Url.Content("~/assets/js/pages/form-elements.js")"></script>
+
+    <!-- inline scripts related to this page -->
+    <script src="@Url.Content("~/assets/js/jquery.dataTables.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/jquery.dataTables.fnReloadAjax.js")"></script>
+    <script src="@Url.Content("~/assets/js/jquery.dataTables.editable.js")"></script>
+    <script src="@Url.Content("~/assets/js/dataTables.bootstrap.min.js")"></script>
+	<script src="@Url.Content("~/assets/js/pages/table.js")"></script>    
+        @*<script>window._$ = jQuery.noConflict(true);</script>*@
+</head>
+<body class="" style="background:none;color:none;">
+
+    <div @*id="main" role="main"*@ style="background-color:none;">
+        @RenderBody()
+    </div>
+
+</body>
+</html>
+
+<script type="text/javascript">
+    //var $ = jQuery;
+    //alert($('#idleSeconds').val());
+    // $(function () {
+    (function ($) {
+        var timeout = $('#idleSeconds').val();
+        //alert($('#idleSeconds').val());
+        $(document).on("idle.idleTimer", function (event, elem, obj) {
+            $("#state").html("idle");
+            var currenturl = location.href;
+            if (currenturl.toLocaleUpperCase().search("BRANCHSTAFFINDEX") < "0") {
+                var url = $('#htmlsrc').val();
+                window.open(url, "_self")
+            }
+        });
+
+        $(document).on("active.idleTimer", function (event, elem, obj, triggerevent) {
+            $("#state").html("active");
+        });
+
+        $.idleTimer(parseInt(timeout));
+        showhidemenu();
+    })(jQuery);
+    //});
+
+    //showhidemenu();
+
+    function showhidemenu() {
+        //var uname = $('#userid').val();
+        //alert('sh');
+        
+        $.ajax({
+            url: '@Url.Action("getUserAccessRights", "Access")',
+            //url: 'Access/getUserAccessRights',
+            //data: { username: uname },
+            type: 'POST',
+            success: function (data) {
+                var i = 0;
+                //alert(data.length);
+                if (data) {
+                    for (i = 0; i < data.length; i++) {
+                        var rcode = data[i].resource;
+                        var cobjs = $('[data-rcode="' + rcode.toUpperCase() + '"]');
+                        //alert(rcode.toUpperCase() + "," + cobjs.length);
+                        for (var c = 0; c < cobjs.length; c++) {
+                            $(cobjs[c]).attr("style", "display:normal;");
+                        }
+
+                    }
+                }
+
+            }
+        });
+    }
+
+    function rptPrintCardFunction(btn) {
+        var uname = $('#uname').val();
+        //alert('printCardListing');
+        $('#BTNREPORTPRINTCARD').attr('disabled', '');
+        $.ajax({
+            url: '@Url.Action("PrintcardNRIC", "Report")',
+            type: 'POST',
+            //contentType: "application/json; charset=utf-8",
+            //dataType: 'json',
+            data: { uname: uname },
+            async: false,
+            success: function (data) {
+                //alert(data);
+                window.open("../Reports/PrintCardListing.aspx?uname=" + uname);
+                $('#BTNREPORTPRINTCARD').removeAttr('disabled');
+            },
+            error: function () {
+                $('#BTNREPORTPRINTCARD').removeAttr('disabled');
+            }
+        });
+    }
+
+    function StockReceivedFunction(btn) {
+        var rcode = $(btn).attr("data-rcode");
+        window.open("../Inventory/StockReceiveOverview?rcode=" + rcode, "_self");
+    }
+
+    function AddStockReceivedFunction(btn) {
+        var rcode = $(btn).attr("data-rcode");
+        window.open("../Inventory/StockReceive?id=0&rcode=" + rcode, "_self");
+    }
+</script>
+
+

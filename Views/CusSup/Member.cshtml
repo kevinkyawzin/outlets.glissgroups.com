@@ -1,0 +1,2920 @@
+﻿@using BigMac 
+@model BigMac.Models.CusSup_m_CusSup
+      
+@{
+    Layout = null;
+}
+
+ <div class="row">
+    <div class="col-lg-12">
+	    <div class="box">
+            <div class="box-header" style="background-color:#EEE;"></div>
+		    <div class="box-content">
+                @*<input type="hidden" id ="cussupid" value ="@Model.id"/>*@
+                 @Html.HiddenFor( model => model.id)
+                <input type="hidden" id ="c" value ="@ViewBag.CitiDesc"/>
+                <input type="hidden" id ="b" value ="@ViewBag.BonusDesc"/>
+                <input type="hidden" id ="expyear" value ="@ViewBag.ExpYear"/>
+                <input type="hidden" id="staffid" value="@Html.Encode(User.Identity.Name)">
+                <input type="hidden" id="AdjustmentFlag" value="@ViewBag.AdjustmentFlag">
+                <input type="hidden" id="StatusFlag" value="@ViewBag.StatusFlag">
+                <input type="hidden" id="NewFlag" value="@ViewBag.NewFlag">
+                <input type="hidden" id="EditFlag" value="@ViewBag.EditFlag">
+                <input type="hidden" id="rvflag" value="@ViewBag.rvFlag">
+                <input type="hidden" id="tvflag" value="@ViewBag.tvFlag">
+                <input type="hidden" id="pvflag" value="@ViewBag.pvflag">
+                @*Added by ZawZO on 17 Nov 2015*@
+                <input type="hidden" value="@ViewBag.CoName" id="hidconame" />
+                <input type="hidden" value="@ViewBag.CoAddress" id="hidcoaddress" />
+                <input type="hidden" value="@ViewBag.Tel" id="hidtel" />
+                <input type="hidden" value="@ViewBag.Fax" id="hidfax" />
+                <input type="hidden" value="@ViewBag.Email" id="hidemail" />
+                <input type="hidden" value="@ViewBag.CoRegNo" id="hidcoregno" />
+                <input type="hidden" value="@ViewBag.GSTRegNo" id="hidgstregno" />
+
+                    @Html.HiddenFor( model => model.cussuptype)
+                    <div>
+                    <ul class="nav tab-menu nav-tabs" id="myTab" style ="padding-left:10px;list-style: none;">
+                        <li id="liMember" name="liMember" class="active" style ='float: left;' ><a href="#member" id ="lnkMember">Member Information</a></li>
+                        <li id="liCard" name="liCard" style ='float: left;'><a href="#card" id ="lnkCard">Cards</a></li>
+                        <li id="liPackage" style='float: left;'><a href="#Package" id="lnkPackage">Package Balance</a></li>
+                        <li id="liRedeem" name="liRedeem" style='float: left;'><a href="#redeem" id="lnkRedeem">Redeem History</a></li>
+                        <li id="liTopUp" name="liTopUp" style ='float: left;'><a href="#topup" id ="lnkTopUp">Top Up</a></li>
+                        <li id="liCiti" style ='float: left;'><a href="#Citi" id ="lnkCiti">@ViewBag.CitiDesc History</a></li>
+                        <li id="liBonus" style ='float: left;'><a href="#Bonus" id ="lnkBonus">@ViewBag.BonusDesc History</a></li>
+                        <li id="liTreatment" style='float: left;'><a href="#Treatment" id="lnkTreatment">Treatment History</a></li>
+                        <li id="liProduct" style='float: left;'><a href="#Product" id="lnkProduct">Product History</a></li>
+                    </ul>
+
+                    <div id="myTabContent" class="tab-content">
+                        <div class="tab-pane active" id="member">
+                            <div id ="divMember">
+                                <table style="width:100%;border-spacing:5px;border-collapse:separate;">
+                                        <tr>
+                                            <td style="width:15%;">
+                                                @Html.LabelFor(model => model.departmentname, new { @class = "control-label" })
+                                            </td>
+                                            <td colspan="2">
+                                                @Html.DropDownListFor(model => model.departmentname, new SelectList(@ViewBag.DepartmentOptions, "departmentname", "departmentname"), new { @class = "form-control" })
+                                            </td>
+                                            <td><span style="color:red;">*</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:15%;">@Html.LabelFor(model => model.cussupname, new {@class="control-label" })</td>
+                                            <td colspan="2">
+                                                @Html.TextBoxFor(model => model.cussupname, new { @class = "form-control", @style = "text-transform:capitalize;" })
+                                            </td>
+                                            <td><span style="color:red;">*</span></td>
+    @*                                        <td style="width:15%;"><label class="control-label" >@Html.LabelFor(model => model.cocode)</label></td>
+                                            <td style="width:30%;">
+                                                       @Html.DropDownListFor(model => model.cocode, new SelectList(@ViewBag.CompanyOptions,"id","name"), new { @class ="form-control"})
+                                            </td>*@
+                                        <td style="width:15%;">
+                                            @*@if (Model.cussuptype == "Customer")
+                                            {*@
+                                                <label class="control-label">Member Code</label>
+                                            @*}
+                                            else
+                                            {
+                                                @Html.LabelFor(model => model.inhousecode, new { @class = "control-label" })
+                                            }*@
+                                                                                        
+                                        </td>
+                                        <td style="width:30%;">                                            
+                                            @Html.TextBoxFor(model => model.inhousecode, new { @class = "form-control disabled", @disabled = "" })
+                                        </td>
+                                        <td style="width:5%;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.LabelFor(model => model.nric, new {@class="control-label" })</td>
+                                        <td style="width:15%;">@Html.DropDownListFor(model => model.nrictype,new SelectList(@ViewBag.NRICTypeOptions,"value","value") ,new { @class ="form-control"}) </td>
+                                        <td style="width:15%;">                                            
+				                            @Html.TextBoxFor(model => model.nric, new { @class ="form-control"})                                            
+                                            <span>@Html.ValidationMessageFor(model => model.nric)</span>
+                                        </td>
+                                        <td ><span style="color:red;">*</span></td>
+@*                                        <td style="width:15%;"><label class="control-label" >@Html.LabelFor(model => model.branchcode)</label></td>
+                                        <td style="width:30%;">                                            
+                                                    @Html.DropDownListFor(model => model.branchcode, new SelectList(@ViewBag.BranchOptions,"id","branchname"), new { @class ="form-control"})                                           
+                                        </td>*@
+                                        <td style="width:15%;">
+                                            @Html.LabelFor(model => model.nationality, new { @class = "control-label" })
+                                        </td>
+                                        <td style="width:30%;">
+                                           @Html.DropDownListFor(model => model.nationality, new SelectList(@ViewBag.NationalityOptions, "value", "value"), new { @class = "form-control" })                                              
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.LabelFor(model => model.dateofbirth, new {@class="control-label" })</td>
+                                        <td colspan="2">
+                                             @Html.TextBoxFor(model => model.dateofbirth, string.Format("{0:dd/MM}", Model.dateofbirth), new { @class = "form-control date-picker", @data_date_format = "dd/mm" })                                                                                    
+                                        </td>
+                                        <td><span style="color:red;">*</span></td>
+                                        <td>@Html.LabelFor(model => model.race, new { @class = "control-label" })</td>
+                                        <td>@Html.DropDownListFor(model => model.race, new SelectList(@ViewBag.RaceOptions, "value", "value"), new { @class = "form-control" }) </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.LabelFor(model => model.occupation, new { @class = "control-label" })</td>
+                                        <td colspan="2">
+                                            @Html.TextBoxFor(model => model.occupation, new { @class = "form-control" })
+                                        </td>
+                                        <td></td>
+                                        <td><label class="control-label" style="margin-top:8px;">Gender</label></td>
+                                        <td>
+                                            <table>
+                                                <tr>
+                                                    <td> <input type="radio" name="gender" id="gMale" /> </td>
+                                                    <td style="width:80px;"><label class="control-label" style="margin-top:4px;">Male</label></td>
+                                                    <td style="width:50px;"></td>
+                                                    <td> <input type="radio" name="gender" id="gFMale" /> </td>
+                                                    <td><label class="control-label" style="margin-top:4px;">Female</label> <input type="hidden" id="mgender" value="@Model.gender" /> </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.LabelFor(model => model.email, new {@class="control-label" })</td>
+                                        <td colspan="2">
+                                             @Html.TextBoxFor(model => model.email, new { @class ="form-control"})
+                                        </td>
+                                        <td >@*<span style="color:red;">*</span>*@</td>
+                                        <td >@Html.LabelFor(model => model.status, new { @class = "control-label" })</td>
+                                        <td >
+                                            @Html.DropDownListFor(model => model.status, new SelectList(@ViewBag.StatusOptions, "status", "status"), new { @class = "form-control", @disabled = "" })
+                                        </td>
+                                        <td></td>
+@*                                        <td><label class="control-label" for="input1">@Html.LabelFor(model => model.userid)</label></td>
+                                        <td>
+                                                        @Html.TextBoxFor(model => model.userid, new { @class ="form-control"})                                                                                    
+
+                                        </td>*@
+@*                                        <td><label class="control-label" for="input1">Create Date</label></td>
+                                        <td><label class="control-label" for="input1">@DateTime.Today</label></td>*@
+                                    </tr>
+                                    <tr>                                
+                                        <td>@Html.LabelFor(model => model.Tel, new {@class="control-label" })</td>
+                                        <td colspan="2">
+                                            @Html.TextBoxFor(model => model.Tel, new { @class ="form-control"})                                                                                    
+                                        </td>
+                                        <td></td>
+                                        <td ><label class="control-label">Create Date</label></td>
+                                        <td>                                            
+                                            @Html.TextBoxFor(model => model.createdate, string.Format("{0:dd/MM/yyyy}", Model.createdate), new { @class = "form-control disabled", @disabled = "" })
+                                        </td>                                        
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.LabelFor(model => model.mobile, new {@class="control-label" })</td>
+                                        <td colspan="2">
+                                            @Html.TextBoxFor(model => model.mobile, new { @class ="form-control"})                                                                                    
+                                        </td>
+                                        <td><span style="color:red;">*</span></td>
+                                        <td colspan ="3">
+                                            <table>
+                                                <tr>
+                                                   <td style="width:40px;"><input type="checkbox" value ="@Model.canemail" id="canemail" class ="form-control" /> </td><td><label class="control-label" style="margin-top:8px;">Can Email?</label></td><td style="width:50px;"></td>
+                                                   <td style="width:40px;"><input type="checkbox" value ="@Model.cansms" id="cansms" class ="form-control"/> </td><td><label class="control-label" style="margin-top:8px;">Can SMS?</label></td> <td style="width:50px;"></td>
+                                                   <td style="width:40px;"><input type="checkbox" value ="@Model.cancall" id="cancall" class ="form-control"/> </td><td><label class="control-label" style="margin-top:8px;">Can Call?</label></td>                                                 
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        
+@*                                        <td><label class="control-label" for="input1">Expired Date</label></td>
+                                        <td><input class="form-control date-picker"  /></td>*@
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.LabelFor(model => model.address, new {@class="control-label" })</td>
+                                        <td colspan ="5">
+                                                        @Html.TextBoxFor(model => model.address, new { @class = "form-control", @style = "text-transform:capitalize;" })                                                                                    
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.LabelFor(model => model.postalcode, new {@class="control-label" })</td>
+                                        <td colspan="2">
+                                                        @Html.TextBoxFor(model => model.postalcode, new { @class ="form-control"})                                                                                    
+                                        </td>
+                                        <td ></td>                       
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                </table>
+                        </div>
+                    </div>
+
+				    <div class="tab-pane" id="card">                        
+                            <div class="col-lg-12" id ="divCardWraper" >
+					                <div class="box">                            
+                                
+						                <div class="box-header" data-original-title>
+							                <h2>Card Detail <a @*style="color:orange;font-weight:bold;"*@ style="color: black; font-weight: bold;" href="#" onclick="OpenDialog(0)" title="Add New Item">( Click here to add new card )</a></h2>
+							                <div class="box-icon">
+								                <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+								                <a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+								                <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+							                </div>
+						                </div>
+						                <div class="box-content">                                                                                   
+                                            <div style ="width:70%;" id="divCard">
+                                                <table class="table table-bordered" id="tblCard">
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <div id="dialog-modal" >  
+                                            <div class="col-lg-12" id="divBundleDialog">
+                                                <div  style ="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+                                                    Card Detail Entry
+                                                </div>
+                                                @*@Html.DropDownList("cboBundlePrdouct",) *@
+                                                <table style="width:100%;border-spacing:5px;border-collapse:separate;padding-left:10px;margin-top:10px;" >
+                                                    <tr>
+                                                        <td style ="width:100px;">Card Type <input type="hidden" id ="txtCardID"/> <input type="hidden" id ="txtCardIDIndex"/> </td>
+                                                        <td colspan="3" >@Html.DropDownList("cboCardType" , new SelectList(@ViewBag.CardTypeOptions,"value","value"), new { @class ="form-control"})</td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Expiry Date</td>
+                                                        <td colspan="3" ><input type="text"  id="txtExpiryDate" class = "form-control date-picker" data-date-format="dd/mm/yyyy" value ="@string.Format("{0:d}",ViewBag.ExpYear)"/></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td style="width:60px;"><button id="btnCardAdd" type="button" id="btnCardSave" onclick ="SaveCardItem()" class ="btn btn-primary" style ="width:100px;">Add</button></td>
+                                                        <td style="width:60px;"><button type="button" id="btnClose" onclick ="closeDialog()" class ="btn btn-primary" style ="width:100px;">Cancel</button></td>
+                                                        <td style="width:80px;"></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr style="display:none;">
+                                                        <td>Card No</td>
+                                                        <td colspan="3"><input type="text" id="txtCardNo" class="form-control" /></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </table>                                                
+                                            </div>
+                                        </div>
+                            </div>
+                    </div>
+
+                    <div class="tab-pane" id="redeem">
+					    <div class="box">
+						    <div class="box-content">   
+@*                                <div id="divRedeemPages" style ="float:right;padding-right:20px;"><table><tr><td style ="width:50px;">Page : </td><td style ="width:50px;"><select id ="cboRedeempages" class="form-control"><option value="1">1</option></select></td></tr></table></div>
+                                <div class="clearfix"></div>                                         *@
+                                <div id ="divRedeem">
+                                    <table id='tblRedeem' class='table table-striped table-bordered' >
+                                        <thead>
+                                            <tr>                                                
+                                                <th rowspan="2" style="text-align:center;">Date</th>
+                                                <th rowspan="2" style="text-align:center;">Redeem Ref</th>
+                                                <th rowspan="2" style="text-align:left;">Description</th>
+                                                <th rowspan="2" style="text-align:left;">Remark</th>
+                                                @*<th>Qty</th>*@
+                                                <th colspan="3" style="text-align:center;">Redeem</th>
+                                                <th colspan="3" style="text-align:center;">Award</th>
+                                                <th rowspan="2" style="text-align:center;">Status</th>
+                                                <th rowspan ="2"></th>
+                                                <th rowspan="2"></th>
+                                                <th rowspan="2"></th>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align:center;">Pkg Qty</th>
+                                                <th style="text-align:center;">@ViewBag.CitiDesc</th>
+                                                <th style="text-align:center;">@ViewBag.BonusDesc</th>
+                                                <th style="text-align:center;">Pkg Qty</th>
+                                                <th style="text-align:center;">@ViewBag.CitiDesc</th>
+                                                <th style="text-align:center;">@ViewBag.BonusDesc</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="topup">
+					    <div class="box">
+						    <div class="box-content">
+@*                                <div id="divTopUpPages" style ="float:right;padding-right:20px;"><table><tr><td style ="width:50px;">Page : </td><td style ="width:50px;"><select id ="cboTopUppages" class="form-control"><option value="1">1</option></select></td></tr></table></div>
+                                <div class="clearfix"></div>                                            *@
+                                <div id ="divTopUp">
+                                    <table id='tblTopUp' class='table table-striped table-bordered' >
+                                        <thead>
+                                            <tr>                                                
+                                                <th rowspan="2" style="text-align:center;">Date</th>
+                                                <th rowspan="2" style="text-align:center;">Topup Ref</th>
+                                                <th rowspan="2" style="text-align:left;">Description</th> 
+                                                <th rowspan="2" style="text-align:left;">Remark</th> 
+                                                <th colspan="4" style="text-align:center;">Amount</th>
+                                                <th rowspan="2" style="text-align:center;">Status</th>
+                                                <th rowspan="2"></th>
+                                                <th rowspan="2"></th>
+                                                <th rowspan="2"></th>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align:center;">Sell Price</th>
+                                                <th style="text-align:center;">Pkg Qty</th>
+                                                <th style="text-align:center;">@ViewBag.CitiDesc</th>
+                                                <th style="text-align:center;">@ViewBag.BonusDesc</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="Citi">
+					    <div class="box">
+						    <div class="box-content">
+                                <div id ="divCiti">
+                                    <table id='tblCiti' class='table table-striped table-bordered' >
+                                        <thead>
+                                            <tr>                                                
+                                                <th style="text-align:center;">Date</th>
+                                                <th style="text-align:center;">Branch</th>
+                                                <th style="text-align:center;">Topup Ref</th>
+                                                <th style="text-align:left;">Description</th>
+                                                <th style="text-align:left;">Remark</th>
+                                                @*<th>Qty</th>*@
+                                                <th style="text-align:center;">Redeem</th>
+                                                <th style="text-align:center;">Award</th>
+                                                <th style="text-align:center;">Balance</th>
+                                                <th style="text-align:center;">Create By</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="Bonus">
+					    <div class="box">
+						    <div class="box-content">
+                                <div id ="divBonus">
+                                    <table id='tblBonus' class='table table-striped table-bordered' >
+                                        <thead>
+                                            <tr>                                                
+                                                <th style="text-align:center;">Date</th>
+                                                <th style="text-align:center;">Branch</th>
+                                                <th style="text-align:center;">Topup Ref</th>
+                                                <th style="text-align:left;">Description</th>
+                                                <th style="text-align:left;">Remark</th>
+                                                @*<th>Qty</th>*@
+                                                <th style="text-align:center;">Redeem</th>
+                                                <th style="text-align:center;">Award</th>
+                                                <th style="text-align:center;">Balance</th>
+                                                <th style="text-align:center;">Create By</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="Package">
+                        <div class="box">
+                            <div class="box-content">
+                                <div id="divCiti">
+                                    <table id='tblPackage' class='table table-striped table-bordered'>
+                                        <thead>
+                                            <tr>
+                                                <th style="width:0px;">Date</th>
+                                                <th style="width:0px;">Receipt #</th>
+                                                <th style="width:0px;">PackageCode</th>
+                                                <th style="text-align:center;">Description</th>
+                                                <th style="width:0px;">Product ID</th>
+                                                <th style="text-align:center;">Product</th>
+                                                <th style="text-align:center;">UOM</th>
+                                                <th style="text-align:center;">Debit</th>
+                                                <th style="text-align:center;">Credit</th>
+                                                <th style="text-align:center;">Balance</th>
+                                                <th style="text-align:center;">Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="Treatment">
+                        <div class="box">
+                            <div class="box-content">
+                                <div id="divTreatment">
+                                   <div style="width:100%;text-align:right;padding-bottom:10px;">
+                                        <button type="button" class="btn btn-primary" value="Treatment" onclick="showTreatmentDialog();" id="btnAddTreatment">Add Treatment Remark</button>
+                                    </div>
+                                    
+                                    <table id='tblTreatment' class='table table-striped table-bordered'>
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align:center;">Date</th>
+                                                <th style="text-align:center;">Staff</th>
+                                                <th style="text-align:center;">Ref. No.</th>
+                                                <th style="text-align:left;">Type</th>
+                                                <th style="text-align:left;">Remarks 1</th>
+                                                <th style="text-align:left;">Remarks 2</th>
+                                                <th style="text-align:left;">Remarks 3</th>
+                                                <th style="text-align:left;">Remarks 4</th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="Product">
+                        <div class="box">
+                            <div class="box-content">
+                                <div id="divProduct">
+                                    <table id='tblProduct' class='table table-striped table-bordered'>
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align:center;">Date</th>
+                                                <th style="text-align:left;">Resource Code</th>
+                                                <th style="text-align:left;">Product Code</th>
+                                                <th style="text-align:left;">Description</th>
+                                                <th style="text-align:left;">Remark</th>
+                                                <th style="text-align:right;">Qty</th>
+                                                <th style="text-align: right;">Unit Price</th>
+                                                <th style="text-align: right;">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+                <div>
+		                <div style="padding: 19px 20px 20px;background-color: whiteSmoke;">
+                            <button id="btnBalanceMember" class="btn btn-primary noty" data-noty-options='{"text":"Please select Member first.","layout":"topRight","type":"error"}' style="display:none;" >Top Right</button>
+			                <button type="button" class="btn btn-primary" value="Save" onclick="CHKDuplicateNRICSaveMembership();" id="btnMemberSave" disabled >Save changes</button>
+                            <button type="button" class="btn btn-primary" value="Save" onclick="OpenStatusDialog();" id="btnSaveStatus" disabled>Edit Status</button>
+                            @*<a class="btn btn-primary" href="@Url.Action("UserSave", "Access", new { id = item.id })" title ="Edit Usser"></a>*@
+			                @*<button type="reset" class="btn">Clear</button>*@
+                            <button type="button" class="btn btn-primary" value="Citi" onclick="OpenAdjustmentDialog('C$');" id ="btnCiti" disabled>Adjust @ViewBag.CitiDesc</button>
+                            <button type="button" class="btn btn-primary" value="Bonus" onclick="OpenAdjustmentDialog('B$');" id ="btnBonus" disabled>Adjust @ViewBag.BonusDesc</button>
+                        
+                               @if (HttpContext.Current.Session["userrole"].ToString() != "IPADMEMBER") { 
+                                 <a class="btn btn-primary" href="MemberListing?rcode=MEMBERLISTING&filter=">Member List</a>
+                               }
+                           
+                        </div>
+                </div>
+
+<div id="dialog-modal_Status">
+    <div class="col-lg-12" id="divStatusDialog">
+        <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+            <span id="AdjustTitle">Member Status Update</span> 
+        </div>
+        @* @Html.DropDownList("cboBundlePrdouct",) *@
+        <table style="width:100%;border-spacing:5px;border-collapse:separate;">
+            <tr>
+                @*<td style="width:10px;"></td>*@
+                <td style="width:150px;">Status</td>
+                <td style="width:250px;">@Html.DropDownList("cboStatus", new SelectList(@ViewBag.StatusOptions, "status", "status"), new { @class = "form-control" })</td>                              
+                <td></td>
+            </tr>
+            <tr>
+                @*<td></td>*@
+                <td>User Name</td>
+                <td ><input type="text" class="form-control" id="txtuid"/></td>
+                <td></td>
+            </tr>
+            <tr>
+                @*<td></td>*@
+                <td>Passowrd</td>
+                <td style="text-align:center;"><input type="password" class="form-control" id="txtpwd"/></td>
+                <td></td>
+            </tr>
+            <tr>
+                @*<td></td>*@
+                <td></td>
+                <td colspan="2" style="padding-top:20px;">
+                    <button type="button" id="btnSaveAdjutment" onclick="UpdateStatus();" class="btn btn-primary" style="width:120px;">Save</button>
+                    <button type="button" id="btnAdjustmentClose" onclick="closeStatusDialog();" class="btn btn-primary" style="width:120px;">Cancel</button>
+                </td>
+                <td></td>
+                @*<td></td>*@
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div id="dialog-modal_Adjustment" >  
+    <div class="col-lg-12" id="divAdjustDialog">
+        <div  style ="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+                <span id="AdjustTitle"></span> <input type ="hidden" id ="txtRType" />
+        </div>
+        @* @Html.DropDownList("cboBundlePrdouct",) *@
+        <table style="width:100%;border-spacing:5px;border-collapse:separate;" >
+            <tr>
+                @*<td style="width:10px;"></td>*@
+                <td style ="width:180px;">Create By</td>
+                <td colspan="4"><input type="text"  id="txtCreateBy" class = "form-control" disabled value ='@Html.Encode(User.Identity.Name)'/></td>
+                @*<td style="width:5px;"></td>
+                <td style ="width:100px;"></td>*@
+                <td></td>
+            </tr>
+            <tr>
+                @*<td></td>*@
+                <td>Description</td>
+                <td colspan ="4" ><input type="text"  id="txtDesc" class = "form-control" /></td>
+            </tr>
+            <tr>
+                @*<td></td>*@
+                <td></td>
+                <td style="text-align: center; width: 130px;">Redeem</td>
+                <td style="width:10px;"></td>
+                <td style="text-align: center; width: 130px;">Award</td>
+                <td></td>
+            </tr>
+            <tr>
+                @*<td></td>*@
+                <td><span id ="AdjustCiti">@ViewBag.CitiDesc</span></td>
+                <td style ="width:130px;"><input type="text" id="txtDebit" class="form-control" /></td>
+                <td></td>
+                <td style ="width:130px;"><input type="text" id="txtCredit" class="form-control" /></td>
+            </tr>
+            <tr>
+                @*<td></td>*@
+                <td></td>
+                <td style="padding-top:20px;">
+                    <button type="button" id="btnSaveAdjutment" onclick ="SaveAdjustment()" class ="btn btn-primary" style ="width:130px;">Save</button>                                    
+                </td>
+                <td></td>
+                <td style="padding-top:20px;">
+                    <button type="button" id="btnAdjustmentClose" onclick="CloseAdjustmentDialog()" class="btn btn-primary" style="width:130px;">Cancel</button>
+                </td>
+                @*<td></td>*@
+            </tr>
+        </table>                                                
+    </div>
+</div>
+
+<div id="Login_dialog-modal">
+    <div class="col-lg-12" id="divLoginDialog" style="overflow-style:scrollbar;">
+        <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+            <span id="loginheader"></span>
+        </div>
+        <div id="divMember">
+            <table style="width:100%;border-spacing:5px;border-collapse:separate;padding-top:10px;">
+                <tr>
+                    <td style="width:20px;"></td>
+                    <td style="width:200px;">User Name</td>
+                    <td colspan="2" style="width:200px;"><input id="txtlname" class="form-control" /></td>
+                    <td><span style="color:red;">*</span></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Password</td>
+                    <td colspan="2"><input type="password" id="txtlpwd" class="form-control" /></td>
+                    <td><span style="color:red;">*</span></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td style="width:60px;"><button type="button" id="btnVoid" onclick="PackageVoid();" class="btn btn-primary" style="width:100px;">Void</button></td>
+                    <td style="width:60px;"><button type="button" id="btnClose" onclick="closeLoginDialog()" class="btn btn-primary" style="width: 100px;">Cancel</button></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="Treatment_dialog-modal" class="row">
+    <div class="col-lg-12" id="divTreatmentDialog">
+        <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+            Treatment Entry
+        </div>
+        <div class="row" style="padding-top:5px;">
+            <div class="col-sm-3">
+
+            </div>
+            <div class="col-sm-1">
+                Type
+            </div>
+            <div class="col-sm-4" style="">
+                <select id="optionTreatmentType" name="optionTreatmentType" class="form-control">
+                    <option value="Hair">Hair</option>
+                    <option value="Face">Face</option>
+                    <option value="Body">Body</option>
+                    <option value="Nail">Nail</option>
+                    <option value="Foot">Foot</option>
+                </select>
+            </div>
+            <div class="col-sm-4">
+    
+            </div>
+        </div>
+        <div class="row" style="padding-top:5px;">
+            <div class="col-sm-3">
+
+            </div>
+            <div class="col-sm-6">
+                 <img class="img-thumbnail" style="width:250px;height:200px;" id="imgTreatment" src="../Images/hair.png">
+            </div>
+            <div class="col-sm-3">
+
+            </div>
+        </div>
+     
+
+        <div>
+            <label class="control-label">Ref No.</label>
+            <div class="controls">
+                <input id="txtTResourceCode" class="form-control" style="margin-bottom:10px;" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <label class="control-label">Remarks 1</label>
+                <div class="controls">
+                    <textarea id="txtTdescription" rows="3" style="width:100%;overflow: hidden; word-wrap: break-word; resize: horizontal; "></textarea>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label class="control-label">Remarks 2</label>
+                <div class="controls">
+                    <textarea id="txtTdescription2" rows="3" style="width:100%;overflow: hidden; word-wrap: break-word; resize: horizontal; "></textarea>
+                </div>
+            </div>
+       </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <label class="control-label">Remarks 3</label>
+                <div class="controls">
+                    <textarea id="txtTdescription3" rows="3" style="width:100%;overflow: hidden; word-wrap: break-word; resize: horizontal; "></textarea>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label class="control-label">Remarks 4</label>
+                <div class="controls">
+                    <textarea id="txtTdescription4" rows="3" style="width:100%;overflow: hidden; word-wrap: break-word; resize: horizontal; "></textarea>
+                </div>
+            </div>
+        </div>  
+            <div class='clearfix'></div>
+            <div style="width:100%;padding: 10px 10px 10px;text-align:right;">
+                <button type="button" id="btnSaveTreatment" onclick="AddTreatment();" class="btn btn-primary" style="width:120px;">Add</button>
+            </div>
+        </div>
+</div>
+
+
+<div id="PHistory_dialog-modal">
+    <div class="col-lg-12" id="divPHistoryDialog" style="overflow-style:scrollbar;">
+        <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+            Package History
+        </div>
+        <div>
+            <table id='tblPHistory' class='table table-striped table-bordered'>
+                @*<thead>
+                <tr>
+                 <th style="text-align:center;">Date</th>
+                <th style="text-align:center;">Branch</th>
+                <th style="text-align:center;">Ref</th>
+                <th style="text-align:center;">Type</th>
+                <th style="text-align:center;">Redeem</th>
+                <th style="text-align:center;">Award</th>
+                <th style="text-align:center;">Balance</th>
+                <th style="text-align:center;">Create By</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>*@
+            </table>
+        </div>        
+        <div class='clearfix'></div>
+
+    </div>
+</div>
+
+<script type ="text/javascript">
+    var load = 0;
+    var edate = $('#txtExpiryDate').val();
+    var selectedid = 0;
+    var selectedno = "";
+    var selectedtype = "";
+    var editTreatmentID = 0
+    //alert($('#expyear').val());
+    //alert($('#txtExpiryDate').val());
+    //$('#txtExpiryDate').val($('#expyear').val());
+
+
+    $(function () {
+        var pt = $('#cussuptype').val();        
+        var mid = $('#id').val();
+        // $('#dateofbirth').val($('#dateofbirth').val());
+        
+        //alert($('#dateofbirth').val());
+
+        //var a = $('#dateofbirth').val();
+        //alert(a);
+        //var ctmp = getDateFromAspString(a);
+        //alert(ctmp);
+        //var d = new Date(ctmp.getFullYear(), ctmp.getMonth(), ctmp.getDate());
+        ////var d = new Date($('#dateofbirth').val().getFullYear(), $('#dateofbirth').val().getMonth(), $('#dateofbirth').val().getDate());
+        //alert(d);
+        ////d = $('#dateofbirth').val();
+        //$('#dateofbirth').val(d);
+
+        //$('#dateofbirth').datepicker({ data-date-format: 'dd/MM/yy' });
+        //$('#dateofbirth').attr("data - date - format", "dd/MM/yyyy");
+
+        if ($('#mgender').val().toUpperCase() == "MALE")
+            $('#gMale').attr("checked", "");
+        else
+            $('#gFMale').attr("checked", "");
+
+        if ($('#canemail').val() == "1")
+            $('#canemail').attr("checked", "");
+        if ($('#cansms').val() == "1")
+            $('#cansms').attr("checked", "");
+        if ($('#cancall').val() == "1")
+            $('#cancall').attr("checked", "");
+
+        showCardGrid();
+
+
+
+        $("#optionTreatmentType").change(function () {
+            if ($(this).val() == "Hair") {
+                $('#imgTreatment').attr("src", "../Images/hair.png");
+            }
+            else if ($(this).val() == "Face") {
+                $('#imgTreatment').attr("src", "../Images/hair.png");
+            }
+            else if ($(this).val() == "Body") {
+                $('#imgTreatment').attr("src", "../Images/body.png");
+            }
+            else if ($(this).val() == "Nail") {
+                $('#imgTreatment').attr("src", "../Images/nail.png");
+            }
+            else if ($(this).val() == "Foot") {
+                $('#imgTreatment').attr("src", "../Images/feet.png");
+            }
+        });
+
+        if (mid != 0) {
+            getRedeemList();
+            getTopUpList();
+            getCitiList();
+            getBonusList();
+            getPackageList();
+            //$('#btnCiti').removeAttr("disabled");
+            //$('#btnBonus').removeAttr("disabled");
+        }
+
+        $('#dialog-modal').dialog({
+            //position: [350, 150],
+            width: 500,
+            hight: 400,
+            modal: true,
+            autoOpen: false,
+            open: function (event, ui) {
+                $('.ui-widget-header').removeClass('ui-widget-header').html('');
+            }
+
+        });
+
+        $('#dialog-modal_Adjustment').dialog({
+            //position: [350, 150],
+            width: 500,
+            hight: 400,
+            modal: true,
+            autoOpen: false,
+            open: function (event, ui) {
+                $('.ui-widget-header').removeClass('ui-widget-header').html('');
+            }
+
+        });
+
+        $('#dialog-modal_Status').dialog({
+            //position: [350, 150],
+            width: 500,
+            hight: 400,
+            modal: true,
+            autoOpen: false,
+            open: function (event, ui) {
+                $('.ui-widget-header').removeClass('ui-widget-header').html('');
+            }
+
+        });
+
+        $('#Login_dialog-modal').dialog({
+            //position: [320, 140],
+            modal: true,
+            autoOpen: false,
+            open: function (event, ui) {
+                $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+            }
+        });
+
+        var loginOptions = {
+            modal: true,
+            height: 250,
+            minHeight: 250,
+            maxHeight: 250,
+            width: 480,
+            minWidth: 480,
+            maxWidth: 480,
+            dialogClass: "sfFormwrapper"
+        };
+        $('#Login_dialog-modal').dialog('option', loginOptions);
+
+        $('#cboRedeempages').change(function () { getRedeemList(); });
+        $('#cboTopUppages').change(function () { getTopUpList(); });
+        $('#txtDebit').on('input', function (event) {
+            this.value = this.value.replace(/[^0-9\.]/g, '');
+        });
+        $('#txtCredit').on('input', function (event) {
+            this.value = this.value.replace(/[^0-9\.]/g, '');
+        });
+
+        if ($('#AdjustmentFlag').val() == "1")
+        {
+            $('#btnCiti').removeAttr("disabled");
+            $('#btnBonus').removeAttr("disabled");
+        }
+        
+        if ($('#StatusFlag').val() == "1") {
+            $('#btnSaveStatus').removeAttr("disabled");            
+        }
+        if (mid == "0")
+        {
+            if ($('#NewFlag').val() == "1") {
+                $('#btnMemberSave').removeAttr("disabled");
+            }
+        }
+        else
+        {
+            if ($('#EditFlag').val() == "1") {
+                $('#btnMemberSave').removeAttr("disabled");
+            }
+        }
+
+        $('#Treatment_dialog-modal').dialog({
+            //position: [280, 120],
+            modal: true,
+            autoOpen: false,
+            open: function (event, ui) {
+                $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+            },
+            close: function () {
+                //SalesStaffValidation();
+            }
+        });
+
+        var toptions = {
+            modal: true,
+            height: 650,
+            minHeight: 650,
+            maxHeight: 650,
+            width: 650,
+            minWidth: 650,
+            maxWidth: 650,
+            dialogClass: "sfFormwrapper"
+        };
+
+        $('#Treatment_dialog-modal').dialog('option', toptions);
+
+        $('#PHistory_dialog-modal').dialog({
+            //position: [280, 120],
+            modal: true,
+            autoOpen: false,
+            open: function (event, ui) {
+                $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+            },
+            close: function () {
+                //SalesStaffValidation();
+            }
+        });
+
+        var phoptions = {
+            modal: true,
+            height: 450,
+            minHeight: 450,
+            maxHeight: 450,
+            width: 850,
+            minWidth: 850,
+            maxWidth: 850,
+            dialogClass: "sfFormwrapper"
+        };
+        $('#PHistory_dialog-modal').dialog('option', phoptions);
+
+        getMemberTreatmentList();
+        getMemberProductList();
+        //showProductHistory();
+    });
+
+    function showCardGrid() {
+        var mid = $('#id').val();
+        //var pt = $('#cussuptype').val();
+
+        $.ajax({
+            url: '@Url.Action("getMemberCardList", "CusSup")',
+            data: { memberid: mid },
+            type: 'POST',
+            success: function (data) {
+                if (data)
+                    populateCardList(data);
+            },
+            error: function (ts) { showMessage(ts.responseText,"error") }
+        });
+    }
+
+    function populateCardList(data)
+    {
+
+        //var Htmlstr = "";//class='table table-bordered
+        var Htmlstr = "<table id='tblCard' class='table table-striped table-bordered'><thead>";
+        //var Htmlstr = "<thead>";
+        var closeHtml = "</tbody></table>";
+        var tmpstr = "";
+        Htmlstr = Htmlstr + "<tr><td style='Display:none;'>ID</td><th>Card Type</th>";
+        Htmlstr = Htmlstr + "<th>Card No</th>";
+        Htmlstr = Htmlstr + "<th>Expiry Date</th><th></th>";
+        Htmlstr = Htmlstr + "</tr></thead><tbody>";
+        //var rows = "";
+        for (var x = 0; x < data.length; x++) {
+            ctmp = getDateFromAspString(data[x].expirydate);            
+            var dtmp = new Date(ctmp.getFullYear(), ctmp.getMonth(), ctmp.getDate());
+            $('#txtExpiryDate').val(dtmp);
+            Htmlstr += "<tr id='card_" + data[x].id + "'><td style='Display:none;'>" + data[x].id + "</td><td >" + data[x].cardtype + "</td><td >" + data[x].cardno + "</td><td >" + ctmp.getDate() + "/" + (ctmp.getMonth()+1) + "/" + ctmp.getFullYear() + "</td>";
+            Htmlstr += " <td><a class='btn btn-info'  onclick='OpenDialog(" + data[x].id + ",this)' title ='Edit'><i class='fa fa-edit'></i></a></td></tr>";       
+        }
+        Htmlstr += closeHtml;        
+        $('#divCard').html(Htmlstr);
+        //$('#divBundle table').last().dataTable({
+        //    //"sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>"
+        //});
+
+    }
+
+    function getNewCardNo() {
+
+        @*$.ajax({
+            url: '@Url.Action("getMemberNewCardNo", "CusSup")',
+            //data: { mid: mid, pageno: 0 },
+            type: 'POST',
+            success: function (data) {
+                $('#txtCardNo').val(data);
+            },
+            error: function (ts) { alert(ts.responseText) }
+        });*@
+    }
+
+    function updateMemberNewCardNo(cno) {
+        var rcode = $('#rcode').val();
+        //alert(cno);
+        $.ajax({
+            url: '@Url.Action("updateMemberNewCardNo", "CusSup")',
+            data: { cardno: cno, rcode: rcode },
+            type: 'POST',
+            success: function (data) {
+                //SaveMembership();
+            },
+            error: function (ts) { showMessage(ts.responseText,"error");showMessage("Fail to update cardno.","error"); }
+        });
+    }
+
+    function OpenDialog(itemid, paramtr) {
+
+        //var pid = $('#pid').val();
+        $('#txtCardID').val(itemid);
+        if (itemid == '0')
+        {
+            $('#txtCardNo').val("");
+            //getNewCardNo();
+            //$('#txtExpiryDate').text("");
+            $('#txtExpiryDate').val(edate);
+            $('#btnCardAdd').html("Add");            
+        }
+        else if (itemid == '-1')
+        {
+            //alert(itemid);
+            var trtmp = $(paramtr).closest('tr');            
+            var rows = $("#tblCard > tbody").find('tr');
+            var index = rows.index(trtmp);
+            var tds = $(paramtr).closest('tr').find('td');
+
+            $('#txtCardIDIndex').val(index);            
+            $('#cboCardType').val(tds.eq(1).html());            
+            $('#txtCardNo').val(tds.eq(2).html());            
+            $('#txtExpiryDate').val(tds.eq(3).html());
+            $('#btnCardAdd').html("Edit");
+        }
+        else
+        {
+            var tds = $(paramtr).closest('tr').find('td');
+            $('#cboCardType').val(tds.eq(1).html());
+            $('#txtCardNo').val(tds.eq(2).html());
+            $('#txtExpiryDate').val(tds.eq(3).html());
+            $('#btnCardAdd').html("Edit");
+        }
+        //alert('dialog');
+        $('#dialog-modal').dialog('open');
+
+    }
+
+    function closeDialog()
+    {
+        $('#dialog-modal').dialog("close");
+    }
+
+    function OpenStatusDialog()
+    {
+        $('cbostatus').val($('status').val());
+        $('#dialog-modal_Status').dialog("open");
+    }
+
+    function closeStatusDialog()
+    {
+        $('#dialog-modal_Status').dialog("close");
+    }
+
+    function UpdateStatus()
+    {
+        var uname = $("#txtuid").val();
+        var pwd = $('#txtpwd').val();
+        var status = $('#cboStatus').val();
+        var mid = $('#id').val();
+        var rcode = $('#rcode').val();
+
+        $.ajax({
+            url: '@Url.Action("MemberStatusSave", "CusSup")',
+            data: JSON.stringify({ mid: mid, uname: uname, pwd: pwd, status: status, rcode: rcode }),
+            type: 'POST',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+               
+                if (data.toUpperCase() == "SUCCESS") {
+                    //alert("Success");
+                    showMessage("Status is changed successfully.", "success");
+                    setTimeout(function () { window.open("MemberShipEnquiry?rcode=MEMBER&id=" + mid, "_self"); }, 1000);
+                }
+                else
+                    showMessage(data, "error");
+            },
+            error: function (req, status, err) {
+                showMessage(err,"error");
+            }
+        });
+    }
+
+    function CardValidation()
+    {
+        //alert("cvalidation" + $('#txtCardNo').val().trim);
+        //if ($('#txtCardNo').val().trim() == "")
+        //{
+        //    alert("Please key in card no.");
+        //    $('#txtCardNo').focus();
+        //    return false;
+        //}
+        //if (IsNumeric($('#txtCardNo').val().trim()) == false)
+        //{
+        //    alert("Invalid Card Number! Card Number must be numeric value.");
+        //    $('#txtCardNo').focus();
+        //    return false;
+        //}
+        if ($('#txtExpiryDate').val().trim() == "") {
+            showMessage("Please key in expiry date.","error");
+            $('#txtExpiryDate').focus();
+            return false;
+        }
+        return true;
+    }
+
+    function SaveCardItem() {
+        
+        if (CardValidation() == false)      return false;
+
+        var cid = $('#txtCardID').val();        
+        var ctype = $('#cboCardType').val();
+        var cno = $('#txtCardNo').val();
+        var expdate = $('#txtExpiryDate').val();
+        //var description = $('#cboProduct option:selected').text();
+        if (cid == '0')
+        {
+            var Htmlstr = "";
+            Htmlstr = "<tr><td style='Display:none;'>" + cid + "</td><td>" + ctype + "</td><td>" + cno + "</td><td>" + expdate + "</td>";
+            Htmlstr += " <td><a class='btn btn-info'  onclick='OpenDialog(-1,this)' ><i class='fa fa-edit'></i></a></td></tr>";
+            //alert(Htmlstr);
+            $("#tblCard > tbody").append(Htmlstr);
+            //updateMemberNewCardNo(cno);
+        }
+        else if (cid == "-1")
+        {
+            var rows = $("#tblCard > tbody").find('tr');
+            var index = $('#txtCardIDIndex').val();                      
+            var tds = $(rows[index]).find('td');
+            //alert($(rows[index]).find('td'));
+            tds.eq(0).html(cid);
+            tds.eq(1).html(ctype);
+            tds.eq(2).html(cno);
+            tds.eq(3).html(expdate);
+            //SaveMembership();
+        }
+        else
+        {
+            var tds = $('#card_' + cid).find('td');
+            //alert(tds);
+            tds.eq(0).html(cid);
+            tds.eq(1).html(ctype);
+            tds.eq(2).html(cno);
+            tds.eq(3).html(expdate);
+            //SaveMembership();
+        }
+
+        $('#dialog-modal').dialog("close");
+
+    }
+
+    function getMemberProductList() {
+        var mid = $('#id').val();
+        var oTable = $('#tblProduct').dataTable({
+            "iDisplayLength": 10, // Default No of Records per page on 1st load
+            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]], // Set no of records in per page
+            "aaSorting": [[0, "desc"]], // Default 1st column sorting
+            "bProcessing": true,
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "mRender": function (data, type, full) {
+                        if (data) {
+                            var ctmp = getDateFromAspString(data);
+                            return (ctmp.getDate() + "/" + (ctmp.getMonth() + 1) + "/" + ctmp.getFullYear());
+                        }
+                        return "";
+                    }
+                },
+                {
+                    "aTargets": [5],
+                    "mRender": function (data, type, full) {
+                        var str = "<div style='width:100%;text-align:right'>" + data + "</div>";
+                        return str;
+                    }
+                },
+                {
+                    "aTargets": [6],
+                    "mRender": function (data, type, full) {
+                        var str = "<div style='width:100%;text-align:right'>" + (parseFloat(data)).toFixed(2) + "</div>";
+                        return str;
+                    }
+                },
+                {
+                    "aTargets": [7],
+                    "mRender": function (data, type, full) {
+                        var str = "<div style='width:100%;text-align:right'>" + (parseFloat(data)).toFixed(2) + "</div>";
+                        return str;
+                    }
+                }
+            ],
+            "sAjaxSource": 'getMemberProductListWithPaging?cussupid=' + mid,
+            "bStateSave": true, //Remember paging & filters
+            "bDeferRender": false,
+            "bServerSide": true,
+            "bDestroy": true,
+            "bRetrieve": true,
+            "oSearch": { "sSearch": "" },
+            "aoColumns": [
+                         { "sWidth": "120px", "mDataProp": "createdate" }, { "sWidth": "120px", "mDataProp": "resourcecode" }, { "sWidth": "200px", "mDataProp": "productcode" }, { "mDataProp": "productdesc" }, { "mDataProp": "remark" }, { "mDataProp": "qty", "sWidth": "80px" }, { "mDataProp": "unitprice", "sWidth": "120px" }, { "mDataProp": "lineamount", "sWidth": "120px" }
+                         //{ "sWidth": "60px", "mDataProp": "id" }, { "sWidth": "60px", "mDataProp": "id" }, { "sWidth": "60px", "mDataProp": "id" }, { "sWidth": "60px", "mDataProp": "id" }, { "sWidth": "60px", "mDataProp": "id" }
+            ],
+            "fnDrawCallback": function () {
+
+            }
+        });
+
+    }
+
+    @*function refreshProductList() {
+        var mid = $('#id').val();
+        $.ajax({
+            type: 'POST',
+            data: { "cussupid": mid },
+            dataType: 'json',
+            url: '@Url.Action("getMemberTreatmentList", "CusSup")',
+            success: function (data) {
+                var oTable = $('#tblTreatment').dataTable();
+                oTable.fnReloadAjax();
+            },
+            error: function () {
+            }
+        });
+    }*@
+
+    function showTreatmentDialog() {
+        editTreatmentID = 0;
+        
+        $("#txtTResourceCode").attr("disabled",false);
+        $("#btnSaveTreatment").text("Add");
+        $('#txtTResourceCode').val("");
+        $('#txtTdescription').val("");
+        $('#txtTdescription2').val("");
+        $('#txtTdescription3').val("");
+        $('#txtTdescription4').val("");
+        $('#optionTreatmentType').val("Hair");
+        $('#optionTreatmentType').trigger('change');
+        $('#Treatment_dialog-modal').dialog("open");
+
+    }
+
+    function getMemberTreatmentList() {
+        var mid = $('#id').val();
+        var oTable = $('#tblTreatment').dataTable({
+            "iDisplayLength": 10, // Default No of Records per page on 1st load
+            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]], // Set no of records in per page
+            "aaSorting": [[0, "desc"]], // Default 1st column sorting
+            "bProcessing": true,
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],                    
+                    "mRender": function (data, type, full) {                        
+                        if (data) {
+                            var ctmp = getDateFromAspString(data);
+                            return (ctmp.getDate() + "/" + (ctmp.getMonth() + 1) + "/" + ctmp.getFullYear());
+                        }
+                        return "";
+                    }
+                },
+                 {
+                     "aTargets": [8],
+                     "mRender": function (data, type, full) {
+                         var d = "";
+                         var str = "<a class='btn btn-primary' title ='Click to edit.' onclick='EditTreatment(this," + data + ")' id='" + data + "' " + d + "><i class='fa fa-edit'></i></a>";
+                         return str;
+                     }
+                 },
+                {
+                    "aTargets": [9],
+                    "mRender": function (data, type, full) {
+                        var d = "";
+                        var str = "<a class='btn btn-danger' title ='Click to remove.' onclick='RemoveTreatment(" + data + ")' id='" + data + "' " + d + "><i class='fa fa-trash-o'></i></a>";
+                        return str;
+                    }
+                }
+
+            ],
+            "sAjaxSource": 'getMemberTreatmentListWithPaging?cussupid=' + mid,
+            "bStateSave": true, //Remember paging & filters
+            "bDeferRender": false,
+            "bServerSide": true,
+            "bDestroy": true,
+            "bRetrieve": true,
+            "oSearch": { "sSearch": "" },
+            "aoColumns": [
+                         { "sWidth": "120px", "mDataProp": "createdate" }, { "sWidth": "120px", "mDataProp": "createbyname" }, { "sWidth": "120px", "mDataProp": "resourcecode" }, { "sWidth": "80px", "mDataProp": "type" }, { "mDataProp": "description" }, { "mDataProp": "remarks2" }, { "mDataProp": "remarks3" }, { "mDataProp": "remarks4" },{ "mDataProp": "id", "sWidth": "80px" }, { "mDataProp": "id", "sWidth": "80px" }
+                        
+            ],
+            "fnDrawCallback": function () {
+
+              
+            }
+        });
+
+    }
+
+    function refreshTreatment() {
+        var mid = $('#id').val();
+        $.ajax({
+            type: 'POST',
+            data: { "cussupid": mid },
+            dataType: 'json',
+            url: '@Url.Action("getMemberTreatmentList", "CusSup")',
+            success: function (data) {
+                var oTable = $('#tblTreatment').dataTable();
+                oTable.fnReloadAjax();
+            },
+            error: function () {
+            }
+        });
+    }
+
+    function AddTreatment() {
+
+        if ($("#btnSaveTreatment").text()=="Add") {
+            var htmlstr = "";
+            var uname = "";
+            var mid = $('#id').val();
+            var rcode = $('#rcode').val();
+            var tmpobj = new Object();
+            tmpobj.id = 0;
+            tmpobj.resourcedetailid = 0;
+            tmpobj.resourcecode = $('#txtTResourceCode').val();
+            tmpobj.cussupid = mid;
+            tmpobj.cussupname = $('#cussupname').val();
+            tmpobj.productid = 0;
+            tmpobj.productcode = "";
+            tmpobj.productdesc = "";
+            tmpobj.statusfield = "NEW";
+            tmpobj.description = $('#txtTdescription').val();
+            tmpobj.remarks2 = $('#txtTdescription2').val();
+            tmpobj.remarks3 = $('#txtTdescription3').val();
+            tmpobj.remarks4 = $('#txtTdescription4').val();
+            tmpobj.type = $('#optionTreatmentType').val();
+
+          
+            $.ajax({
+                url: '@Url.Action("AddMemberTreatment", "CusSup")',
+                data: JSON.stringify({ t: tmpobj, rcode: rcode }),
+                type: 'POST',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    refreshTreatment();
+                    $('#Treatment_dialog-modal').dialog("close");
+                },
+                error: function (ts) { showMessage(ts.responseText, "error"); ShowMessage("Fail to save.", "error"); }
+            });
+        }
+        else {
+            var obj = new Object();
+            obj.id = editTreatmentID;
+            obj.description = $("#txtTdescription").val();
+            obj.remarks2 = $("#txtTdescription2").val();
+            obj.remarks3 = $("#txtTdescription3").val();
+            obj.remarks4 = $("#txtTdescription4").val();
+            obj.type = $("#optionTreatmentType").val();
+            obj.resourcecode = $("#txtTResourceCode").val();
+          
+            $.ajax({
+                url: '@Url.Action("UpdateMemberTreatment", "CusSup")',
+                data: JSON.stringify({ treatment: obj}),
+                type: 'POST',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    refreshTreatment();
+                    $('#Treatment_dialog-modal').dialog("close");
+                },
+                error: function (ts) { showMessage(ts.responseText, "error"); ShowMessage("Fail to save.", "error"); }
+            });
+        }
+
+    }
+
+    function RemoveTreatment(treatmentid) {
+        var rcode = $('#rcode').val();
+    
+        $.ajax({
+            url: '@Url.Action("RemoveMemberTreatment", "CusSup")',
+            data: JSON.stringify({ tid: treatmentid, rcode: rcode }),
+            type: 'POST',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+      
+                if (data == "SUCCESS")
+                    refreshTreatment();
+      
+            },
+            error: function (ts) { showMessage(ts.responseText, "error"); ShowMessage("Fail to save.", "error"); }
+        });
+    }
+
+
+    function EditTreatment(paramtr, treatmentid) {
+        editTreatmentID = treatmentid;
+        $("#btnSaveTreatment").text("Update");
+        var rcode = $('#rcode').val();
+        var tds = $(paramtr).closest('tr').find('td');
+
+        $("#txtTResourceCode").val(tds.eq(2).html());
+        $("#txtTdescription").val(tds.eq(4).html());
+        $("#txtTdescription2").val(tds.eq(5).html());
+        $("#txtTdescription3").val(tds.eq(6).html());
+        $("#txtTdescription4").val(tds.eq(7).html());
+        $("#optionTreatmentType").val(tds.eq(3).html());
+
+        if (tds.eq(2).html().indexOf("OT") >= 0 || tds.eq(2).html().indexOf("RD") >= 0) {
+            $("#txtTResourceCode").attr("disabled", true);
+        }
+        else{
+            $("#txtTResourceCode").attr("disabled", false);
+        }
+
+        $('#optionTreatmentType').trigger('change');
+        $('#Treatment_dialog-modal').dialog("open");
+    
+       
+    }
+
+
+
+    function Validation()
+    {
+
+        if ($('#cussupname').val().trim() == "") {
+            showMessage("Please Key in Name.", "error");
+            $('#cussupname').focus();
+      
+            return false;
+        }
+
+        if ($('#nric').val().trim() == "")
+        {
+            showMessage("Please Key in NRIC.", "error");
+            $('#nric').focus();
+      
+            return false;
+        }
+
+        
+
+        if ($('#mobile').val().trim() == "") {
+            showMessage("Please Key in mobile.", "error");
+            $('#mobile').focus();
+     
+            return false;
+        }
+
+        //if ($('#postalcode').val().trim() == "") {
+        //    showMessage("Please Key in postalcode.", "error");
+        //    $('#postalcode').focus();
+        //    //alert("Please Key in postalcode.");
+        //    return false;
+        //}
+
+        //if ($('#email').val().trim() == "") {
+        //    showMessage("Please Key in email.", "error");
+        //    $('#email').focus();
+        //    //alert("Please Key in email.");
+        //    return false;
+        //}
+    }
+
+    function CHKDuplicateNRICSaveMembership() {
+        var mid = $('#id').val();
+        var nric = $('#nric').val();
+
+        $.ajax({
+            url: '@Url.Action("isDuplicateNRIC", "CusSup")',
+            data: JSON.stringify({ nric: nric, mid: mid }),
+            type: 'POST',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                //alert(data[0].status);
+                //alert(data);
+                if (data == "1") {
+                    showMessage("NRIC already exist.Please Key in again.", "error");
+                    $('#nric').focus();
+                    //alert("NRIC already exist.Please Key  in agin.");
+                    return false;
+                }
+                else {
+                    SaveMembership();
+                }
+
+            },
+            error: function (req, status, err) {
+                return false;
+            }
+        });
+    }
+
+
+
+    function showMessage(msg,type) {        
+        var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"' + type + '"}';
+
+        $('#btnBalanceMember').attr('data-noty-options', attrvalue);
+        $('#btnBalanceMember').trigger("click");
+
+    }
+
+    function SaveMembership()
+        {
+
+        if (Validation() == false) return false;
+        $('#btnMemberSave').attr('disabled','');
+        var mid = $('#id').val();
+        var rcode = $('#rcode').val();
+        var obj = new Object();
+        //alert(mid);
+        obj.id = mid;
+        //alert(pid);
+        obj.nrictype = $('#nrictype').val();
+        obj.departmentid = $('#departmentname').val();
+        obj.departmentname = $('#departmentname :selected').text();
+        obj.nationality = $('#nationality').val();
+        obj.race = $('#race').val();        
+        obj.inhousecode = $('#inhousecode').val();
+        obj.cussupname = $('#cussupname').val();
+        obj.cussuptype = $('#cussuptype').val();
+        obj.address = $('#address').val();
+        obj.postalcode = $('#postalcode').val();
+        obj.nric = $('#nric').val();
+        var d = $('#dateofbirth').datepicker("getDate");
+        var dob = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+        obj.dateofbirth = dob;
+        //obj.dateofbirth = $('#dateofbirth').val();
+        obj.Tel = $('#Tel').val();
+        obj.mobile = $('#mobile').val();
+        obj.email = $('#email').val();
+        obj.status = $('#status').val();
+        obj.occupation = $('#occupation').val();
+        //obj.photo = "";
+        obj.photo = $("#photo").val();
+        //alert($("input[id=gMale]:checked").val());
+        // if ($('#gMale').checked) {
+        if ($("input[id=gMale]:checked").val())
+            obj.gender = "Male";
+        else
+            obj.gender = "Female";
+
+        // if ($('#canemail').checked )
+        //alert($("input[id=canemail]:checked").val());
+        if ($("input[id=canemail]:checked").val())
+            obj.canemail = 1;
+        else 
+            obj.canemail =0;
+        
+        //if ($('#cansms').checked )
+        if ($("input[id=cansms]:checked").val())
+            obj.cansms = 1;
+        else 
+            obj.cansms =0;
+
+        //if ($('#cancall').checked )
+        if ($("input[id=cancall]:checked").val())
+            obj.cancall = 1;
+        else 
+            obj.cancall =0;
+
+        //alert($("#photo").val());
+        var cardCollection = new Array();
+        //var rowcount = $("#tblBundle > tbody > tr").length;
+        $("#tblCard > tbody > tr").each(function (i, row)
+        {
+            var tds = $(row).find('td');
+            {
+                var b = new Object();
+                if (tds.eq(0).html() == '-1')
+                    b.id = 0;
+                else
+                    b.id = tds.eq(0).html();
+                //prc.uom = tds.eq(0).find('select').val();
+                b.cussupid = mid;
+                b.cardtype = tds.eq(1).html();
+                b.cardno = tds.eq(2).html();
+                b.expirydate = tds.eq(3).html();
+                //alert(i +","+ b.cardno);
+                cardCollection.push(b);
+            }            
+        });        
+        obj.cards = cardCollection;
+        
+        //alert(obj.cards.length);
+        //alert('Saved In Object , ' + obj.id);
+        //var inputArray = $(ctlstr);
+
+        $.ajax({
+            url: '@Url.Action("MembershipSave", "CusSup")',
+            data: JSON.stringify({ m: obj, rcode: rcode }),
+                type: 'POST',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    //alert(data[0].status);
+                    if (data > "0") {
+                        showMessage("Member Information is saved successfully.", "success");
+                        //alert("Success");
+                        //window.open("MemberShipEnquiry?rcode=MEMBER&id=" + data, "_self");
+                        setTimeout(function () { window.open("MemberShipEnquiry?rcode=MEMBER&id=" + data, "_self"); }, 1000);
+                        //$('#btnMemberSave').removeAttr('disabled');
+                    }
+                    else
+                        $('#btnMemberSave').removeAttr('disabled');
+                },
+                error: function (req, status, err) {
+                    showMessage(err, "error");
+                    $('#btnMemberSave').removeAttr('disabled');
+                   // alert(err);
+                }
+            });
+    }
+
+    function getRedeemList() {
+        var mid = $('#id').val();
+        var oTable = $('#tblRedeem').dataTable({
+            "iDisplayLength": 10, // Default No of Records per page on 1st load
+            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]], // Set no of records in per page
+            "aaSorting": [[0, 'desc'], [1, 'desc']], // Default 1st column sorting  "aaSorting": [[0, "createdate"], [1, "resourcecode"], [2, "productdesc"]]
+            "bProcessing": true,
+            //"bJQueryUI": true, //No themeroller
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    //"asSorting": ["desc"],
+                    "mRender": function (data, type, full) {
+                        //alert(data);
+                        if (data) {
+                            var ctmp = getDateFromAspString(data);
+                            return (ctmp.getDate() + "/" + (ctmp.getMonth()+1)  + "/" + ctmp.getFullYear());
+                        }
+                        return "";
+                    }
+                },
+              
+                {
+                    "aTargets": [4],
+                    "mRender": function (data, type, full) {
+                       data =  (full.redemptionType == 'PQ') ? data : "0"
+                        var str = "<div style='width:50px;text-align:right'>" + data + "</div>";
+                        return str;
+                    }
+                },
+                   {
+                       "aTargets": [5],
+                       "mRender": function (data, type, full) {
+                           data = (full.redemptionType == 'PQ') ? "0" : data
+                           var str = "<div style='width:50px;text-align:right'>" + data + "</div>";
+                           return str;
+                       }
+                   },
+                      {
+                          "aTargets": [7],
+                          "mRender": function (data, type, full) {
+                              data = (full.redemptionType == 'PQ') ? data : "0"
+                              var str = "<div style='width:50px;text-align:right'>" + data + "</div>";
+                              return str;
+                          }
+                      }, {
+                          "aTargets": [8],
+                          "mRender": function (data, type, full) {
+                              data = (full.redemptionType == 'PQ') ? "0" : data
+                              var str = "<div style='width:50px;text-align:right'>" + data + "</div>";
+                              return str;
+                          }
+                      },
+                      {
+                          "aTargets": [6, 9],
+                          "mRender": function (data, type, full) {
+                              var str = "<div style='width:50px;text-align:right'>" + data + "</div>";
+                              return str;
+                          }
+                      },
+                {
+                    "aTargets": [10],
+                    "mRender": function (data, type, full) {
+                        var str="";
+                        if (data == 'VOID')
+                            str = "<span class='label label-default'>VOID</span>";
+                        else if (data == 'CANCEL')
+                            str = "<span class='label label-danger'>VOID</span>";
+                        else if (data == 'ACTIVE')
+                            str = "<span class='label label-warning'>RSRV</span>";
+                        else
+                            str = "<span class='label label-primary'>" + data + "</span>";
+                        return str;
+                    }
+                },
+                {
+                    "aTargets": [11],
+                    "mRender": function (data, type, full) {
+                        //var str = "<a class='btn btn-success' title ='Click to print' href='../Report/TopUpPrint?id=" + data + "'><i class='fa fa-print'></i></a>";
+                        var str = "";
+                        if (full.redemptionType == "PQ")
+                            str = "<a class='btn btn-mini btn-warning disabled' title ='Click to show Detail.' id='" + data + "'><i class='fa fa-file-text-o'></i></a>";
+                        else
+                            str = "<a class='btn btn-mini btn-warning' title ='Click to show Detail.' onclick='RedeemDetail(" + data + ",\"" + full.productdesc + "\")' id='" + data + "'><i class='fa fa-file-text-o'></i></a>";
+
+                        return str;
+                    }
+                },
+                {
+                    "aTargets": [12],
+                    "mRender": function (data, type, full) {                        
+                        var str = "";
+                        if (full.redemptionType == "PQ")
+                            str = "<a class='btn btn-success' title ='Click to print.' onclick='printPkgReceipt(" + data + ",\"" + full.resourcecode + "\")' id='" + data + "'><i class='fa fa-print'></i></a>";
+                        else
+                            str = "<a class='btn btn-success' title ='Click to print.' onclick='printReceipt(" + data + ",\"" + full.productdesc + "\")' id='" + data + "'><i class='fa fa-print'></i></a>";
+                        return str;
+                    }
+                },
+                {
+                "aTargets": [13],
+                "mRender": function (data, type, full) {
+                    //var str = "<a class='btn btn-success' title ='Click to print' href='../Report/TopUpPrint?id=" + data + "'><i class='fa fa-print'></i></a>";
+                    var rvflag = $('#rvflag').val();                    
+                    var d = "disabled";
+                    if (rvflag == "1") d = '';
+                    var str = "";
+                    if (full.redemptionType == "PQ")
+                        str = "<a class='btn btn-danger disabled' title ='Click to void redeem.' onclick='RedeemVoid(" + data + ",\"" + full.productdesc + "\")' id='" + data + "' " + d + "><i class='fa fa-trash-o'></i></a>";
+                    else
+                        str = "<a class='btn btn-danger' title ='Click to void redeem.' onclick='RedeemVoid(" + data + ",\"" + full.productdesc + "\")' id='" + data + "' " + d + "><i class='fa fa-trash-o'></i></a>";
+
+                    return str;
+                }
+        }
+            ], //, { "bVisible": false, "aTargets": [1] }], // Hide Column
+            "sAjaxSource": 'getMemberRedeemListPaging?mid=' + mid,
+            "bStateSave": true, // Remember paging & filters
+            "bDeferRender": false,
+            "bServerSide": true,
+            "bDestroy": true,
+            "bRetrieve": true,
+            //"bDestroy": true,
+            "oSearch": { "sSearch": "" },
+            //"sPaginationType": "full_numbers", // Include page number
+            "aoColumns": [
+                         { "sWidth": "120px", "mDataProp": "createdate" }, { "sWidth": "150px", "mDataProp": "resourcecode" }, { "mDataProp": "productdesc" }, { "mDataProp": "remark" },
+                         { "sWidth": "40px", "mDataProp": "redeemdollars" }, { "sWidth": "40px", "mDataProp": "redeemdollars" }, { "sWidth": "60px", "mDataProp": "redeembonus" },
+                         { "sWidth": "40px", "mDataProp": "awarddollars" }, { "sWidth": "40px", "mDataProp": "awarddollars" }, { "sWidth": "60px", "mDataProp": "awardbonus" }, { "mDataProp": "status", "sWidth": "80px" }, { "mDataProp": "id", "sWidth": "60px" }, { "mDataProp": "id", "sWidth": "60px" }, { "mDataProp": "id", "sWidth": "60px" }
+            ],
+            "fnDrawCallback": function () {
+                //$("#tblRedeem tbody tr").click(function () {
+                //    var tds = $(this).find("td");
+                //    var rid = tds.eq(7).find("a").attr("id");
+                //    //alert(a.attr("id"));
+                //    window.location.href = "../../BigMac/Sales/Redeem?id=" + rid + "&mid=" + $('#id').val() + "&rcode=REDEEM";
+                //});
+
+                //$('#tblRedeem tbody tr').each(function () {
+                //    this.setAttribute('title', "Click to view detail.");
+                //});
+            }
+        });
+    }
+
+    function RedeemDetail(rid,productdesc)
+    {
+        if (productdesc == "Opening Balance from Customer Transfer") {
+            showMessage("Customer Transfer record has no details.", "error");
+        }
+        else {
+            window.location.href = "../Sales/Redeem?id=" + rid + "&mid=" + $('#id').val() + "&rcode=REDEEM";
+        }
+    }
+
+    function printReceipt(rid,productdesc) {
+
+        if (productdesc == "Opening Balance from Customer Transfer") {
+            showMessage("This record cannot be printed. Please view this record in customer transfer.", "error");
+        }
+        else {
+            var staffid = $('#staffid').val();
+            var citidesc = $('#c').val();
+            var bonusdesc = $('#b').val();
+            //Added by ZawZO on 17 Nov 2015
+            var coname = $('#hidconame').val();
+            var coaddress = encodeURIComponent($('#hidcoaddress').val());
+            var email = $('#hidemail').val();
+            var tel = $('#hidtel').val();
+            var fax = $('#hidfax').val();
+            var coreg = $('#hidcoregno').val();
+            var gstreg = $('#hidgstregno').val();
+
+            if (rid > "0") {
+                //Changed by ZawZO on 17 Nov 2015
+                // window.open("../Reports/RedemptionReceipt.aspx?id=" + rid + "&staffid=" + staffid + "&citidesc=" + citidesc + "&bonusdesc=" + bonusdesc);
+                var strurl = "../Reports/RedemptionReceipt.aspx?id=" + rid + "&staffid=" + staffid + "&citidesc=" + citidesc + "&bonusdesc=" + bonusdesc + "&cname=" + coname + "&caddress=" + coaddress + "&ctel=" + tel + "&cfax=" + fax + "&cemail=" + email + "&coreg=" + coreg + "&gstreg=" + gstreg;
+                window.open(strurl, 'popup_window', 'width=900,height=600,left=10,top=10,resizable=yes');
+            }
+        }
+        
+    }
+
+    function printPkgReceipt(rid, refno) {
+        var staffid = $('#staffid').val();
+        var citidesc = $('#c').val();
+        var bonusdesc = $('#b').val();
+        var coname = $('#hidconame').val();
+        var coaddress = encodeURIComponent($('#hidcoaddress').val());
+        var email = $('#hidemail').val();
+        var tel = $('#hidtel').val();
+        var fax = $('#hidfax').val();
+        var coreg = $('#hidcoregno').val();
+        var gstreg = $('#hidgstregno').val();
+
+        if (rid > "0") {
+            strurl = "../Reports/MemberPackageRedemptionReceipt.aspx?id=" + rid + "&citidesc=" + citidesc + "&bonusdesc=" + bonusdesc + "&refno=" + refno + "&cname=" + coname + "&caddress=" + coaddress + "&ctel=" + tel + "&cfax=" + fax + "&cemail=" + email + "&coreg=" + coreg + "&gstreg=" + gstreg;
+            window.open(strurl, 'popup_window', 'width=900,height=600,left=10,top=10,resizable=yes');
+        }
+
+    }
+
+    function RedeemVoid(rid, productdesc) {
+
+        if (productdesc == "Opening Balance from Customer Transfer") {
+            showMessage("This record cannot be voided. Please view this record in customer transfer.", "error");
+        }
+        else {
+
+            var cans = confirm("Are you sure you want to void this item? \nSystem will void all items under this redeem and it cannot be undone.");
+            if (cans == false) return false;
+
+            var rcode = $('#rcode').val();
+            var mid = $('#id').val();
+
+            $.ajax({
+                url: '@Url.Action("RedeemVoid", "Sales")',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ rid: rid, rcode: rcode }),
+                type: 'POST',
+                success: function (data) {
+                    if (data == "SUCCESS") {
+                        showMessage("Transaction is Voided.", "success");
+                        refreshRedeem();
+                        refreshCiti();
+                        refreshBonus();
+                        if (mid > 0) getMemberbalance();
+                    }
+                    else
+                        showMessage(data, "error");
+
+                    //refreshCiti();
+                    //refreshBonus();
+                    //if (mid > 0) getMemberbalance();
+
+                },
+                error: function (ts) { showMessage(ts.responseText, "error"); ShowMessage("Fail to save.", "error"); }
+            });
+        }
+    }
+
+    function TopUpVoid(tid, productdesc) {
+        if (productdesc == "Opening Balance from Customer Transfer") {
+            showMessage("This record cannot be voided. Please view this record in customer transfer.", "error");
+        }
+        else {
+            var cans = confirm("Are you sure you want to void this item. \nSystem will void all items under this redeem and it cannot be undone.");
+            if (cans == false) return false;
+
+            var rcode = $('#rcode').val();
+            var mid = $('#id').val();
+
+            $.ajax({
+                url: '@Url.Action("TopUpVoid", "Sales")',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ tid: tid, rcode: rcode }),
+                type: 'POST',
+                success: function (data) {
+                    if (data == "SUCCESS") {
+                        showMessage("Transaction is Voided.", "success");
+                        refreshTopUp();
+                        refreshCiti();
+                        refreshBonus();
+                        if (mid > 0) getMemberbalance();
+                    }
+                    else
+                        showMessage(data, "error");
+                },
+                error: function (ts) { showMessage(ts.responseText, "error"); ShowMessage("Fail to save.", "error"); }
+            });
+        }
+    }
+
+    function getTopUpList() {
+        var mid = $('#id').val();
+        //var c = $('#c').val();
+        //var b = $('#b').val();        
+        var oTable = $('#tblTopUp').dataTable({
+            "iDisplayLength": 10, // Default No of Records per page on 1st load
+            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]], // Set no of records in per page
+            "aaSorting": [[0, 'desc'], [1, 'desc']], // Default 1st column sorting "aaSorting": [[0, "createdate","desc"], [1, "resourcecode"], [2, "productdesc"]],
+            "bProcessing": true,
+            //"bJQueryUI": true, //No themeroller
+            "aoColumnDefs": [
+                {                   
+                    "aTargets": [0],
+//                    "aaSorting": ["desc"],
+                    "mRender": function (data, type, full) {
+                        //alert(data);
+                        if (data) {
+                            var ctmp = getDateFromAspString(data);
+                            return (ctmp.getDate() + "/" + (ctmp.getMonth()+1) + "/" + ctmp.getFullYear());
+                        }
+                        return "";
+                    }
+                },
+                {
+                    "aTargets": [4],
+                    "mRender": function (data, type, full) {
+                        var str = "<div style='width:100%;text-align:right'>" + data + "</div>";
+                        return str;
+                    }
+                },
+                {
+                    "aTargets": [5],
+                    "mRender": function (data, type, full) {
+                  
+                        data = (full.redemptionType == "PQ") ? data : "0"
+                          var str = "<div style='width:100%;text-align:right'>" + data + "</div>";
+                       return str;
+                    }
+                },
+                {
+                    "aTargets": [6],
+                    "mRender": function (data, type, full) {
+                        data = (full.redemptionType == "PQ") ? "0" : data
+                           var str = "<div style='width:100%;text-align:right'>" + data + "</div>";
+                        return str;
+                    }
+                },
+                {
+                    "aTargets": [7],
+                    "mRender": function (data, type, full) {
+                        var str = "<div style='width:100%;text-align:right'>" + data + "</div>";
+                        return str;
+                    }
+                },
+                {
+                    "aTargets": [2],
+                    "mRender": function (data, type, full) {
+                        if (data == "Mileage Rewards")
+                            data = "@System.Configuration.ConfigurationManager.AppSettings["rewardsName"] Rewards";
+                        return data;
+                    }
+                },
+
+                {
+                    "aTargets": [8],
+                    "mRender": function (data, type, full) {
+                        var str = "";
+                        if (data == 'VOID')
+                            str = "<span class='label label-default'>VOID</span>";
+                        else
+                            str = "<span class='label label-primary'>" + data + "</span>";
+                        return str;
+                    }
+                },
+                {
+                    "aTargets": [9],
+                    "mRender": function (data, type, full) {
+                        var str = "";
+                        if (full.redemptionType == "PQ")
+                            str = "<a class='btn btn-mini btn-warning disabled' id='" + data + "'><i class='fa fa-file-text-o'></i></a>";
+                        else
+                            str = "<a class='btn btn-mini btn-warning' title ='Click to show Detail.' onclick='TopUpDetail(" + data + ",\"" + full.productdesc + "\")' id='" + data + "'><i class='fa fa-file-text-o'></i></a>";
+                        return str;
+                    }
+                },
+                {
+                    "aTargets": [10],
+                    "mRender": function (data, type, full) {
+                        var str = "";
+                        if (full.redemptionType == "PQ")
+                            str = "<a class='btn btn-success' title ='Click to print.' onclick='printPkgTopUp(" + data + ",\"" + full.resourcecode + "\")' id='" + data + "'><i class='fa fa-print'></i></a>";
+                        else
+                            str = "<a class='btn btn-success' title ='Click to print.' onclick='printTopUp(" + data + ",\"" + full.productdesc + "\")' id='" + data + "'><i class='fa fa-print'></i></a>";
+                        return str;
+                    }
+                },
+                {
+                    "aTargets": [11],
+                    "mRender": function (data, type, full) {
+                        //var str = "<a class='btn btn-success' title ='Click to print' href='../Report/TopUpPrint?id=" + data + "'><i class='fa fa-print'></i></a>";
+                        var tvflag = $('#tvflag').val();
+                        var d = "disabled";
+                        if (tvflag == "1") d = '';
+                        var str = "";
+                        if (full.redemptionType == "PQ")
+                            str = "<a class='btn btn-danger disabled' title ='Click to void topup.' onclick='TopUpVoid(" + data + ",\"" + full.productdesc + "\")' id='" + data + "' " + d + "><i class='fa fa-trash-o'></i></a>";
+                        else
+                            str = "<a class='btn btn-danger' title ='Click to void topup.' onclick='TopUpVoid(" + data + ",\"" + full.productdesc + "\")' id='" + data + "' " + d + "><i class='fa fa-trash-o'></i></a>";
+
+                        return str;
+                    }
+                }
+            ], //, { "bVisible": false, "aTargets": [1] }], // Hide Column
+            "sAjaxSource": 'getMemberTopUpListPaging?mid=' + mid,
+            "bStateSave": true, // Remember paging & filters
+            "bDeferRender": false,
+            "bServerSide": true,
+            "bDestroy": true,
+            "bRetrieve": true,
+            //"bDestroy": true,
+            "oSearch": { "sSearch": "" },
+            //"sPaginationType": "full_numbers", // Include page number
+            "aoColumns": [
+                         { "sWidth": "120px", "mDataProp": "createdate" }, { "sWidth": "150px", "mDataProp": "resourcecode" }, { "mDataProp": "productdesc" }, { "mDataProp": "remark" }, { "sWidth": "100px", "mDataProp": "sellprice" }, { "sWidth": "100px", "mDataProp": "awarddollars" },
+                         { "sWidth": "100px", "mDataProp": "awarddollars" }, { "sWidth": "100px", "mDataProp": "awardbonus" }, { "mDataProp": "status", "sWidth": "80px" }, { "mDataProp": "id", "sWidth": "80px" }, { "mDataProp": "id", "sWidth": "80px" }, { "mDataProp": "id", "sWidth": "80px" }
+            ],
+            "fnDrawCallback": function () {
+                //$("#tblTopUp tbody tr").click(function () {
+                //    var tds = $(this).find("td");
+                //    var tid = tds.eq(5).find("a").attr("id");
+                //    window.location.href = "../../BigMac/Sales/TopUp?id=" + tid + "&mid=" + $('#id').val() + "&rcode=TOPUP";
+                //});
+
+                //$('#tblTopUp tbody tr').each(function () {
+                //    this.setAttribute('title', "Click to view detail.");
+                //});
+            }
+        });
+    }
+
+    function TopUpDetail(tid,productdesc)
+    {
+        if (productdesc == "Opening Balance from Customer Transfer") {
+            showMessage("Customer Transfer record has no details.", "error");
+        }
+        else {
+            window.location.href = "../Sales/TopUp?id=" + tid + "&mid=" + $('#id').val() + "&rcode=TOPUP";
+        }
+    }
+
+    function printTopUp(tid, productdesc) {
+        if (productdesc == "Opening Balance from Customer Transfer") {
+            showMessage("This record cannot be printed. Please view this record in customer transfer.", "error");
+        }
+        else {
+            var staffid = $('#staffid').val();
+            var citidesc = $('#c').val();
+            var bonusdesc = $('#b').val();
+            var coname = $('#hidconame').val();
+            var coaddress = encodeURIComponent($('#hidcoaddress').val());
+            var email = $('#hidemail').val();
+            var tel = $('#hidtel').val();
+            var fax = $('#hidfax').val();
+            var coreg = $('#hidcoregno').val();
+            var gstreg = $('#hidgstregno').val();
+
+            if (tid > "0") {
+                var strurl = "../Reports/TopUpReceipt.aspx?id=" + tid + "&staffid=" + staffid + "&citidesc=" + citidesc + "&bonusdesc=" + bonusdesc + "&cname=" + coname + "&caddress=" + coaddress + "&ctel=" + tel + "&cfax=" + fax + "&cemail=" + email + "&coreg=" + coreg + "&gstreg=" + gstreg;
+                window.open(strurl, 'popup_window', 'width=900,height=600,left=10,top=10,resizable=yes');
+            }
+        }
+
+    }
+
+    function printPkgTopUp(tid,refno) {
+        var staffid = $('#staffid').val();
+        var citidesc = $('#c').val();
+        var bonusdesc = $('#b').val();
+        var coname = $('#hidconame').val();
+        var coaddress = encodeURIComponent($('#hidcoaddress').val());
+        var email = $('#hidemail').val();
+        var tel = $('#hidtel').val();
+        var fax = $('#hidfax').val();
+        var coreg = $('#hidcoregno').val();
+        var gstreg = $('#hidgstregno').val();
+
+        if (tid > "0") {
+            strurl = "../Reports/MemberPackageTopUpReceipt.aspx?id=" + tid + "&citidesc=" + citidesc + "&bonusdesc=" + bonusdesc + "&refno=" + refno + "&cname=" + coname + "&caddress=" + coaddress + "&ctel=" + tel + "&cfax=" + fax + "&cemail=" + email + "&coreg=" + coreg + "&gstreg=" + gstreg;
+            window.open(strurl, 'popup_window', 'width=900,height=600,left=10,top=10,resizable=yes');
+        }
+    }
+
+    function getCitiList() {
+        var mid = $('#id').val();
+        //alert(mid);
+        var oTable = $('#tblCiti').dataTable({
+            "iDisplayLength": 10, // Default No of Records per page on 1st load
+            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]], // Set no of records in per page
+            "aaSorting": [[0, "desc"]], // Default 1st column sorting
+            "bProcessing": true,
+            //"bJQueryUI": true, //No themeroller
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "mRender": function (data, type, full) {
+                        //alert(data);
+                        if (data) {
+                            var ctmp = getDateFromAspString(data);
+                            return (ctmp.getDate() + "/" + (ctmp.getMonth() + 1) + "/" + ctmp.getFullYear());
+                        }
+                        return "";
+                    }
+                },
+                {
+                    "aTargets": [5, 6, 7],
+                    "mRender": function (data, type, full) {
+                        var str = "<div style='width:100%;text-align:right'>" + data + "</div>";
+                        return str;
+                    }
+                }
+            ], //, { "bVisible": false, "aTargets": [1] }], // Hide Column
+            "sAjaxSource": 'getMemberCitiListPaging?mid=' + mid,
+            "bStateSave": true, // Remember paging & filters
+            "bDeferRender": false,
+            "bServerSide": true,
+            "bDestroy": true,
+            "bRetrieve": true,
+            //"bDestroy": true,
+            "oSearch": { "sSearch": "" },
+            //"sPaginationType": "full_numbers", // Include page number
+            "aoColumns": [
+                         { "sWidth": "120px", "mDataProp": "createdate" }, { "sWidth": "120px", "mDataProp": "branchcode" }, { "sWidth": "150px", "mDataProp": "RefNo" }, { "mDataProp": "productdesc" }, { "mDataProp": "remark" },
+                         { "sWidth": "120px", "mDataProp": "debit" }, { "sWidth": "120px", "mDataProp": "credit" }, { "sWidth": "120px", "mDataProp": "balance" },{ "sWidth": "150px", "mDataProp": "cname" }                        
+            ],
+            //success: function (data) {
+            //    var oTable = $('#tblCiti').dataTable();
+            //    oTable.fnReloadAjax();
+            //        $.msg("Data Retrieved!", { header: 'Retrieved!' });
+            //},
+            "fnDrawCallback": function () {
+                //$("#tblCiti tbody tr").click(function () {
+                //    var tds = $(this).find("td");
+                //    window.location.href = "PromotionSave?id=" + tds.eq(0).html();
+                //});
+
+                //$('#tblCiti tbody tr').each(function () {
+                //    this.setAttribute('title', "Click to view detail.");
+                //});
+            }
+        });
+    }
+
+    function getBonusList() {
+        var mid = $('#id').val();
+        var oTable = $('#tblBonus').dataTable({
+            "iDisplayLength": 10, // Default No of Records per page on 1st load
+            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]], // Set no of records in per page
+            "aaSorting": [[0, "desc"]], // Default 1st column sorting
+            "bProcessing": true,
+            //"bJQueryUI": true, //No themeroller
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "mRender": function (data, type, full) {
+                        //alert(data);
+                        if (data) {
+                            var ctmp = getDateFromAspString(data);
+                            return (ctmp.getDate() + "/" + (ctmp.getMonth() + 1) + "/" + ctmp.getFullYear());
+                        }
+                        return "";
+                    }
+                },
+                {
+                    "aTargets": [ 5, 6, 7],
+                    "mRender": function (data, type, full) {
+                        var str = "<div style='width:100%;text-align:right'>" + data + "</div>";
+                        return str;
+                    }
+                }
+            ], //, { "bVisible": false, "aTargets": [1] }], // Hide Column
+            "sAjaxSource": 'getMemberCitiListPaging?mid=' + mid + "&rtype=B$",
+            "bStateSave": true, // Remember paging & filters
+            "bDeferRender": false,
+            "bServerSide": true,
+            "bDestroy": true,
+            "bRetrieve": true,
+            //"bDestroy": true,
+            "oSearch": { "sSearch": "" },
+            //"sPaginationType": "full_numbers", // Include page number
+            "aoColumns": [
+                         { "sWidth": "120px", "mDataProp": "createdate" }, { "sWidth": "120px", "mDataProp": "branchcode" }, { "sWidth": "150px", "mDataProp": "RefNo" }, { "mDataProp": "productdesc" }, { "mDataProp": "remark" },
+                         { "sWidth": "120px", "mDataProp": "debit" }, { "sWidth": "120px", "mDataProp": "credit" }, { "sWidth": "120px", "mDataProp": "balance" }, { "sWidth": "150px", "mDataProp": "cname" }
+            ],
+            "fnDrawCallback": function () {
+                //$("#tblBonus tbody tr").click(function () {
+                //    var tds = $(this).find("td");
+                //    window.location.href = "PromotionSave?id=" + tds.eq(0).html();
+                //});
+
+                //$('#tblBonus tbody tr').each(function () {
+                //    this.setAttribute('title', "Click to view detail.");
+                //});
+            }
+        });
+    }
+
+    function getPackageList() {
+        var mid = $('#id').val();
+        var oTable = $('#tblPackage').dataTable({
+            "iDisplayLength": 10, // Default No of Records per page on 1st load
+            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]], // Set no of records in per page
+            "aaSorting": [[0, "desc"]], // Default 1st column sorting
+            "bProcessing": true,
+            "aoColumnDefs": [
+                  {
+                      "aTargets": [0],
+                      "mRender": function (data, type, full) {
+                          if (data) {
+                              var ctmp = getDateFromAspString(data);
+                              return (ctmp.getDate() + "/" + (ctmp.getMonth() + 1) + "/" + ctmp.getFullYear());
+                          }
+                          return "";
+                      }
+                  },
+                {
+                    "aTargets": [7,8,9],
+                    "mRender": function (data, type, full) {
+                        var str = "<div style='width:100%;text-align:right'>" + data + "</div>";
+                        return str;
+                    }
+                }
+            ],
+            //, { "bVisible": false, "aTargets": [1] }], // Hide Column
+            "sAjaxSource": 'getMemberRedeemPackageListPaging?mid=' + mid ,
+            "bStateSave": true, //Remember paging & filters
+            "bDeferRender": false,
+            "bServerSide": true,
+            "bDestroy": true,
+            "bRetrieve": true,
+            "oSearch": { "sSearch": "" },
+            "aoColumns": [
+                         { "sWidth": "100px", "mDataProp": "date" }, { "sWidth": "100px", "mDataProp": "receipt" }, { "sWidth": "100px", "mDataProp": "packagecode" }, { "sWidth": "220px", "mDataProp": "packagedesc" }, { "sWidth": "90px", "mDataProp": "productid" },
+                         { "sWidth": "150px", "mDataProp": "productdesc" }, { "sWidth": "50px", "mDataProp": "uom" }, { "sWidth": "30px", "mDataProp": "debit" },
+                         { "sWidth": "30px", "mDataProp": "credit" }, { "sWidth": "50px", "mDataProp": "balance" }, { "sWidth": "50px", "mDataProp": "remarks" }
+            ],
+            "fnDrawCallback": function () {
+            }
+        });
+    }
+
+    function showPackageHistory(data) {
+        //alert(data);
+        //refreshPackageList();
+        refreshPackageHistoryList(data);
+        
+        //show();
+    }
+    function show()
+    {
+        //alert('test');
+    }
+
+    function refreshPackageHistoryList(data) {
+        
+        var mid = $('#id').val();
+        //alert('ph' + mid);
+        var pid = data;
+        var pvflag = $('#pvflag').val();
+        var d = "disabled";
+        if (pvflag == "1") d = '';
+
+        //mid=' + mid + "&rtype=PACKAGE&pid=" + pid,
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify({ "mid": mid, "rtype": "PACKAGE", "pid" : pid }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            //async: false,
+            url: '@Url.Action("getMemberRedeemPackageHistoryListPaging", "CusSup")',
+            success: function (data) {
+                //var oTable = $('#tblPHistory').dataTable();
+                //oTable.fnReloadAjax();
+                var returnhtml = "<thead><th>Date</th><th>Branch</th><th>Create By</th><th>RefNo</th><th>Debit</th><th>Credit</th><th>Balance</th><th></th><th></th><th></th></thead><tbody>";
+                var bodyhtml = "";
+                for (i = 0; i < data.length; i++)
+                {
+                    var ctmp = getDateFromAspString(data[i].createdate);
+                    dtmp = ctmp.getDate() + "/" + (ctmp.getMonth() + 1) + "/" + ctmp.getFullYear();
+                    bodyhtml = bodyhtml + "<tr><td>" + dtmp + "</td><td>" + data[i].branchcode + "</td><td>" + data[i].cname + "</td><td>" + data[i].RefNo + "</td><td>" + data[i].debit + "</td><td>" + data[i].credit + "</td><td>" + data[i].balance + "</td>"
+                        + "<td><a class='btn btn-mini btn-warning' title ='Click to show Detail.' onclick='goToPKGDetail(" + data[i].invoiceid + ",this)' id='" + data[i].invoiceid + "'><i class='fa fa-file-text-o'></i></a></td>"
+                        + "<td><a class='btn btn-success' title ='Click to print.' onclick='printPackage(" + data[i].invoiceid + ", this)' id='" + data[i].invoiceid + "'><i class='fa fa-print'></i></a></td>"
+                        + "<td><a class='btn btn-danger' title ='Click to void topup.' onclick='PackageVoidDialog(" + data[i].invoiceid + ",this)' id='" + data[i].invoiceid + "' " + d + "><i class='fa fa-trash-o'></i></a></td></tr>";
+                }
+                returnhtml = returnhtml + bodyhtml + "</tbody>";
+                $('#tblPHistory').html(returnhtml);
+                $('#PHistory_dialog-modal').dialog('open');
+                //$.msg("Data Retrieved!", { header: 'Retrieved!' });
+            },
+            error: function () {
+
+            }
+        });
+    }
+
+    function showProductHistory() {
+
+        //var mid = $('#id').val();
+        //var pid = 0;
+        //var oTable = $('#tblPHistory').dataTable({
+        //    "iDisplayLength": 10, // Default No of Records per page on 1st load
+        //    "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]], // Set no of records in per page
+        //    "aaSorting": [[0, "desc"]], // Default 1st column sorting
+        //    "bProcessing": true,
+        //    "aoColumnDefs": [
+        //        {
+        //            "aTargets": [0],
+        //            "mRender": function (data, type, full) {
+        //                if (data) {
+        //                    var ctmp = getDateFromAspString(data);
+        //                    return (ctmp.getDate() + "/" + (ctmp.getMonth() + 1) + "/" + ctmp.getFullYear());
+        //                }
+        //                return "";
+        //            }
+        //        },
+        //        {
+        //            "aTargets": [3, 4, 5],
+        //            "mRender": function (data, type, full) {
+        //                var str = "<div style='width:100%;text-align:right'>" + data + "</div>";
+        //                return str;
+        //            }
+        //        },
+        //        {
+        //            "aTargets": [6],
+        //            "mRender": function (data, type, full) {
+        //                //var str = "<a class='btn btn-success' title ='Click to print' href='../Report/TopUpPrint?id=" + data + "'><i class='fa fa-print'></i></a>";
+        //                var str = "<a class='btn btn-mini btn-warning' title ='Click to show Detail.' onclick='goToPKGDetail(" + data + ",this)' id='" + data + "'><i class='fa fa-file-text-o'></i></a>";
+        //                return str;
+        //            }
+        //        },
+        //        {
+        //            "aTargets": [7],
+        //            "mRender": function (data, type, full) {
+        //                //var str = "<a class='btn btn-success' title ='Click to print' href='../Report/TopUpPrint?id=" + data + "'><i class='fa fa-print'></i></a>";
+        //                var str = "<a class='btn btn-success' title ='Click to print.' onclick='printPackage(" + data + ", this)' id='" + data + "'><i class='fa fa-print'></i></a>";
+        //                return str;
+        //            }
+        //        },
+        //        {
+        //            "aTargets": [8],
+        //            "mRender": function (data, type, full) {
+        //                //var str = "<a class='btn btn-success' title ='Click to print' href='../Report/TopUpPrint?id=" + data + "'><i class='fa fa-print'></i></a>";
+        //                var pvflag = $('#pvflag').val();
+        //                var d = "disabled";
+        //                if (pvflag == "1") d = '';
+        //                var str = "<a class='btn btn-danger' title ='Click to void topup.' onclick='PackageVoidDialog(" + data + ",this)' id='" + data + "' " + d + "><i class='fa fa-trash-o'></i></a>";
+        //                return str;
+        //            }
+        //        }
+        //    ], //, { "bVisible": false, "aTargets": [1] }], // Hide Column
+        //    "sAjaxSource": 'getMemberRedeemPackageHistoryListPaging?mid=' + mid + "&rtype=PACKAGE&pid=" + pid,
+        //    "bStateSave": true, //Remember paging & filters
+        //    "bDeferRender": false,
+        //    "bServerSide": true,
+        //    "bDestroy": true,
+        //    "bRetrieve": true,
+        //    "oSearch": { "sSearch": "" },
+        //    "aoColumns": [
+        //                 { "sWidth": "120px", "mDataProp": "createdate" }, { "sWidth": "120px", "mDataProp": "branchcode" }, { "sWidth": "100px", "mDataProp": "resource" },
+        //                 { "sWidth": "100px", "mDataProp": "debit" }, { "sWidth": "100px", "mDataProp": "credit" }, { "sWidth": "100px", "mDataProp": "balance" }, { "sWidth": "120px", "mDataProp": "cname" }, { "sWidth": "50px", "mDataProp": "invoiceid" }, { "sWidth": "50px", "mDataProp": "invoiceid" }, { "sWidth": "50px", "mDataProp": "invoiceid" }
+        //    ],
+
+        //    "fnDrawCallback": function () {
+
+        //    }
+        //});
+
+    }
+
+
+    function getPackageList_old() {
+        var mid = $('#id').val();
+        //var rtype = "PACKAGE REDEEM";
+        //alert('getMemberRedeemPackageListPaging?mid=' + mid + "&rtype=" + rtype);
+        var oTable = $('#tblPackage').dataTable({
+            "iDisplayLength": 10, // Default No of Records per page on 1st load
+            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]], // Set no of records in per page
+            "aaSorting": [[0, "desc"]], // Default 1st column sorting
+            "bProcessing": true,
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "mRender": function (data, type, full) {
+                        if (data) {
+                            var ctmp = getDateFromAspString(data);
+                            return (ctmp.getDate() + "/" + (ctmp.getMonth() + 1) + "/" + ctmp.getFullYear());
+                        }
+                        return "";
+                    }
+                },
+                {
+                    "aTargets": [5,6,7],
+                    "mRender": function (data, type, full) {
+                        var str = "<div style='width:100%;text-align:right'>" + data + "</div>";
+                        return str;
+                    }
+                },
+                {
+                    "aTargets": [9],
+                    "mRender": function (data, type, full) {
+                        //var str = "<a class='btn btn-success' title ='Click to print' href='../Report/TopUpPrint?id=" + data + "'><i class='fa fa-print'></i></a>";
+                        var str = "<a class='btn btn-mini btn-warning' title ='Click to show Detail.' onclick='goToPKGDetail(" + data + ",this)' id='" + data + "'><i class='fa fa-file-text-o'></i></a>";
+                        return str;
+                    }
+                },
+                {
+                    "aTargets": [10],
+                    "mRender": function (data, type, full) {
+                        //var str = "<a class='btn btn-success' title ='Click to print' href='../Report/TopUpPrint?id=" + data + "'><i class='fa fa-print'></i></a>";
+                        var str = "<a class='btn btn-success' title ='Click to print.' onclick='printPackage(" + data + ", this)' id='" + data + "'><i class='fa fa-print'></i></a>";
+                        return str;
+                    }
+                },
+                {
+                    "aTargets": [11],
+                    "mRender": function (data, type, full) {
+                        //var str = "<a class='btn btn-success' title ='Click to print' href='../Report/TopUpPrint?id=" + data + "'><i class='fa fa-print'></i></a>";
+                        var pvflag = $('#pvflag').val();
+                        var d = "disabled";
+                        if (pvflag == "1") d = '';
+                        var str = "<a class='btn btn-danger' title ='Click to void topup.' onclick='PackageVoidDialog(" + data + ",this)' id='" + data + "' " + d + "><i class='fa fa-trash-o'></i></a>";
+                        return str;
+                    }
+                }
+            ], //, { "bVisible": false, "aTargets": [1] }], // Hide Column
+            "sAjaxSource": 'getMemberRedeemPackageListPaging?mid=' + mid + "&rtype=PACKAGE",
+            "bStateSave": true, //Remember paging & filters
+            "bDeferRender": false,
+            "bServerSide": true,
+            "bDestroy": true,
+            "bRetrieve": true,
+            "oSearch": { "sSearch": "" },
+            "aoColumns": [
+                         { "sWidth": "120px", "mDataProp": "createdate" }, { "sWidth": "120px", "mDataProp": "branchcode" }, { "sWidth": "140px", "mDataProp": "RefNo" }, { "sWidth": "100px", "mDataProp": "resource" }, { "mDataProp": "productdesc" },
+                         { "sWidth": "100px", "mDataProp": "debit" }, { "sWidth": "100px", "mDataProp": "credit" }, { "sWidth": "100px", "mDataProp": "balance" }, { "sWidth": "120px", "mDataProp": "cname" }, { "sWidth": "50px", "mDataProp": "invoiceid" }, { "sWidth": "50px", "mDataProp": "invoiceid" }, { "sWidth": "50px", "mDataProp": "invoiceid" }
+            ],
+            //success: function (data) {
+            //    var oTable = $('#tblCiti').dataTable();
+            //    oTable.fnReloadAjax();
+            //        $.msg("Data Retrieved!", { header: 'Retrieved!' });
+            //},
+            "fnDrawCallback": function () {
+                $("#tblCiti tbody tr").click(function () {
+                    var tds = $(this).find("td");
+                    window.location.href = "../Sales/RedeemPackage?resourcecode=" + tds.eq(2).html();
+                });
+
+                //$('#tblCiti tbody tr').each(function () {
+                //    this.setAttribute('title', "Click to view detail.");
+                //});
+            }
+        });
+    }
+
+    function refreshPackageList() {
+        var mid = $('#id').val();
+        $.ajax({
+            type: 'POST',
+            data: { "mid": mid, "rtype": "PACKAGE" },
+            dataType: 'json',
+            url: '@Url.Action("getMemberRedeemPackageListPaging", "CusSup")',
+            success: function (data) {
+                var oTable = $('#tblPackage').dataTable();
+                oTable.fnReloadAjax();
+                //$.msg("Data Retrieved!", { header: 'Retrieved!' });
+            },
+            error: function () {
+                //$.wl_Alert('Unable to retrieve data!', 'warning', '#content');
+                //$.msg("Unable to retrieve data!", { header: 'Failed' });
+            }
+        });
+    }
+
+    function OpenAdjustmentDialog(rtype) {
+
+        //var pid = $('#pid').val();
+        $('#txtRType').val(rtype);
+        if (rtype == "C$") {
+            $("#AdjustCiti").html($("#c").val());
+            $("#AdjustTitle").html($("#c").val() + " Adjustment");
+        }
+        else {
+            $("#AdjustCiti").html($("#b").val());
+            $("#AdjustTitle").html($("#b").val() + " Adjustment");
+        }
+
+        //alert('dialog');
+        $('#txtDesc').val("");
+        $('#txtCredit').val("");
+        $('#txtDebit').val("");
+        $('#btnSaveAdjutment').removeAttr("disabled");
+        $('#dialog-modal_Adjustment').dialog('open');
+    }
+
+    function CloseAdjustmentDialog() {
+        $('#dialog-modal_Adjustment').dialog("close");
+    }
+
+    function SaveAdjustment()
+    {
+        if (AdjustmentValidation() == false) return false;
+        $('#btnSaveAdjutment').attr("disabled","");
+        var mid = $('#id').val();
+        var rcode = $('#rcode').val();
+        var obj = new Object();
+        //obj.id = 0;
+        //alert(pid);
+        obj.cussupid = mid;
+        obj.productid = 0;
+        obj.productdesc = $('#txtDesc').val();
+        obj.credit = $('#txtCredit').val();
+        obj.debit = $('#txtDebit').val();
+        obj.resource = 'Adjustment';
+        obj.redemptiontype = $('#txtRType').val();
+        obj.invoiceitemid = 0;
+
+        //alert(obj.credit);
+        $.ajax({
+            url: '@Url.Action("SaveToRedemptionTable", "Sales")',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ r: obj,rcode:rcode }),
+            type: 'POST',
+            success: function (data) {
+                if (data == "SUCCESS")
+                    showMessage("Adjustment is saved successfully.", "success");
+                else
+                    showMessage(data, "success");
+
+                //alert($('#txtRType').val());
+                if ($('#txtRType').val() == "C$") {
+                    refreshCiti();  // getCitiList();
+                }
+                else
+                    refreshBonus(); //getBonusList();
+
+                if (mid > 0) getMemberbalance();                
+                CloseAdjustmentDialog();
+            },
+            error: function (ts) { showMessage(ts.responseText,"error"); ShowMessage("Fail to save.","error"); }
+        });
+    }
+
+    function AdjustmentValidation()
+    {
+        //alert("AValidation");
+        if ($('#txtCredit').val().trim() == "") $('#txtCredit').val("0");
+        if ($('#txtDebit').val().trim() == "") $('#txtDebit').val("0");
+        if ($('#txtDesc').val().trim() == "") $('#txtDesc').val(" ");
+
+        if (IsNumeric($('#txtCredit').val().trim()) == false) {
+            showMessage("Invalid Credit Amount!","error"); $('#txtCredit').focus(); return false;
+        }
+
+        if (IsNumeric($('#txtDebit').val().trim()) == false) {
+            showMessage("Invalid Debit Amount!","error"); $('#txtDebit').focus(); return false;
+        }
+
+        return true;
+    }
+
+    function refreshCiti()
+    {        
+        var mid = $('#id').val();
+        $.ajax({
+            type: 'POST',
+            data: { "mid": mid, "rtype": "C$" },
+            dataType: 'json',
+            url: '@Url.Action("getMemberCitiListPaging", "CusSup")',
+            success: function (data) {
+                var oTable = $('#tblCiti').dataTable();
+                oTable.fnReloadAjax();
+                //$.msg("Data Retrieved!", { header: 'Retrieved!' });
+            },
+            error: function () {
+                //$.wl_Alert('Unable to retrieve data!', 'warning', '#content');
+                //$.msg("Unable to retrieve data!", { header: 'Failed' });
+            }
+        });
+    }    
+
+    function refreshBonus() {        
+        var mid = $('#id').val();
+        $.ajax({
+            type: 'POST',
+            data: { "mid": mid, "rtype": "B$" },
+            dataType: 'json',
+            url: '@Url.Action("getMemberCitiListPaging", "CusSup")',
+            success: function (data) {
+                var oTable = $('#tblBonus').dataTable();
+                oTable.fnReloadAjax();
+                //$.msg("Data Retrieved!", { header: 'Retrieved!' });
+            },
+            error: function () {
+                //$.wl_Alert('Unable to retrieve data!', 'warning', '#content');
+                //$.msg("Unable to retrieve data!", { header: 'Failed' });
+            }
+        });
+    }
+
+    function refreshTopUp() {
+        var mid = $('#id').val();
+        $.ajax({
+            type: 'POST',
+            data: { "mid": mid },
+            dataType: 'json',
+            url: '@Url.Action("getMemberTopUpListPaging", "CusSup")',
+            success: function (data) {
+                var oTable = $('#tblTopUp').dataTable();
+                oTable.fnReloadAjax();         
+            },
+            error: function () {
+            }
+        });
+    }
+
+    function refreshRedeem() {
+        var mid = $('#id').val();
+        $.ajax({
+            type: 'POST',
+            data: { "mid": mid },
+            dataType: 'json',
+            url: '@Url.Action("getMemberRedeemListPaging", "CusSup")',
+            success: function (data) {
+                var oTable = $('#tblRedeem').dataTable();
+                oTable.fnReloadAjax();
+            },
+            error: function () {
+            }
+        });
+    }
+
+    function goToPKGDetail(id, paramtr)
+    {
+        var ttype = $(paramtr).closest('tr').find('td').eq(3).html();
+        ttype = ttype.toUpperCase();
+        //alert(ttype);
+        ttype = ttype.substring(0, 3);
+        //alert(ttype);
+        //alert(ttype + ',' + id);
+        if (ttype == "POS")
+            window.location.href = "../POS/POS?id=" + id + "&rcode=" + ttype;
+        else //if (ttype == "PACKAGE REDEEM")
+            window.location.href = "../Sales/RedeemPackage?id=" + id + "&rcode=" + ttype;
+    }
+
+    function printPackage(id, paramtr) {
+        var staffid = $('#staffid').val();
+        var citidesc = $('#c').val();
+        var bonusdesc = $('#b').val();
+        //alert(obc + "," + cbc + "," + obb + "," + obc);
+        var ttype = $(paramtr).closest('tr').find('td').eq(3).html();
+        ttype = ttype.toUpperCase();
+        ttype = ttype.substring(0, 3);
+        //alert(ttype);
+        //alert(ttype + ','+ id);
+        if (id > 0)
+        {
+            if (ttype == "POS") {
+                //alert("../Reports/POSReceipt.aspx?id=" + id + "&cdesc=" + citidesc + "&pdesc=" + bonusdesc);
+                url = "../Reports/POSReceipt.aspx?id=" + id + "&cdesc=" + citidesc + "&pdesc=" + bonusdesc;
+                window.open(url,'popup_window', 'width=900,height=600,left=10,top=10,resizable=yes');
+                UpdatePrintCount(id);
+            }
+            else {//if (ttype == "PACKAGE REDEEM")
+                url = "../Reports/PackageRedemptionReceipt.aspx?id=" + id + "&staffid=" + staffid + "&citidesc=" + citidesc + "&bonusdesc=" + bonusdesc;
+                window.open(url, 'popup_window', 'width=900,height=600,left=10,top=10,resizable=yes');
+            }
+        }
+    }
+
+    function UpdatePrintCount(rid) {
+        var rcode = $('#rcode').val();
+        var posid = id;
+        $.ajax({
+            url: '@Url.Action("UpdatePrintCount", "POS")',
+            data: JSON.stringify({ posid: posid, resource: $('#rcode').val() }),
+            type: 'POST',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data != "FAIL") {
+                    $('#txtprintcount').val(data);
+                }
+            },
+            error: function (req, status, err) {
+                showMessage(err, "error");
+                $("#btnPOSPrint").removeAttr("disabled");
+            }
+        });
+    }
+
+    function openPasswordDialog(id, paramtr) {        
+        //posid = pid;
+        //posno = $(paramtr).closest('tr').find('td').eq(2).html();
+        selectedid = id;
+        selectedno =  $(paramtr).closest('tr').find('td').eq(2).html();
+        selectedtype = $(paramtr).closest('tr').find('td').eq(3).html()
+        selectedtype = selectedtype.substring(0, 3);
+        $('#txtlname').val("");
+        $('#txtlpwd').val("");
+        $('#loginheader').html("Enter user name and password to void #" + selectedno);
+        $('#Login_dialog-modal').dialog("open");
+    }
+
+    function PackageVoidDialog(id, paramtr) {
+        selectedid = 0;
+        selectedno = "";
+        selectedtype = "";
+        openPasswordDialog(id, paramtr);        
+    }
+
+    function PackageVoid() {
+        if (selectedtype == "POS")
+        { voidPOS(); }
+        else
+        { voidPackage(); }
+    }
+
+    function voidPOS() {
+        //alert(selectedid + "," + $('#txtlname').val() + "," + $('#txtlpwd').val() + "," + $('#rcode').val())
+        var rcode = $('#rcode').val();
+        $.ajax({
+            url: '@Url.Action("POSVOID", "POS")',
+            data: JSON.stringify({ posid: selectedid, uname: $('#txtlname').val(), pwd: $('#txtlpwd').val(), resource: $('#rcode').val() }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                //alert(data);
+                if (data == "SUCCESS") {
+                    //var pno = posno;
+                    closeLoginDialog();
+                    //var msg = "Already voided # " + selectedno;
+                    //var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"success"}';
+                    showMessage("Already voided #" + selectedno,'success');
+                    refreshPackageList();
+                }
+                else {
+                    closeLoginDialog();
+                    //var msg = data;
+                    //var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                    showMessage(data,'error');
+                }
+            },
+            error: function (req, status, err) {
+                showMessage(err, "error");
+                $("#btnPOSPrint").removeAttr("disabled");
+            }
+        });
+    }
+
+    function voidPackage(prid) {
+        var rcode = $('#rcode').val();
+        $.ajax({
+            url: '@Url.Action("RedeemPackageVOID", "Sales")',
+            data: JSON.stringify({ id: selectedid, uname: $('#txtlname').val(), pwd: $('#txtlpwd').val(), resource: $('#rcode').val() }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                //alert(data);
+                if (data == "SUCCESS") {
+                    //var pno = posno;
+                    closeLoginDialog();
+                    //var msg = "Already voided # " + selectedno;
+                    //var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"success"}';
+                    showMessage("Already voided # " + selectedno,"success");
+                    refreshPackageList();
+                }
+                else {
+                    closeLoginDialog();
+                    //var msg = data;
+                    //var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                    showMessage(data,'error');
+                }
+            },
+            error: function (req, status, err) {
+                showMessage(err, "error");
+                $("#btnPOSPrint").removeAttr("disabled");
+            }
+        });
+    }
+
+    function closeLoginDialog() {
+        $('#Login_dialog-modal').dialog("close");
+        posid = 0;
+        posno = "";
+    }
+
+    //function populateTopUpList(data) {
+
+    //    //var Htmlstr = "";//class='table table-bordered
+    //    var c = $('#c').val();
+    //    var b = $('#b').val();
+    //    var Htmlstr = "<table id='tblTopUp' class='table table-striped table-bordered'><thead>";
+    //    //var Htmlstr = "<thead>";
+    //    var closeHtml = "</tbody></table>";
+    //    var tmpstr = "";
+    //    Htmlstr = Htmlstr + "<tr><td style='Display:none;'>ID</td><th rowspan='2' style='text-align:center;width:70px;'>Sr.</th>";
+    //    Htmlstr = Htmlstr + "<th rowspan='2'  style='width:100px;'>Date</th><th rowspan='2'  style='width:140px;'>Topup Ref</th>";
+    //    Htmlstr = Htmlstr + "<th rowspan='2'>Description</th><th rowspan='2' style='Display:none;'>Qty</th>";
+    //    Htmlstr = Htmlstr + "<th colspan='2' style='text-align:center;'>Amount</th><th rowspan='2' style='width:60px;'></th>";
+    //    Htmlstr = Htmlstr + "</tr><tr><th style='width:80px;text-align:center;'>" + c + "</th><th style='width:80px;text-align:center;'>" + b + "</th></tr></thead><tbody>";
+    //    //var rows = "";
+    //    for (var x = 0; x < data.length; x++) {
+    //        ctmp = getDateFromAspString(data[x].createdate);
+    //        //alert(data[x].createdate + "," + ctmp + "," + ctmp.getFullYear());
+    //        Htmlstr += "<tr id='topup_" + data[x].id + "'><td style='Display:none;'>" + data[x].id + "</td><td>" + (x + 1) + "</td><td >" + ctmp.getDate() + "/" + ctmp.getMonth() + "/" + ctmp.getFullYear() + "</td><td>" + data[x].resourcecode + "</td><td>" + data[x].productdesc + "</td><td style='Display:none;'>" + data[x].qty + "</td><td style='text-align:right;padding-right:20px'>" + data[x].awarddollars + "</td><td style='text-align:right;padding-right:20px'>" + data[x].awardbonus + "</td>";
+    //        Htmlstr += " <td><a class='btn btn-info'  onclick='OpenDialog(" + data[x].id + ",this)' title ='Edit'><i class='fa fa-edit'></i></a></td></tr>";
+    //        //Htmlstr += "<td><a class='btn btn-info' href='ProductSave?id=" + data[x].id + "' title ='Edit Product'><i class='fa fa-edit></i></a></td></tr>";
+    //    }
+    //    Htmlstr += closeHtml;
+    //    //alert(Htmlstr);
+    //    $('#divTopUp').html(Htmlstr);
+    //    if (load < 2) {
+    //        if (data.length > 0)
+    //            getRedeemPageList(data[0].TotalPages);
+    //    }
+    //    //$('#divBundle table').last().dataTable({
+    //    //    //"sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>"
+    //    //});
+
+    //}
+
+    //function getTopUpPageList(itemcount) {
+    //    load++;
+    //    //alert(itemcount);
+    //    var Htmlstr = "";
+    //    for (var i = 1; i <= itemcount ; i++) {
+    //        Htmlstr += "<option value=" + i + ">" + i + "</option>";
+    //    }
+    //    //alert(Htmlstr);
+    //    $('#cboRedeempages').html(Htmlstr).show();
+    //}
+
+@*    function getRedeemList() {
+        var mid = $('#id').val();
+        //var pt = $('#cussuptype').val();
+
+        $.ajax({
+            url: '@Url.Action("getMemberRedeemList", "CusSup")',
+            data: { mid: mid, pageno: 0 },
+            type: 'POST',
+            success: function (data) {
+                //alert(data);
+                if (data)
+                    populateRedeemList(data);
+            },
+            error: function (ts) { alert(ts.responseText) }
+        });
+    }*@
+    //function populateRedeemList(data) {
+
+    //    //var Htmlstr = "";//class='table table-bordered
+    //    var c = $('#c').val();
+    //    var b = $('#b').val();
+    //    var Htmlstr = "<table id='tblRedeem' class='table table-striped table-bordered'><thead>";
+    //    //var Htmlstr = "<thead>";
+    //    var closeHtml = "</tbody></table>";
+    //    var tmpstr = "";
+    //    Htmlstr = Htmlstr + "<tr><td style='Display:none;'>ID</td><th rowspan='2' style='text-align:center;width:70px;'>Sr.</th>";
+    //    Htmlstr = Htmlstr + "<th rowspan='2' style='width:100px;'>Date</th><th rowspan='2' style='width:140px;'>Redemption No</th>";
+    //    Htmlstr = Htmlstr + "<th rowspan='2'>Service/Product</th><th rowspan='2' style='width:100px;text-align:center;'>Qty</th>";
+    //    Htmlstr = Htmlstr + "<th colspan='2' style='text-align:center;'>Redeem</th><th colspan='2' style='text-align:center'>Awards</th><th rowspan='2'></th>";
+    //    Htmlstr = Htmlstr + "</tr><tr><th style='width:80px;text-align:center;'>" + c + "</th><th style='width:80px;text-align:center;'>" + b + "</th><th style='width:80px;text-align:center;'>" + c + "</th><th style='width:80px;text-align:center;'>" + b + "</th></tr></thead><tbody>";
+    //    //var rows = "";
+    //    for (var x = 0; x < data.length; x++) {
+    //        ctmp = getDateFromAspString(data[x].createdate);
+    //        Htmlstr += "<tr id='redeem_" + data[x].id + "'><td style='Display:none;'>" + data[x].id + "</td><td style='text-align:right;padding-right:20px;'>" + (x + 1) + "</td><td >" + ctmp.getDate() + "/" + ctmp.getMonth() + "/" + ctmp.getFullYear() + "</td><td>" + data[x].resourcecode + "</td><td>" + data[x].productdesc + "</td><td style='text-align:right;padding-right:10px;'>" + data[x].qty + " " + data[x].uom + "</td><td style='text-align:right;padding-right:20px'>" + data[x].redeemdollars + "</td><td style='text-align:right;padding-right:20px'>" + data[x].redeembonus + "</td><td style='text-align:right;padding-right:20px'>" + data[x].awarddollars + "</td><td style='text-align:right;padding-right:20px'>" + data[x].awardbonus + "</td>";
+    //        Htmlstr += " <td style='width:60px;'><a class='btn btn-info'  onclick='OpenDialog(" + data[x].id + ",this)' title ='Edit'><i class='fa fa-edit'></i></a></td></tr>";
+    //    }
+    //    Htmlstr += closeHtml;
+    //    //alert(Htmlstr);
+    //    $('#divRedeem').html(Htmlstr);
+    //    if (load < 2) {
+    //        if (data.length > 0)
+    //            getRedeemPageList(data[0].TotalPages);
+    //    }
+    //    //$('#divBundle table').last().dataTable({
+    //    //    //"sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>"
+    //    //});
+
+    //}
+
+    //function getRedeemPageList(itemcount) {
+    //    load++;
+    //    //alert(itemcount);
+    //    var Htmlstr = "";
+    //    for (var i = 1; i <= itemcount ; i++) {
+    //        Htmlstr += "<option value=" + i + ">" + i + "</option>";
+    //    }
+    //    //alert(Htmlstr);
+    //    $('#cboRedeempages').html(Htmlstr).show();
+    //}
+ </script>

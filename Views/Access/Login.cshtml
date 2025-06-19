@@ -1,0 +1,220 @@
+﻿@model BigMac.Models.Access_m_Users
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LoginPartial.cshtml";
+}
+<!DOCTYPE html>
+
+<head>
+    <title></title>
+</head>
+<style>
+    .validation-summary-errors {
+        color: red;
+        font-size: 13px;
+        position: absolute;
+        width: 350px;
+    }
+
+        .validation-summary-errors li {
+            margin-top: -12px;
+        }
+
+
+
+    .logo {
+        border-radius: 42px;
+        max-width: 700px;
+        max-height: 600px;
+        width: auto;
+        height: auto;
+    }
+
+
+    /*#myVideo {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        min-width: 100%;
+        min-height: 100%;
+    }*/
+
+    /* Add some content at the bottom of the video/page */
+    .content {
+        position: fixed;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        color: #f1f1f1;
+        width: 100%;
+        padding: 20px;
+    }
+
+    /* Style the button used to pause/play the video */
+    #myBtn {
+        width: 200px;
+        font-size: 18px;
+        padding: 10px;
+        border: none;
+        background: #000;
+        color: #fff;
+        cursor: pointer;
+    }
+
+        #myBtn:hover {
+            background: #ddd;
+            color: black;
+        }
+  
+</style>
+
+
+<html lang="en">
+
+<body>
+    @*<video autoplay muted loop id="myVideo">
+        <source src="~/assets/img/Gradient-background.mp4" type="video/mp4">
+    </video>*@
+    
+    <div class="container" style="height:70%;">
+        <div class="row" style="margin-top: 100px;">
+            <div class="col-lg-3">
+
+            </div>
+            <div class="col-lg-3 float-right">
+                @*<img class="img-thumbnail" style="border:none;" id="imgLogo" src="@Url.Content(@ViewBag.logo)" />*@
+                @*<img class="logo" style="border:none;" id="imgLogo" src="~/assets/img/spa_login.jpg">*@
+                @*<img class="logo" id="imgLogo" src="~/assets/img/blue-ribbon.png">*@
+
+                <video autoplay muted loop id="myVideo" class="logo">
+                    <source src="~/assets/img/ribbon-amination1.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            
+
+            <div class="col-lg-3 float-left" style="padding: 50px;">
+                <div class="login-box">
+                    <div>
+                        <h2 style="font-family: Verdana; color: #3366cc; font-weight: bold;">
+                            @if (Convert.ToString(ViewBag.uFlag) == "2")
+                            { <span>Login to Manager Account</span>}
+                            else
+                            { <span>Login to Branch Account </span>}
+                        </h2>
+                    </div>
+
+                    @using (@Html.BeginForm("Login", "Access", FormMethod.Post))
+                    {
+
+                        <fieldset>
+                            <div class="input-wrap">
+                                <div>
+                                    <input type="hidden" id="cocode" name="cocode" value="" />
+                                    <input type="hidden" id="branchcode" name="branchcode" value="" />
+                                    <input type="hidden" id="ismobile" name="ismobile" value="" />
+                                    <input type="hidden" value="@ViewBag.Branch" id="Branch" name="Branch" />
+                                    <input type="hidden" value="@ViewBag.uFlag" id="uFlag" name="uFlag" />
+                                </div>
+                                <div class="input-prepend input-group" title="Branch">
+                                    <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
+                                    @Html.DropDownList("cbobranchcode", new SelectList(@ViewBag.BranchOptions, "branchcode", "branchcode"), new { @class = "form-control", @style = "height: 36px;" })
+                                </div>
+                            </div>
+                            <div class="input-wrap">
+                                <div class="input-prepend input-group" title="Username">
+                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                    @Html.TextBoxFor(u => u.username, new { @class = "form-control", @placeholder = "Username" })
+                                    @Html.ValidationMessageFor(u => u.username)
+                                </div>
+                            </div>
+                            <div class="input-wrap">
+                                <div class="input-prepend input-group" title="Password">
+                                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                    @Html.PasswordFor(u => u.password, new { @class = "form-control", @placeholder = "Password" })
+                                    @Html.ValidationMessageFor(u => u.password)
+                                </div>
+                            </div>
+                            <div class="input-wrap" style="text-align: left;">
+                                <label class="remember" for="remember">&nbsp;<input type="checkbox" id="rememberme" name="rememberme" checked /> &nbsp;Remember me</label>
+                            </div>
+                            
+                            <div class="input-wrap">
+                                <button type="submit" style="width: 90%;" class="btn login-button">Login</button>
+                            </div>
+                            <div>@Html.ValidationSummary(true, "")</div>
+                            <div class="clearfix"></div>
+                        </fieldset>
+                    }
+                </div>
+               
+            </div>
+
+            <div class="col-lg-3">
+
+            </div>
+        
+        </div>
+    </div>
+
+   
+
+
+
+
+</body>
+
+
+</html>
+
+<script type="text/javascript">
+    $("input[type=text]").val("");
+    var uFlag = $('#uFlag').val();
+    var branch = $('#Branch').val();
+    //alert(branch + "," + uFlag);
+
+
+    $(function () {
+
+        //Added by ZawZO on 21 Jan 2015
+        detectmobile();
+        if (uFlag == "2") {
+            //alert("remember");
+            $('#rememberme').removeAttr("checked");
+        }
+
+        if (branch != "" && uFlag == "2") {
+            //alert("branchcode");
+            $('#cbobranchcode').val(branch);
+            $('#cbobranchcode').attr("disabled", "");
+        }
+        else {
+            if (branch != "")
+                $('#cbobranchcode').val(branch);
+
+            $('#cbobranchcode').removeAttr("disabled");
+        }
+
+        $('#branchcode').val($('#cbobranchcode').val());
+
+        $('#cbobranchcode').change(function () { $('#branchcode').val($('#cbobranchcode').val()); });
+    });
+    //Added by ZawZO on 21 Jan 2015
+    function detectmobile() {
+        if (navigator.userAgent.match(/Android/i)
+        || navigator.userAgent.match(/webOS/i)
+        || navigator.userAgent.match(/iPhone/i)
+        || navigator.userAgent.match(/iPad/i)
+        || navigator.userAgent.match(/iPod/i)
+        || navigator.userAgent.match(/BlackBerry/i)
+        || navigator.userAgent.match(/Windows Phone/i)
+        ) {
+            $('#ismobile').val('1');
+            // alert(1);
+        }
+        else {
+            $('#ismobile').val('0');
+            // alert(0);
+        }
+    }
+</script>

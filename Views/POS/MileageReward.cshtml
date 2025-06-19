@@ -1,0 +1,482 @@
+﻿@model BigMac.Models.Mileage_m_rewards
+
+@{
+    ViewBag.Title = "Mileage";
+    Layout = "~/Views/Shared/_GeneralLayoutPage.cshtml";
+}
+
+
+<input type="hidden" value="@ViewBag.Rcode" id="rcode" />
+<input type="hidden" id="c" value="@ViewBag.CitiDesc" />
+<input type="hidden" id="b" value="@ViewBag.BonusDesc" />
+<input type="hidden" id="hidsignfilename" />
+<input type="hidden" value="@ViewBag.IsMobile" id="hidismobile" />
+<div class="row" style="margin-top:-10px;">
+    <div class="col-lg-12">
+        <div class="box">
+            <div class="box-content">
+                <div id="divMember">
+                    <form class="smart-form">
+                        <fieldset>
+                            <div class="col-lg-6 hidden-sm" style="padding-left:0px;padding-right:0;height:420px;">
+                                <table style="width:100%;border-spacing:5px;border-collapse:separate;padding-left:10px;">
+                                    
+                                    <tr>
+                                        <td style="text-align:left;"><label class="control-label">Name</label>&nbsp;&nbsp;<span style="color:red;">*</span></td>
+                                            <td style="text-align:left;" colspan="2">
+                                                <input type='text' class='form-control' id="txtMemberName" style="text-align:left;width:450px;" placeholder="Enter Name" />
+                                                <input type='hidden' id="hidMemberName" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:left;"><label class="control-label">Phone</label>&nbsp;&nbsp;</td>
+                                        <td style="text-align:left;">
+                                            <input type='text' class='form-control' id="txtMobileNo" style="text-align:left;width:250px;"/>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:left;"><label class="control-label">NRIC  </label>&nbsp;&nbsp;<span style="color:red;">*</span></td>
+                                        <td style="text-align:left;">
+                                            <input type='text' class='form-control' id="txtNRIC" style="text-align:left;width:250px;" placeholder="Enter NRIC" />
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:left;"><label class="control-label">Receipt No</label>&nbsp;&nbsp;<span style="color:red;">*</span></td>
+                                        <td style="text-align:left;">
+                                           <input type='text' class='form-control' id="txtReceiptNo" style="text-align:left;width:250px;" placeholder="Enter Receipt No" />
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                     <tr>
+                                         <td style="text-align:left;"><label class="control-label">Invoice Amount</label>&nbsp;&nbsp;<span style="color:red;">*</span></td>
+                                         <td style="text-align:left;">
+                                            <input type='text' class='form-control' id="txtInvAmt" style="text-align:left;width:150px;" placeholder="Enter Amount" />
+                                         </td>
+                                         <td style="text-align:left;"></td>
+                                      </tr>
+                                    <tr>
+                                        <td style="text-align:left;"><label class="control-label">Password</label></td>
+                                        <td style="text-align:left;">
+                                            <input type="password" class='form-control' id="txtPassword" style="text-align:left;width:150px;" />
+                                        </td>
+                                        <td style="text-align:left;"></td>
+                                    </tr>
+                                      <tr>
+                                          <td colspan="3">
+                                              <button type="button" id="btnSubmit" class="btn btn-success" style="background-color: #931313; width: 80px;" onclick="SaveMileage();">Submit</button>
+                                              <button type="button" id="btnClear" class="btn btn-success" style="background-color: #931313; width: 75px;" onclick="newMileage();">Clear</button>
+                                          </td>
+                                      </tr>
+                                </table>
+                            </div>
+                            <div class="col-sm-10 hidden-lg" style="padding-left:0px;padding-right:0;height:380px;">
+                                
+                                <table style="width:100%;border-spacing:5px;border-collapse:separate;padding-left:10px;">
+                                    <tr>
+                                        <td style="text-align:left;"><label class="control-label">Name </label></td>
+                                        <td style="text-align:left;" colspan="2">
+                                            <input type='text' class='form-control' id="txtMemberNameForMobile" style="text-align:left;width:450px;" placeholder="Enter Name" />
+                                            <input type='hidden' id="hidMemberNameForMobile" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:left;"><label class="control-label">Phone</label></td>
+                                        <td style="text-align:left;">
+                                            <input type='text' class='form-control' id="txtMobileNoForMobile" style="text-align:left;width:250px;" placeholder="Enter Phone" />
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:left;"><label class="control-label">NRIC  </label></td>
+                                        <td style="text-align:left;">
+                                            <input type='text' class='form-control' id="txtNRICForMobile" style="text-align:left;width:250px;" placeholder="Enter NRIC" />
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:left;"><label class="control-label">Receipt No</label></td>
+                                        <td style="text-align:left;">
+                                            <input type='text' class='form-control' id="txtReceiptNoForMobile" style="text-align:left;width:250px;" placeholder="Enter Receipt No" />
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:left;"><label class="control-label">Invoice Amount</label></td>
+                                        <td style="text-align:left;">
+                                            <input type='text' class='form-control' id="txtInvAmtForMobile" style="text-align:left;width:150px;" placeholder="Enter Amount" />
+                                        </td>
+                                        <td style="text-align:left;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:left;"><label class="control-label">Password</label></td>
+                                        <td style="text-align:left;">
+                                            <input type="password" class='form-control' id="txtPasswordForMobile" style="text-align:left;width:150px;" />
+                                        </td>
+                                        <td style="text-align:left;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3">
+                                            <button type="button" id="btnSubmitForMobile" class="btn btn-success" style="background-color: #931313; width: 80px;" onclick="SaveMileage();">Submit</button>
+                                            <button type="button" id="btnClearForMobile" class="btn btn-success" style="background-color: #931313; width: 75px;" onclick="newMileage();">Clear</button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>    
+<button id="btnMessage" class="btn btn-primary noty" data-noty-options='{"text":"Please select Member","layout":"topRight","type":"error"}' style="display:none;">Top Right</button>
+
+<script type="text/javascript">
+    var selectedcust;
+    var isMobile = $('#hidismobile').val();
+    $(document).ready(function () {
+        if (isMobile == 0) {
+            getCustomer();
+        }
+        else {
+            getCustomerForMobile();
+        }
+        var soid = $('#soid').val();
+    });
+    function getCustomer() {
+        $("#txtMemberName").autocomplete({
+            minLength: 3,
+            source: function (req, res) {
+                jQuery.ajax({
+                    url: '@Url.Action("getMemberInfoForMileage", "CusSup")',
+                    cache: false,
+                    dataType: 'json',
+                    data: { custInfo: $('#txtMemberName').val(), count: 10 },
+                    error: function (data) {
+                        return false;
+                    },
+                    success: function (data) {
+                        res($.map(data, function (item) {
+                            return {
+                                label: item.cussupname + "(" + item.mobile + ")",
+                                value: item.cussupname + "(" + item.mobile + ")",
+                                id: item.id,
+                                inhousecode: item.inhousecode,
+                                cussupname: item.cussupname,
+                                Tel: item.Tel,
+                                nric: item.nric,
+                                mobile: item.mobile
+                            }
+                        }));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                selectedcust = ui.item;
+                $("#txtMemberName").val(selectedcust.cussupname);
+                $("#hidMemberName").val(selectedcust.cussupname);
+                $("#txtNRIC").val(selectedcust.nric);
+                $("#txtMobileNo").val(selectedcust.mobile);
+            }
+        });
+    }
+    function getCustomerForMobile() {
+        $("#txtMemberNameForMobile").autocomplete({
+            minLength: 3,
+            source: function (req, res) {
+                jQuery.ajax({
+                    url: '@Url.Action("getMemberInfoForMileage", "CusSup")',
+                    cache: false,
+                    dataType: 'json',
+                    data: { custInfo: $('#txtMemberNameForMobile').val(), count: 10 },
+                    error: function (data) {
+                        return false;
+                    },
+                    success: function (data) {
+                        res($.map(data, function (item) {
+                            return {
+                                label: item.cussupname + "(" + item.mobile + ")",
+                                value: item.cussupname + "(" + item.mobile + ")",
+                                id: item.id,
+                                inhousecode: item.inhousecode,
+                                cussupname: item.cussupname,
+                                Tel: item.Tel,
+                                nric: item.nric,
+                                mobile: item.mobile
+                            }
+                        }));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                selectedcust = ui.item;
+                $("#txtMemberNameForMobile").val(selectedcust.cussupname);
+                $("#hidMemberNameForMobile").val(selectedcust.cussupname);
+                $("#txtNRICForMobile").val(selectedcust.nric);
+                $("#txtMobileNoForMobile").val(selectedcust.mobile);
+            }
+        });
+    }
+
+    function SaveValidation() {
+        var strName = ""; var strPh = ""; var strNRIC = "";
+
+       if (isMobile == 0) {
+          strName = $('#txtMemberName').val();
+       }
+       else {
+           strName = $('#txtMemberNameForMobile').val();
+       }
+       if (strName == "") {
+           var msg = "Please enter name.";
+           var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+           showMessage(attrvalue);
+           return false;
+       }
+       if (isMobile == 0) {
+           strNRIC= $('#txtNRIC').val();
+       }
+       else {
+           strNRIC = $('#txtNRICForMobile').val();
+       }
+       if (strNRIC == "") {
+           var msg = "Please enter NRIC.";
+           var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+           showMessage(attrvalue);
+           return false;
+       }
+
+        var ReceiptNo = ""; var InvAmt = 0;
+        if (isMobile == 0) {
+            ReceiptNo = $('#txtReceiptNo').val();
+            InvAmt = $('#txtInvAmt').val();
+        }
+        else {
+            ReceiptNo = $('#txtReceiptNoForMobile').val();
+            InvAmt = $('#txtInvAmtForMobile').val();
+        }
+        if (ReceiptNo == "") {
+            var msg = "Please enter receipt no.";
+            var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+            showMessage(attrvalue);
+            return false;
+        }
+        if (InvAmt == "") {
+            var msg = "Please enter Invoice amount.";
+            var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+            showMessage(attrvalue);
+            return false;
+        }
+        if (InvAmt <0) {
+            var msg = "Invoice amount cannot less than zero.";
+            var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+            showMessage(attrvalue);
+            return false;
+        }
+        var isValid = isValidPartnerUserAccount();
+        if (isValid == "FALSE") {
+            var msg = "Invalid Password.";
+            var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+            showMessage(attrvalue);
+            return false;
+        }
+    }
+    function isValidPartnerUserAccount() {
+        var retval = false;
+        var spwd = ""; 
+        if (isMobile == 0) {
+            spwd = $("#txtPassword").val();
+        }
+        else {
+            spwd = $("#txtPasswordForMobile").val();
+        }
+        $.ajax({
+            url: '@Url.Action("isValidPartnerUserAccount", "POS")',
+            data: JSON.stringify({ pwd: spwd}),
+            type: 'POST',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            success: function (data) {
+                if (data == "FALSE") {
+                    retval = false;
+                }
+                else {
+                    retval = true;
+                }
+            },
+            error: function (req, status, err) {
+                retval = false;
+            }
+        });
+        return retval;
+    }
+    function getMaxInvoiceAmt() {
+        var retval = "0";
+        
+        $.ajax({
+            url: '@Url.Action("getPartnerMaximumAmount", "POS")',
+            data: JSON.stringify({}),
+            type: 'POST',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            success: function (data) {
+                retval = data;
+            },
+            error: function (req, status, err) {
+                retval = "0";
+            }
+        });
+        return retval;
+    }
+    function SaveMileage() {
+        var discnt = 0; var strpwd = "";
+        $("#btnSubmit").attr("disabled", true);
+        $("#btnSOClose").attr("disabled", true);
+
+        if (SaveValidation() == false) {
+            $("#btnSubmit").removeAttr("disabled");
+            return false;
+        }
+        var soid = $('#soid').val();
+        if (isMobile == 0) {
+            strpwd = $("#txtPassword").val();
+        }
+        else {
+            strpwd = $("#txtPasswordForMobile").val();
+        }
+        var obj = new Object();
+        var InvAmt = 0;
+        var MaxAmt = 0;
+        MaxAmt = parseFloat(getMaxInvoiceAmt());
+        if (isMobile == 0) {
+            if ($("#hidMemberName").val().length > 0) {
+                obj.name = $("#hidMemberName").val();
+            }
+            else {
+                obj.name = $("#txtMemberName").val();
+            }
+            obj.mobile = $("#txtMobileNo").val();
+            obj.nric = $("#txtNRIC").val();
+            obj.receiptno = $("#txtReceiptNo").val();
+            obj.receiptdate = $("#txtDate").val();
+            InvAmt = parseFloat($("#txtInvAmt").val());
+            if (InvAmt > MaxAmt) {
+                InvAmt = MaxAmt;
+            }
+            obj.amount = InvAmt;
+        }
+        else {
+            if ($("#hidMemberNameForMobile").val().length > 0) {
+                obj.name = $("#hidMemberNameForMobile").val();
+            }
+            else {
+                obj.name = $("#txtMemberNameForMobile").val();
+            }
+            obj.mobile = $("#txtMobileNoForMobile").val();
+            obj.nric = $("#txtNRICForMobile").val();
+            obj.receiptno = $("#txtReceiptNoForMobile").val();
+            obj.receiptdate = $("#txtDateForMobile").val();
+            InvAmt = parseFloat( $("#txtInvAmtForMobile").val());
+            if (InvAmt > MaxAmt) {
+                InvAmt = MaxAmt;
+            }
+            obj.amount = InvAmt;
+        }
+        //Commented by ZawZO on 18 Dec 2015, to disable signature pad temponary
+        var imgfile = "";
+        //if ($('#hidsignfilename').val().length > 0) {
+        //    imgfile = $('#hidsignfilename').val();
+        //}
+        //else {
+        //    imgfile = "";
+
+        $.ajax({
+            url: '@Url.Action("MileageSave", "POS")',
+            data: JSON.stringify({ objm: obj, resource: $('#rcode').val() }),
+            type: 'POST',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            success: function (data) {
+                if (data) {
+                    var result = data.split(",");
+                    if (result.length == 2) {
+                        if (result[0] == "SUCCESS") {
+                            if (isMobile == 0) {
+                                $('#btnSubmit').attr("disabled", true);
+                            }
+                            else {
+                                $('#btnSubmitForMobile').attr("disabled", true);
+                            }
+                            var msg = "Successfully Saved.";
+                            var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"success"}';
+                            showMessage(attrvalue);
+                            //newMileage();
+                        }
+                    }
+                }
+            },
+            error: function (req, status, err) {
+                showMessage(err, "error");
+                if (isMobile == 0) {
+                    $("#btnSubmit").removeAttr("disabled");
+                }
+                else {
+                    $("#btnSubmitForMobile").removeAttr("disabled");
+                }
+            }
+        });
+    }
+    function printReceipt() {
+        var soid = $('#soid').val();
+        var cdesc = $('#c').val();
+        var pdesc = $('#b').val();
+        var coname = $('#hidconame').val();
+        var coaddress = encodeURIComponent($('#hidcoaddress').val());
+        var email = $('#hidemail').val();
+        var tel = $('#hidtel').val();
+        var fax = $('#hidfax').val();
+        var coreg = $('#hidcoregno').val();
+
+        var discdesc;
+        //UploadSignatureImg();
+        discdesc = 'Discount';
+        window.open("../Reports/POSReceipt.aspx?id=" + soid + "&cdesc=" + cdesc + "&pdesc=" + pdesc + "&cname=" + coname + "&caddress=" + coaddress + "&ctel=" + tel + "&cfax=" + fax + "&cemail=" + email + "&coreg=" + coreg + "&discdesc=" + discdesc);
+    }
+    function ShowSignaturePad() {
+        var currentdate = new Date();
+        var fileName = "Sign_" + currentdate.getFullYear() + "_" + currentdate.getMonth() + "_" + currentdate.getDay() + "_" + currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + currentdate.getMilliseconds();
+        $('#hidsignfilename').val(fileName + '.jpg');
+        window.open("../Reports/Signature_Pad.aspx?signFileName=" + fileName, "_blank", "width=350, height=200");
+        //$.ajax({
+        //    url: '@Url.Action("showSignaturePad", "POS")',
+        //    success: function (data) { }
+        //});
+    }
+    function UploadSignatureImg() {
+        var soid = $('#soid').val();
+        $.ajax({
+            url: '@Url.Action("UploadSignatureImg", "POS")',
+            data: { soid: soid },
+            success: function (data) { }
+        });
+    }
+    function showMessage(attrvalue) {
+        $('#btnMessage').attr('data-noty-options', attrvalue);
+        $('#btnMessage').trigger("click");
+    }
+    function newMileage() {
+        var url = "MileageReward";
+        var rcode = $('#rcode').val();
+        var form = $('<form action="' + url + '" method="post">' +
+          '<input type="hidden" name="id"  id="id" value="' + 0 + '" />' +
+          '<input type="hidden" name="rcode"  id="rcode" value="' + rcode + '" />' +
+          '</form>');
+        $('body').append(form);
+        $(form).submit();
+    }
+</script>

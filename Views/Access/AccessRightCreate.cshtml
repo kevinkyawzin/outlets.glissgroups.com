@@ -1,0 +1,283 @@
+﻿@model BigMac.Models.Access_m_AccessRights
+
+@{
+    ViewBag.Title = "AccessRight";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="row">
+        <div class ="col-lg-12">
+            <div class="box">
+                <div class ="box-header">
+							<h2><i class="fa fa-key"></i>Add New Access Right</h2>
+							<div class="box-icon">
+								<a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+								<a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+								<a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+							</div>
+                </div> 
+                <div class ="box-content">
+                @using (Html.BeginForm("AccessRightCreate","Access",FormMethod.Post,new { @class="form-horizontal"}))
+                {
+                    @Html.ValidationSummary(true)   
+                        <fieldset class ="col-sm-12">   
+                            <div id="MyWizard" class="wizard">
+			                    <ul class="steps">
+				                    <li data-target="#step1" class="complete"><span class="badge badge-info">1</span></li>
+				                    <li data-target="#step2"  class="active"><span class="badge">2</span></li>
+			                    </ul>
+			                    <div class="actions">
+					                <a class="btn btn-prev" href="@Url.Action("UserSave", "Access", new { id = Model.userid })">
+                                        <i class="icon-arrow-left"></i> Prev								
+					                </a>
+					                <a class="btn btn-success btn-next" href="#" aria-disabled="true">
+                                        Next<i class="icon-arrow-right"></i>
+					                </a>
+			                    </div>
+                            </div>                                                                    
+		                            <div class="form-group">
+			                            @*<label class="control-label" for="input1">@Html.LabelFor(model => model.username)</label>*@
+			                            <div class="controls row">
+                                            <div class="col-lg-4">
+				                                User Name: <b>@Html.TextBoxFor(model => model.username, new { @class ="form-control"})</b>
+                                                @Html.HiddenFor(model =>model.userid)                      
+                                            </div>
+                                            <span>@Html.ValidationMessageFor(model => model.username)	</span>
+                                            <input type ="hidden" value ="@ViewBag.ar" id="txtar"/>
+			                            </div>
+		                            </div>
+					                <div class="form-group">
+						                <label class="control-label" for="selectError30">@Html.LabelFor(model => model.accesstypeid)</label>
+						                <div class="controls row">
+                                            <div class="col-lg-4">
+                                            @Html.DropDownListFor(model => model.accesstypeid, new SelectList(@ViewBag.AccessTypeOptions,"id","accesstype"), new { @class ="form-control"})
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.accesstypeid)
+						                </div>
+					                </div>
+					                <div class="form-group">
+						                <label class="control-label" for="selectError30">@Html.LabelFor(model => model.userresourceid)</label>
+						                <div class="controls row">
+                                            <div class="col-lg-4">
+                                            @Html.DropDownListFor(model => model.userresourceid, new SelectList(@ViewBag.ResourceOptions,"id","resource"), new { @class ="form-control"})
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.userresourceid)
+						                </div>
+					                </div>
+					                <div class="form-group">
+					                <label class="control-label">Permission</label>
+					                <div class="controls">
+						                <label class="checkbox">
+                                        @Html.CheckBoxFor(model => model.create) 
+                                        @Html.LabelFor(model => Model.create)						
+						                </label>
+						                <label class="checkbox">
+						                @Html.CheckBoxFor(model => model.read)
+                                        @Html.LabelFor(model => Model.read)
+						                </label>
+						                <label class="checkbox">
+						                @Html.CheckBoxFor(model => model.update)
+                                        @Html.LabelFor(model => model.update) 
+						                </label>
+						                <label class="checkbox">
+						                @Html.CheckBoxFor(model => model.delete) 
+                                        @Html.LabelFor(model => Model.delete)
+						                </label>
+						                <label class="checkbox">
+						                @Html.CheckBoxFor(model => model.voidField)
+                                        @Html.LabelFor(model => model.voidField)
+						                </label>
+						                <label class="checkbox">
+						                @Html.CheckBoxFor(model => model.unvoid)
+                                        @Html.LabelFor(model => Model.unvoid)
+						                </label>
+						                <label class="checkbox">
+						                @Html.CheckBoxFor(model => model.print)
+                                        @Html.LabelFor(model => model.print) 
+						                </label>
+					                </div>				
+                                </div>
+                    
+		                        <div class="form-actions" >
+			                        <button type="submit" class="btn btn-primary" value="Save">Save changes</button>
+                                    @{
+                                        if (ViewBag.ar == 1)
+                                        { 
+                                            @Html.ActionLink("Go Back to User List", "AccessRightIndex", "Access", new { @class="btn btn-info"})
+                                        }
+                                        else
+                                        {
+                                            @Html.ActionLink("Go Back to User List", "Index", "Access", new { @class = "btn btn-info" })
+                                        }
+                                    }			                        
+@*									<a class="btn btn-info" href="@Url.Action("Index", "Access")">
+                                        Go Back to User List										
+									</a>*@
+@*									
+                                    <a class="btn btn-info" href="@Url.Action("Edit", "Access", new { id =Model.userid})">
+                                        Go Back to User Entry										
+									</a>
+*@
+		                        </div>
+
+			                <div class="row">		
+				                <div class="col-lg-12">
+					                <div class="box">
+						                <div class="box-header" data-original-title>
+							                <h2><i class="fa fa-key"></i><span class="break"></span><b>@Model.username</b>'s Access Right Listing   </h2>
+							                <div class="box-icon">
+								                <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+								                <a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+								                <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+							                </div>
+						                </div>
+						                <div class="box-content">
+							                <table class="table table-striped table-bordered bootstrap-datatable datatable" id ="tblAccessRight" s>
+							                  <thead>
+								                  <tr>
+									                  <th>AccessType</th>
+									                  <th>Resource</th>
+									                  <th>Create</th>
+									                  <th>Read</th>
+									                  <th>Update</th>
+                                                      <th>Delete</th>                                      
+                                                      <th>Void</th>
+                                                      <th>UnVoid</th>
+                                                      <th>Print</th>
+                                                      <th></th>
+								                  </tr>
+                                                </thead>   
+                                                <tbody>
+                                                    @foreach (var item in @ViewBag.AccessRights)
+                                                    {
+                                                            <tr id="tr_@item.id">
+                                                                <td>
+                                                                    @*@Html.DisplayFor(modelItem => item.accessTypes.accesstype)*@
+                                                                    @item.accessTypes.accesstype
+                                                                </td>
+                                                                <td>
+                                                                    @item.Resources.resource
+                                                                </td>
+                                                                <td style ="margin: auto;text-align :center;" >       
+                                                                   @if (item.create)
+                                                                   {
+                                                                     <input  type ="checkbox" style ="display: inline;" checked disabled/>
+                                                                   }
+                                                                   else
+                                                                   {
+                                                                    <input type ="checkbox" style ="display: inline;" disabled />
+                                                                   }                               
+                                                   
+                                                                </td >
+                                                                <td style ="margin: auto;text-align :center;">
+                                                                     @if (item.read)
+                                                                     {
+                                                                    <input type ="checkbox" style ="display: inline;" @item.read checked disabled/>
+                                                                     }
+                                                                     else
+                                                                     {
+                                                                          <input type ="checkbox" style ="display: inline;" @item.read disabled/>
+                                                                     }
+                                                                </td>
+                                                                <td style ="margin: auto;text-align :center;" >
+                                                                     @if (item.update)
+                                                                     {
+                                                                        <input type ="checkbox" style ="display: inline;" @item.update checked disabled/>
+                                                                     }
+                                                                     else
+                                                                     {
+                                                                         <input type ="checkbox" style ="display: inline;" @item.update disabled/>
+                                                                     }
+                                                                </td>
+                                                                <td style ="margin: auto;text-align :center;" >
+                                                                     @if (item.delete)
+                                                                     {
+                                                                        <input type ="checkbox" style ="display: inline;" @item.delete checked disabled/>
+                                                                     }
+                                                                     else
+                                                                     {
+                                                                         <input type ="checkbox" style ="display: inline;" @item.delete disabled/>                                                     
+                                                                     }
+                                                                </td>
+                                                                <td style ="margin: auto;text-align :center;" >
+                                                                     @if (item.voidField)
+                                                                     {
+                                                                        <input type ="checkbox" style ="display: inline;" @item.voidField checked disabled/>
+                                                                     }
+                                                                     else
+                                                                     {
+                                                                         <input type ="checkbox" style ="display: inline;" @item.voidField disabled/>
+                                                                     }
+                                                                </td>
+                                                                <td style ="margin: auto;text-align :center;" >
+                                                                     @if (item.unvoid)
+                                                                     {
+                                                                        <input type ="checkbox" style ="display: inline;" @item.unvoid checked disabled/>
+                                                                     }
+                                                                     else
+                                                                     {
+                                                                         <input type ="checkbox" style ="display: inline;" @item.unvoid disabled/>
+                                                                     }
+                                                                </td>
+                                                                <td style ="margin: auto;text-align :center;" >
+                                                                     @if (item.print)
+                                                                     {
+                                                                        <input type ="checkbox" style ="display: inline;" @item.print checked disabled/>
+                                                                     }
+                                                                     else
+                                                                     {
+                                                                         <input type ="checkbox" style ="display: inline;" @item.print disabled/>
+                                                                     }
+                                                                </td>
+                                                                <td class="center">
+										                            <a class="btn btn-danger" href="#" onclick ="RemoveRow(this,@item.id)" >
+											                            <i class="fa fa-trash-o "></i> 
+										                            </a>
+                                                                </td>
+                                                            </tr>                                         
+                                                    }
+                                                </tbody>
+                                            </table>							   
+                                        </div> @*box-content*@
+                                    </div> @*box*@
+                                </div>
+                            </div> @*tablerow*@
+                         
+                        </fieldset>   
+                }
+                </div> @*divContent*@
+            </div> @*box*@    
+   
+        </div>
+     </div>@*row*@
+
+        <div>
+            @Html.ActionLink("Back to List", "Edit", new { id = Model.userid })
+        </div>
+   
+<script type ="text/javascript">
+    //alert($('#txtar').val());
+    if ($('#txtar').val() == 1)
+    {
+        $('#MyWizard').html("");
+    }
+
+    function RemoveRow(paramtr,acid)
+    {
+        var result = confirm("Are you sure you Want to delete?");
+        if (result == true)
+        {            
+            $.ajax({
+                url: '@Url.Action("AccessRightDelete", "Access")',
+                data: { id: acid },
+                type: 'POST',
+                success: function (data) {
+                    if (data == "SUCCESS")
+                    { $(paramtr).closest('tr').remove(); }
+                    //alert(data);
+                }
+            });
+        }
+        
+    }
+</script>

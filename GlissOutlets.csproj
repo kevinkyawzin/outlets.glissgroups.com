@@ -1,0 +1,1603 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{74B4B972-0B18-4D6A-97C8-98A4E3846E93}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BigMac</RootNamespace>
+    <AssemblyName>BigMac</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">.\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DotNetOpenAuth.AspNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DotNetOpenAuth.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DotNetOpenAuth.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DotNetOpenAuth.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth.Consumer, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DotNetOpenAuth.OpenId.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=8.1.0.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data.Entity, Version=6.7.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\MySql.Data.Entity.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Web, Version=6.7.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\MySql.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\backoffice.citiwarrior.com\bin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RazorPDF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\RazorPDF.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Base, Version=2014.1.1900.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Stimulsoft.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Compression, Version=2008.1.206.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Stimulsoft.Compression.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Controls, Version=2014.1.1900.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Stimulsoft.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Database, Version=2014.1.1900.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Stimulsoft.Database.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Editor, Version=2014.1.1900.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Stimulsoft.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Report, Version=2014.1.1900.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Stimulsoft.Report.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Report.Web, Version=2014.1.1900.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Stimulsoft.Report.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Net.Http.2.0.30506.0\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.30506.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Net.Http.2.0.30506.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.30506.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.30506.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.30506.0\lib\net40\WebMatrix.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebPages.OAuth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.OAuth.2.0.30506.0\lib\net40\Microsoft.Web.WebPages.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.2.0.30506.0\lib\net40\WebMatrix.WebData.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.3.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.3.0\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\AuthConfig.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccessController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AppointmentController.cs" />
+    <Compile Include="Controllers\AttendanceController.cs" />
+    <Compile Include="Controllers\CampaignController.cs" />
+    <Compile Include="Controllers\CommonController.cs" />
+    <Compile Include="Controllers\CusSupController.cs" />
+    <Compile Include="Controllers\GeneralController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InventoryController.cs" />
+    <None Include="Controllers\POSController-sub-dept.csbk" />
+    <Compile Include="Controllers\POSController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\SalesController.cs" />
+    <Compile Include="Controllers\StaffScheduleController.cs" />
+    <Compile Include="Controllers\StaffController.cs" />
+    <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Access_m_AccessRights.cs" />
+    <Compile Include="Models\Access_m_RoleResources.cs" />
+    <Compile Include="Models\Access_m_Users.cs" />
+    <Compile Include="Models\Access_z_AccessTypes.cs" />
+    <Compile Include="Models\Access_z_Roles.cs" />
+    <Compile Include="Models\Access_z_Status.cs" />
+    <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Appointment_m_Appointment.cs" />
+    <Compile Include="Models\Appointment_z_AppointmentType.cs" />
+    <Compile Include="Models\AppSettings.cs" />
+    <Compile Include="Models\attendance_m_attendancedetail.cs" />
+    <Compile Include="Models\BigMacEntities.cs" />
+    <Compile Include="Models\cAESEncryption.cs" />
+    <Compile Include="Models\Campaign_m_Attendance_Staff.cs" />
+    <Compile Include="Models\campaign_m_branchactivitytarget.cs" />
+    <Compile Include="Models\campaign_m_branchsalestarget.cs" />
+    <Compile Include="Models\Campaign_m_Campaign.cs" />
+    <Compile Include="Models\Campaign_m_CampaignDetails.cs" />
+    <Compile Include="Models\Campaign_m_Category.cs" />
+    <Compile Include="Models\Campaign_m_Staffs.cs" />
+    <Compile Include="Models\campaign_z_branchesgroups.cs" />
+    <Compile Include="Models\campaign_z_category.cs" />
+    <Compile Include="Models\Campaign_z_CategoryType.cs" />
+    <Compile Include="Models\campaign_z_groups.cs" />
+    <Compile Include="Models\campaign_z_staffdaytype.cs" />
+    <Compile Include="Models\Campaign_z_Status.cs" />
+    <Compile Include="Models\Campaign_z_Time.cs" />
+    <Compile Include="Models\Common_m_BranchAsset.cs" />
+    <Compile Include="Models\Common_m_BranchDepartment.cs" />
+    <Compile Include="Models\Common_m_Message.cs" />
+    <Compile Include="Models\Common_m_Partnership.cs" />
+    <Compile Include="Models\Common_m_Staff.cs" />
+    <Compile Include="Models\Common_m_StaffBranch.cs" />
+    <Compile Include="Models\Common_m_StaffDepartment.cs" />
+    <Compile Include="Models\Common_z_Currency.cs" />
+    <Compile Include="Models\Common_z_PaymentMode.cs" />
+    <Compile Include="Models\Common_z_PaymentStatus.cs" />
+    <Compile Include="Models\Common_z_StaffPosition.cs" />
+    <Compile Include="Models\Common_z_StaffSkills.cs" />
+    <Compile Include="Models\Common_z_StaffType.cs" />
+    <Compile Include="Models\Common_z_Status.cs" />
+    <Compile Include="Models\Common_z_UnitofMeasurment.cs" />
+    <Compile Include="Models\Configuration_m_Branches.cs" />
+    <Compile Include="Models\Configuration_m_Company.cs" />
+    <Compile Include="Models\Configuration_m_Default.cs" />
+    <Compile Include="Models\Configuration_m_Resource.cs" />
+    <Compile Include="Models\CusSup_m_Cards.cs" />
+    <Compile Include="Models\CusSup_m_CitibellaDupCustCode.cs" />
+    <Compile Include="Models\CusSup_m_CitibellaLiability.cs" />
+    <Compile Include="Models\CusSup_m_CusFeedback.cs" />
+    <Compile Include="Models\CusSup_m_CusRedemption.cs" />
+    <Compile Include="Models\CusSup_m_CusSup.cs" />
+    <Compile Include="Models\CusSup_m_Logs.cs" />
+    <Compile Include="Models\cussup_m_treatment.cs" />
+    <Compile Include="Models\Cussup_z_CardType.cs" />
+    <Compile Include="Models\cussup_z_citibellaconversionrate.cs" />
+    <Compile Include="Models\cussup_z_cussuptype.cs" />
+    <Compile Include="Models\Cussup_z_Nationality.cs" />
+    <Compile Include="Models\Cussup_z_NRICType.cs" />
+    <Compile Include="Models\Cussup_z_Race.cs" />
+    <Compile Include="Models\Cussup_z_Status.cs" />
+    <Compile Include="Models\DetailEntry.cs" />
+    <Compile Include="Models\GlobalSettings.cs" />
+    <Compile Include="Models\Invoice_m_Invoice.cs" />
+    <Compile Include="Models\invoice_m_invoice_items.cs" />
+    <Compile Include="Models\Invoice_m_Invoice_SalesStaff.cs" />
+    <Compile Include="Models\Invoice_m_Payment.cs" />
+    <Compile Include="Models\Invoice_z_discount.cs" />
+    <Compile Include="Models\Logs_m_ErrorLogs.cs" />
+    <Compile Include="Models\Logs_m_Logs.cs" />
+    <Compile Include="Models\Logs_z_LogType.cs" />
+    <Compile Include="Models\Message_m_Chats.cs" />
+    <Compile Include="Models\Message_m_ChatsGroups.cs" />
+    <Compile Include="Models\Message_m_ChatsUsers.cs" />
+    <Compile Include="Models\Mileage_m_rewards.cs" />
+    <Compile Include="Models\PaginatedList.cs" />
+    <Compile Include="Models\Product_m_Citibella.cs" />
+    <Compile Include="Models\Product_m_Product.cs" />
+    <Compile Include="Models\Product_m_ProductAltCode.cs" />
+    <Compile Include="Models\Product_m_ProductBundles.cs" />
+    <Compile Include="Models\Product_m_ProductImage.cs" />
+    <Compile Include="Models\Product_m_ProductPrice.cs" />
+    <Compile Include="Models\Product_m_ProductPromotion.cs" />
+    <Compile Include="Models\Product_z_Category.cs" />
+    <Compile Include="Models\Product_z_CategorySub.cs" />
+    <Compile Include="Models\Product_z_ProductBrand.cs" />
+    <Compile Include="Models\Product_z_ProductPriceType.cs" />
+    <Compile Include="Models\Product_z_ProductRangesNSeries.cs" />
+    <Compile Include="Models\Product_z_Status.cs" />
+    <Compile Include="Models\Purchase_m_Payment.cs" />
+    <Compile Include="Models\Purchase_m_Purchase.cs" />
+    <Compile Include="Models\Purchase_m_Purchase_Items.cs" />
+    <Compile Include="Models\Reward.cs" />
+    <Compile Include="Models\rptEncrypValue.cs" />
+    <Compile Include="Models\salesorder_m_detail.cs" />
+    <Compile Include="Models\Salesorder_m_salesorder.cs" />
+    <Compile Include="Models\Schedule_m_Appointment.cs" />
+    <Compile Include="Models\Schedule_m_Staff.cs" />
+    <Compile Include="Models\Schedule_m_Holiday.cs" />
+    <Compile Include="Models\Schedule_m_StaffWork .cs" />
+    <Compile Include="Models\Schedule_m_Work.cs" />
+    <Compile Include="Models\Stock_m_StockAdjustment.cs" />
+    <Compile Include="Models\Stock_m_StockAdjustment_Items.cs" />
+    <Compile Include="Models\stock_m_stockmovement.cs" />
+    <Compile Include="Models\Stock_m_StockReceived.cs" />
+    <Compile Include="Models\Stock_m_StockReceived_Items.cs" />
+    <Compile Include="Models\Stock_m_StockTransfer.cs" />
+    <Compile Include="Models\Schedule_m_Leave.cs" />
+    <Compile Include="Models\Stock_m_StockTransfer_Items.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\AttendanceAllListing.aspx.cs">
+      <DependentUpon>AttendanceAllListing.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\AttendanceAllListing.aspx.designer.cs">
+      <DependentUpon>AttendanceAllListing.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\AttendanceListingByDay.aspx.cs">
+      <DependentUpon>AttendanceListingByDay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\AttendanceListingByDay.aspx.designer.cs">
+      <DependentUpon>AttendanceListingByDay.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\CheckAttendanceListing.aspx.cs">
+      <DependentUpon>CheckAttendanceListing.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\CheckAttendanceListing.aspx.designer.cs">
+      <DependentUpon>CheckAttendanceListing.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\CustomerTransferList.aspx.cs">
+      <DependentUpon>CustomerTransferList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\CustomerTransferList.aspx.designer.cs">
+      <DependentUpon>CustomerTransferList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\DailyRedemptionByBranch.aspx.cs">
+      <DependentUpon>DailyRedemptionByBranch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\DailyRedemptionByBranch.aspx.designer.cs">
+      <DependentUpon>DailyRedemptionByBranch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\DailySalesByBranch.aspx.cs">
+      <DependentUpon>DailySalesByBranch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\DailySalesByBranch.aspx.designer.cs">
+      <DependentUpon>DailySalesByBranch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\CustomerAttendanceList.aspx.cs">
+      <DependentUpon>CustomerAttendanceList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\CustomerAttendanceList.aspx.designer.cs">
+      <DependentUpon>CustomerAttendanceList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\DailySalesClosing.aspx.cs">
+      <DependentUpon>DailySalesClosing.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\DailySalesClosing.aspx.designer.cs">
+      <DependentUpon>DailySalesClosing.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\DailySalesClosingDetails.aspx.cs">
+      <DependentUpon>DailySalesClosingDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\DailySalesClosingDetails.aspx.designer.cs">
+      <DependentUpon>DailySalesClosingDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\DailySalesClosingDetailsByPaymentMode.aspx.cs">
+      <DependentUpon>DailySalesClosingDetailsByPaymentMode.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\DailySalesClosingDetailsByPaymentMode.aspx.designer.cs">
+      <DependentUpon>DailySalesClosingDetailsByPaymentMode.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\MemberPackageRedemptionReceipt.aspx.cs">
+      <DependentUpon>MemberPackageRedemptionReceipt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\MemberPackageRedemptionReceipt.aspx.designer.cs">
+      <DependentUpon>MemberPackageRedemptionReceipt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\MemberPackageTopUpReceipt.aspx.cs">
+      <DependentUpon>MemberPackageTopUpReceipt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\MemberPackageTopUpReceipt.aspx.designer.cs">
+      <DependentUpon>MemberPackageTopUpReceipt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\MembersListByDOB.aspx.cs">
+      <DependentUpon>MembersListByDOB.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\MembersListByDOB.aspx.designer.cs">
+      <DependentUpon>MembersListByDOB.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\MemberTransactionList.aspx.cs">
+      <DependentUpon>MemberTransactionList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\MemberTransactionList.aspx.designer.cs">
+      <DependentUpon>MemberTransactionList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\MemberTransferAgreement.aspx.cs">
+      <DependentUpon>MemberTransferAgreement.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\MemberTransferAgreement.aspx.designer.cs">
+      <DependentUpon>MemberTransferAgreement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\MonthlyStockBalance.aspx.cs">
+      <DependentUpon>MonthlyStockBalance.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\MonthlyStockBalance.aspx.designer.cs">
+      <DependentUpon>MonthlyStockBalance.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\NewMember.aspx.cs">
+      <DependentUpon>NewMember.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\NewMember.aspx.designer.cs">
+      <DependentUpon>NewMember.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\PackageRedemptionReceipt.aspx.cs">
+      <DependentUpon>PackageRedemptionReceipt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\PackageRedemptionReceipt.aspx.designer.cs">
+      <DependentUpon>PackageRedemptionReceipt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\AppointmentReceipt.aspx.cs">
+      <DependentUpon>AppointmentReceipt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\AppointmentReceipt.aspx.designer.cs">
+      <DependentUpon>AppointmentReceipt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\POSListingByBranch.aspx.cs">
+      <DependentUpon>POSListingByBranch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\POSListingByBranch.aspx.designer.cs">
+      <DependentUpon>POSListingByBranch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\POSReceipt.aspx.cs">
+      <DependentUpon>POSReceipt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\POSReceipt.aspx.designer.cs">
+      <DependentUpon>POSReceipt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\PrintCardListing.aspx.cs">
+      <DependentUpon>PrintCardListing.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\PrintCardListing.aspx.designer.cs">
+      <DependentUpon>PrintCardListing.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\AttendanceListing.aspx.cs">
+      <DependentUpon>AttendanceListing.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\AttendanceListing.aspx.designer.cs">
+      <DependentUpon>AttendanceListing.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ProductListing.aspx.cs">
+      <DependentUpon>ProductListing.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\ProductListing.aspx.designer.cs">
+      <DependentUpon>ProductListing.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RedemptionReceipt.aspx.cs">
+      <DependentUpon>RedemptionReceipt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RedemptionReceipt.aspx.designer.cs">
+      <DependentUpon>RedemptionReceipt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ReportMileage.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\ReportMileage.aspx.designer.cs">
+      <DependentUpon>ReportMileage.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\SalesCommissionByBranches.aspx.cs">
+      <DependentUpon>SalesCommissionByBranches.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\SalesCommissionByBranches.aspx.designer.cs">
+      <DependentUpon>SalesCommissionByBranches.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ServiceCommissionReport.aspx.cs">
+      <DependentUpon>ServiceCommissionReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\ServiceCommissionReport.aspx.designer.cs">
+      <DependentUpon>ServiceCommissionReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ServiceReportByHour.aspx.cs">
+      <DependentUpon>ServiceReportByHour.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\ServiceReportByHour.aspx.designer.cs">
+      <DependentUpon>ServiceReportByHour.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ServiceReportByStaff.aspx.cs">
+      <DependentUpon>ServiceReportByStaff.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\ServiceReportByStaff.aspx.designer.cs">
+      <DependentUpon>ServiceReportByStaff.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Signature_Pad.aspx.cs">
+      <DependentUpon>Signature_Pad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\Signature_Pad.aspx.designer.cs">
+      <DependentUpon>Signature_Pad.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\SOPackageRedemptionReceipt.aspx.cs">
+      <DependentUpon>SOPackageRedemptionReceipt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\SOPackageRedemptionReceipt.aspx.designer.cs">
+      <DependentUpon>SOPackageRedemptionReceipt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\StockAdjustment.aspx.cs">
+      <DependentUpon>StockAdjustment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\StockAdjustment.aspx.designer.cs">
+      <DependentUpon>StockAdjustment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\StockMovement.aspx.cs">
+      <DependentUpon>StockMovement.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\StockMovement.aspx.designer.cs">
+      <DependentUpon>StockMovement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\StockReceive.aspx.cs">
+      <DependentUpon>StockReceive.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\StockReceive.aspx.designer.cs">
+      <DependentUpon>StockReceive.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\StockReceivedByBranch.aspx.cs">
+      <DependentUpon>StockReceivedByBranch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\StockReceivedByBranch.aspx.designer.cs">
+      <DependentUpon>StockReceivedByBranch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\StockReceivedListing.aspx.cs">
+      <DependentUpon>StockReceivedListing.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\StockReceivedListing.aspx.designer.cs">
+      <DependentUpon>StockReceivedListing.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\StockTransfer.aspx.cs">
+      <DependentUpon>StockTransfer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\StockTransfer.aspx.designer.cs">
+      <DependentUpon>StockTransfer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\TopUpReceipt.aspx.cs">
+      <DependentUpon>TopUpReceipt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\TopUpReceipt.aspx.designer.cs">
+      <DependentUpon>TopUpReceipt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\VoidTransactionList.aspx.cs">
+      <DependentUpon>VoidTransactionList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\VoidTransactionList.aspx.designer.cs">
+      <DependentUpon>VoidTransactionList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\DailyStockCollectionByBranch.aspx.cs">
+      <DependentUpon>DailyStockCollectionByBranch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\DailyStockCollectionByBranch.aspx.designer.cs">
+      <DependentUpon>DailyStockCollectionByBranch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\RewardsService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\SMSWS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\css\A5.css" />
+    <Content Include="assets\css\bootstrap-theme.css" />
+    <Content Include="assets\css\bootstrap-theme.min.css" />
+    <Content Include="assets\css\bootstrap.css" />
+    <Content Include="assets\css\bootstrap.min.css" />
+    <Content Include="assets\css\chosen-sprite%402x.png" />
+    <Content Include="assets\css\chosen-sprite.png" />
+    <Content Include="assets\css\chosen.css" />
+    <Content Include="assets\css\chosen.min.css" />
+    <Content Include="assets\css\dropzone.css" />
+    <Content Include="assets\css\elfinder.min.css" />
+    <Content Include="assets\css\elfinder.theme.css" />
+    <Content Include="assets\css\filetypes.css" />
+    <Content Include="assets\css\font-awesome-ie7.css" />
+    <Content Include="assets\css\font-awesome-ie7.min.css" />
+    <Content Include="assets\css\font-awesome.css" />
+    <Content Include="assets\css\font-awesome.min.css" />
+    <Content Include="assets\css\fullcalendar.css" />
+    <Content Include="assets\css\fullcalendar.min.css" />
+    <Content Include="assets\css\fullcalendar.print.css" />
+    <Content Include="assets\css\fullcalendar.print.min.css" />
+    <Content Include="assets\css\glyphicons.css" />
+    <Content Include="assets\css\halflings.css" />
+    <Content Include="assets\css\ie.css" />
+    <Content Include="assets\css\ie9.css" />
+    <Content Include="assets\css\jquery-ui-1.10.3.custom.css" />
+    <Content Include="assets\css\jquery-ui-1.10.3.custom.min.css" />
+    <Content Include="assets\css\jquery.cleditor.css" />
+    <Content Include="assets\css\jquery.easy-pie-chart.css" />
+    <Content Include="assets\css\jquery.gritter.css" />
+    <Content Include="assets\css\jquery.noty.css" />
+    <Content Include="assets\css\noty_theme_default.css" />
+    <Content Include="assets\css\retina.css" />
+    <Content Include="assets\css\retina.min.css" />
+    <Content Include="assets\css\scheduler.css" />
+    <Content Include="assets\css\scheduler.min.css" />
+    <Content Include="assets\css\social.css" />
+    <Content Include="assets\css\style.css" />
+    <Content Include="assets\css\style.min.css" />
+    <Content Include="assets\css\uploadify.css" />
+    <Content Include="assets\css\xcharts.min.css" />
+    <Content Include="assets\dhtmlx\dhtmlxscheduler.css" />
+    <Content Include="assets\dhtmlx\dhtmlxscheduler.js" />
+    <Content Include="assets\dhtmlx\events.xml" />
+    <Content Include="assets\dhtmlx\ext\dhtmlxscheduler_api.js" />
+    <Content Include="assets\dhtmlx\ext\dhtmlxscheduler_agenda_view.js" />
+    <Content Include="assets\dhtmlx\ext\dhtmlxscheduler_daytimeline.js" />
+    <Content Include="assets\dhtmlx\ext\dhtmlxscheduler_drag_between.js" />
+    <Content Include="assets\dhtmlx\ext\dhtmlxscheduler_limit.js" />
+    <Content Include="assets\dhtmlx\ext\dhtmlxscheduler_outerdrag.js" />
+    <Content Include="assets\dhtmlx\ext\dhtmlxscheduler_pdf.js" />
+    <Content Include="assets\dhtmlx\ext\dhtmlxscheduler_timeline.js" />
+    <Content Include="assets\dhtmlx\ext\dhtmlxscheduler_tooltip.js" />
+    <Content Include="assets\dhtmlx\ext\dhtmlxscheduler_treetimeline.js" />
+    <Content Include="assets\dhtmlx\ext\dhtmlxscheduler_units.js" />
+    <Content Include="assets\dhtmlx\ext\dhtmlxscheduler_year_view.js" />
+    <Content Include="assets\dhtmlx\imgs_dhx_terrace\arrow_left.png" />
+    <Content Include="assets\dhtmlx\imgs_dhx_terrace\arrow_right.png" />
+    <Content Include="assets\dhtmlx\imgs_dhx_terrace\but_repeat.gif" />
+    <Content Include="assets\dhtmlx\imgs_dhx_terrace\calendar.gif" />
+    <Content Include="assets\dhtmlx\imgs_dhx_terrace\clock_big.gif" />
+    <Content Include="assets\dhtmlx\imgs_dhx_terrace\clock_small.gif" />
+    <Content Include="assets\dhtmlx\imgs_dhx_terrace\close_icon.png" />
+    <Content Include="assets\dhtmlx\imgs_dhx_terrace\collapse_expand_icon.gif" />
+    <Content Include="assets\dhtmlx\imgs_dhx_terrace\controls.png" />
+    <Content Include="assets\dhtmlx\imgs_dhx_terrace\databg.png" />
+    <Content Include="assets\dhtmlx\imgs_dhx_terrace\databg_now.png" />
+    <Content Include="assets\dhtmlx\imgs_dhx_terrace\export_ical.png" />
+    <Content Include="assets\dhtmlx\imgs_dhx_terrace\export_pdf.png" />
+    <Content Include="assets\dhtmlx\imgs_dhx_terrace\resize_dots.png" />
+    <Content Include="assets\dhtmlx\imgs_dhx_terrace\resizing.png" />
+    <Content Include="assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="assets\fonts\glyphicons-filetypes-regular.svg" />
+    <Content Include="assets\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="assets\fonts\glyphicons-regular.svg" />
+    <Content Include="assets\fonts\glyphicons-social-regular.svg" />
+    <Content Include="assets\fonts\glyphiconshalflings-regular.svg" />
+    <Content Include="assets\fonts\js\bootstrap-colorpicker.min.js" />
+    <Content Include="assets\fonts\js\bootstrap-datepicker.min.js" />
+    <Content Include="assets\fonts\js\bootstrap-timepicker.min.js" />
+    <Content Include="assets\fonts\js\bootstrap-wysiwyg.min.js" />
+    <Content Include="assets\fonts\js\bootstrap.min.js" />
+    <Content Include="assets\fonts\js\core.min.js" />
+    <Content Include="assets\fonts\js\counter.min.js" />
+    <Content Include="assets\fonts\js\custom.min.js" />
+    <Content Include="assets\fonts\js\d3.min.js" />
+    <Content Include="assets\fonts\js\dataTables.bootstrap.min.js" />
+    <Content Include="assets\fonts\js\daterangepicker.min.js" />
+    <Content Include="assets\fonts\js\dropzone.min.js" />
+    <Content Include="assets\fonts\js\excanvas.min.js" />
+    <Content Include="assets\fonts\js\fullcalendar.min.js" />
+    <Content Include="assets\fonts\js\jquery-1.10.2.min.js" />
+    <Content Include="assets\fonts\js\jquery-2.0.3.min.js" />
+    <Content Include="assets\fonts\js\jquery-migrate-1.2.1.min.js" />
+    <Content Include="assets\fonts\js\jquery-ui-1.10.3.custom.min.js" />
+    <Content Include="assets\fonts\js\jquery-ui-1.10.3.min.js" />
+    <Content Include="assets\fonts\js\jquery.autosize.min.js" />
+    <Content Include="assets\fonts\js\jquery.chosen.min.js" />
+    <Content Include="assets\fonts\js\jquery.cleditor.min.js" />
+    <Content Include="assets\fonts\js\jquery.cookie.min.js" />
+    <Content Include="assets\fonts\js\jquery.dataTables.min.js" />
+    <Content Include="assets\fonts\js\jquery.easy-pie-chart.min.js" />
+    <Content Include="assets\fonts\js\jquery.elfinder.min.js" />
+    <Content Include="assets\fonts\js\jquery.flot.min.js" />
+    <Content Include="assets\fonts\js\jquery.flot.pie.min.js" />
+    <Content Include="assets\fonts\js\jquery.flot.resize.min.js" />
+    <Content Include="assets\fonts\js\jquery.flot.stack.min.js" />
+    <Content Include="assets\fonts\js\jquery.flot.time.min.js" />
+    <Content Include="assets\fonts\js\jquery.gritter.min.js" />
+    <Content Include="assets\fonts\js\jquery.hotkeys.min.js" />
+    <Content Include="assets\fonts\js\jquery.inputlimiter.1.3.1.min.js" />
+    <Content Include="assets\fonts\js\jquery.knob.min.js" />
+    <Content Include="assets\fonts\js\jquery.knob.modified.min.js" />
+    <Content Include="assets\fonts\js\jquery.maskedinput.min.js" />
+    <Content Include="assets\fonts\js\jquery.nestable.min.js" />
+    <Content Include="assets\fonts\js\jquery.noty.min.js" />
+    <Content Include="assets\fonts\js\jquery.placeholder.min.js" />
+    <Content Include="assets\fonts\js\jquery.raty.min.js" />
+    <Content Include="assets\fonts\js\jquery.sparkline.min.js" />
+    <Content Include="assets\fonts\js\jquery.ui.touch-punch.min.js" />
+    <Content Include="assets\fonts\js\jquery.uploadify.min.js" />
+    <Content Include="assets\fonts\js\justgage.1.0.1.min.js" />
+    <Content Include="assets\fonts\js\modernizr.js" />
+    <Content Include="assets\fonts\js\moment.min.js" />
+    <Content Include="assets\fonts\js\pages\calendar.js" />
+    <Content Include="assets\fonts\js\pages\charts-flot.js" />
+    <Content Include="assets\fonts\js\pages\charts-other.js" />
+    <Content Include="assets\fonts\js\pages\charts-xcharts.js" />
+    <Content Include="assets\fonts\js\pages\file-manager.js" />
+    <Content Include="assets\fonts\js\pages\form-dropzone.js" />
+    <Content Include="assets\fonts\js\pages\form-elements.js" />
+    <Content Include="assets\fonts\js\pages\form-wizard.js" />
+    <Content Include="assets\fonts\js\pages\index.js" />
+    <Content Include="assets\fonts\js\pages\page-inbox.js" />
+    <Content Include="assets\fonts\js\pages\page-infrastructure.js" />
+    <Content Include="assets\fonts\js\pages\table.js" />
+    <Content Include="assets\fonts\js\pages\ui-elements.js" />
+    <Content Include="assets\fonts\js\pages\ui-nestable-list.js" />
+    <Content Include="assets\fonts\js\pages\ui-sliders-progress.js" />
+    <Content Include="assets\fonts\js\pages\widgets.js" />
+    <Content Include="assets\fonts\js\raphael.min.js" />
+    <Content Include="assets\fonts\js\respond.min.js" />
+    <Content Include="assets\fonts\js\retina.min.js" />
+    <Content Include="assets\fonts\js\uncompressed\bootstrap-colorpicker.js" />
+    <Content Include="assets\fonts\js\uncompressed\bootstrap-datepicker.js" />
+    <Content Include="assets\fonts\js\uncompressed\bootstrap-timepicker.js" />
+    <Content Include="assets\fonts\js\uncompressed\bootstrap-wysiwyg.js" />
+    <Content Include="assets\fonts\js\uncompressed\bootstrap.js" />
+    <Content Include="assets\fonts\js\uncompressed\core.js" />
+    <Content Include="assets\fonts\js\uncompressed\counter.js" />
+    <Content Include="assets\fonts\js\uncompressed\custom.js" />
+    <Content Include="assets\fonts\js\uncompressed\d3.js" />
+    <Content Include="assets\fonts\js\uncompressed\dataTables.bootstrap.js" />
+    <Content Include="assets\fonts\js\uncompressed\daterangepicker.js" />
+    <Content Include="assets\fonts\js\uncompressed\dropzone.js" />
+    <Content Include="assets\fonts\js\uncompressed\excanvas.js" />
+    <Content Include="assets\fonts\js\uncompressed\fullcalendar.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery-ui-1.10.3.custom.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.autosize.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.chosen.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.cleditor.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.cookie.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.dataTables.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.easy-pie-chart.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.flot.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.flot.pie.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.flot.resize.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.flot.stack.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.flot.time.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.gritter.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.hotkeys.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.inputlimiter.1.3.1.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.knob.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.knob.modified.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.maskedinput.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.nestable.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.noty.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.placeholder.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.raty.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.sparkline.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.ui.touch-punch.js" />
+    <Content Include="assets\fonts\js\uncompressed\jquery.uploadify.js" />
+    <Content Include="assets\fonts\js\uncompressed\justgage.1.0.1.js" />
+    <Content Include="assets\fonts\js\uncompressed\moment.js" />
+    <Content Include="assets\fonts\js\uncompressed\raphael.js" />
+    <Content Include="assets\fonts\js\uncompressed\xcharts.js" />
+    <Content Include="assets\fonts\js\wizard.min.js" />
+    <Content Include="assets\fonts\js\xcharts.min.js" />
+    <Content Include="assets\ico\citibella.ico" />
+    <Content Include="assets\img\arrows-active.png" />
+    <Content Include="assets\img\arrows-normal.png" />
+    <Content Include="assets\img\avatar.jpg" />
+    <Content Include="assets\img\avatar2.jpg" />
+    <Content Include="assets\img\avatar3.jpg" />
+    <Content Include="assets\img\avatar4.jpg" />
+    <Content Include="assets\img\avatar5.jpg" />
+    <Content Include="assets\img\avatar6.jpg" />
+    <Content Include="assets\img\avatar7.jpg" />
+    <Content Include="assets\img\avatar8.jpg" />
+    <Content Include="assets\img\avatar9.jpg" />
+    <Content Include="assets\img\bg-input-focus.png" />
+    <Content Include="assets\img\bg-input.png" />
+    <Content Include="assets\img\bg-login.jpg" />
+    <Content Include="assets\img\browser-chrome%402x.png" />
+    <Content Include="assets\img\browser-chrome-big%402x.png" />
+    <Content Include="assets\img\browser-chrome-big.png" />
+    <Content Include="assets\img\browser-chrome.png" />
+    <Content Include="assets\img\browser-firefox%402x.png" />
+    <Content Include="assets\img\browser-firefox-big%402x.png" />
+    <Content Include="assets\img\browser-firefox-big.png" />
+    <Content Include="assets\img\browser-firefox.png" />
+    <Content Include="assets\img\browser-ie%402x.png" />
+    <Content Include="assets\img\browser-ie-big%402x.png" />
+    <Content Include="assets\img\browser-ie-big.png" />
+    <Content Include="assets\img\browser-ie.png" />
+    <Content Include="assets\img\browser-opera%402x.png" />
+    <Content Include="assets\img\browser-opera-big%402x.png" />
+    <Content Include="assets\img\browser-opera-big.png" />
+    <Content Include="assets\img\browser-opera.png" />
+    <Content Include="assets\img\browser-safari%402x.png" />
+    <Content Include="assets\img\browser-safari-big%402x.png" />
+    <Content Include="assets\img\browser-safari-big.png" />
+    <Content Include="assets\img\browser-safari.png" />
+    <Content Include="assets\img\buttons.gif" />
+    <Content Include="assets\img\cancel-off.png" />
+    <Content Include="assets\img\cancel-on.png" />
+    <Content Include="assets\img\chat-left%402x.png" />
+    <Content Include="assets\img\chat-left.png" />
+    <Content Include="assets\img\chat-right%402x.png" />
+    <Content Include="assets\img\chat-right.png" />
+    <Content Include="assets\img\chosen-sprite.png" />
+    <Content Include="assets\img\CitiLogo.jpg" />
+    <Content Include="assets\img\CitiLogo.png" />
+    <Content Include="assets\img\close-button-white.png" />
+    <Content Include="assets\img\close-button.gif" />
+    <Content Include="assets\img\close-button.png" />
+    <Content Include="assets\img\controls.png" />
+    <Content Include="assets\img\crop.gif" />
+    <Content Include="assets\img\dbg.jpg" />
+    <Content Include="assets\img\dbg2.jpg" />
+    <Content Include="assets\img\dialogs.png" />
+    <Content Include="assets\img\downarrow%402x.png" />
+    <Content Include="assets\img\downarrow.png" />
+    <Content Include="assets\img\error_bg.png" />
+    <Content Include="assets\img\f34b74d0-4650-4732-91e4-1f82173b001f.jpg" />
+    <Content Include="assets\img\favicon.ico" />
+    <Content Include="assets\img\gallery\.tmb\l1_cGhvdG80LmpwZw1360416442.png" />
+    <Content Include="assets\img\gallery\.tmb\l1_cGhvdG81LmpwZw1360416427.png" />
+    <Content Include="assets\img\gallery\.tmb\l1_cGhvdG82LmpwZw1360416408.png" />
+    <Content Include="assets\img\gallery\.tmb\l1_cGhvdG83LmpwZw1360416399.png" />
+    <Content Include="assets\img\gallery\.tmb\l1_cGhvdG84LmpwZw1360416368.png" />
+    <Content Include="assets\img\gallery\.tmb\l1_cGhvdG85LmpwZw1360416350.png" />
+    <Content Include="assets\img\gallery\.tmb\l1_cGhvdG8xLmpwZw1348332271.png" />
+    <Content Include="assets\img\gallery\.tmb\l1_cGhvdG8xMC5qcGc1360416320.png" />
+    <Content Include="assets\img\gallery\.tmb\l1_cGhvdG8xMi5qcGc1360416299.png" />
+    <Content Include="assets\img\gallery\.tmb\l1_cGhvdG8xMS5qcGc1360416311.png" />
+    <Content Include="assets\img\gallery\.tmb\l1_cGhvdG8xMy5qcGc1360416259.png" />
+    <Content Include="assets\img\gallery\.tmb\l1_cGhvdG8yLmpwZw1360416466.png" />
+    <Content Include="assets\img\gallery\.tmb\l1_cGhvdG8zLmpwZw1360416452.png" />
+    <Content Include="assets\img\gallery\photo1.jpg" />
+    <Content Include="assets\img\gallery\photo10.jpg" />
+    <Content Include="assets\img\gallery\photo11.jpg" />
+    <Content Include="assets\img\gallery\photo12.jpg" />
+    <Content Include="assets\img\gallery\photo13.jpg" />
+    <Content Include="assets\img\gallery\photo2.jpg" />
+    <Content Include="assets\img\gallery\photo3.jpg" />
+    <Content Include="assets\img\gallery\photo4.jpg" />
+    <Content Include="assets\img\gallery\photo5.jpg" />
+    <Content Include="assets\img\gallery\photo6.jpg" />
+    <Content Include="assets\img\gallery\photo7.jpg" />
+    <Content Include="assets\img\gallery\photo8.jpg" />
+    <Content Include="assets\img\gallery\photo9.jpg" />
+    <Content Include="assets\img\glyphicons-halflings-red.png" />
+    <Content Include="assets\img\glyphicons-halflings-white.png" />
+    <Content Include="assets\img\glyphicons-halflings.png" />
+    <Content Include="assets\img\glyphicons-white.png" />
+    <Content Include="assets\img\glyphicons-white.svg" />
+    <Content Include="assets\img\glyphicons.png" />
+    <Content Include="assets\img\glyphicons.svg" />
+    <Content Include="assets\img\glyphicons_halflings-white.png" />
+    <Content Include="assets\img\glyphicons_halflings-white.svg" />
+    <Content Include="assets\img\glyphicons_halflings.png" />
+    <Content Include="assets\img\glyphicons_halflings.svg" />
+    <Content Include="assets\img\grid_grey.jpg" />
+    <Content Include="assets\img\gritter-light.png" />
+    <Content Include="assets\img\gritter-long.png" />
+    <Content Include="assets\img\gritter.png" />
+    <Content Include="assets\img\icons-big.png" />
+    <Content Include="assets\img\icons-small.png" />
+    <Content Include="assets\img\ie-spacer.gif" />
+    <Content Include="assets\img\ios-style-checkboxes\off.png" />
+    <Content Include="assets\img\ios-style-checkboxes\on.png" />
+    <Content Include="assets\img\ios-style-checkboxes\slider.png" />
+    <Content Include="assets\img\ios-style-checkboxes\slider_center.png" />
+    <Content Include="assets\img\ios-style-checkboxes\slider_left.png" />
+    <Content Include="assets\img\ios-style-checkboxes\slider_right.png" />
+    <Content Include="assets\img\iphone-style-checkboxes\off.png" />
+    <Content Include="assets\img\iphone-style-checkboxes\on.png" />
+    <Content Include="assets\img\iphone-style-checkboxes\slider.png" />
+    <Content Include="assets\img\iphone-style-checkboxes\slider_center.png" />
+    <Content Include="assets\img\iphone-style-checkboxes\slider_left.png" />
+    <Content Include="assets\img\iphone-style-checkboxes\slider_right.png" />
+    <Content Include="assets\img\i_16_radio.png" />
+    <Content Include="assets\img\loading.gif" />
+    <Content Include="assets\img\loading_background.png" />
+    <Content Include="assets\img\logo.png" />
+    <Content Include="assets\img\logo20.png" />
+    <Content Include="assets\img\map.png" />
+    <Content Include="assets\img\Members\profile.png" />
+    <Content Include="assets\img\Products\Nail1.jpg" />
+    <Content Include="assets\img\Products\Product1.jpg" />
+    <Content Include="assets\img\Products\Product2.jpg" />
+    <Content Include="assets\img\Products\Product3.jpg" />
+    <Content Include="assets\img\Products\Product4.jpg" />
+    <Content Include="assets\img\Product\profile.png" />
+    <Content Include="assets\img\progress.gif" />
+    <Content Include="assets\img\quicklook-bg.png" />
+    <Content Include="assets\img\quicklook-icons.png" />
+    <Content Include="assets\img\quote.png" />
+    <Content Include="assets\img\resize.png" />
+    <Content Include="assets\img\Services\Service1.jpg" />
+    <Content Include="assets\img\Services\Service11.jpg" />
+    <Content Include="assets\img\Services\Service2.jpg" />
+    <Content Include="assets\img\Services\Service3.jpg" />
+    <Content Include="assets\img\Services\Service4.jpg" />
+    <Content Include="assets\img\slider_r.png" />
+    <Content Include="assets\img\slider_r8.png" />
+    <Content Include="assets\img\sort_asc.png" />
+    <Content Include="assets\img\sort_asc_disabled.png" />
+    <Content Include="assets\img\sort_both.png" />
+    <Content Include="assets\img\sort_desc.png" />
+    <Content Include="assets\img\sort_desc_disabled.png" />
+    <Content Include="assets\img\spinner-mini.gif" />
+    <Content Include="assets\img\sprite.png" />
+    <Content Include="assets\img\spritemap%402x.png" />
+    <Content Include="assets\img\spritemap.png" />
+    <Content Include="assets\img\star-half.png" />
+    <Content Include="assets\img\star-off.png" />
+    <Content Include="assets\img\star-on.png" />
+    <Content Include="assets\img\tbg.png" />
+    <Content Include="assets\img\thumb.png" />
+    <Content Include="assets\img\timeline-bg.png" />
+    <Content Include="assets\img\timeline-left-arrow%402x.png" />
+    <Content Include="assets\img\timeline-left-arrow-kopia.png" />
+    <Content Include="assets\img\timeline-left-arrow.png" />
+    <Content Include="assets\img\timeline-right-arrow%402x.png" />
+    <Content Include="assets\img\timeline-right-arrow-kopia.png" />
+    <Content Include="assets\img\timeline-right-arrow.png" />
+    <Content Include="assets\img\toolbar.gif" />
+    <Content Include="assets\img\toolbar.png" />
+    <Content Include="assets\img\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="assets\img\ui-bg_flat_0_eeeeee_40x100.png" />
+    <Content Include="assets\img\ui-bg_flat_55_ffffff_40x100.png" />
+    <Content Include="assets\img\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="assets\img\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="assets\img\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="assets\img\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="assets\img\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="assets\img\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="assets\img\ui-bg_highlight-soft_100_f6f6f6_1x100.png" />
+    <Content Include="assets\img\ui-bg_highlight-soft_25_0073ea_1x100.png" />
+    <Content Include="assets\img\ui-bg_highlight-soft_50_dddddd_1x100.png" />
+    <Content Include="assets\img\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="assets\img\ui-icons_0073ea_256x240.png" />
+    <Content Include="assets\img\ui-icons_222222_256x240.png" />
+    <Content Include="assets\img\ui-icons_2e83ff_256x240.png" />
+    <Content Include="assets\img\ui-icons_454545_256x240.png" />
+    <Content Include="assets\img\ui-icons_666666_256x240.png" />
+    <Content Include="assets\img\ui-icons_888888_256x240.png" />
+    <Content Include="assets\img\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="assets\img\ui-icons_ff0084_256x240.png" />
+    <Content Include="assets\img\uparrow%402x.png" />
+    <Content Include="assets\img\uparrow.png" />
+    <Content Include="assets\img\uploadify-cancel.png" />
+    <Content Include="assets\img\WelcomeLetter.JPG" />
+    <Content Include="assets\js\bootstrap-colorpicker.min.js" />
+    <Content Include="assets\js\bootstrap-datepicker.min.js" />
+    <Content Include="assets\js\bootstrap-timepicker.min.js" />
+    <Content Include="assets\js\bootstrap-wysiwyg.min.js" />
+    <Content Include="assets\js\bootstrap.min.js" />
+    <Content Include="assets\js\common.js" />
+    <Content Include="assets\js\core.min.js" />
+    <Content Include="assets\js\counter.min.js" />
+    <Content Include="assets\js\custom.min.js" />
+    <Content Include="assets\js\d3.min.js" />
+    <Content Include="assets\js\dataTables.bootstrap.min.js" />
+    <Content Include="assets\js\dataTables.tableTools.min.js" />
+    <Content Include="assets\js\daterangepicker.min.js" />
+    <Content Include="assets\js\dropzone.min.js" />
+    <Content Include="assets\js\excanvas.min.js" />
+    <Content Include="assets\js\fullcalendar.js" />
+    <Content Include="assets\js\fullcalendar.min.js" />
+    <Content Include="assets\js\idle-timer.js" />
+    <Content Include="assets\js\jquery-1.10.2.min.js" />
+    <Content Include="assets\js\jquery-2.0.3.min.js" />
+    <Content Include="assets\js\jquery-loader.js" />
+    <Content Include="assets\js\jquery-migrate-1.2.1.min.js" />
+    <Content Include="assets\js\jquery-ui-1.10.3.custom.min.js" />
+    <Content Include="assets\js\jquery-ui-1.10.3.min.js" />
+    <Content Include="assets\js\jquery.autosize.min.js" />
+    <Content Include="assets\js\jquery.chosen.min.js" />
+    <Content Include="assets\js\jquery.cleditor.min.js" />
+    <Content Include="assets\js\jquery.cookie.min.js" />
+    <Content Include="assets\js\jquery.dataTables.editable.js" />
+    <Content Include="assets\js\jquery.dataTables.fnReloadAjax.js" />
+    <Content Include="assets\js\jquery.dataTables.min.js" />
+    <Content Include="assets\js\jquery.easy-pie-chart.min.js" />
+    <Content Include="assets\js\jquery.elfinder.min.js" />
+    <Content Include="assets\js\jquery.flot.min.js" />
+    <Content Include="assets\js\jquery.flot.pie.min.js" />
+    <Content Include="assets\js\jquery.flot.resize.min.js" />
+    <Content Include="assets\js\jquery.flot.stack.min.js" />
+    <Content Include="assets\js\jquery.flot.time.min.js" />
+    <Content Include="assets\js\jquery.gritter.min.js" />
+    <Content Include="assets\js\jquery.hotkeys.min.js" />
+    <Content Include="assets\js\jquery.inputlimiter.1.3.1.min.js" />
+    <Content Include="assets\js\jquery.knob.min.js" />
+    <Content Include="assets\js\jquery.knob.modified.min.js" />
+    <Content Include="assets\js\jquery.maskedinput.min.js" />
+    <Content Include="assets\js\jquery.nestable.min.js" />
+    <Content Include="assets\js\jquery.noty.min.js" />
+    <Content Include="assets\js\jquery.placeholder.min.js" />
+    <Content Include="assets\js\jquery.raty.min.js" />
+    <Content Include="assets\js\jquery.sparkline.min.js" />
+    <Content Include="assets\js\jquery.ui.touch-punch.min.js" />
+    <Content Include="assets\js\jquery.uploadify.min.js" />
+    <Content Include="assets\js\justgage.1.0.1.min.js" />
+    <Content Include="assets\js\modernizr.js" />
+    <Content Include="assets\js\moment.min.js" />
+    <Content Include="assets\js\pages\calendar.js" />
+    <Content Include="assets\js\pages\charts-flot.js" />
+    <Content Include="assets\js\pages\charts-other.js" />
+    <Content Include="assets\js\pages\charts-xcharts.js" />
+    <Content Include="assets\js\pages\file-manager.js" />
+    <Content Include="assets\js\pages\form-dropzone.js" />
+    <Content Include="assets\js\pages\form-elements.js" />
+    <Content Include="assets\js\pages\form-wizard.js" />
+    <Content Include="assets\js\pages\index.js" />
+    <Content Include="assets\js\pages\page-inbox.js" />
+    <Content Include="assets\js\pages\page-infrastructure.js" />
+    <Content Include="assets\js\pages\table.js" />
+    <Content Include="assets\js\pages\ui-elements.js" />
+    <Content Include="assets\js\pages\ui-nestable-list.js" />
+    <Content Include="assets\js\pages\ui-sliders-progress.js" />
+    <Content Include="assets\js\pages\widgets.js" />
+    <Content Include="assets\js\raphael.min.js" />
+    <Content Include="assets\js\respond.min.js" />
+    <Content Include="assets\js\retina.min.js" />
+    <Content Include="assets\js\scheduler.min.js" />
+    <Content Include="assets\js\uncompressed\bootstrap-colorpicker.js" />
+    <Content Include="assets\js\uncompressed\bootstrap-datepicker.js" />
+    <Content Include="assets\js\uncompressed\bootstrap-timepicker.js" />
+    <Content Include="assets\js\uncompressed\bootstrap-wysiwyg.js" />
+    <Content Include="assets\js\uncompressed\bootstrap.js" />
+    <Content Include="assets\js\uncompressed\core.js" />
+    <Content Include="assets\js\uncompressed\counter.js" />
+    <Content Include="assets\js\uncompressed\custom.js" />
+    <Content Include="assets\js\uncompressed\d3.js" />
+    <Content Include="assets\js\uncompressed\dataTables.bootstrap.js" />
+    <Content Include="assets\js\uncompressed\daterangepicker.js" />
+    <Content Include="assets\js\uncompressed\dropzone.js" />
+    <Content Include="assets\js\uncompressed\excanvas.js" />
+    <Content Include="assets\js\uncompressed\fullcalendar.js" />
+    <Content Include="assets\js\uncompressed\jquery-ui-1.10.3.custom.js" />
+    <Content Include="assets\js\uncompressed\jquery.autosize.js" />
+    <Content Include="assets\js\uncompressed\jquery.chosen.js" />
+    <Content Include="assets\js\uncompressed\jquery.cleditor.js" />
+    <Content Include="assets\js\uncompressed\jquery.cookie.js" />
+    <Content Include="assets\js\uncompressed\jquery.dataTables.js" />
+    <Content Include="assets\js\uncompressed\jquery.easy-pie-chart.js" />
+    <Content Include="assets\js\uncompressed\jquery.flot.js" />
+    <Content Include="assets\js\uncompressed\jquery.flot.pie.js" />
+    <Content Include="assets\js\uncompressed\jquery.flot.resize.js" />
+    <Content Include="assets\js\uncompressed\jquery.flot.stack.js" />
+    <Content Include="assets\js\uncompressed\jquery.flot.time.js" />
+    <Content Include="assets\js\uncompressed\jquery.gritter.js" />
+    <Content Include="assets\js\uncompressed\jquery.hotkeys.js" />
+    <Content Include="assets\js\uncompressed\jquery.inputlimiter.1.3.1.js" />
+    <Content Include="assets\js\uncompressed\jquery.knob.js" />
+    <Content Include="assets\js\uncompressed\jquery.knob.modified.js" />
+    <Content Include="assets\js\uncompressed\jquery.maskedinput.js" />
+    <Content Include="assets\js\uncompressed\jquery.nestable.js" />
+    <Content Include="assets\js\uncompressed\jquery.noty.js" />
+    <Content Include="assets\js\uncompressed\jquery.placeholder.js" />
+    <Content Include="assets\js\uncompressed\jquery.raty.js" />
+    <Content Include="assets\js\uncompressed\jquery.sparkline.js" />
+    <Content Include="assets\js\uncompressed\jquery.ui.touch-punch.js" />
+    <Content Include="assets\js\uncompressed\jquery.uploadify.js" />
+    <Content Include="assets\js\uncompressed\justgage.1.0.1.js" />
+    <Content Include="assets\js\uncompressed\moment.js" />
+    <Content Include="assets\js\uncompressed\raphael.js" />
+    <Content Include="assets\js\uncompressed\xcharts.js" />
+    <Content Include="assets\js\wizard.min.js" />
+    <Content Include="assets\js\xcharts.min.js" />
+    <Content Include="assets\libs\jquery\jquery.js" />
+    <Content Include="assets\misc\elfinder-connector\MySQLStorage.sql" />
+    <Content Include="assets\misc\uploadify.swf" />
+    <Content Include="assets\monthpicker\monthpicker.min.css" />
+    <Content Include="assets\monthpicker\monthpicker.min.js" />
+    <Content Include="assets\scheduler\fullcalendar.min.css" />
+    <Content Include="assets\scheduler\fullcalendar.min.js" />
+    <Content Include="assets\scheduler\fullcalendar.print.min.css" />
+    <Content Include="assets\scheduler\jquery.min.js" />
+    <Content Include="assets\scheduler\moment.min.js" />
+    <Content Include="assets\scheduler\scheduler.min.css" />
+    <Content Include="assets\scheduler\scheduler.min.js" />
+    <Content Include="assets\sumoselect\jquery.sumoselect.min.js" />
+    <Content Include="assets\sumoselect\sumoselect.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\minified\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.button.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="css\app\appointment\appointment_main.css" />
+    <Content Include="css\app\common\main.css" />
+    <Content Include="css\app\salesorder\salesorder_main.css" />
+    <Content Include="css\app\staffschedule\staffschedule_main.css" />
+    <Content Include="css\dataTables.tableTools.css" />
+    <Content Include="css\signaturepad\signature-pad.css" />
+    <Content Include="assets\css\spectrum.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="js\app\appointment.js" />
+    <Content Include="js\app\staffschedule.js" />
+    <Content Include="assets\css\less\buttons.less" />
+    <Content Include="assets\css\less\calendar.less" />
+    <Content Include="assets\css\less\charts.less" />
+    <Content Include="assets\css\less\chat.less" />
+    <Content Include="assets\css\less\circle-stats.less" />
+    <Content Include="assets\css\less\colorpicker.less" />
+    <Content Include="assets\css\less\colors.less" />
+    <Content Include="assets\css\less\dashboard-list.less" />
+    <Content Include="assets\css\less\datatables.less" />
+    <Content Include="assets\css\less\datepicker.less" />
+    <Content Include="assets\css\less\daterangepicker.less" />
+    <Content Include="assets\css\less\discussions.less" />
+    <Content Include="assets\css\less\footer.less" />
+    <Content Include="assets\css\less\forms.less" />
+    <Content Include="assets\css\less\header.less" />
+    <Content Include="assets\css\less\import.less" />
+    <Content Include="assets\css\less\justgage.less" />
+    <Content Include="assets\css\less\main.less" />
+    <Content Include="assets\css\less\mixins.less" />
+    <Content Include="assets\css\less\modal.less" />
+    <Content Include="assets\css\less\navigation.less" />
+    <Content Include="assets\css\less\nestable.less" />
+    <Content Include="assets\css\less\notifications_labels.less" />
+    <Content Include="assets\css\less\on_off.less" />
+    <Content Include="assets\css\less\others.less" />
+    <Content Include="assets\css\less\page-inbox.less" />
+    <Content Include="assets\css\less\page-login.less" />
+    <Content Include="assets\css\less\page-profile.less" />
+    <Content Include="assets\css\less\page-todo.less" />
+    <Content Include="assets\css\less\quick-buttons.less" />
+    <Content Include="assets\css\less\responsive.less" />
+    <Content Include="assets\css\less\sliders_progress_bars.less" />
+    <Content Include="assets\css\less\smallstats.less" />
+    <Content Include="assets\css\less\switch-input.less" />
+    <Content Include="assets\css\less\tabs.less" />
+    <Content Include="assets\css\less\tickets.less" />
+    <Content Include="assets\css\less\timepicker.less" />
+    <Content Include="assets\css\less\todo.less" />
+    <Content Include="assets\css\less\widgets-area.less" />
+    <Content Include="assets\css\less\wizard.less" />
+    <Content Include="assets\css\style-old.less" />
+    <Content Include="assets\css\style.less" />
+    <Content Include="assets\css\style.min.less" />
+    <Content Include="assets\fonts\fontawesome-webfont.eot" />
+    <Content Include="assets\fonts\fontawesome-webfont.ttf" />
+    <Content Include="assets\fonts\fontawesome-webfont.woff" />
+    <Content Include="assets\fonts\FontAwesome.otf" />
+    <Content Include="assets\fonts\glyphicons-filetypes-regular.eot" />
+    <Content Include="assets\fonts\glyphicons-filetypes-regular.woff" />
+    <Content Include="assets\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="assets\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="assets\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="assets\fonts\glyphicons-regular.eot" />
+    <Content Include="assets\fonts\glyphicons-regular.otf" />
+    <Content Include="assets\fonts\glyphicons-regular.ttf" />
+    <Content Include="assets\fonts\glyphicons-regular.woff" />
+    <Content Include="assets\fonts\glyphicons-social-regular.eot" />
+    <Content Include="assets\fonts\glyphicons-social-regular.ttf" />
+    <Content Include="assets\fonts\glyphicons-social-regular.woff" />
+    <Content Include="assets\fonts\glyphiconshalflings-regular.eot" />
+    <Content Include="assets\fonts\glyphiconshalflings-regular.otf" />
+    <Content Include="assets\fonts\glyphiconshalflings-regular.ttf" />
+    <Content Include="assets\fonts\glyphiconshalflings-regular.woff" />
+    <Content Include="assets\img\Sorting icons.psd" />
+    <Content Include="assets\misc\check-exists.php" />
+    <Content Include="assets\misc\elfinder-connector\connector.php" />
+    <Content Include="assets\misc\elfinder-connector\elFinder.class.php" />
+    <Content Include="assets\misc\elfinder-connector\elFinderConnector.class.php" />
+    <Content Include="assets\misc\elfinder-connector\elFinderVolumeDriver.class.php" />
+    <Content Include="assets\misc\elfinder-connector\elFinderVolumeLocalFileSystem.class.php" />
+    <Content Include="assets\misc\elfinder-connector\elFinderVolumeMySQL.class.php" />
+    <Content Include="assets\misc\elfinder-connector\mime.types" />
+    <Content Include="assets\misc\uploadify.php" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="js\qrgenerator\qrcode.min.js" />
+    <Content Include="js\signaturepad\app.js" />
+    <Content Include="js\signaturepad\signature_pad.umd.js" />
+    <Content Include="assets\js\spectrum.js" />
+    <Content Include="media\swf\copy_csv_xls.swf" />
+    <Content Include="media\swf\copy_csv_xls_pdf.swf" />
+    <Content Include="Reports\AttendanceAllListing.aspx" />
+    <Content Include="Reports\AttendanceListingByDay.aspx" />
+    <Content Include="Reports\CheckAttendanceListing.aspx" />
+    <Content Include="Reports\CustomerTransferList.aspx" />
+    <Content Include="Reports\DailyRedemptionByBranch.aspx" />
+    <Content Include="Reports\DailySalesByBranch.aspx" />
+    <Content Include="Reports\CustomerAttendanceList.aspx" />
+    <Content Include="Reports\DailySalesClosing.aspx" />
+    <Content Include="Reports\DailySalesClosingDetails.aspx" />
+    <Content Include="Reports\DailySalesClosingDetailsByPaymentMode.aspx" />
+    <Content Include="Reports\MemberPackageRedemptionReceipt.aspx" />
+    <Content Include="Reports\MemberPackageTopUpReceipt.aspx" />
+    <Content Include="Reports\MembersListByDOB.aspx" />
+    <Content Include="Reports\MemberTransactionList.aspx" />
+    <Content Include="Reports\MemberTransferAgreement.aspx" />
+    <Content Include="Reports\MonthlyStockBalance.aspx" />
+    <Content Include="Reports\NewMember.aspx" />
+    <Content Include="Reports\PackageRedemptionReceipt.aspx" />
+    <Content Include="Reports\AppointmentReceipt.aspx" />
+    <Content Include="Reports\POSListingByBranch.aspx" />
+    <Content Include="Reports\POSReceipt.aspx" />
+    <Content Include="Reports\PrintCardListing.aspx" />
+    <Content Include="Reports\AttendanceListing.aspx" />
+    <Content Include="Reports\ProductListing.aspx" />
+    <Content Include="Reports\RedemptionReceipt.aspx" />
+    <Content Include="Reports\ReportMilage.aspx" />
+    <Content Include="Reports\SalesCommissionByBranches.aspx" />
+    <Content Include="Reports\ServiceCommissionReport.aspx" />
+    <Content Include="Reports\ServiceReportByHour.aspx" />
+    <Content Include="Reports\ServiceReportByStaff.aspx" />
+    <Content Include="Reports\Signature_Pad.aspx" />
+    <Content Include="Reports\SOPackageRedemptionReceipt.aspx" />
+    <Content Include="Reports\StockAdjustment.aspx" />
+    <Content Include="Reports\StockMovement.aspx" />
+    <Content Include="Reports\StockReceive.aspx" />
+    <Content Include="Reports\StockReceivedByBranch.aspx" />
+    <Content Include="Reports\StockReceivedListing.aspx" />
+    <Content Include="Reports\StockTransfer.aspx" />
+    <Content Include="Reports\TopUpReceipt.aspx" />
+    <Content Include="Reports\VoidTransactionList.aspx" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Reports\DailyStockCollectionByBranch.aspx" />
+    <Content Include="Views\Report\InvoiceHC.aspx" />
+    <Content Include="Views\Report\InvoiceHC.aspx.vb">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="Views\Report\SalesCommissionByBranch.cshtml" />
+    <Content Include="Views\CusSup\CitiMembershipEnquiry.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\CusSup\CitiMember.cshtml" />
+    <Content Include="Views\CusSup\MembershipEnquiry.cshtml" />
+    <Content Include="Views\CusSup\Member.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Report\CustomerTransferList.cshtml" />
+    <Content Include="Views\Report\ReportMileage.cshtml" />
+    <Content Include="Views\Sales\Invoice.cshtml" />
+    <Content Include="Views\Sales\InvoiceDetail.cshtml" />
+    <Content Include="Views\Sales\InvoiceIndex.cshtml" />
+    <Content Include="Views\Sales\InvoicePayment.cshtml" />
+    <Content Include="Views\Sales\RedeemPackageListing.cshtml" />
+    <Content Include="Views\Common\BranchStaffListing.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\CusSup\CitiMemberListing.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Product\PostedProductCitiBellaList.cshtml" />
+    <Content Include="Views\Product\ProductCitiBellaList.cshtml" />
+    <Content Include="Views\POS\SOPOS.cshtml" />
+    <Content Include="Views\StaffSchedule\Listing.cshtml" />
+    <Content Include="Views\Appointment\Index.cshtml" />
+    <Content Include="Views\Inventory\StockListing.cshtml" />
+    <Content Include="Views\Campaign\CampaignDetail.cshtml" />
+    <Content Include="Views\Campaign\CampaignDetailManual.cshtml" />
+    <Content Include="Views\Campaign\Index.cshtml" />
+    <Content Include="Views\Campaign\Step1.cshtml" />
+    <Content Include="Views\Campaign\Step2.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Campaign\Step3.cshtml" />
+    <Content Include="Views\Campaign\Step4.cshtml" />
+    <Content Include="Views\Campaign\_BKReportGroupSummary.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Configuration\BranchIndex.cshtml" />
+    <Content Include="Views\Configuration\BranchSave.cshtml" />
+    <Content Include="Views\Configuration\CompanyIndex.cshtml" />
+    <Content Include="Views\Configuration\CompanySave.cshtml" />
+    <Content Include="Views\Configuration\DefaultIndex.cshtml" />
+    <Content Include="Views\Configuration\DefaultSave.cshtml" />
+    <Content Include="Views\Access\Login.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\POS\AppointmentListing.cshtml" />
+    <Content Include="Views\POS\AttendanceListing.cshtml" />
+    <Content Include="Views\CusSup\CreateMember.cshtml" />
+    <Content Include="Views\Access\ChangePassword.cshtml" />
+    <Content Include="Views\Access\QR.cshtml" />
+    <Content Include="Views\Shared\_CampaignLayout.cshtml" />
+    <Content Include="Views\Shared\_NoNavBarLayout.cshtml" />
+    <None Include="Web References\RewardsService\CBWS.wsdl" />
+    <None Include="Web References\RewardsService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\SMSWS\msgSender.disco" />
+    <None Include="Web References\RewardsService\CBWS.disco" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\_RemoveExternalLoginsPartial.cshtml" />
+    <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Manage.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\Access\UserSave.cshtml" />
+    <Content Include="Views\Account\LogOff.cshtml" />
+    <Content Include="Views\Product\ProductListing.cshtml" />
+    <Content Include="Views\Product\ProductSave.cshtml" />
+    <Content Include="Views\CusSup\MemberSave.cshtml" />
+    <Content Include="Views\CusSup\MemberListing.cshtml" />
+    <Content Include="Views\Shared\_EmptyLayout.cshtml" />
+    <Content Include="Views\Sales\Redeem.cshtml" />
+    <Content Include="Views\Sales\TopUp.cshtml" />
+    <Content Include="Views\CusSup\CardTypeListing.cshtml" />
+    <Content Include="Views\CusSup\CusSupCitibellaConversionRateListing.cshtml" />
+    <Content Include="Views\CusSup\CusSupNationalityListing.cshtml" />
+    <Content Include="Views\CusSup\CusSupNRICTypeListing.cshtml" />
+    <Content Include="Views\CusSup\CusSupRaceListing.cshtml" />
+    <Content Include="Views\CusSup\CusSupRedemptionTypeListing.cshtml" />
+    <Content Include="Views\CusSup\CusSupStatusListing.cshtml" />
+    <Content Include="Views\CusSup\CusSupTypeListing.cshtml" />
+    <Content Include="Views\CusSup\CollectionCardList.cshtml" />
+    <Content Include="Views\CusSup\PrintCardList.cshtml" />
+    <Content Include="Views\Inventory\StockReceivedDetailListing.cshtml" />
+    <Content Include="Views\Inventory\StockReceivedListing.cshtml" />
+    <Content Include="Views\POS\Customer.cshtml" />
+    <Content Include="Views\POS\DailyRedemption.cshtml" />
+    <Content Include="Views\POS\DailySales.cshtml" />
+    <Content Include="Views\POS\Index.cshtml" />
+    <Content Include="Views\POS\Member.cshtml" />
+    <Content Include="Views\POS\MembershipEnquiry.cshtml" />
+    <Content Include="Views\POS\POS.cshtml" />
+    <Content Include="Views\POS\POSListing.cshtml" />
+    <Content Include="Views\POS\Product.cshtml" />
+    <Content Include="Views\POS\ProductListing.cshtml" />
+    <Content Include="Views\POS\Redeem.cshtml" />
+    <Content Include="Views\POS\TopUp.cshtml" />
+    <Content Include="Views\POS\TransactionHistory.cshtml" />
+    <Content Include="Views\Access\BranchStaffIndex.cshtml" />
+    <Content Include="Views\Shared\_GeneralLayoutPage.cshtml" />
+    <Content Include="Views\Inventory\StockAdjustment.cshtml" />
+    <Content Include="Views\Inventory\StockAdjustmentOverview.cshtml" />
+    <Content Include="Views\Inventory\StockReceive.cshtml" />
+    <Content Include="Views\Inventory\StockReceiveOverview.cshtml" />
+    <Content Include="Views\Inventory\StockTransfer.cshtml" />
+    <Content Include="Views\Inventory\StockTransferOverview.cshtml" />
+    <Content Include="Views\POS\FacilityOrderListing.cshtml" />
+    <Content Include="Views\POS\FacilityOrderQueueListing.cshtml" />
+    <Content Include="Views\Access\BranchAssetIndex.cshtml" />
+    <Content Include="Views\POS\SalesOrder.cshtml" />
+    <Content Include="Views\Sales\RedeemPackage.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Report\BranchSalesReport.cshtml" />
+    <Content Include="Views\Report\DailyRedemptionByBranch.cshtml" />
+    <Content Include="Views\Report\DailySalesByBranch.cshtml" />
+    <Content Include="Views\Report\MembersListByDOB.cshtml" />
+    <Content Include="Views\Report\MemberTransactionReport.cshtml" />
+    <Content Include="Views\Report\NewMember.cshtml" />
+    <Content Include="Views\Report\ProductListingReport.cshtml" />
+    <Content Include="Views\Report\RedeemPrint.cshtml" />
+    <Content Include="Views\Report\ReportGroupSummary.cshtml" />
+    <Content Include="Views\Report\ReportGroupSummaryPDF.cshtml" />
+    <Content Include="Views\Report\ReportGroupSummaryToExcel.cshtml" />
+    <Content Include="Views\Report\rwModuleHC.mrt" />
+    <Content Include="Views\Report\ServiceCommissionReport.cshtml" />
+    <Content Include="Views\Report\ServiceReportByBranch.cshtml" />
+    <Content Include="Views\Report\TopUpPrint.cshtml" />
+    <Content Include="Views\Report\VoidTransactionReport.cshtml" />
+    <Content Include="Views\Report\CustomerAttendanceList.cshtml" />
+    <Content Include="Views\POS\MileageReward.cshtml" />
+    <None Include="Web References\SMSWS\msgSender.wsdl" />
+    <None Include="Web References\SMSWS\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ajax\" />
+    <Folder Include="App_Data\" />
+    <Folder Include="assets\img\gallery\.quarantine\" />
+    <Folder Include="assets\img\Signature\" />
+    <Folder Include="fonts\" />
+    <Folder Include="Images\" />
+    <Folder Include="Views\Config\" />
+    <Folder Include="Views\Invoice\" />
+    <Folder Include="Views\Logs\" />
+    <Folder Include="Views\Staff\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://info121.sytes.net/smsurl/msgSender.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\SMSWS\</RelPath>
+      <UpdateFromURL>http://info121.sytes.net/smsurl/msgSender.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>BigMac_SMSWS_MsgSender</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://webservice.citiwarrior.com">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\RewardsService\</RelPath>
+      <UpdateFromURL>http://webservice.citiwarrior.com</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>BigMac_RewardsService_QWS</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>27080</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost/outlets.glissgroup.com/</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost/outlets.glissgroup.com/</IISAppRootUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>http://localhost/outlets.gliss.com/</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

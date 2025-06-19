@@ -1,0 +1,2318 @@
+﻿@model BigMac.Models.Invoice_m_Invoice
+
+@{
+    ViewBag.Title = "Redeem";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row" style="padding-top: 0px;margin-top:0px;">
+    <div class="col-lg-12" style="padding-top: 0px;margin-top:0px;">
+        <div class="box" style="padding-top: 0px;margin-top:0px;">
+            <div class="box-header">
+                <h2><i class="fa fa-edit"></i>Search</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+                    <a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                <div>
+                    <input type="hidden" id="txtRedeemMember" value="@ViewBag.cardno" placeholder="By Card No" />
+                    <input type="hidden" id="c" value="@ViewBag.CitiDesc" />
+                    <input type="hidden" id="b" value="@ViewBag.BonusDesc" />
+                    <input type="hidden" id="hidsoid" value="@ViewBag.SaleOrderID" />
+                    <table style="border-spacing:5px;border-collapse:separate;">
+                        <tr>
+                            <td style="width:400px;"><input type="text" class="form-control" placeholder="By MemberCode/Name/NRIC/Mobile/Cardno" id="txtMemberDesc" data-rcode="MEMBERLISTING" /></td>
+                            <td style="width:20px;"></td>
+                            <td>
+                                <button id="btnsearch" type="button" class="btn btn-primary" value="search" style="width:150px;" onclick="MemberSearchFunction(this);" data-rcode="MEMBERLISTING">Search</button>
+                            </td>
+                            <td><button id="btnRedeem" type="button" class="btn btn-primary" value="search" style="width:180px;" onclick="NewRedeemFunction();">Create New Redeem</button></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding-top: 0px;margin-top:0px;">
+    <div class="col-lg-12" style="padding-top: 0px;margin-top:0px;">
+        <div class="box" style="padding-top: 0px;margin-top:0px;">
+            <div class="clearfix"></div>
+            <div class="box-header">
+                <h2>
+                    <i class="fa fa-edit"></i>
+                    @if (@Model.id != 0)
+                    { <span><b> Redeem Edit Entry ( Ref#. @Model.resourcecode ) </b></span> }
+                    else
+                    { <span><b> Redeem New Entry </b></span> }
+                </h2>
+                <div class="box-icon">
+                    <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+                    <a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                <input type="hidden" id="resourcecode" value="@Model.resourcecode" />
+                <input type="hidden" id="redeemid" value="@Model.id" />
+                <input type="hidden" id="memberid" value="@Model.cussupid" />
+                <input type="hidden" id="cussupname" value="@ViewBag.Member.cussupname" />
+                <input type="hidden" id="status" value="@Model.status" />
+                <input type="hidden" id="resource" value="@ViewBag.RCode" />
+                <input type="hidden" id="txtOCBalance" value="@ViewBag.obc">
+                <input type="hidden" id="txtOBBalance" value="@ViewBag.obb">
+                <input type="hidden" id="createstaffid" value="@Html.Encode(User.Identity.Name)">
+                <input type="hidden" id="txtorgC" value="0">
+                <input type="hidden" id="txtorgB" value="0">
+                <input type="hidden" value="@ViewBag.CoName" id="hidconame" />
+                <input type="hidden" value="@ViewBag.CoAddress" id="hidcoaddress" />
+                <input type="hidden" value="@ViewBag.Tel" id="hidtel" />
+                <input type="hidden" value="@ViewBag.Fax" id="hidfax" />
+                <input type="hidden" value="@ViewBag.Email" id="hidemail" />
+                <input type="hidden" value="@ViewBag.CoRegNo" id="hidcoregno" />
+                <input type="hidden" value="@ViewBag.GSTRegNo" id="hidgstregno" />
+                <input type="hidden" value="@ViewBag.Role" id="userrole" />
+                <div style="display:none;">
+                    @Html.DropDownList("cbostaff", new SelectList(@ViewBag.StaffOptions, "id", "name"), new { @class = "form-control" })
+                </div>
+                <table style="width:100%;border-spacing:2px;border-collapse:separate;padding-left:10px;">
+                    <tr>
+                        <td style="text-align:center;width:100px;"><label class="control-label">Member :</label></td>
+                        <td style="text-align:left;width:250px;color:blueviolet;font-weight:bold;">
+                            <a href="~/CusSup/MembershipEnquiry?rcode=MEMBER&id=@Model.cussupid" style="color:blueviolet;font-weight:bold;" title="Click here to go membership enquiry">
+                                @if (@ViewBag.Member.inhousecode == null)
+                                {
+                                    <span></span>
+                                }
+                                else
+                                {
+                                    <span>@ViewBag.Member.inhousecode (@ViewBag.Member.cussupname)</span>
+                                }
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="4" style="text-align:center;">
+                            <label class="control-label" style="color:blueviolet;">Create By : @ViewBag.staffname </label>
+                            @Html.HiddenFor(x => x.staffid)
+                            <input type="hidden" value="@ViewBag.staffname" id="txtstaffname" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;width:100px;"><label class="control-label">Card No :</label></td>
+                        <td style="text-align:left;width:250px;color:blueviolet;font-weight:bold;">
+                            @ViewBag.CardNo
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" rowspan="5">
+                            <div style="width:100%;height:100%;border:1px solid #DDD">
+                                <center>
+                                    <a href="~/CusSup/MembershipEnquiry?rcode=MEMBER&id=@Model.cussupid" title="Click here to go membership enquiry">
+                                        <img src="" style="width:130px;height:150px;" id="imgMember" />
+                                    </a>
+                                </center>
+                                <input type="hidden" value="@ViewBag.Member.photo" id="photo" />
+                            </div>
+                        </td>
+                        <td></td>
+                        <td style="width:150px;"></td>
+                        <td style="text-align:center;width:120px;"><label class="control-label">@ViewBag.CitiDesc </label></td>
+                        <td style="width:1px;"></td>
+                        <td style="text-align:center;width:120px;"><label class="control-label">@ViewBag.BonusDesc </label></td>
+                        <td style="width:110px;"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><label class="control-label">Balance</label></td>
+                        <td><input type="text" class="form-control" id="txtCBalance" disabled value="@ViewBag.Member.CBalance" style="text-align:right;padding-right:20px;" /></td>
+                        <td></td>
+                        <td><input type="text" class="form-control" id="txtBBalance" disabled value="@ViewBag.Member.BBalance" style="text-align:right;padding-right:20px;" /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><label class="control-label"><a onclick="OpenRservedDialog();" style="color:blueviolet;" title="Click here to see reserved list.">Reserved Amount</a></label></td>
+                        <td><input type="text" class="form-control" id="txtCReserved" disabled value="@ViewBag.Member.CReserved" style="text-align:right;padding-right:20px;" /></td>
+                        <td></td>
+                        <td><input type="text" class="form-control" id="txtBReserved" disabled value="@ViewBag.Member.BReserved" style="text-align:right;padding-right:20px;" /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><label class="control-label">Available</label></td>
+                        <td><input type="text" class="form-control" id="txtCAvailable" disabled value="@ViewBag.Member.CAvailable" style="text-align:right;padding-right:20px;" /></td>
+                        <td></td>
+                        <td><input type="text" class="form-control" id="txtBAvailable" disabled value="@ViewBag.Member.BAvailable" style="text-align:right;padding-right:20px;" /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td colspan="3"><button type="button" class="btn btn-success" onclick="OpenRservedDialog();" style="width:100%;">Show Reserved List</button></td>
+                    </tr>
+                    <tr>
+                        <td colspan="1" width="230px">
+                            <select id="cboSalesKit" class="form-control" style="width:230px"></select>
+                        </td>
+                        <td colspan="1" width="180px">
+                            <select id="cboSrchCriteria" class="form-control" style="width:180px">
+                                <option value="desc" selected>Product Description</option>
+                                <option value="category">Category</option>
+                                <option value="categorysub">Sub Category</option>
+                                <option value="brand">Brand</option>
+                                <option value="RangesNSeries">Ranges and Series</option>
+                            </select>
+                        </td>
+                        <td colspan="1" width="180px">
+                            <input type="text" class="form-control" id="txtSearch" style="text-align:left;padding-left:10px;width:180px" />
+                        </td>
+                        <td colspan="2">
+                            <button type="button" class="btn btn-success" onclick="FilterSearch();" style="width:80px;">Search</button>&nbsp;
+                            <button type="button" class="btn btn-success" onclick="ClearSearch();" style="width:80px;">Clear</button>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="col-lg-12">
+                    <div class="box">
+                        <div class="box-content">
+                            <div id="divRedeem"></div>
+                            <div class="clearfix"></div>
+                            <div id="divPages" style="float:right;padding-right:20px;"><table><tr><td style="width:550px;"> <span id="lblDiscount"> </span> </td><td style="width:50px;">Page : </td><td style="width:50px;"><select id="cbopages" class="form-control"><option value="1">1</option></select></td></tr></table></div>
+                            <div style="text-align:center;float:right;width:100%;">
+                                <table style="width:100%;border-spacing:1px;border-collapse:separate;">
+                                    <tr>
+                                        <td>
+                                            <div style='display:flex;'>
+                                                <label style="flex: .1;text-align:left;">Remarks &nbsp;&nbsp;&nbsp;</label>
+                                                <input type="text" class="form-control" id="txtDiscRemarks" value="@ViewBag.discremark" style="text-align:left; flex: .6;" />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div style='display:flex;'>
+                                                <label style="flex: .3;text-align:left;">Discount &nbsp;&nbsp;&nbsp;</label>
+
+                                                @Html.DropDownListFor(model => model.discountpercent, new SelectList(@ViewBag.DiscountOptions, "value", "value"), string.Empty)
+                                            </div>
+                                        </td>
+                                        <td style="width:100px;">Total</td>
+                                        <td style="width:120px;padding-right:5px;"><input type="text" class="form-control" disabled id="ctotal" style="text-align:right;padding-right:20px;" /></td>
+                                        <td style="width:120px;padding-right:5px;"><input type="text" class="form-control" disabled id="btotal" style="text-align:right;padding-right:20px;" /></td>
+                                        <td style="width:120px;padding-right:5px;"><input type="text" class="form-control" disabled id="catotal" style="text-align:right;padding-right:20px;" /></td>
+                                        <td style="width:120px;padding-right:5px;"><input type="text" class="form-control" disabled id="batotal" style="text-align:right;padding-right:20px;" /></td>
+                                        <td style="width:85px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td style="width:100px;">Discount</td>
+                                        <td style="width:120px;padding-right:5px;"><input type="text" class="form-control" disabled id="ctotaldiscount" style="text-align:right;padding-right:20px;" /></td>
+                                        <td style="width:120px;padding-right:5px;"><input type="text" class="form-control" disabled id="btotaldiscount" style="text-align:right;padding-right:20px;" /></td>
+                                        <td style="width:120px;padding-right:5px;"><input type="text" class="form-control" disabled id="catotaldiscount" style="text-align:right;padding-right:20px;" /></td>
+                                        <td style="width:120px;padding-right:5px;"><input type="text" class="form-control" disabled id="batotaldiscount" style="text-align:right;padding-right:20px;" /></td>
+                                        <td style="width:85px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">
+                                            <button type="button" class="btn btn-danger" value="Void" style="width:110px; display:none;" onclick="VoidRedeem();" id="btnVoid" disabled>Void</button> &nbsp;
+                                            @*<button type="button" class="btn btn-warning" value="Save" style="width:210px;" onclick="SaveRedeemQty('ACTIVE');" id="btnReserveQty">Reserve by Quantity</button> &nbsp;
+                                            <button type="button" class="btn btn-warning" value="Save" style="width:210px;" onclick="SaveRedeemQty('CLOSE');" id="btnConfirmQty">Confirm by Quantity</button> &nbsp;*@
+                                            <button type="button" class="btn btn-success" value="Save" style="width:110px;" onclick="SaveRedeem('ACTIVE');" id="btnReserve" disabled>Reserve</button> &nbsp;
+                                            <button type="button" class="btn btn-success" value="Save" style="width:110px;" onclick="SaveRedeem('CLOSE');" id="btnConfirm" disabled>Confirm</button> &nbsp;
+                                            <button type="button" class="btn btn-primary" value="Confirm" style="width:110px;" onclick="printReceipt(); OpenPrintDialog();" id="btnPrint" disabled>Print Receipt</button> &nbsp;
+                                        </td>
+                                      
+                                    </tr>
+                                </table>
+                            </div>
+                            <br />
+
+                            <div class="clearfix"></div>
+
+                            <div id="dialog-modal">
+                                <div class="col-lg-12" id="divReservedDialog" style="overflow-style:scrollbar;">
+                                    <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+                                        Reserve List for @ViewBag.Member.cussupname
+                                    </div>
+                                    <div id="divReserved"></div>
+                                </div>
+                            </div>
+                            <div id="Balnace_dialog-modal">
+                                <div class="col-lg-12" id="divBalanceDialog" style="overflow-style:scrollbar;">
+                                    <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+                                        @System.Configuration.ConfigurationManager.AppSettings["appName"]
+                                    </div>
+                                    <div id="divReserved">
+                                        <br />
+                                        <div style="color: blueViolet; font-weight: bolder; padding-left: 10px;">
+                                            Balance of C$/B$ is not enough for redemption. <br />Please Top Up & Redeem again.
+                                        </div>
+
+                                        <br />
+                                        <div style="width:100%">
+                                            <table style="width:100%">
+                                                <tr>
+                                                    <td></td>
+                                                    <td style="width:120px;"><button type="button" style="width:100%;" class="btn btn-primary" onclick="goToTopUp();" @*data-rcode="TOPUP" id="btnBalanceTopup"*@>OK</button></td>
+                                                    <td style="width:120px;"><button type="button" style="width:100%;" class="btn btn-primary" onclick="TopUpCancel();" @*id="btnBalanceCancel"*@>Cancel</button></td>
+                                                    <td style="width:20px;"></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="divSelectedList" style="Display:none;"></div>
+                        </div>
+                        <ul class="noty_cont noty_layout_topRight" id="ulBalance"></ul>
+                        <button id="btnBalanceMember" class="btn btn-primary noty" data-noty-options='{"text":"Please select Member first.","layout":"topRight","type":"confirm"}' style="display:none;">Top Right</button>
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="Staff_dialog-modal">
+                <div class="col-lg-12" id="divStaffDialog" style="overflow-style:scrollbar;">
+                    <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+                        Treatment Entry
+                    </div>
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-sm-3">
+
+                        </div>
+                        <div class="col-sm-1">
+                            Type
+                        </div>
+                        <div class="col-sm-4" style="">
+                            <select id="optionTreatmentType" name="optionTreatmentType" class="form-control">
+                                <option value="Hair">Hair</option>
+                                <option value="Face">Face</option>
+                                <option value="Body">Body</option>
+                                <option value="Nail">Nail</option>
+                                <option value="Foot">Foot</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-sm-3">
+
+                        </div>
+                        <div class="col-sm-6">
+                            <img class="img-thumbnail" style="width:250px;height:200px;" id="imgTreatment" src="../Images/hair.png">
+                        </div>
+                        <div class="col-sm-3">
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label class="control-label">Remarks 1</label>
+                            <div class="controls">
+                                <textarea id="txtTdescription" rows="3" style="width:100%;overflow: hidden; word-wrap: break-word; resize: horizontal; "></textarea>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="control-label">Remarks 2</label>
+                            <div class="controls">
+                                <textarea id="txtTdescription2" rows="3" style="width:100%;overflow: hidden; word-wrap: break-word; resize: horizontal; "></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label class="control-label">Remarks 3</label>
+                            <div class="controls">
+                                <textarea id="txtTdescription3" rows="3" style="width:100%;overflow: hidden; word-wrap: break-word; resize: horizontal; "></textarea>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="control-label">Remarks 4</label>
+                            <div class="controls">
+                                <textarea id="txtTdescription4" rows="3" style="width:100%;overflow: hidden; word-wrap: break-word; resize: horizontal; "></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='clearfix'></div>
+                    <div style="width:100%;padding: 10px 10px 10px;text-align:right;">
+                        <button type="button" id="btnStaffAdd" onclick="AddTreatment();" class="btn btn-primary" style="width:120px;">Add</button>
+                    </div>
+                    <div style="background-color:yellow;"><b><u>Treatment List</u></b> <br /></div>
+                    <div id="divTreatmentList">
+                        <table id='tbltreatment' style="width:100%;" class="table table-condensed"><thead><tr><td style="display:none"></td><td style="display:none"></td><td style="display:none"></td><td style="display:none"></td><td style="width:150px;">Create By</td><td>Type</td><td>Remarks 1</td><td style="width:50px;"></td></tr></thead><tbody></tbody></table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="box">
+                        <div class="col-sm-2" data-rcode="TOPUP" style="display:none;">
+                            <a class="quick-button" onclick="TopUpFunction(this, 3, $('#memberid').val());" data-rcode="TOPUP" style="display:none;">
+                                <i class="fa fa-ticket"></i>
+                                <p>Club</p>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-2" data-rcode="CREATEMEMBER" style="display:none;">
+                            <a class="quick-button" onclick="CreateMemberFunction(this);" data-rcode="CREATEMEMBER">
+                                <i class="fa fa-user"></i>
+                                <p>Create Member</p>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-2" data-rcode="MEMBERLISTING" style="display:none;">
+                            <a class="quick-button" onclick="MemberSearchFunction(this);" id="BTNMEMBERLISTING" data-rcode="MEMBERLISTING">
+                                <i class="fa fa-users"></i>
+                                <p>Membership Enquiry</p>
+                            </a>
+                        </div>
+                        <div class="col-sm-2">
+                            <a class="quick-button" href="~/Access/BranchStaffIndex">
+                                <i class="fa fa-user"></i>
+                                <p>Branch Staff</p>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <a class="quick-button" href="~/Home/Index">
+                                <i class="fa fa-home"></i>
+                                <p>Home</p>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div id="Print_dialog-modal">
+    <div class="col-lg-12" id="divPrintDialog" style="overflow-style:scrollbar;">
+        <div class="col-lg-12" style="padding: 10px 10px 10px;text-align:right;">
+            <button type="button" id="btnGoToHome" onclick="goToHome();" class="btn btn-primary" style="width:100px;">Home</button>
+            <button type="button" id="btnGotoNew" onclick="goToNew();" class="btn btn-primary" style="width:120px;">New Redeem</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var rtype = "";
+    var ctotal = 0;
+    var btotal = 0;
+    var catotal = 0;
+    var batotal = 0;
+    var load = 1;
+    var oldctotal = 0;
+    var oldbtotal = 0;
+    var PFlag = 1;
+    var cboPageLoad = 1;
+    var tlist = new Array();
+    var deltIDs = "";
+    var selTdtlid = 0;
+    var selTkeyid = "";
+    var balances = [];
+
+    $(function () {
+        
+
+        $("#optionTreatmentType").change(function () {
+            if ($(this).val() == "Hair") {
+                $('#imgTreatment').attr("src", "../Images/hair.png");
+            }
+            else if ($(this).val() == "Face") {
+                $('#imgTreatment').attr("src", "../Images/hair.png");
+            }
+            else if ($(this).val() == "Body") {
+                $('#imgTreatment').attr("src", "../Images/body.png");
+            }
+            else if ($(this).val() == "Nail") {
+                $('#imgTreatment').attr("src", "../Images/nail.png");
+            }
+            else if ($(this).val() == "Foot") {
+                $('#imgTreatment').attr("src", "../Images/feet.png");
+            }
+        });
+
+        $('#txtMemberDesc').live("keypress", function (e) {
+            if (e.keyCode == 13) {
+                MemberSearchFunction(this);
+                return false; // prevent the button click from happening
+            }
+        });
+
+        var img = $("#photo").val();
+        if ($("#photo").val() == "")
+            img = "profile.png";
+
+        $("#imgMember").attr("src", "../assets/img/Members/" + img);
+        if ($('#memberid').val()) {
+            if ($('#memberid').val() > 0) {
+                $("#btnReserve").removeAttr("disabled");
+                $("#btnReserveQty").removeAttr("disabled");
+            }
+        }
+        else { }
+
+        $('#txtRedeemMember').live("keypress", function (e) {
+            if (e.keyCode == 13) {
+                RedeemFunction();
+                return false; // prevent the button click from happening
+            }
+        });
+
+        $('#discountpercent').change(function e() {
+            calculateDiscount();
+        });
+
+
+
+        getSalesKits();
+        $('#cboSalesKit').change(function e() {
+            cboPageLoad = 1;
+            showRedeemProductGrid();
+        });
+
+        showReservedGrid();
+
+        $('#dialog-modal').dialog({
+            //position: [200, 100],
+            modal: true,
+            autoOpen: false,
+            open: function (event, ui) {
+              //  $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+            }
+        });
+        var options = {
+            modal: true,
+            height: 500,
+            minHeight: 500,
+            maxHeight: 500,
+            width: 1000,
+            minWidth: 1000,
+            maxWidth: 1000,
+            dialogClass: "sfFormwrapper"
+        };
+        $('#dialog-modal').dialog('option', options);
+
+        $('#Balnace_dialog-modal').dialog({
+            //position: [200, 100],
+            modal: true,
+            autoOpen: false,
+            open: function (event, ui) {
+              //  $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+            }
+
+        });
+        var boptions = {
+            modal: true,
+            height: 260,
+            minHeight: 260,
+            maxHeight: 260,
+            width: 500,
+            minWidth: 500,
+            maxWidth: 500,
+            dialogClass: "sfFormwrapper"
+        };
+        $('#Balnace_dialog-modal').dialog('option', boptions);
+
+        //Added by ZawZO on 19 Aug 2015
+        $('#Print_dialog-modal').dialog({
+            //position: [280, 120],
+            modal: true,
+            autoOpen: false,
+            open: function (event, ui) {
+                $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+            },
+            close: function () {
+            }
+        });
+        var poptions = {
+            modal: true,
+            height: 280,
+            minHeight: 280,
+            maxHeight: 280,
+            width: 350,
+            minWidth: 350,
+            maxWidth: 350,
+            dialogClass: "sfFormwrapper"
+        };
+        $('#Print_dialog-modal').dialog('option', poptions);
+
+        if ($('#txtRedeemMember').val() == 0) $('#txtRedeemMember').val("");
+        var s = $('#status').val();
+
+        if (s.toUpperCase() == "CLOSE") {
+            $("#btnReserve").attr("disabled", true);
+            $("#btnConfirm").attr("disabled", true);
+
+            $("#btnReserveQty").attr("disabled", true);
+            $("#btnConfirmQty").attr("disabled", true);
+
+            $("#btnPrint").removeAttr("disabled");
+        }
+        var rid = $('#redeemid').val();
+        //Changed by ZawZO on 22 Jan 2016
+        if (rid == 0) {
+            $("#btnConfirm").attr("disabled", true);
+            $("#btnConfirmQty").attr("disabled", true);
+
+            var soid = $("#hidsoid").val();
+            if (soid > 0) {
+                getItemDetailFromFacilityOrder(soid);
+            }
+        }
+        var qs = getQueryStrings();
+        var sflag = qs["sflag"];
+        if (sflag == "1") {
+            var msg = "Redeem# " + $('#resourcecode').val() + " was saved successfully";
+            var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"success"}';
+            $('#btnBalanceMember').attr('data-noty-options', attrvalue);
+            $('#btnBalanceMember').trigger("click");
+            $('#btnRedeem').show();
+        }
+        else
+            $('#btnRedeem').hide();
+        $('#cbopages').change(function () {
+            if (PFlag == 1) {
+                var skid = $('#cboSalesKit').val();
+                if (skid != "-10") {
+                    showRedeemProductGrid();
+                }
+            }
+            else {
+                showExistingReservedList();
+            }
+
+        });
+
+        $('#Staff_dialog-modal').dialog({
+            //position: [280, 50],
+            modal: true,
+            autoOpen: false,
+            open: function (event, ui) {
+                $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+            },
+            close: function () { }
+        });
+
+        var soptions = {
+            modal: true,
+            height: 700,
+            minHeight: 700,
+            maxHeight: 700,
+            width: 600,
+            minWidth: 600,
+            maxWidth: 600,
+            dialogClass: "sfFormwrapper"
+        };
+        $('#Staff_dialog-modal').dialog('option', soptions);
+        getInvoiceTreatmentList();
+    });
+
+    function goToTopUp(btn) {
+        mid = $('#memberid').val();
+        if (mid != "" || mid != "0") {
+            $('#Balnace_dialog-modal').dialog('close');
+            window.open("TopUp?rcode=TOPUP&mid=" + mid, "_self");
+        }
+        else {
+            $('#Balnace_dialog-modal').dialog('open');
+        }
+    }
+    //Added by ZawZO on 20 Aug 2015
+    function goToHome() {
+        $('#Print_dialog-modal').dialog('close');
+        window.open("../Home/Index", "_self");
+    }
+    //Added by ZawZO on 20 Aug 2015
+    function goToNew() {
+        $('#Print_dialog-modal').dialog('close');
+        var rcode = $('#resource').val();
+        window.open("Redeem?rcode=" + rcode, "_self");
+    }
+    function TopUpCancel() {
+        $('#Balnace_dialog-modal').dialog('close');
+        $('#btnReserve').attr("disabled", "");
+        $('#btnConfirm').attr("disabled", "");
+        $('#btnReserveQty').attr("disabled", "");
+        $('#btnConfirmQty').attr("disabled", "");
+    }
+    function NewRedeemFunction() {
+        var mid = $('#memberid').val();
+        var rcode = $('#resource').val();
+        window.open("Redeem?rcode=" + rcode + "&mid=" + mid, "_self");
+    }
+
+    function getSalesKits() {
+        var rid = $('#redeemid').val();
+        var Htmlstr = "";
+        $.ajax({
+            url: '@Url.Action("getSalesKits", "Sales")',
+            type: 'POST',
+            success: function (data) {
+                for (var x = 0; x < data.length; x++) {
+                    Htmlstr += "<option value=" + data[x].id + ">" + data[x].desc + "</option>";
+                }
+                //if ($("#userrole").val() != "PARTNERS OUTLET") {
+                Htmlstr += "<option value='-10' >Selected Services/Products </option>";
+                Htmlstr += "<option value=0 >All Products/Services</option>";
+                //}
+
+                $('#cboSalesKit').html(Htmlstr).show();
+                if (load == 1 && $('#redeemid').val() > 0) {
+                    $('#cboSalesKit').val(-10);
+                    showExistingReservedList();
+                }
+                else {
+                    if (load == 1) {
+                        var tblHtmlstr = "<table class='table table-bordered' id ='tblSelectedList'><thead>";
+                        tblHtmlstr = tblHtmlstr + "<tr ><th style='Display:none;' rowspan='2'>id</th><th style='Display:none;' rowspan='2'>pid</th><th style='Display:none;' rowspan='2'>pcode</th><th rowspan='2' style ='text-align:right;padding-right:10px;width:80px;'>Sr.</th><th rowspan='2'>Description</th><th style='Display:none;' rowspan='2'>sellprice</th><th style='Display:none;' rowspan='2'>comission</th><th rowspan='2' style='width:80px;'>qty</th><th  rowspan='2' style='width:80px;'>UOM</th>";
+                        tblHtmlstr = tblHtmlstr + "<th colspan='2' style='text-align:center;'>Redeem</th>";
+                        tblHtmlstr = tblHtmlstr + "<th colspan='2' style='text-align:center;'>Award</th>";
+                        tblHtmlstr = tblHtmlstr + "<th rowspan='2'>Select</th></tr>";
+                        tblHtmlstr = tblHtmlstr + "<tr><th style='text-align:center;'>" + $('#c').val() + "</th><th style='text-align:center;'>" + $('#b').val() + "</th><th style='text-align:center;'>" + $('#c').val() + "</th><th style='text-align:center;'>" + $('#b').val() + "</th></tr>";
+                        tblHtmlstr = tblHtmlstr + "</tr></thead><tbody></tbody></table>";
+                        $('#divSelectedList').html(tblHtmlstr);
+                        load = 0;
+                    }
+                    showRedeemProductGrid();
+                }
+            }
+        });
+    }
+
+    function showReservedRecord(id) {
+        var mid = $('#memberid').val();
+        var cno = $('#txtRedeemMember').val();
+        var rcode = $('#resource').val();
+        window.open("../sales/Redeem?id=" + id + "&mid=" + mid + "&rcode=" + rcode, "_self");
+    }
+
+    function OpenRservedDialog() {
+        $('#dialog-modal').dialog('open');
+    }
+    //Added by ZawZO on 19 Aug 2015
+    function OpenPrintDialog() {
+        $('#Print_dialog-modal').dialog('open');
+    }
+    //Added by ZawZO on 19 Aug 2015
+    function closePrintDialog() {
+        $('#Print_dialog-modal').dialog("close");
+    }
+    //alexis
+    function ClearSearch() {
+        $('#txtSearch').val('');
+        //Added by ZawZO on 26 Aug 2015
+        cboPageLoad = 1;
+
+        showRedeemProductGrid();
+    }
+
+    //alexis
+    function FilterSearch() {
+        //Added by ZawZO on 26 Aug 2015
+        cboPageLoad = 1;
+
+        showRedeemProductGrid();
+    }
+
+    function showReservedGrid() {
+
+        var mid = $('#memberid').val();
+        $.ajax({
+            url: '@Url.Action("getReserveList", "Sales")',
+            data: { memberid: mid },
+            type: 'POST',
+            success: function (data) {
+                console.log('populateReservedList : ' + data);
+                populateReservedList(data);
+            },
+            error: function (ts) { alert(ts.responseText) }
+        });
+
+    }
+
+    // Kyaw
+    function populateReservedList(data) {
+
+        console.log('populateReservedList');
+
+        var Htmlstr = "<table class='table table-striped table-bordered' id ='tblReserved' title ='Click row to see reserved detail item.'><thead>";
+        var closeHtml = "</tbody></table>";
+
+        Htmlstr = Htmlstr + "<tr ><th style='Display:none;' rowspan='2'>id</th><th style='Display:none;' rowspan='2'>cid</th><th style='Display:none;' rowspan='2'>pid</th><th rowspan='2' style ='text-align:right;padding-right:10px;width:60px;'>S/N.</th><th rowspan='2'>Date</th><th rowspan='2'>Branch</th><th rowspan='2'>Ref.</th><th rowspan='2'>Code</th><th  rowspan='2'>Description</th><th rowspan='2' style ='width:60px;'>Qty.</th><th  rowspan='2'>UOM</th>";
+        Htmlstr = Htmlstr + "<th colspan='2' style='text-align:center;width:140px;'>Redeem</th>";
+        Htmlstr = Htmlstr + "<th colspan='2' style='text-align:center;width:140px;'>Award</th>";
+        Htmlstr = Htmlstr + "<tr><th style='text-align:center;width:50px;'>" + $('#c').val() + "</th><th style='text-align:center;width:50px;'>" + $('#b').val() + "</th><th style='text-align:center;width:50px;'>" + $('#c').val() + "</th><th style='text-align:center;width:50px;'>" + $('#b').val() + "</th></tr>";
+        Htmlstr = Htmlstr + "</tr></thead><tbody>";
+
+        for (var x = 0; x < data.length; x++) {
+            var ctmp = getDateFromAspString(data[x].createdate);
+            ctmp = ctmp.getDate() + "/" + (parseInt(ctmp.getMonth()) + 1) + "/" + ctmp.getFullYear();
+            Htmlstr += "<tr onclick='showReservedRecord(" + data[x].id + ");'><td style='Display:none;'>" + data[x].id + "</td><td style='Display:none;'>" + data[x].createid + "</td><td style='Display:none;'>" + data[x].productid + "</td><td style='text-align:right;padding-right:10px;'>" + (x + 1) + "</td><td >" + ctmp + "</td><td >" + data[x].branchcode + "</td><td ><a onclick='showReservedRecord(" + data[x].id + ");' style='color:orange;'>" + data[x].resourcecode + "</a></td><td >" + data[x].productcode + "</td>" + "<td >" + data[x].productdesc + "</td>" + "<td>" + data[x].qty + "</td><td >" + data[x].uom + "</td><td style='width:70px;text-align:right;padding-right:20px;'>" + data[x].redeemdollars + "</td><td style='width:70px;text-align:right;padding-right:20px;'>" + data[x].redeembonus + "</td><td style='width:70px;text-align:right;padding-right:20px;'>" + data[x].awarddollars + "</td><td style='width:70px;text-align:right;padding-right:20px;'>" + data[x].awardbonus + "</td>";
+        }
+
+        Htmlstr += closeHtml;
+
+        $('#divReserved').html(Htmlstr);
+    }
+
+
+    function showExistingReservedList() {
+        var rid = $('#redeemid').val();
+        $.ajax({
+            url: '@Url.Action("getINVRedeemDetailWithPaging", "Sales")',
+            data: { pageno: $('#cbopages').val(), id: rid },
+            type: 'POST',
+            success: function (data) {
+                PFlag = 0;
+
+                console.log(rid);
+                populateExistingReservedList(data);
+
+                if (cboPageLoad == 1) {
+                    if (data.length > 0)
+                        getPageList(data[0].TotalPages);
+                }
+
+                $("#discountpercent").attr("disabled", "disabled");
+
+                if ($("#discountpercent").val() != "") {
+                    $("#lblDiscount").text($("#discountpercent").val() + "% discount has been applied to the gliss points.");
+                }
+
+            },
+            error: function (ts) { alert(ts.responseText) }
+        });
+        load = 0;
+    }
+
+    function populateExistingReservedList(data) {
+        console.log('populateExistingReservedList');
+
+        console.log(data);
+
+        var OpenHtmlstr = "<table class='table table-striped table-bordered' id ='tblSelectedList'><thead>";
+        var Htmlstr = "";
+        var closeHtml = "</tbody></table>";
+        Htmlstr = Htmlstr + "<tr ><th style='Display:none;' rowspan='2'>id</th><th style='Display:none;' rowspan='2'>pid</th><th style='Display:none;' rowspan='2'>pcode</th><th rowspan='2' style ='text-align:right;padding-right:10px;width:80px;'>Sr.</th><th rowspan='2' style='width: 250px;'>Description</th><th style='Display:none;' rowspan='2'>sellprice</th><th style='Display:none;' rowspan='2'>comission</th><th  rowspan='2' style='width:100px;white-space: nowrap;'>Redeem Qty</th><th  rowspan='2' style='width:80px;'>UOM</th>";
+        //    Htmlstr = Htmlstr + "<tr ><th style='Display:none;' rowspan='2'>id</th><th style='Display:none;' rowspan='2'>pid</th><th style='Display:none;' rowspan='2'>pcode</th><th rowspan='2' style ='text-align:right;padding-right:10px;width:80px;'>Sr.</th><th rowspan='2'>Description</th><th style='Display:none;' rowspan='2'>sellprice</th><th style='Display:none;' rowspan='2'>comission</th><th  rowspan='2' style='width:50px;'>Redeem Qty</th><th  rowspan='2' style='width:80px;'>UOM</th>";
+        Htmlstr = Htmlstr + "<th colspan='2' style='text-align:center;'>Balance Quantity</th>";
+        Htmlstr = Htmlstr + "<th colspan='5' style='text-align:center;'>Redeem</th>";
+        Htmlstr = Htmlstr + "<th colspan='2' style='text-align:center;'>Award</th>";
+      //  Htmlstr = Htmlstr + "<th rowspan='2'>Select</th>";
+        Htmlstr = Htmlstr + "<th rowspan='2'>Service Staff</th><th rowspan='2'></th></tr>";
+        Htmlstr = Htmlstr + "<tr><th style='width: 70px;'>Balance</th><th>Select</th><th style='text-align:center;'>Disc</th><th style='text-align:center;'>" + $('#c').val() + "</th><th>Select</th><th style='text-align:center;'>" + $('#b').val() + "</th><th>Select</th><th style='text-align:center;'>" + $('#c').val() + "</th><th style='text-align:center;'>" + $('#b').val() + "</th></tr>";
+        Htmlstr = Htmlstr + "</tr></thead><tbody>";
+
+        var skid = $('#cboSalesKit').val();
+        var pno = parseInt($('#cbopages').val());
+
+        if (data.length > 0) {
+            $("#btnVoid").removeAttr("disabled");
+            $("#btnVoid").show();
+        }
+        var totaldiscount = 0;
+        var totalsaleprice = 0;
+        var salepricedisc = 0;
+
+
+        var sqChecked = "";
+        var cpChecked = "";
+        var bpChecked = "";
+
+     
+        // check checkbox selected by Redeem Type
+        //if (getUrlVars()["by"] === undefined) {
+        //    byPointChecked = "checked";
+        //} else {
+        //    byQtyChecked = "checked";
+        //}
+   
+        for (var x = 0; x < data.length; x++) {
+           
+            // reset checkbox
+            sqChecked = "";
+            cpChecked = "";
+            bpChecked = "";
+
+            switch (data[x].redemptiontype) {
+                case "SQ":
+                    sqChecked = "checked = checked='checked'";
+                    break;
+                case "C$":
+                    cpChecked = "checked = checked='checked'";
+                    break;
+                case "B$":
+                    bpChecked = "checked = checked='checked'";
+                    break;
+            }
+
+            if (data[x].staffserviceid > "0")
+                $('#cbostaff').val(data[x].staffserviceid);
+
+            if ($("#discountpercent").val() != "") {
+                salepricedisc = 1 - ($("#discountpercent").val() / 100);
+                totalsaleprice = parseFloat(data[x].redeemdollars) / parseFloat(salepricedisc);
+                totaldiscount = totalsaleprice * ($("#discountpercent").val() / 100);
+            }
+
+            Htmlstr += "<tr id='tblS_" + data[x].id + "_" + skid + "_" + data[x].productid + "_" + data[x].uom + "' dtlid ='" + data[x].id + "'><td style='Display:none;'>" + data[x].id + "</td><td style='Display:none;'>" + data[x].productid + "</td><td style='Display:none;'>" + data[x].productcode + "</td><td style='width:20px;text-align:right;padding-right:10px;'>" + (x + 1 + ((pno - 1) * 20)) + "</td><td style='width:150px;' >" + data[x].productdesc + "</td>" + "<td style='Display:none;' >" + data[x].unitprice + "</td>" + "<td style='Display:none;'>" + data[x].servicecommission + "</td><td><input class='form-control' style='text-align:right;width:50px;' value='" + data[x].qty + "'/></td><td >" + data[x].uom + "</td>";
+            Htmlstr += "<td>" + data[x].balance + "</td>";
+            Htmlstr += "<td style='width:60px;'><center><input type ='checkbox' " + sqChecked + " onclick='ItemChecking(this)' class='cbCheckbox'/></center></td>";
+            Htmlstr += "<td style='width:80px;text-align:right;padding-right:10px;'>" + Math.round(totaldiscount) + "</td>";
+            Htmlstr += "<td style='width:80px;text-align:right;padding-right:10px;'>" + data[x].redeemdollars + "</td><td style='width:60px;'><center><input type ='checkbox' " + cpChecked + " onclick='ItemChecking(this)' class='cbCheckbox'/></center></td>";
+            Htmlstr += "<td style='width:80px;text-align:right;padding-right:10px;'>" + data[x].redeembonus + "</td><td style='width:60px;'><center><input type ='checkbox' " + bpChecked + "  onclick='ItemChecking(this)' class='cbCheckbox'/></center></td>";
+            Htmlstr += "<td style='width:80px;text-align:right;padding-right:10px;'>" + data[x].awarddollars + "</td><td style='width:80px;text-align:right;padding-right:10px;'>" + data[x].awardbonus + "</td>";
+            Htmlstr += "<td style='width:120px;'><select v='" + data[x].staffserviceid + "' class='form-control' id='cbostaffR_0_" + data[x].productid + "'>" + $('#cbostaff').html() + "</select></td><td style='width:40px;'><a class='btn btn-primary' onclick='showTreatment(this);'><i class='fa fa-medkit' title='Treatment'></i></a></td></tr>";
+        }
+
+        $('#divSelectedList').html(OpenHtmlstr + Htmlstr + closeHtml);
+
+        OpenHtmlstr = "<table class='table table-bordered' id ='tblRedeem'><thead>";
+        Htmlstr = Htmlstr.replace(/tblS_/gi, "tblR_");
+        $('#divRedeem').html(OpenHtmlstr + Htmlstr + closeHtml);
+
+        //calculateSelectedTotal(1);
+        // console.log("populated");
+
+        calculateSelectedTotalWithDiscount(1);
+
+        $("#tblRedeem > tbody > tr").find('input:text').each(function (index) {
+            $(this).on('input', function (event) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+            $(this).change(function e() { changeQty(this); });
+        });
+        $("#tblRedeem > tbody > tr").find('select').each(function (index) {
+            $(this).val($(this).attr("v"));
+            $(this).change(function e() { changeStaff(this); });
+        });
+        $("#tblSelectedList > tbody > tr").find('select').each(function (index) {
+            $(this).val($(this).attr("v"));
+        });
+    }
+
+
+
+
+    function showRedeemProductGrid() {
+        var rid = $('#redeemid').val();
+        var skid = $('#cboSalesKit').val();
+        //Added by ZawZO on 19 Aug 2015
+        var srchCriteria = "Product_m_product." + $('#cboSrchCriteria').val();
+        var searchfilter = "%" + $('#txtSearch').val() + "%";
+
+        if (skid != "-10") {
+
+            $.ajax({
+                url: '@Url.Action("getRedeemProductWithPaging", "Product")',
+                data: { pageno: $('#cbopages').val(), pfltrfld: srchCriteria, filter: searchfilter, firstUOM: 0, skid: skid, cussupid:  $('#memberid').val()},
+                type: 'POST',
+                success: function (data) {
+                    PFlag = 1;
+
+                    populateRedeemProductList(data);
+
+                    if (cboPageLoad == 1) {
+                        if (data.length > 0)
+                            getPageList(data[0].TotalPages);
+                    }
+                },
+                error: function (ts) { alert(ts.responseText) }
+            });
+        }
+        else {
+
+            $('#tblRedeem > tbody').html("");
+            $('#tblSelectedList > tbody > tr').each(function (index) {
+                var tr = $(this).clone();
+                var id = $(this).attr("id");
+                id = id.replace(/tblS_/gi, 'tblR_');
+                tr.attr("id", id);
+                tr.find('select').val($(this).find('select').val());
+                $('#tblRedeem').append(tr);
+            });
+
+            $("#tblRedeem > tbody > tr").find('input:text').each(function (index) {
+                $(this).on('input', function (event) {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                });
+                $(this).change(function e() { changeQty(this); });
+            });
+
+            $("#tblRedeem > tbody > tr").find('select').each(function (index) {
+                $(this).change(function e() { changeStaff(this); });
+            });
+
+            $('#cbopages').html("<option value='1'>1</option>").show();
+        }
+    }
+
+    function getPageList(itemcount) {
+        cboPageLoad = 0;
+        var Htmlstr = "";
+
+        for (var i = 1; i <= itemcount ; i++) {
+            Htmlstr += "<option value=" + i + ">" + i + "</option>";
+        }
+
+        $('#cbopages').html(Htmlstr).show();
+    }
+
+
+
+    // Kyaw on 20240812
+    function populateRedeemProductList(data) {
+       console.log('populateRedeemProductList');
+
+
+        var oldhtml = $("#tblSelectedList tbody").html();
+        var OpenHtmlstr = "<table class='table table-striped table-bordered' id ='tblSelectedList'><thead>";
+        var Htmlstr = "";
+        var Htmlstr2 = "";
+        var closeHtml = "</tbody></table>";
+
+        Htmlstr = Htmlstr + "<tr ><th style='Display:none;' rowspan='2'>id</th><th style='Display:none;' rowspan='2'>pid</th><th style='Display:none;' rowspan='2'>pcode</th><th rowspan='2' style ='text-align:right;padding-right:10px;width:80px;'>Sr.</th><th rowspan='2'>Description</th><th style='Display:none;' rowspan='2'>sellprice</th><th style='Display:none;' rowspan='2'>comission</th><th  rowspan='2' style='width:100px;white-space: nowrap;'>Redeem Qty</th><th  rowspan='2' style='width:80px;'>UOM</th>";
+        Htmlstr = Htmlstr + "<th colspan='2' style='text-align:center;'>Balance Quantity</th>";
+        Htmlstr = Htmlstr + "<th colspan='4' style='text-align:center;'>Redeem</th>";
+        Htmlstr = Htmlstr + "<th colspan='2' style='text-align:center;'>Award</th>";
+        Htmlstr = Htmlstr + "<th rowspan='2'>Service Staff</th><th rowspan='2' style='display:none;'>Select</th><th rowspan='2'></th></tr>";
+        Htmlstr = Htmlstr + "<tr><th>Balance</th><th>Select</th>";
+        Htmlstr = Htmlstr + "<th style='text-align:center;'>" + $('#c').val() + "</th><th>Select</th>"
+        Htmlstr = Htmlstr + "<th style='text-align:center;'>" + $('#b').val() + "</th><th>Select</th>"
+        Htmlstr = Htmlstr + "<th style='text-align:center;'>" + $('#c').val() + "</th><th style='text-align:center;'>" + $('#b').val() + "</th></tr>";
+        Htmlstr = Htmlstr + "</tr></thead><tbody>";
+
+        Htmlstr2 = Htmlstr2 + "<th colspan='2' style='text-align:center;'>Balance Quantity</th>";
+        Htmlstr2 = Htmlstr2 + "<th style='Display:none;' rowspan='2'>id</th><th style='Display:none;' rowspan='2'>pid</th><th style='Display:none;' rowspan='2'>pcode</th><th rowspan='2' style ='text-align:right;padding-right:10px;width:80px;'>Sr.</th><th rowspan='2'>Description</th><th style='Display:none;' rowspan='2'>sellprice</th><th style='Display:none;' rowspan='2'>comission</th><th  rowspan='2' style='width:100px;white-space: nowrap;'>Redeem Qty</th><th  rowspan='2' style='width:80px;'>UOM</th>";
+        Htmlstr2 = Htmlstr2 + "<th colspan='2' style='text-align:center;'>Redeem</th>";
+        Htmlstr2 = Htmlstr2 + "<th colspan='2' style='text-align:center;'>Award</th>";
+        Htmlstr2 = Htmlstr2 + "<th rowspan='2'>Service Staff</th><th rowspan='2' style='display:none;'>Select</th><th rowspan='2'></th></tr>";
+        Htmlstr2 = Htmlstr2 + "<tr><th>Balance</th><th>Select</th>";
+        Htmlstr2 = Htmlstr2 + "<th style='text-align:center;'>" + $('#c').val() + "</th><th>Select</th>"
+        Htmlstr2 = Htmlstr2 + "<th style='text-align:center;'>" + $('#b').val() + "</th><th>Select</th>"
+        Htmlstr2 = Htmlstr2 + "<th style='text-align:center;'>" + $('#c').val() + "</th><th style='text-align:center;'>" + $('#b').val() + "</th></tr>";
+        Htmlstr2 = Htmlstr2 + "</tr></thead><tbody>";
+
+
+        var skid = $('#cboSalesKit').val();
+        var pno = parseInt($('#cbopages').val());
+
+
+        Htmlstr2 += oldhtml
+
+        if (skid != "-10") {
+            for (var x = 0; x < data.length; x++) {
+                $('#cbostaff').val(0);
+                Htmlstr += "<tr id='tblR_0_" + skid + "_" + data[x].id + "_" + data[x].uom + "' dtlid ='0'><td style='Display:none;'>0</td><td style='Display:none;'>" + data[x].id + "</td><td style='Display:none;'>" + data[x].productcode + "</td><td style='text-align:right;padding-right:10px;width:50px;'>" + (x + 1 + ((pno - 1) * 20)) + "</td><td >" + data[x].desc + "</td>" + "<td style='Display:none;' >" + data[x].sellprice + "</td>" + "<td style='Display:none;'>" + data[x].servicecommission + "</td><td ><input value='1' class='form-control'  style='text-align:right;' /></td><td >" + data[x].uom + "</td>";
+                Htmlstr += "<td>" + data[x].serviceqty + "</td>";
+                Htmlstr += "<td style='width:60px;'><center><input type ='checkbox' onclick='ItemChecking(this)' class='cbCheckbox'/></center></td>";
+                Htmlstr += "<td style='width:80px;text-align:right;padding-right:10px;'>" + data[x].redeemdollars + "</td>";
+                Htmlstr += "<td style='width:60px;'><center><input type ='checkbox' onclick='ItemChecking(this)' class='cbCheckbox' rtype='C$'/></center></td>";
+                Htmlstr += "<td style='width:80px;text-align:right;padding-right:10px;'>" + data[x].redeembonus + "</td>";
+                Htmlstr += "<td style='width:60px;'><center><input type ='checkbox' onclick='ItemChecking(this)' class='cbCheckbox' rtype='B$'/></center></td>";
+                Htmlstr += "<td style='width:80px;text-align:right;padding-right:10px;'>" + data[x].awarddollars + "</td><td style='width:80px;text-align:right;padding-right:10px;'>" + data[x].awardbonus + "</td>";
+                Htmlstr += "<td style='width:150px;'><select class='form-control' id='cbostaffR_0_" + data[x].id + "'>" + $('#cbostaff').html() + "</select></td><td style='width:60px; display:none;'><center><input id='chkByPoint' type ='checkbox' onclick='ItemChecking(this)' class='cbCheckbox'/></center></td><td><a class='btn btn-primary' onclick='showTreatment(this);'><i class='fa fa-medkit' title='Treatment'></i></a></td></tr>";
+
+                Htmlstr2 += "<tr id='tblR_0_" + skid + "_" + data[x].id + "_" + data[x].uom + "' dtlid ='0'><td style='Display:none;'>0</td><td style='Display:none;'>" + data[x].id + "</td><td style='Display:none;'>" + data[x].productcode + "</td><td style='text-align:right;padding-right:10px;width:50px;'>" + (x + 1 + ((pno - 1) * 20)) + "</td><td >" + data[x].desc + "</td>" + "<td style='Display:none;' >" + data[x].sellprice + "</td>" + "<td style='Display:none;'>" + data[x].servicecommission + "</td><td ><input value='1' class='form-control'  style='text-align:right;' /></td><td >" + data[x].uom + "</td>";
+                Htmlstr2 += "<td>" + data[x].serviceqty + "</td>";
+                Htmlstr2 += "<td style='width:60px;'><center><input type ='checkbox' onclick='ItemChecking(this)' class='cbCheckbox' rtype='C$'/></center></td>";
+                Htmlstr2 += "<td style='width:80px;text-align:right;padding-right:10px;'>" + data[x].redeemdollars + "</td>";
+                Htmlstr2 += "<td style='width:60px;'><center><input type ='checkbox' onclick='ItemChecking(this)' class='cbCheckbox' rtype='B$'/></center></td>";
+                Htmlstr2 += "<td style='width:80px;text-align:right;padding-right:10px;'>" + data[x].redeembonus + "</td>";
+                Htmlstr2 += "<td style='width:60px;'><center><input type ='checkbox' onclick='ItemChecking(this)' class='cbCheckbox'/></center></td>";
+                Htmlstr2 += "<td style='width:80px;text-align:right;padding-right:10px;'>" + data[x].awarddollars + "</td><td style='width:80px;text-align:right;padding-right:10px;'>" + data[x].awardbonus + "</td>";
+                Htmlstr2 += "<td style='width:150px;'><select class='form-control' id='cbostaffR_0_" + data[x].id + "'>" + $('#cbostaff').html() + "</select></td><td style='width:60px;'><center><input id='chkByPoint' type ='checkbox' onclick='ItemChecking(this)' style='Display:none;' class='cbCheckbox'/></center></td><td><a class='btn btn-primary' onclick='showTreatment(this);'><i class='fa fa-medkit' title='Treatment'></i></a></td></tr>";
+
+            }
+        }
+        else {
+            for (var x = 0; x < data.length; x++) {
+                Htmlstr += "<tr id='" + data[x].id + "_" + skid + "_" + data[x].productid + "_" + data[x].uom + "'><td style='Display:none;'>" + data[x].id + "</td><td style='Display:none;'>" + data[x].productid + "</td><td style='Display:none;'>" + data[x].productcode + "</td><td style='text-align:right;padding-right:10px;width:50px;'>" + (x + 1) + "</td><td >" + data[x].productdesc + "</td>" + "<td style='Display:none;' >" + data[x].unitprice + "</td>" + "<td style='Display:none;'>" + data[x].servicecommission + "</td><td ><input style='text-align:right;' value='" + data[x].qty + "' class='form-control' /></td><td >" + data[x].uom + "</td><td style='width:80px;text-align:right;padding-right:10px;'>" + data[x].redeemdollars + "</td><td style='width:80px;text-align:right;padding-right:10px;'>" + data[x].redeembonus + "</td><td style='width:80px;text-align:right;padding-right:10px;'>" + data[x].awarddollars + "</td><td style='width:80px;text-align:right;padding-right:10px;'>" + data[x].awardbonus + "</td>";
+                Htmlstr += "<td>" + $('#cbostaff').html() + "</td><td style='width:60px;'><center><input type ='checkbox' checked onclick='ItemChecking(this)' style='Display:none;' class='cbCheckbox'/></center></td><td><a class='btn btn-primary' onclick='showTreatment(this);'><i class='fa fa-medkit' title='Treatment'></i></a></td></tr>";
+
+                Htmlstr2 += "<tr id='" + data[x].id + "_" + skid + "_" + data[x].productid + "_" + data[x].uom + "'><td style='Display:none;'>" + data[x].id + "</td><td style='Display:none;'>" + data[x].productid + "</td><td style='Display:none;'>" + data[x].productcode + "</td><td style='text-align:right;padding-right:10px;width:50px;'>" + (x + 1) + "</td><td >" + data[x].productdesc + "</td>" + "<td style='Display:none;' >" + data[x].unitprice + "</td>" + "<td style='Display:none;'>" + data[x].servicecommission + "</td><td ><input style='text-align:right;' value='" + data[x].qty + "' class='form-control' /></td><td >" + data[x].uom + "</td><td style='width:80px;text-align:right;padding-right:10px;'>" + data[x].redeemdollars + "</td><td style='width:80px;text-align:right;padding-right:10px;'>" + data[x].redeembonus + "</td><td style='width:80px;text-align:right;padding-right:10px;'>" + data[x].awarddollars + "</td><td style='width:80px;text-align:right;padding-right:10px;'>" + data[x].awardbonus + "</td>";
+                Htmlstr2 += "<td>" + $('#cbostaff').html() + "</td><td style='width:60px;'><center><input type ='checkbox' checked onclick='ItemChecking(this)' style='Display:none;' class='cbCheckbox'/></center></td><td><a class='btn btn-primary' onclick='showTreatment(this);'><i class='fa fa-medkit' title='Treatment'></i></a></td></tr>";
+
+            }
+        }
+
+
+      
+
+        $('#divSelectedList').html(OpenHtmlstr + Htmlstr2 + closeHtml);
+
+
+        OpenHtmlstr = "<table class='table table-bordered' id ='tblRedeem'><thead>";
+        Htmlstr = Htmlstr.replace(/tblS_/gi, "tblR_");
+        $('#divRedeem').html(OpenHtmlstr + Htmlstr + closeHtml);
+        calculateSelectedTotal(1);
+        $("#tblRedeem > tbody > tr").find('input:text').each(function (index) {
+            $(this).on('input', function (event) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+            $(this).change(function e() { changeQty(this); });
+        });
+
+        $("#tblRedeem > tbody > tr").find('select').each(function (index) {
+            $(this).change(function e() { changeStaff(this); });
+        });
+
+    }
+
+    //Added by ZawZO on 21 Jan 2016
+    function getItemDetailFromFacilityOrder(soid) {
+        $.ajax({
+            url: '@Url.Action("getRedeemDetailFromFacilityOrderWithPaging", "Sales")',
+            data: { pageno: $('#cbopages').val(), soid: soid },
+            type: 'POST',
+            success: function (data) {
+                PFlag = 0;
+                $('#cboSalesKit').val(-10);
+                $("#discountpercent").attr("disabled", "disabled");
+                populateExistingReservedList(data);
+                if (cboPageLoad == 1) {
+                    if (data.length > 0)
+                        getPageList(data[0].TotalPages);
+                }
+
+
+            },
+            error: function (ts) { showMessage(ts.responseText, "error") }
+        });
+    }
+    function getInvoiceTreatmentList() {
+        var rid = $('#redeemid').val();
+        var resourcecode = $('#resourcecode').val();
+        if (rid > "0" || rid != "") {
+            $.ajax({
+                url: '@Url.Action("getInvoiceTreatmentList", "Sales")',
+                data: { resourcecode: resourcecode },
+                type: 'POST',
+                success: function (data) {
+                    tlist = data;
+                }
+            });
+        }
+    }
+
+    function showTreatment(paramtr) {
+        var htmlstr = "";
+        var rid = $('#redeemid').val();
+        var tblrid = $(paramtr).closest('tr').attr("id");
+        var dtlid = $(paramtr).closest('tr').attr("dtlid");
+        selTkeyid = tblrid;
+        selTdtlid = dtlid;
+
+        if (rid == "0") {
+            for (var i = 0; i < tlist.length; i++) {
+                if (tlist[i].keyid == selTkeyid) {
+                    htmlstr = htmlstr + "<tr ><td style='display:none'>0</td><td style='display:none'>" + selTkeyid + "</td><td style='display:none'>" + selTdtlid + "</td><td style='display:none'>" + i + "</td><td>" + tlist[i].createbyname + "</td><td>" + tlist[i].type + "</td><td>" + tlist[i].description + "</td><td><a class='btn btn-danger' onclick='RemoveTreatment(this);'><i class='fa fa-trash-o' title='remove'></i></a></td></tr>";
+                }
+            }
+        }
+        else {
+            if (dtlid == "0") {
+                for (var i = 0; i < tlist.length; i++) {
+                    if (tlist[i].keyid == selTkeyid) {
+                        htmlstr = htmlstr + "<tr><td style='display:none'>0</td><td style='display:none'>" + selTkeyid + "</td><td style='display:none'>" + selTdtlid + "</td><td style='display:none'>" + i + "</td><td>" + tlist[i].createbyname + "</td><td>" + tlist[i].type + "</td><td>" + tlist[i].description + "</td><td><a class='btn btn-danger' onclick='RemoveTreatment(this);'><i class='fa fa-trash-o' title='remove'></i></a></td></tr>";
+                    }
+                }
+            }
+            else {
+                for (var i = 0; i < tlist.length; i++) {
+                    if (tlist[i].resourcedetailid == selTdtlid) {
+                        htmlstr = htmlstr + "<tr><td style='display:none'>" + tlist[i].id + "</td><td style='display:none'>" + selTkeyid + "</td><td style='display:none'>" + selTdtlid + "</td><td style='display:none'>" + i + "</td><td>" + tlist[i].createbyname + "</td><td>" + tlist[i].type + "</td><td>" + tlist[i].description + "</td><td><a class='btn btn-danger' onclick='RemoveTreatment(this);'><i class='fa fa-trash-o' title='remove'></i></a></td></tr>";
+                    }
+                }
+            }
+        }
+        $('#tbltreatment tbody').html(htmlstr);
+        $('#Staff_dialog-modal').dialog('open');
+        $('#txtTdescription').val("");
+        $('#txtTdescription2').val("");
+        $('#txtTdescription3').val("");
+        $('#txtTdescription4').val("");
+        $('#optionTreatmentType').val("Hair");
+        $('#optionTreatmentType').trigger('change');
+    }
+
+    function AddTreatment() {
+        var htmlstr = "";
+        var uname = "";
+        var tmpobj = new Object();
+        tmpobj.id = 0;
+        tmpobj.resourcedetailid = selTdtlid;
+        tmpobj.keyid = selTkeyid;
+        tmpobj.createbyname = $('#txtstaffname').val();
+        tmpobj.cureateby = 0;
+        tmpobj.createdate = Date.now();
+        tmpobj.statusfield = "NEW";
+        tmpobj.description = $('#txtTdescription').val();
+        tmpobj.remarks2 = $('#txtTdescription2').val();
+        tmpobj.remarks3 = $('#txtTdescription3').val();
+        tmpobj.remarks4 = $('#txtTdescription4').val();
+        tmpobj.type = $('#optionTreatmentType').val();
+
+        tlist.push(tmpobj);
+        htmlstr = "<tr><td style='display:none'>0</td><td style='display:none'>" + selTkeyid + "</td><td style='display:none'>" + selTdtlid + "</td><td style='display:none'>" + (tlist.length - 1) + "</td><td>" + tmpobj.createbyname + "</td><td>" + tmpobj.type + "</td><td>" + tmpobj.description + "</td><td><a class='btn btn-danger' onclick='RemoveTreatment(this);'><i class='fa fa-trash-o' title='Remove'></i></a></td></tr>";
+        $("#tbltreatment tbody").append(htmlstr);
+        $('#txtTdescription').val("");
+        $('#txtTdescription2').val("");
+        $('#txtTdescription3').val("");
+        $('#txtTdescription4').val("");
+        $('#optionTreatmentType').val("Hair");
+        $('#optionTreatmentType').trigger('change');
+    }
+
+    function RemoveTreatment(paramtr) {
+        var tds = $(paramtr).closest('tr').find('td');
+        var treatmentid = tds.eq(0).html();
+        var tindex = tds.eq(3).html();
+        deltIDs = deltIDs + treatmentid + ",";
+        tlist.splice(tindex, 1);
+        $(paramtr).closest('tr').remove();
+    }
+
+    function VoidRedeem() {
+        var rid = $('#redeemid').val();
+
+        var result = confirm("Are you sure you want to void this redemption?");
+        if (result == true) {
+            $("#btnVoid").attr("disabled", true);
+
+            $.ajax({
+                url: '@Url.Action("VoidRedeem", "Sales")',
+                data: { id: rid },
+                type: 'POST',
+                success: function (data) {
+                    if (data == "SUCCESS") {
+                        var msg = "You have successfully voided the item.";
+                        var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"success"}';
+                        showMessage(attrvalue);
+
+                        window.open("Redeem?rcode=REDEEM&mid=" + $('#memberid').val(), "_self");
+                    }
+                    else {
+                        var msg = "An error occured while voiding the item.";
+                        var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                        showMessage(attrvalue);
+                    }
+                }
+            });
+        }
+    }
+
+    function SaveRedeem(s) {
+        $("#btnReserve").attr("disabled", true);
+        $("#btnConfirm").attr("disabled", true);
+
+        if ($('#status').val().toUpperCase() == "CLOSE") {
+            $('#btnBalanceMember').attr('data-noty-options', '{"text":"System will not allow to edit for closed transaction!","layout":"topRight","type":"error"}');
+            $('#btnBalanceMember').trigger("click");
+            return false;
+        };
+
+        var rid = $('#redeemid').val();
+        var obj = new Object();
+        var itemidArray = "";
+        obj.id = rid;
+        obj.cussupid = $('#memberid').val();
+        obj.type = $('#resource').val();
+        obj.cussupname = $('#cussupname').val();
+        obj.status = s;
+        //Added by ZawZO on 2 Feb 2016
+        var soid = $('#hidsoid').val();
+        if (soid > 0) {
+            obj.salesorderid = soid;
+        }
+        else {
+            obj.salesorderid = 0;
+        }
+
+        obj.staffid = $('#staffid').val();
+
+        var tsellprice = 0;
+        var tac = 0;
+        var tab = 0;
+        var tsc = 0;
+        var i = 0;
+        var itemcount = 0;
+        var itemCollection = new Array();
+
+        var isSQ = false;
+        var isCP = false;
+        var isBP = false;
+
+        console.log(s.toUpperCase());
+
+        if (s.toUpperCase() == "CLOSE") {
+            var discount = $('#discountpercent').val();
+
+            $('#tblSelectedList > tbody > tr').each(function (row, tr) {
+
+                console.log($(tr).find('td:eq(10)').find('input[type="checkbox"]').prop('checked'));
+                console.log($(tr).find('td:eq(13)').find('input[type="checkbox"]').prop('checked'));
+                console.log($(tr).find('td:eq(15)').find('input[type="checkbox"]').prop('checked'));
+
+                isSQ = $(tr).find('td:eq(10)').find('input[type="checkbox"]').prop('checked')
+                isCP = $(tr).find('td:eq(13)').find('input[type="checkbox"]').prop('checked')
+                isBP = $(tr).find('td:eq(15)').find('input[type="checkbox"]').prop('checked')
+
+                console.log(isSQ);
+                console.log(isCP);
+                console.log(isBP);
+
+                if (isSQ || isCP || isBP) //check if checkbox is checked
+                {
+                    i = i + 1;
+                    itemcount++;
+
+                    var tds = $(tr).find('td');
+                    var item = new Object();
+                    item.lineno = i;
+                    item.id = tds.eq(0).html();
+
+                    if (item.id != "" || item.id != 0) itemidArray += item.id + ",";
+
+                    item.productid = tds.eq(1).html();
+                
+                    item.productcode = tds.eq(2).html();
+                 
+                    item.productdesc = tds.eq(4).html();
+                  
+                    item.unitprice = tds.eq(5).html();
+                  
+                    item.servicecommission = tds.eq(6).html();
+                
+                    var qty = tds.eq(7).find('input');
+             
+                    item.qty = qty[0].value;
+
+                    item.uom = tds.eq(8).html();
+              
+                    
+                    if (isSQ) {
+                        item.redemptiontype = "SQ";
+                        item.balance = tds.eq(9).html();
+                        item.awardbonus = 0;
+                        item.awarddollars = 0;
+                     
+                    }
+
+                    if (isCP) {
+                        item.redemptiontype = "C$";
+                        item.redeemdollars = tds.eq(12).html();
+                        item.awarddollars = tds.eq(16).html();
+                        item.awardbonus = 0;
+
+                    } else {
+                        item.redeemdollars = 0;
+                    }
+
+                    if (isBP) {
+                        item.redemptiontype = "B$";
+                        item.redeembonus = tds.eq(14).html();
+                        item.awarddollars = 0;
+                        item.awardbonus = tds.eq(17).html();
+                     
+                    } else {
+                        item.redeembonus = 0;
+                    }
+                 
+
+                    // balance 9
+                    // glissp 12
+                    // rewardp 14
+                    // award glissp 16
+                    // award rewardp 17
+                    item.lineamount = tds.eq(5).html();
+                    var staff = tds.eq(18).find('select');
+
+                    item.staffserviceid = staff[0].value;
+                    itemCollection.push(item);
+
+
+                    console.log("itemCollection : " + itemCollection);
+                  
+
+                    tsellprice = tsellprice + parseFloat(item.unitprice);
+                    var tlistCollection = new Array();
+                    var rkeyid = $(tr).attr('id');
+                    rkeyid = rkeyid.replace('tblS_', 'tblR_');
+
+                    for (var x = 0 ; x < tlist.length; x++) {
+                        if (tlist[x].keyid == rkeyid) {
+                            var tobjtmp = new Object();
+                            tobjtmp = tlist[x];
+                            tobjtmp.resourcedetailid = item.id;
+                            tlistCollection.push(tobjtmp);
+                            tlist.splice(x, 1);
+                            x--;
+                        }
+                    }
+                    item.treatment = tlistCollection;
+                }
+            });
+
+            //$('#tblSelectedList > tbody > tr').each(function (row, tr) {
+            //    isSQ = $(tr).find('td:eq(10)').find('input[type="checkbox"]').prop('checked')
+            //    isCP = $(tr).find('td:eq(13)').find('input[type="checkbox"]').prop('checked')
+            //    isBP = $(tr).find('td:eq(15)').find('input[type="checkbox"]').prop('checked')
+            //    if (isSQ || isCP || isBP) //check if checkbox is checked
+            //    {
+            //        itemcount++;
+            //    }
+            //});
+
+
+            if (itemcount <= 0) {
+                $("#btnReserve").removeAttr("disabled");
+                var msg = "Please select an item.";
+                var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                showMessage(attrvalue);
+                return false;
+            }
+
+            obj.total_subtotal = Math.round(tsellprice);
+            obj.total_total = Math.round(tsellprice);;
+            obj.discountpercent = Math.round(discount);
+            obj.remark = $("#txtDiscRemarks").val();
+            obj.items = itemCollection;
+            $.ajax({
+                url: '@Url.Action("RedeemSave", "Sales")',
+                data: JSON.stringify({ redeem: obj, resource: $('#resource').val(), itemids: itemidArray, deltIDs: deltIDs }),
+                type: 'POST',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data != "FAIL" && data > "0") {
+                        window.open("Redeem?sflag=1&id=" + data + "&mid=" + $('#memberid').val() + "&cardno=" + $('#txtRedeemMember').val(), "_self");
+                    }
+                },
+                error: function (req, status, err) {
+                    $("#btnReserve").removeAttr("disabled");
+                }
+            });
+        } // Status = "ACTIVE"
+        else {
+            var discount = $('#discountpercent').val();
+            balances = [];
+
+          
+
+            //glissp 12, awardp 14
+            $('#tblSelectedList > tbody > tr').each(function (row, tr) {
+
+                isSQ = $(tr).find('td:eq(10)').find('input[type="checkbox"]').prop('checked')
+                isCP = $(tr).find('td:eq(12)').find('input[type="checkbox"]').prop('checked')
+                isBP = $(tr).find('td:eq(14)').find('input[type="checkbox"]').prop('checked')
+
+                if (isSQ || isCP || isBP) //check if checkbox is checked
+                {
+                    i = i + 1;
+                    itemcount++;
+                    var tds = $(tr).find('td');
+                    var item = new Object();
+
+                    item.lineno = i;
+                    item.id = tds.eq(0).html();
+
+                    if (item.id != "" || item.id != 0) itemidArray += item.id + ",";
+                    item.productid = tds.eq(1).html();
+                    item.productcode = tds.eq(2).html();
+                    item.productdesc = tds.eq(4).html();
+                    item.unitprice = tds.eq(5).html();
+                    item.servicecommission = tds.eq(6).html();
+                    var qty = tds.eq(7).find('input');
+                    item.qty = qty[0].value;
+                    item.uom = tds.eq(8).html();
+
+
+                    if (isSQ){
+                        item.redemptiontype = "SQ";
+                        item.balance = tds.eq(9).html();
+                    }else{
+                        item.balance = 0;
+                    }
+
+                    if (isCP){
+                        item.redemptiontype = "C$";
+                        if (discount != "") {
+                            item.redeemdollars = Math.round((parseFloat(tds.eq(11).html()) - (parseFloat(tds.eq(11).html()) * (parseInt(discount) / 100))));
+                        }
+                        else {
+                            item.redeemdollars = Math.round(tds.eq(11).html());
+                        }
+                    }else{
+                        item.redeemdollars = 0;
+                    }
+
+                    if (isBP){
+                        item.redemptiontype = "B$";
+                        item.redeembonus = tds.eq(13).html();
+                    } else{
+                        item.redeembonus = 0;
+                    }
+                     
+                   
+
+                    item.awarddollars = tds.eq(15).html();
+                    item.awardbonus = tds.eq(16).html();
+
+                    item.lineamount = tds.eq(5).html();
+
+                    var staff = tds.eq(17).find('select');
+
+                    item.staffserviceid = staff[0].value;
+                    itemCollection.push(item);
+                    tsellprice = tsellprice + parseFloat(item.unitprice);
+                    var tlistCollection = new Array();
+
+                    var rkeyid = $(tr).attr('id');
+                    rkeyid = rkeyid.replace('tblS_', 'tblR_');
+                    for (var x = 0 ; x < tlist.length; x++) {
+                        if (tlist[x].keyid == rkeyid) {
+                            var tobjtmp = new Object();
+                            tobjtmp = tlist[x];
+                            tobjtmp.resourcedetailid = item.id;
+                            tlistCollection.push(tobjtmp);
+                            tlist.splice(x, 1);
+                            x--;
+                        }
+                    }
+                    item.treatment = tlistCollection;
+                }
+            });
+
+            if (itemcount <= 0) {
+                $("#btnReserve").removeAttr("disabled");
+                var msg = "Please select the item.";
+                var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                showMessage(attrvalue);
+                return false;
+            }
+
+            obj.total_subtotal = Math.round(tsellprice);
+            obj.total_total = Math.round(tsellprice);
+            obj.discountpercent = Math.round(discount);
+            obj.remark = $("#txtDiscRemarks").val();
+            obj.items = itemCollection;
+
+            console.log(itemCollection);
+         //   return false;
+
+            $.ajax({
+                url: '@Url.Action("RedeemSave", "Sales")',
+                data: JSON.stringify({ redeem: obj, resource: $('#resource').val(), itemids: itemidArray, deltIDs: deltIDs }),
+                type: 'POST',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data != "FAIL" && data > "0") {
+                        window.open("Redeem?sflag=1&id=" + data + "&mid=" + $('#memberid').val() + "&cardno=" + $('#txtRedeemMember').val(), "_self");
+                    }
+                },
+                error: function (req, status, err) {
+                    $("#btnReserve").removeAttr("disabled");
+                }
+            });
+        }
+    }
+
+
+    function SaveRedeemQty(s) {
+
+        $("#btnReserveQty").attr("disabled", true);
+        $("#btnConfirmQty").attr("disabled", true);
+
+        if ($('#status').val().toUpperCase() == "CLOSE") {
+            $('#btnBalanceMember').attr('data-noty-options', '{"text":"System will not allow to edit for closed transaction!","layout":"topRight","type":"error"}');
+            $('#btnBalanceMember').trigger("click");
+            return false;
+        };
+
+        var rid = $('#redeemid').val();
+        var obj = new Object();
+        var itemidArray = "";
+        obj.id = rid;
+        obj.cussupid = $('#memberid').val();
+        obj.type = $('#resource').val();
+        obj.cussupname = $('#cussupname').val();
+        obj.status = s;
+        //Added by ZawZO on 2 Feb 2016
+        var soid = $('#hidsoid').val();
+        if (soid > 0) {
+            obj.salesorderid = soid;
+        }
+        else {
+            obj.salesorderid = 0;
+        }
+
+        obj.staffid = $('#staffid').val();
+
+        var tsellprice = 0;
+        var tac = 0;
+        var tab = 0;
+        var tsc = 0;
+        var i = 0;
+        var itemcount = 0;
+        var itemCollection = new Array();
+
+        console.log("Status Qty : " + s.toUpperCase());
+
+        if (s.toUpperCase() == "CLOSE") {
+            var discount = $('#discountpercent').val();
+
+            $('#tblSelectedList > tbody > tr').each(function (row, tr) {
+
+                if ($(tr).find('td:eq(10)').find('input[type="checkbox"]').prop('checked')) //check if checkbox is checked
+                {
+                    i = i + 1;
+                    itemcount++;
+                    var tds = $(tr).find('td');
+                    var item = new Object();
+                    item.lineno = i;
+                    item.id = tds.eq(0).html();
+                    if (item.id != "" || item.id != 0) itemidArray += item.id + ",";
+                    item.productid = tds.eq(1).html();
+                    item.productcode = tds.eq(2).html();
+                    item.productdesc = tds.eq(4).html();
+                    item.unitprice = tds.eq(5).html();
+                  
+
+                    item.servicecommission = tds.eq(6).html();
+                    var qty = tds.eq(7).find('input');
+                    item.qty = qty[0].value;
+                    item.uom = tds.eq(8).html();
+                    item.balance = tds.eq(9).html();
+
+                    console.log(tds.eq(9).html());
+
+                    item.redeemdollars = tds.eq(12).html();
+                    item.redeembonus = tds.eq(13).html();
+                    item.awarddollars = tds.eq(14).html();
+                    item.awardbonus = tds.eq(15).html();
+
+                    item.lineamount = tds.eq(5).html();
+                    var staff = tds.eq(16).find('select');
+
+                    item.staffserviceid = staff[0].value;
+                    itemCollection.push(item);
+                    tsellprice = tsellprice + parseFloat(item.unitprice);
+                    var tlistCollection = new Array();
+                    var rkeyid = $(tr).attr('id');
+                    rkeyid = rkeyid.replace('tblS_', 'tblR_');
+
+                    for (var x = 0 ; x < tlist.length; x++) {
+                        if (tlist[x].keyid == rkeyid) {
+                            var tobjtmp = new Object();
+                            tobjtmp = tlist[x];
+                            tobjtmp.resourcedetailid = item.id;
+                            tlistCollection.push(tobjtmp);
+                            tlist.splice(x, 1);
+                            x--;
+                        }
+                    }
+                    item.treatment = tlistCollection;
+                }
+            });
+
+            $('#tblSelectedList > tbody > tr').each(function (row, tr) {
+                if ($(tr).find('td:eq(10)').find('input[type="checkbox"]').prop('checked')) //check if checkbox is checked
+                {
+                    itemcount++;
+                }
+            });
+
+
+            if (itemcount <= 0) {
+                $("#btnReserveQty").removeAttr("disabled");
+                var msg = "Please select an item.";
+                var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                showMessage(attrvalue);
+                return false;
+            }
+
+            obj.total_subtotal = Math.round(tsellprice);
+            obj.total_total =  Math.round(tsellprice);;
+            obj.discountpercent =  Math.round(discount);
+            obj.remark = $("#txtDiscRemarks").val();
+            obj.items = itemCollection;
+            $.ajax({
+                url: '@Url.Action("RedeemSaveQty", "Sales")',
+                data: JSON.stringify({ redeem: obj, resource: $('#resource').val(), itemids: itemidArray, deltIDs: deltIDs }),
+                type: 'POST',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data != "FAIL" && data > "0") {
+                        window.open("Redeem?sflag=1&id=" + data + "&mid=" + $('#memberid').val() + "&cardno=" + $('#txtRedeemMember').val() + "&by=qty", "_self");
+                    }
+                },
+                error: function (req, status, err) {
+                    $("#btnReserveQty").removeAttr("disabled");
+                }
+            });
+        }
+        else { // ACTIVE
+            var discount = $('#discountpercent').val();
+            balances = [];
+
+          
+
+
+            $('#tblSelectedList > tbody > tr').each(function (row, tr) {
+               
+                isRewarPSelected = $(tr).find('td:eq(10)').find('input[type="checkbox"]').prop('checked');
+                isBounusPSelected = $(tr).find('td:eq(10)').find('input[type="checkbox"]').prop('checked');
+
+                if ($(tr).find('td:eq(10)').find('input[type="checkbox"]').prop('checked')) //check if checkbox is checked
+                {
+
+                    i = i + 1;
+                    itemcount++;
+                    var tds = $(tr).find('td');
+                    var item = new Object();
+
+                    item.lineno = i;
+                    item.id = tds.eq(0).html();
+
+                    if (item.id != "" || item.id != 0) itemidArray += item.id + ",";
+                    item.productid = tds.eq(1).html();
+                    item.productcode = tds.eq(2).html();
+                    item.productdesc = tds.eq(4).html();
+                    item.unitprice = tds.eq(5).html();
+                    item.servicecommission = tds.eq(6).html();
+                    var qty = tds.eq(7).find('input');
+                    item.qty = qty[0].value;
+                    item.uom = tds.eq(8).html();
+
+                    item.balance = tds.eq(9).html();
+                   
+                    if (discount != "") {
+                        item.redeemdollars = Math.round((parseFloat(tds.eq(11).html()) - (parseFloat(tds.eq(11).html()) * (parseInt(discount) / 100))));
+                    }
+                    else {
+                        item.redeemdollars = Math.round(tds.eq(11).html());
+                    }
+
+                    item.redeembonus = tds.eq(13).html();
+                    item.awarddollars = tds.eq(13).html();
+                    item.awardbonus = tds.eq(14).html();
+
+                    item.lineamount = tds.eq(5).html();
+
+                    var staff = tds.eq(15).find('select');
+
+                    item.staffserviceid = staff[0].value;
+                    itemCollection.push(item);
+                    tsellprice = tsellprice + parseFloat(item.unitprice);
+                    var tlistCollection = new Array();
+
+                    var rkeyid = $(tr).attr('id');
+                    rkeyid = rkeyid.replace('tblS_', 'tblR_');
+                    for (var x = 0 ; x < tlist.length; x++) {
+                        if (tlist[x].keyid == rkeyid) {
+                            var tobjtmp = new Object();
+                            tobjtmp = tlist[x];
+                            tobjtmp.resourcedetailid = item.id;
+                            tlistCollection.push(tobjtmp);
+                            tlist.splice(x, 1);
+                            x--;
+                        }
+                    }
+                    item.treatment = tlistCollection;
+                }
+            });
+
+            if (itemcount <= 0) {
+                $("#btnReserveQty").removeAttr("disabled");
+                var msg = "Please select the item.";
+                var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                showMessage(attrvalue);
+                return false;
+            }
+
+            obj.total_subtotal =  Math.round(tsellprice);
+            obj.total_total =  Math.round(tsellprice);
+            obj.discountpercent =  Math.round(discount);
+            obj.remark = $("#txtDiscRemarks").val();
+            obj.items = itemCollection;
+            $.ajax({
+                url: '@Url.Action("RedeemSaveQty", "Sales")',
+                data: JSON.stringify({ redeem: obj, resource: $('#resource').val(), itemids: itemidArray, deltIDs: deltIDs }),
+                type: 'POST',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data != "FAIL" && data > "0") {
+                        window.open("Redeem?sflag=1&id=" + data + "&mid=" + $('#memberid').val() + "&cardno=" + $('#txtRedeemMember').val() + "&by=qty", "_self");
+                    }
+                },
+                error: function (req, status, err) {
+                    $("#btnReserveQty").removeAttr("disabled");
+                }
+            });
+        }
+    }
+
+    @*function SaveRedeemBK(s) {
+
+        $("#btnReserve").attr("disabled", true);
+        $("#btnConfirm").attr("disabled", true);
+        if ($('#status').val().toUpperCase() == "CLOSE") {
+            $('#btnBalanceMember').attr('data-noty-options', '{"text":"System will not allow to edit for closed transaction!","layout":"topRight","type":"error"}');
+            $('#btnBalanceMember').trigger("click");
+            return false;
+        };
+
+        var rid = $('#redeemid').val();
+        var obj = new Object();
+        var itemidArray = "";
+        obj.id = rid;
+        obj.cussupid = $('#memberid').val();
+        obj.type = $('#resource').val();
+        obj.cussupname = $('#cussupname').val();
+        obj.status = s;
+        //Added by ZawZO on 2 Feb 2016
+        var soid = $('#hidsoid').val();
+        if (soid > 0) {
+            obj.salesorderid = soid;
+        }
+        else {
+            obj.salesorderid = 0;
+        }
+
+        obj.staffid = $('#staffid').val();
+
+        var tsellprice = 0;
+        var tac = 0;
+        var tab = 0;
+        var tsc = 0;
+        var i = 0;
+        var itemcount = 0;
+        var itemCollection = new Array();
+
+        console.log(s)
+        if (s.toUpperCase() == "CLOSE") {
+            console.log("CLOSE---")
+            var discount = $('#discountpercent').val();
+            $('#tblSelectedList > tbody > tr').filter(':has(:checkbox:checked)').each(function (i, row) {
+                i = i + 1;
+                itemcount++;
+                var tds = $(row).find('td');
+                var item = new Object();
+                item.lineno = i;
+                item.id = tds.eq(0).html();
+                if (item.id != "" || item.id != 0) itemidArray += item.id + ",";
+                item.productid = tds.eq(1).html();
+                item.productcode = tds.eq(2).html();
+                item.productdesc = tds.eq(4).html();
+                item.unitprice = tds.eq(5).html();
+                item.servicecommission = tds.eq(6).html();
+                var qty = tds.eq(7).find('input');
+                item.qty = qty[0].value;
+                item.uom = tds.eq(8).html();
+                item.redeemdollars = tds.eq(10).html();
+                item.redeembonus = tds.eq(11).html();
+                item.awarddollars = tds.eq(12).html();
+                item.awardbonus = tds.eq(13).html();
+                item.lineamount = tds.eq(5).html();
+                var staff = tds.eq(14).find('select');
+                item.staffserviceid = staff[0].value;
+                itemCollection.push(item);
+                tsellprice = tsellprice + parseFloat(item.unitprice);
+                var tlistCollection = new Array();
+                var rkeyid = $(row).attr('id');
+                rkeyid = rkeyid.replace('tblS_', 'tblR_');
+                for (var x = 0 ; x < tlist.length; x++) {
+                    if (tlist[x].keyid == rkeyid) {
+                        var tobjtmp = new Object();
+                        tobjtmp = tlist[x];
+                        tobjtmp.resourcedetailid = item.id;
+                        tlistCollection.push(tobjtmp);
+                        tlist.splice(x, 1);
+                        x--;
+                    }
+                }
+                item.treatment = tlistCollection;
+            });
+
+            console.log(itemcount)
+            $('#tblSelectedList > tbody > tr').filter(':has(:checkbox:checked)').each(function (i, row) {
+                itemcount++;
+            });
+
+            if (itemcount <= 0) {
+                $("#btnReserve").removeAttr("disabled");
+                var msg = "Please select an item.";
+                var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                showMessage(attrvalue);
+                return false;
+            }
+
+            obj.total_subtotal = Math.round(tsellprice);
+            obj.total_total = Math.round(tsellprice);;
+            obj.discountpercent = Math.round(discount);
+            obj.remark = $("#txtDiscRemarks").val();
+            obj.items = itemCollection;
+            $.ajax({
+                url: '@Url.Action("RedeemSave", "Sales")',
+                data: JSON.stringify({ redeem: obj, resource: $('#resource').val(), itemids: itemidArray, deltIDs: deltIDs }),
+                type: 'POST',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data != "FAIL" && data > "0") {
+                        window.open("Redeem?sflag=1&id=" + data + "&mid=" + $('#memberid').val() + "&cardno=" + $('#txtRedeemMember').val(), "_self");
+                    }
+                },
+                error: function (req, status, err) {
+                    $("#btnReserve").removeAttr("disabled");
+                }
+            });
+        }
+        else {
+            var discount = $('#discountpercent').val();
+            $('#tblSelectedList > tbody > tr').filter(':has(:checkbox:checked)').each(function (i, row) {
+                i = i + 1;
+
+                itemcount++;
+                var tds = $(row).find('td');
+                var item = new Object();
+                item.lineno = i;
+                item.id = tds.eq(0).html();
+                if (item.id != "" || item.id != 0) itemidArray += item.id + ",";
+                item.productid = tds.eq(1).html();
+                item.productcode = tds.eq(2).html();
+                item.productdesc = tds.eq(4).html();
+                item.unitprice = tds.eq(5).html();
+                item.servicecommission = tds.eq(6).html();
+                var qty = tds.eq(7).find('input');
+                item.qty = qty[0].value;
+                item.uom = tds.eq(8).html();
+                if (discount != "") {
+                    item.redeemdollars = Math.round((parseFloat(tds.eq(9).html()) - (parseFloat(tds.eq(9).html()) * (parseInt(discount) / 100))));
+                }
+                else {
+                    item.redeemdollars = Math.round(tds.eq(9).html());
+                }
+
+                item.redeembonus = tds.eq(10).html();
+                item.awarddollars = tds.eq(11).html();
+                item.awardbonus = tds.eq(12).html();
+                item.lineamount = tds.eq(5).html();
+                var staff = tds.eq(13).find('select');
+                item.staffserviceid = staff[0].value;
+                itemCollection.push(item);
+                tsellprice = tsellprice + parseFloat(item.unitprice);
+                var tlistCollection = new Array();
+                var rkeyid = $(row).attr('id');
+                rkeyid = rkeyid.replace('tblS_', 'tblR_');
+                for (var x = 0 ; x < tlist.length; x++) {
+                    if (tlist[x].keyid == rkeyid) {
+                        var tobjtmp = new Object();
+                        tobjtmp = tlist[x];
+                        tobjtmp.resourcedetailid = item.id;
+                        tlistCollection.push(tobjtmp);
+                        tlist.splice(x, 1);
+                        x--;
+                    }
+                }
+                item.treatment = tlistCollection;
+            });
+
+            if (itemcount <= 0) {
+                $("#btnReserve").removeAttr("disabled");
+                var msg = "Please select the item.";
+                var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                showMessage(attrvalue);
+                return false;
+            }
+            obj.total_subtotal = Math.round(tsellprice);
+            obj.total_total = Math.round(tsellprice);
+            obj.discountpercent = Math.round(discount);
+            obj.remark = $("#txtDiscRemarks").val();
+            obj.items = itemCollection;
+            $.ajax({
+                url: '@Url.Action("RedeemSave", "Sales")',
+                data: JSON.stringify({ redeem: obj, resource: $('#resource').val(), itemids: itemidArray, deltIDs: deltIDs }),
+                type: 'POST',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data != "FAIL" && data > "0") {
+                        window.open("Redeem?sflag=1&id=" + data + "&mid=" + $('#memberid').val() + "&cardno=" + $('#txtRedeemMember').val(), "_self");
+                    }
+                },
+                error: function (req, status, err) {
+                    $("#btnReserve").removeAttr("disabled");
+                }
+            });
+        }
+    }*@
+
+    function getMemberbalance() {
+        var mid = $('#memberid').val();
+        $.ajax({
+            url: '@Url.Action("getMemberList", "CusSup")',
+            data: { mid: mid },
+            type: 'POST',
+            success: function (data) {
+                if (data.length > 0) {
+                    $('#txtCBalance').val(Math.round(data[0].CBalance));
+                    $('#txtBBalance').val(Math.round(data[0].BBalance));
+                    $('#txtCReserved').valMath.round((data[0].CReserved));
+                    $('#txtBReserved').val(Math.round(data[0].BReserved));
+                    $('#txtCAvailable').val(Math.round(data[0].CAvailable));
+                    $('#txtBAvailable').val(Math.round(data[0].BAvailable));
+                }
+            },
+            error: function (ts) { alert(ts.responseText) }
+        });
+    }
+
+
+    function ItemChecking(chk) {
+
+        var mid = $('#memberid').val();
+        var checkState = chk.checked;
+
+        $(chk).closest('tr').find('input[type="checkbox"]').each(function () {
+            $(this).prop('checked', false);
+        });
+
+
+        chk.checked = checkState;
+ 
+        rtype = $(chk).attr('rtype')
+
+        if (chk.checked == true) {
+            if (mid <= "0") {
+                $('#btnBalanceMember').trigger("click");
+                return false;
+            }
+            $(chk).attr('checked', 'checked');
+            addRowToSelectedTable(chk);
+        }
+        else {
+            RemoveRowFromSelectedTable(chk);
+        }
+        calculateSelectedTotal(0);
+        calculateDiscount();
+    }
+
+    function calculateDiscount() {
+        if ($("#discountpercent").val() == "") {
+            $("#ctotaldiscount").val("0");
+        }
+        else {
+
+            var totaldiscount = $("#ctotal").val() * ($("#discountpercent").val() / 100)
+            totaldiscount = $("#ctotaldiscount").val(Math.round(totaldiscount));
+        }
+    }
+
+    function addRowToSelectedTable(chk) {
+
+        var tblrid = $(chk).closest('tr').attr("id");
+        var tblsid = $(chk).closest('tr').attr("id");
+        var tblsid = tblsid.replace("tblR_", "tblS_");
+
+        if (document.getElementById(tblsid)) {
+            $("#" + tblsid).html($(tr).html());
+            var tr = $(chk).closest('tr');
+            var txt = tr.find("input");
+            var newtxt = $("#" + tblsid).find("input");
+            $(newtxt[0]).val(txt[0].value);
+            var cbostaff = tr.find("select");
+            var newcbostaff = $("#" + tblsid).find("select");
+
+            $(newcbostaff[0]).val(cbostaff[0].value);
+        }
+        else {
+            var tr = $(chk).closest('tr');
+            var newRow = tr.clone();
+            var txt = tr.find("input");
+            newRow.attr("id", tblsid);
+            $("#tblSelectedList").append(newRow);
+            var newtxt = $("#" + tblsid).find("input");
+            $(newtxt[0]).val(txt[0].value);
+            var cbostaff = tr.find("select");
+            var newcbostaff = $("#" + tblsid).find("select");
+
+            $(newcbostaff[0]).val(cbostaff[0].value);
+        }
+
+
+        //  console.log($("#tblSelectedList").html);
+
+
+    }
+
+    function RemoveRowFromSelectedTable(chk) {
+        var tblrid = $(chk).closest('tr').attr("id");
+        var tblsid = $(chk).closest('tr').attr("id");
+        var tblsid = tblsid.replace("tblR_", "tblS_");
+        if (document.getElementById(tblsid)) {
+            $("#" + tblsid).remove();
+        }
+    }
+
+    function changeQty(txt) {
+        var tmp = $(txt).closest('tr').find('input[type="checkbox"]');
+        var tds = $(txt).closest('tr').find('td');
+        var chk = tmp[0];
+        if (chk.checked == true) {
+            addRowToSelectedTable(chk);
+            calculateSelectedTotal(0);
+        }
+    }
+
+    function changeStaff(cbo) {
+        var tmp = $(cbo).closest('tr').find('input[type="checkbox"]');
+        var tds = $(cbo).closest('tr').find('td');
+        var chk = tmp[0];
+        if (chk.checked == true) {
+            addRowToSelectedTable(chk);
+        }
+    }
+
+    function calculateSelectedTotal(extFlag) {
+        ctotal = 0;
+        btotal = 0;
+        catotal = 0;
+        batotal = 0;
+        var mid = $('#memberid').val();
+
+
+        $("#tblSelectedList > tbody > tr").each(function (index, row) {
+            var tds = $(this).find('td');
+            var qtys = tds.eq(7).find("input");
+            var qty = $(qtys[0]).val();
+            var isCbChecked = $(this).find(".cbCheckbox").is(':checked');
+
+            if (isCbChecked) {
+                ctotal += (parseFloat(tds.eq(11).html()) * parseInt(qty));
+                btotal += (parseFloat(tds.eq(13).html()) * parseInt(qty));
+                catotal += (parseFloat(tds.eq(15).html()) * parseInt(qty));
+                batotal += (parseFloat(tds.eq(16).html()) * parseInt(qty));
+
+            //    ctotal += (parseFloat(tds.eq(11).html()) * parseInt(qty));
+            //    btotal += (parseFloat(tds.eq(12).html()) * parseInt(qty));
+            //    catotal += (parseFloat(tds.eq(13).html()) * parseInt(qty));
+            //    batotal += (parseFloat(tds.eq(14).html()) * parseInt(qty));
+            }
+        });
+
+        $('#ctotal').val(Math.round(ctotal));
+        $('#btotal').val(Math.round(btotal));
+        $('#catotal').val(Math.round(catotal));
+        $('#batotal').val(Math.round(batotal));
+
+        $('#ctotaldiscount').val("0");
+        $('#btotaldiscount').val("0");
+        $('#catotaldiscount').val("0");
+        $('#batotaldiscount').val("0");
+
+        if (extFlag == 1) {
+            $('#txtorgC').val(ctotal);
+            $('#txtorgB').val(btotal);
+        }
+   
+        var cAvailable = parseFloat($('#txtCAvailable').val());
+        var txtorgC = parseFloat($('#txtorgC').val());
+        
+        console.log("txtCAvailable : " + cAvailable );
+        console.log("txtorgC : " + txtorgC);
+        
+        var txtC = 0;
+
+        var c = 0;
+        c = parseFloat(ctotal); 
+
+        if (rtype == "C$") {
+            if (ctotal > (parseFloat($('#txtCAvailable').val()) + parseFloat($('#txtorgC').val()))) {
+                if (mid > "0") {
+                    $('#Balnace_dialog-modal').dialog('open');
+                    console.log("c balance not enought");
+                }
+                else {
+                    $('#btnBalanceMember').trigger("click");
+                }
+                $('#btnReserve').attr("disabled", "");
+                $('#btnConfirm').attr("disabled", "");
+
+                $('#btnReserveQty').attr("disabled", "");
+                $('#btnConfirmQty').attr("disabled", "");
+                return false;
+            }
+         }
+
+        //console.log('btotal : ' + btotal);
+        //console.log('txtB : ' + parseFloat($('#txtBAvailable').val()) + parseFloat($('#txtorgB').val()));
+
+        if (rtype == "B$") {
+            if (btotal > (parseFloat($('#txtBAvailable').val()) + parseFloat($('#txtorgB').val()))) {
+                if (mid > "0") {
+                    $('#Balnace_dialog-modal').dialog('open');
+                    console.log("b balance not enought");
+                }
+                else { }
+                $('#btnReserve').attr("disabled", "");
+                $('#btnConfirm').attr("disabled", "");
+
+                $('#btnReserveQty').attr("disabled", "");
+                $('#btnConfirmQty').attr("disabled", "");
+                return false;
+            }
+        }
+
+        if ($('#status').val() != "CLOSE") {
+            $('#btnReserve').removeAttr("disabled");
+            $('#btnReserveQty').removeAttr("disabled");
+        }
+
+        if ($('#redeemid').val() > "0" && $('#status').val() != "CLOSE") {
+            $('#btnConfirm').removeAttr("disabled");
+            $('#btnConfirmQty').removeAttr("disabled");
+        }
+    }
+
+    function calculateSelectedTotalWithDiscount(extFlag) {
+        ctotal = 0;
+        btotal = 0;
+        catotal = 0;
+        batotal = 0;
+        var ctotaldiscount = 0;
+        var mid = $('#memberid').val();
+
+        $("#tblSelectedList > tbody > tr").each(function (index, row) {
+            var tds = $(this).find('td');
+            var qtys = tds.eq(7).find("input");
+            var qty = $(qtys[0]).val();
+            var isCbChecked = $(this).find(".cbCheckbox").is(':checked');
+
+            ctotaldiscount += (parseFloat(tds.eq(11).html()) * parseInt(qty))
+
+            if (isCbChecked) {
+                ctotal += (parseFloat(tds.eq(12).html()) * parseInt(qty));
+                btotal += (parseFloat(tds.eq(14).html()) * parseInt(qty));
+                catotal += (parseFloat(tds.eq(16).html()) * parseInt(qty));
+                batotal += (parseFloat(tds.eq(17).html()) * parseInt(qty));
+            }
+        });
+
+
+
+        $('#ctotal').val(Math.round(ctotal));
+        $('#btotal').val(Math.round(btotal));
+        $('#catotal').val(Math.round(catotal));
+        $('#batotal').val(Math.round(batotal));
+
+
+        $('#ctotaldiscount').val(Math.round(ctotaldiscount));
+        $('#btotaldiscount').val(0);
+        $('#catotaldiscount').val(0);
+        $('#batotaldiscount').val(0);
+
+
+        if (extFlag == 1) {
+            $('#txtorgC').val(ctotal);
+            $('#txtorgB').val(btotal);
+        }
+
+        if (ctotal > (parseFloat($('#txtCAvailable').val()) + parseFloat($('#txtorgC').val()))) {
+            if (mid > "0") {
+                $('#Balnace_dialog-modal').dialog('open');
+            }
+            else {
+                $('#btnBalanceMember').trigger("click");
+            }
+
+            $('#btnReserve').attr("disabled", "");
+            $('#btnConfirm').attr("disabled", "");
+
+            $('#btnReserveQty').attr("disabled", "");
+            $('#btnConfirmQty').attr("disabled", "");
+
+            return false;
+        }
+        if (btotal > (parseFloat($('#txtBAvailable').val()) + parseFloat($('#txtorgB').val()))) {
+            if (mid > "0") {
+                $('#Balnace_dialog-modal').dialog('open');
+            }
+            else { }
+
+            $('#btnReserve').attr("disabled", "");
+            $('#btnConfirm').attr("disabled", "");
+
+            $('#btnReserveQty').attr("disabled", "");
+            $('#btnConfirmQty').attr("disabled", "");
+            return false;
+        }
+
+        if ($('#status').val() != "CLOSE") {
+            $('#btnReserve').removeAttr("disabled");
+        }
+        if ($('#redeemid').val() > "0" && $('#status').val() != "CLOSE") {
+            $('#btnConfirm').removeAttr("disabled");
+            $('#btnReserve').attr("disabled", "disabled");
+
+            $('#btnConfirmQty').removeAttr("disabled");
+            $('#btnReserveQty').attr("disabled", "disabled");
+        }
+    }
+
+
+    function printReceipt() {
+        var rid = $('#redeemid').val();
+        var sid = $('#txtstaffname').val();
+        var citidesc = $('#c').val();
+        var bonusdesc = $('#b').val();
+        var coname = $('#hidconame').val();
+        var coaddress = encodeURIComponent($('#hidcoaddress').val());
+        var email = $('#hidemail').val();
+        var tel = $('#hidtel').val();
+        var fax = $('#hidfax').val();
+        var coreg = $('#hidcoregno').val();
+        var gstreg = $('#hidgstregno').val();
+        if (rid > "0") {
+            //window.open("../Reports/RedemptionReceipt.aspx?id=" + rid + "&staffid=" + sid + "&citidesc=" + citidesc + "&bonusdesc=" + bonusdesc);
+            var strurl = "../Reports/RedemptionReceipt.aspx?id=" + rid + "&staffid=" + sid + "&citidesc=" + citidesc + "&bonusdesc=" + bonusdesc + "&cname=" + coname + "&caddress=" + coaddress + "&ctel=" + tel + "&cfax=" + fax + "&cemail=" + email + "&coreg=" + coreg + "&gstreg=" + gstreg;
+            window.open(strurl);
+        }
+
+    }
+
+    function showMessage(attrvalue) {
+        $('#btnBalanceMember').attr('data-noty-options', attrvalue);
+        $('#btnBalanceMember').trigger("click");
+    }
+
+    // Read a page's GET URL variables and return them as an associative array.
+    function getUrlVars() {
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for (var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+    }
+</script>

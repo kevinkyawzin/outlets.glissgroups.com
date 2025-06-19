@@ -1,0 +1,676 @@
+﻿@model IEnumerable<BigMac.Models.Common_m_BranchAsset>
+
+@{
+    ViewBag.Title = "BranchAssetIndex";
+    Layout = "~/Views/Shared/_GeneralLayoutPage.cshtml";
+    int i = 0;
+}
+        <div class="col-sm-12">
+            @using (Html.BeginForm("BranchAssetIndex", "Access", FormMethod.Post))
+            {
+                <input value="" type="hidden" id="aid" name="aid" />
+                <input value="" type="hidden" id="aname" name="aname" />
+                
+                <div class="col-sm-2" style="display:none;" data-rcode="BRANCHSTAFF">
+                    <a class="quick-button" id="BTNBRANCHSTAFF" data-rcode="BRANCHSTAFF" onclick="OrderListFunction(this);">
+                        <i class="fa fa-list"></i>
+                        <p>Order List</p>
+                    </a>
+                </div>
+
+                <div class="col-sm-2" style="display:none;" data-rcode="BRANCHSTAFF">
+                    <a class="quick-button" id="BTNBRANCHSTAFF" data-rcode="BRANCHSTAFF" onclick="AppointmentListFunction(this);">
+                        <i class="fa fa-list"></i>
+                        <p>Appointment List</p>
+                    </a>
+                </div>
+                
+                <div class="col-sm-2" style="display:none;" data-rcode="BRANCHSTAFF">
+                    <a class="quick-button" id="BTNBRANCHSTAFF" data-rcode="BRANCHSTAFF" onclick="OutstandingListFunction(this);">
+                        <i class="fa fa-list"></i>
+                        <p>Outstanding Balance</p>
+                    </a>
+                </div>
+
+                foreach (var item in Model)
+                {
+                    i++;
+                    <div class="col-sm-2">
+                        <a class="quick-button" data-aid="@item.id" href="#" onclick="submitFormfunction(this);" data-aname="@item.name">
+                            <i class="fa fa-external-link-square"></i>
+                            <p>@item.name</p>
+                        </a>
+                    </div>
+
+                    if ((i % 4) == 0)
+                    {
+                        <div class="clearfix"></div>
+                        <br />
+                    }
+                }
+                @*<div class="col-sm-2 hidden-lg " style="display:none;" data-rcode="BRANCHSTAFF">
+                    <a class="quick-button" id="BTNBRANCHSTAFF" data-rcode="BRANCHSTAFF" onclick="QueueOrderListFunction(this);">
+                        <i class="fa fa-list"></i>
+                        <p>Order List</p>
+                    </a>
+                </div>*@
+              
+                <div class="clearfix"></div>
+            }
+ </div>
+
+    
+@*<ul class="nav nav-tabs" style="padding-top:20px;">
+    <li class="active"><a data-toggle="tab" href="#appointment">Appointment Listing</a></li>
+    <li><a data-toggle="tab" href="#membersrequest">Member Request Listing</a></li>
+</ul>*@
+
+@*<div class="tab-content" style="background-color:#eee">
+    <div id="appointment" class="tab-pane fade in active">
+        <div id="tableAppointment" class="col-sm-12" style="padding-top:20px;">
+            <div class="col-lg-12">
+                <div class="box">
+                    <div class="box-header" data-original-title>
+                        <h2><i class="fa fa-list-alt"></i><span class="break"></span>Appointment Listing</h2>
+                        <div class="box-icon">
+                            <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+                            <a href="#" class="btn-minimize"><i class="fa fa-chev1on-up"></i></a>
+                            <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                    <div class="box-content">
+                        <div id="divAppListing">
+                            <table class='table table-striped table-bordered' id="tblAppoinment" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Time</th>
+                                        <th>Name</th>
+                                        <th>Mobile</th>
+                                        <th>NRIC</th>
+                                        <th>Staff</th>
+                                        <th>Room</th>
+                                        <th>Description</th>
+                                        <th>Status</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="membersrequest" class="tab-pane fade">
+        <div id="tableMemberRequest" class="col-sm-12" style="padding-top:20px;">
+            <div class="col-lg-12">
+                <div class="box">
+                    <div class="box-header" data-original-title>
+                        <h2><i class="fa fa-list-alt"></i><span class="break"></span>Member Request Listing</h2>
+                        <div class="box-icon">
+                            <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+                            <a href="#" class="btn-minimize"><i class="fa fa-chev1on-up"></i></a>
+                            <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                    <div class="box-content">
+                        <div id="divMemReqListing">
+                            <table class='table table-striped table-bordered' id="tblMemberRequest" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Customer Name</th>
+                                        <th>Nric</th>
+                                        <th>Email</th>
+                                        <th>Mobile</th>
+                                        <th>Request Number</th>
+                                        <th>Status</th>
+                                        <th>Branch Code</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                   </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div> 
+                </div> 
+            </div>
+
+        </div>
+    </div>
+
+</div>*@
+
+
+    <div id="Login_dialog-modal">
+        <div class="col-lg-12" id="divLoginDialog" style="overflow-style:scrollbar;">
+            <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+                <span id="loginheader"></span>
+            </div>
+            <div id="divMember">
+                <table style="width:100%;border-spacing:5px;border-collapse:separate;padding-top:10px;">
+                    <tr>
+                        <td style="width:20px;"></td>
+                        <td style="width:200px;">User Name</td>
+                        <td colspan="2" style="width:200px;"><input id="txtname" class="form-control" /></td>
+                        <td><span style="color:red;">*</span></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Password</td>
+                        <td colspan="2"><input type="password" id="txtpwd" class="form-control" /></td>
+                        <td><span style="color:red;">*</span></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td style="width:60px;"><button type="button" id="btnUpdateAppointment" onclick="updateAppointment();" class="btn btn-primary" style="width:100px;">Cancel</button></td>
+                        <td style="width:60px;"><button type="button" id="btnClose" onclick="closeLoginDialog()" class="btn btn-primary" style="width: 100px;">Close</button></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+<div id="Cancel_dialog-modal">
+    <div class="col-lg-12" id="divCancelDialog" style="overflow-style:scrollbar;">
+        <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+            <span id="cancelheader">Enter username and password to cancel</span>
+        </div>
+        <div id="divLogin">
+            <table style="width:100%;border-spacing:5px;border-collapse:separate;padding-top:10px;">
+                <tr>
+                    <td style="width:20px;"></td>
+                    <td style="width:200px;">User Name</td>
+                    <td colspan="2" style="width:200px;"><input id="txtcancelname" class="form-control" /></td>
+                    <td><span style="color:red;">*</span></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Password</td>
+                    <td colspan="2"><input type="password" id="txtcancelpwd" class="form-control" /></td>
+                    <td><span style="color:red;">*</span></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td style="width:60px;"><button type="button" onclick="updateMemberRequest();" class="btn btn-primary" style="width:100px;">Cancel</button></td>
+                    <td style="width:60px;"><button type="button" onclick="closeCancelDialog()" class="btn btn-primary" style="width: 100px;">Close</button></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+@*<div id="Revert_dialog-modal">
+    <div class="col-lg-12" id="divRevertDialog" style="overflow-style:scrollbar;">
+        <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+            <span id="cancelheader">Enter username and password to revert points</span>
+        </div>
+        <div id="divRevertLogin">
+            <table style="width:100%;border-spacing:5px;border-collapse:separate;padding-top:10px;">
+                <tr>
+                    <td style="width:20px;"></td>
+                    <td style="width:200px;">User Name</td>
+                    <td colspan="2" style="width:200px;"><input id="txtrevertname" class="form-control" /></td>
+                    <td><span style="color:red;">*</span></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Password</td>
+                    <td colspan="2"><input type="password" id="txtrevertpwd" class="form-control" /></td>
+                    <td><span style="color:red;">*</span></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td style="width:60px;"><button type="button" onclick="revertMemberPoints();" class="btn btn-primary" style="width:100px;">Revert</button></td>
+                    <td style="width:60px;"><button type="button" onclick="closeRevertDialog()" class="btn btn-primary" style="width: 100px;">Close</button></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>*@
+    <button id="btnMessage" class="btn btn-primary noty" data-noty-options='{"text":"Please select Member","layout":"topRight","type":"error"}' style="display:none;">Top Right</button>
+<div class="modal fade" id="mdlProductList" tabindex="-1" role="dialog" aria-labelledby="mdlProductListLabel" aria-hidden="true">
+    <div class="modal-dialog" id="ProductList_dialog-modal" style="width: 70%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="mdlAccessRightLabel">Product List</h4>
+            </div>
+            <div class="widget-body no-padding">
+                <div style="padding: 10px 10px 10px 10px; background-color: #FAFAFA;">
+                    <div style="width: 100%;">
+                        <div class="col-lg-12" id="divProductList"></div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->   
+ <script type="text/javascript">
+        var load = 1;
+        var appointmentId = 0;
+        var transactionType = "cancel";
+        var cancelMemberRequestID = 0;
+        var memberReservedID = 0;
+
+        $(document).ready(function () {
+
+            $('#Login_dialog-modal').dialog({
+                modal: true,
+                autoOpen: false,
+                open: function (event, ui) {
+                    $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+                }
+            });
+
+            var loginOptions = {
+                modal: true,
+                height: 250,
+                minHeight: 250,
+                maxHeight: 250,
+                width: 480,
+                minWidth: 480,
+                maxWidth: 480,
+                dialogClass: "sfFormwrapper"
+            };
+
+            $('#Login_dialog-modal').dialog('option', loginOptions);
+
+            $('#Cancel_dialog-modal').dialog({
+                modal: true,
+                autoOpen: false,
+                open: function (event, ui) {
+                    $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+                }
+            });
+
+            var cancelOptions = {
+                modal: true,
+                height: 250,
+                minHeight: 250,
+                maxHeight: 250,
+                width: 480,
+                minWidth: 480,
+                maxWidth: 480,
+                dialogClass: "sfFormwrapper"
+            };
+
+            $('#Cancel_dialog-modal').dialog('option', cancelOptions);
+
+            getAppointmentList();
+            //getMemberRequestList();
+
+
+        });
+
+        function refreshAppointment() {
+
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: 'getAppointmentListWithPaging',
+                success: function (data) {
+                    var oTable = $('#tblAppoinment').dataTable();
+                    oTable.fnReloadAjax();
+                },
+                error: function () {
+                }
+            });
+        }
+
+
+
+        function getAppointmentList() {
+
+            var oTable = $('#tblAppoinment').dataTable({
+                "iDisplayLength": 10, // Default No of Records per page on 1st load
+                "aLengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]], // Set no of records in per page
+                //"aaSorting": [[0, "name"], [1, "createdate"]], // Default 1st column sorting
+                "bProcessing": true,
+                "aoColumnDefs": [
+                  {
+                      "aTargets": [9],
+                      "mRender": function (data, type, full) {
+                          var str = "<a class='btn btn-primary' title ='Click to create queue.' onclick='goToSalesOrder(" + data + ");'><i class='fa fa-list'></i></a>";
+                          return str;
+                      }
+                  },
+                    {
+                        "aTargets": [10],
+                        "mRender": function (data, type, full) {
+                            var str = "<a class='btn btn-danger' title ='Click to cancel.' onclick='cancelAppointment(" + data + ",this);'><i class='fa fa-ban'></i></a>";
+                            return str;
+                        }
+                    },
+                    {
+                        "aTargets": [11],
+                        "mRender": function (data, type, full) {
+                            var str = "<a class='btn btn-primary' title ='No Show.' onclick='noShowApp(" + data + ",this);'><i class='fa fa-eye-slash'></i></a>";
+                            return str;
+                        }
+                    }
+
+                ],
+
+                "sAjaxSource": 'getAppointmentListWithPaging?',
+                "bStateSave": true, // Remember paging & filters
+                "bDeferRender": false,
+                "bServerSide": true,
+                "bDestroy": true,
+                "bRetrieve": true,
+                "oSearch": { "sSearch": "" },
+                "aoColumns": [
+                             { "mDataProp": "appdate" }, { "sWidth": "175px", "mDataProp": "time" }, { "sWidth": "150px", "mDataProp": "customername" },
+                             { "sWidth": "100px", "mDataProp": "mobile" }, { "sWidth": "100px", "mDataProp": "nric" }, { "sWidth": "120px", "mDataProp": "staffname" },
+                             { "sWidth": "120px", "mDataProp": "room" }, { "sWidth": "120px", "mDataProp": "description" }, { "sWidth": "100px", "mDataProp": "status" },
+                             { "sWidth": "50px", "mDataProp": "id" }, { "sWidth": "50px", "mDataProp": "id" }, { "sWidth": "50px", "mDataProp": "id" }
+                ],
+                "fnDrawCallback": function () {
+
+                }
+            });
+        }
+
+        function cancelAppointment(appId, paramtr) {
+            transactionType = "cancel";
+            appointmentId = appId;
+            $("#btnUpdateAppointment").text("Cancel");
+            openPasswordDialog();
+        }
+
+        function cancelMemberRequest(memberrequestid) {
+            cancelMemberRequestID = memberrequestid;
+            openCancelDialog();
+        }
+
+        function openRevertMemberPoint(reservedid) {
+            memberReservedID = reservedid;
+            openRevertDialog();
+        }
+
+        function revertMemberPoints() {
+
+            $.ajax({
+                url: '@Url.Action("RevertMembersPoint", "Access")',
+                data: JSON.stringify({ id: memberReservedID, uname: $('#txtrevertname').val(), pwd: $('#txtrevertpwd').val() }),
+                type: 'POST',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data == "Success") {
+                        closeRevertDialog();
+                        refreshMembers();
+                        var msg = "Member Points has been successfully reverted.";
+                        var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"success"}';
+                        showMessage(attrvalue);
+
+                    }
+                    else {
+                        closeRevertDialog();
+                        var msg = data;
+                        var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                        showMessage(attrvalue);
+                    }
+
+                },
+                error: function (ts) { showMessage(ts.responseText, "error") }
+            });
+        }
+
+     function updateMemberRequest() {
+        
+         $.ajax({
+             url: '@Url.Action("CancelMemberRequest", "Access")',
+             data: JSON.stringify({ id: cancelMemberRequestID, uname: $('#txtcancelname').val(), pwd: $('#txtcancelpwd').val() }),
+             type: 'POST',
+             dataType: "json",
+             contentType: "application/json; charset=utf-8",
+             success: function (data) {
+                 if (data == "Success") {
+                     closeCancelDialog();
+                     refreshMembers();
+                     var msg = "Member Request has been successfully cancelled.";
+                     var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"success"}';
+                     showMessage(attrvalue);
+
+                 }
+                 else {
+                     closeCancelDialog();
+                     var msg = data;
+                     var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                     showMessage(attrvalue);
+                 }
+
+             },
+             error: function (ts) { showMessage(ts.responseText, "error") }
+         });
+     }
+
+        function noShowApp(appId, paramtr) {
+            transactionType = "noshow";
+            appointmentId = appId;
+            $("#btnUpdateAppointment").text("No Show");
+            openPasswordDialog();
+        }
+
+        function updateAppointment() {
+
+            if (transactionType == "cancel") {
+                $.ajax({
+                    url: '@Url.Action("CancelAppointment", "Access")',
+                    data: JSON.stringify({ id: appointmentId, uname: $('#txtname').val(), pwd: $('#txtpwd').val() }),
+                    type: 'POST',
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data == "Success") {
+                            closeLoginDialog();
+                            refreshAppointment();
+                            var msg = "Appointment has been successfully cancelled.";
+                            var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"success"}';
+                            showMessage(attrvalue);
+
+                        }
+                        else {
+                            closeLoginDialog();
+                            var msg = data;
+                            var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                            showMessage(attrvalue);
+                        }
+
+                    },
+                    error: function (ts) { showMessage(ts.responseText, "error") }
+                });
+            }
+            else {
+                $.ajax({
+                    url: '@Url.Action("UpdateAppoinmentNoShow", "Access")',
+                    data: JSON.stringify({ id: appointmentId, uname: $('#txtname').val(), pwd: $('#txtpwd').val() }),
+                    type: 'POST',
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data == "Success") {
+                            closeLoginDialog();
+                            refreshAppointment();
+                            var msg = "Appointment status has been successfully updated to no show.";
+                            var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"success"}';
+                            showMessage(attrvalue);
+
+                        }
+                        else {
+                            closeLoginDialog();
+                            var msg = data;
+                            var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                            showMessage(attrvalue);
+                        }
+
+                    },
+                    error: function (ts) { showMessage(ts.responseText, "error") }
+                });
+            }
+        }
+
+        function openPasswordDialog() {
+            $('#txtname').val("");
+            $('#txtpwd').val("");
+
+            if (transactionType == "cancel")
+                $('#loginheader').html("Enter user name and password to cancel.");
+            else if (transactionType == "noshow")
+                $('#loginheader').html("Enter user name and password to update status.");
+
+            $('#Login_dialog-modal').dialog("open");
+        }
+
+        function closeLoginDialog() {
+            $('#Login_dialog-modal').dialog("close");
+        }
+
+        function openCancelDialog() {
+            $('#txtcancelname').val("");
+            $('#txtcancelpwd').val("");
+            $('#Cancel_dialog-modal').dialog("open");
+        }
+
+  
+        function closeCancelDialog() {
+            $('#Cancel_dialog-modal').dialog("close");
+        }
+        function closeRevertDialog() {
+            $('#Revert_dialog-modal').dialog("close");
+        }
+
+        function openRevertDialog() {
+            $('#txtrevertname').val("");
+            $('#txtrevertpwd').val("");
+            $('#Revert_dialog-modal').dialog("open");
+        }
+        function goToSalesOrder(appid) {
+            var url = "../POS/SalesOrder";
+
+            var form = $('<form action="' + url + '" method="post">' +
+              '<input type="hidden" name="appid"  id="appid" value="' + appid + '" />' +
+            '</form>');
+            $('body').append(form);
+            $(form).submit();
+
+        }
+
+        function goToSalesOrderMemberRequest(memberrequestid) {
+            var url = "../POS/SalesOrder";
+
+            var form = $('<form action="' + url + '" method="post">' +
+              '<input type="hidden" name="memberrequestid"  id="memberrequestid" value="' + memberrequestid + '" />' +
+            '</form>');
+            $('body').append(form);
+            $(form).submit();
+
+        }
+
+        function openMembersRequestDetails(id) {
+            $('#mdlProductList').modal('show');
+
+            var html = "";
+
+            $.ajax({
+                url: '@Url.Action("getMemberRequest", "POS")',
+                data: { memberrequestid: id },
+                type: 'POST',
+                success: function (data) {
+
+                    if (data.memberrequestdetails.length > 0) {
+              
+                        var Htmlstr = "";
+                        var closeHtml = "</tbody></table>";
+
+                        Htmlstr += "<tr>";
+                        Htmlstr += "<th style='width:60px;text-align:left;'>Product</th>";
+                        Htmlstr += "<th style='width:20px;text-align:left;'>Category</th>";
+                        Htmlstr += "<th style='width:15px;text-align:center;'>Qty</th>";
+                        Htmlstr += "<th style='width:30px;text-align:center;'>Rwd Pts</th>";
+                        Htmlstr += "<th style='width:30px;text-align:center;'>Sell Price</th>";
+                        Htmlstr += "</tr></thead><tbody>";
+
+                        for (var x = 0; x < data.memberrequestdetails.length; x++) {
+
+                            Htmlstr += "<tr>";
+                            Htmlstr += "<td style='text-align:left;'>" + data.memberrequestdetails[x].productname + "</td>";
+                            Htmlstr += "<td style='text-align:left;'>" + data.memberrequestdetails[x].category + "</td>";
+                            Htmlstr += "<td style='text-align:center;'>" + data.memberrequestdetails[x].quantity + "</td>";
+                            Htmlstr += "<td style='text-align:right;'>" + data.memberrequestdetails[x].rwdpts + "</td>";
+                            Htmlstr += "<td style='text-align:right;'>" + data.memberrequestdetails[x].sellprice + "</td>";
+                            Htmlstr += "</tr>";
+                        }
+
+                        OpenHtmlstr = "<table class='table table-bordered' id ='tblProductList'><thead>";
+                        $('#divProductList').html(OpenHtmlstr + Htmlstr + closeHtml);
+                    }
+                   
+
+                },
+                error: function (ts) { showMessage(ts.responseText, "error") }
+            });
+
+
+       
+
+        }
+
+        function submitFormfunction(alnk) {
+            var aid = $(alnk).attr('data-aid');
+            var aname = $(alnk).attr('data-aname');
+            $('#aid').val(aid);
+            $('#aname').val(aname);
+            $(alnk).closest('form').submit();
+        }
+        //Added by ZawZO on 12 Jan 2015
+        function OrderFunction(btn) {
+            var rcode = $(btn).attr("data-rcode");
+            window.open("../SalesOrder", "_self");
+        }
+        //Added by ZawZO on 20 Jan 2015
+        function QueueOrderListFunction(btn) {
+            var rcode = $(btn).attr("data-rcode");
+            window.open("../POS/FacilityOrderQueueListing", "_self");
+        }
+        //Added by ZawZO on 28 Jan 2015
+        function OrderListFunction(btn) {
+            var rcode = $(btn).attr("data-rcode");
+            window.open("../POS/FacilityOrderListing", "_self");
+        }
+
+        function OutstandingListFunction(btn) {
+            var rcode = $(btn).attr("data-rcode");
+            window.open("../POS/OutstandingBalanceListing", "_self");
+        }
+
+        function AppointmentListFunction(btn) {
+            var rcode = $(btn).attr("data-rcode");
+            window.open("../POS/AppointmentListing", "_self");
+        }
+
+        //Added by ZawZO on 28 Jan 2015
+        function MemberRequestListFunction(btn) {
+            var rcode = $(btn).attr("data-rcode");
+            window.open("../POS/MemberRequestListing", "_self");
+        }
+
+        function showMessage(attrvalue) {
+            $('#btnMessage').attr('data-noty-options', attrvalue);
+            $('#btnMessage').trigger("click");
+        }
+    </script>

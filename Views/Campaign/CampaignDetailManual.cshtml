@@ -1,0 +1,834 @@
+﻿@{
+    ViewBag.Title = "CampaignDetail";
+    Layout = "~/Views/Shared/_CampaignLayout.cshtml";
+}
+@*<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+    <script type="text/javascript" src="https://raw.github.com/meetselva/fixed-table-rows-cols/master/fixed_table_rc.js"></script>
+    <link rel="stylesheet" type="text/css" href="fixed_table_rc.css" />*@
+<link href="~/assets/css/perfect-scrollbar.css" rel="stylesheet">
+<script src="~/assets/js/jquery.mousewheel.js"></script>
+<script src="~/assets/js/perfect-scrollbar.js"></script>
+<style>
+    .fixme {
+        position: relative;
+        left: expression( ( 20 + ( ignoreMe2 = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft ) ) + 'px' );
+        background-color: #FFFFFF;
+    }
+
+    .table > thead > tr > th {
+        word-wrap: break-word;
+        padding: 5px 0 5px 0;
+        margin: 0px;
+        text-align: center;
+        vertical-align: central;
+    }
+
+    .table > tbody > tr > td {
+        text-align: right;
+        vertical-align: middle;
+        padding-right: 5px;
+        font-weight: 600;
+        font-size: small;
+    }
+
+        .table > tbody > tr > td > input {
+            text-align: right;
+            vertical-align: central;
+            font-weight: 600;
+            font-size: small;
+            padding-top: 0px;
+            padding-right: 0px;
+            font-size: 13px;
+        }
+    /*.salesheader {
+        word-wrap: break-word;
+        padding: 0px;
+        margin: 0px;
+        text-align: center;
+        vertical-align: central;
+    }*/
+    /*table td {
+        padding: 0px;
+        margin: 0px;
+    }*/
+    /*thead {
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: white;
+    }*/
+</style>
+
+<div class="row" style="margin-top:-10px;">
+    <div class="col-lg-12">
+        <div class="box">
+            <div class="box-content">
+                @using (Html.BeginForm("CampaignDetail", "Campaign", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.ValidationSummary(true)
+                    <div style="display:none;">
+                        <input type="hidden" id="txtcurrentbranch" value="@ViewBag.bcode" />
+                        <input type="hidden" id="txtcurrentgroup" value="@ViewBag.gid" />
+                        <input type="hidden" id="rcode" value="@ViewBag.rcode" />
+                        @Html.DropDownList("cbodaytype", new SelectList(@ViewBag.DayTypeOptions, "value", "value"), new { @class = "form-control", @id = "cbodaytype", @name = "cbodaytype" })
+                    </div>
+                    <fieldset class="col-sm-12">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="box">
+                                    <table style="width: 100%;margin-top:3px;margin-bottom:3px;">
+                                        <tr>
+                                            <td>Campaign </td>
+                                            <td>@Html.DropDownList("cbocampaign", new SelectList(@ViewBag.CampaignOptions, "id", "gamedesc"), new { @class = "form-control", @id = "cbocampaign", @name = "cbocampaign" })</td>
+                                            <td style="width:10%;"></td>
+                                            <td>Date & Time</td>
+                                            <td style="width:10%;">
+                                                <div class="controls">
+                                                    <input type="text" id="cdate" class="form-control date-picker" data-date-format="dd/mm/yyyy" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                                                    @*<input type="text" class="form-control datepicker" id="datepicker" name="datepicker" value=""/>*@
+                                                </div>
+                                            </td>
+                                            <td style="width:10%;">@Html.DropDownList("cbotime", new SelectList(@ViewBag.TimeOptions, "timevalue", "timevalue"), new { @class = "form-control", @id = "cbotime", @name = "cbotime" })</td>
+                                            <td style="padding-left:10px;font-weight:bold;font-size:larger;">@DateTime.Now.ToString("hh:mm:ss dd/MM/yyyy") <input type="hidden" id="txtCampaignID" value="@ViewBag.CampaignID" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:20%;">Group</td>
+                                            <td style="width:20%;">@Html.DropDownList("cbogroup", new SelectList(@ViewBag.GroupOptions, "groupid", "group"), new { @class = "form-control", @id = "cbogroup", @name = "cbogroup" })</td>
+                                            <td style="width:10%;"></td>
+                                            <td style="width:10%;display:none;">Branch</td>
+                                            <td colspan="2" style="display:none;"><select id="cbobranch" name="cbobranch" class="form-control"></select></td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div> @*row*@
+
+                        @*<div class="row"style="margin-left:10px;">
+                                <div class="col-lg-1" style="padding-left:0px;padding-right:0px;float:left;">
+                                </div>
+                                <div class="col-lg-1" style="padding-left:0px;padding-right:0px;">
+                                </div>
+                            </div>*@
+                        @*<div class="col-lg-1">
+                                <button class="btn btn-primary" id="btnSaveF" name="btnSaveG" type="button" style="width:100px;">Save</button>
+                            </div>
+                            <div class="col-lg-1">
+                                <button type="reset" class="btn" style="width:100px;">Cancel</button>
+                            </div>*@
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="box">
+                                    <table>
+                                        <tr>
+                                            <td style="width:50px;"><input style="background-color:white;padding-top:0px;padding-right:0px;width:50px;" class="form-control" value="" disabled /> </td>
+                                            <td>Actual</td>
+                                            <td style="width:30px;"></td>
+                                            <td style="width:50px;"><input style="background-color:#CCC;padding-top:0px;padding-right:0px;width:50px;" type="text" class="form-control" value="" disabled /></td>
+                                            <td>Forecast</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="box">
+                                    <div class="box-header" style="background-color:#EEE;"></div>
+                                    <div class="box-content" style="padding-left:0px;padding-right:0px;">
+
+                                        <ul class="nav tab-menu nav-tabs" id="myTab" style="padding-left:10px;list-style: none;">
+                                            <li id="libranchSales" name="libranchSales" class="active" style='float: left;'><a href="#branchSales">Branch Sales</a></li>
+                                            <li id="liSales" name="liSales" style='float: left;'><a href="#sales">Sales</a></li>
+                                            <li id="liActivity" name="liActivity" style='float: left;'><a href="#activities">Activities</a></li>
+                                        </ul>
+
+                                        <div id="myTabContent" class="tab-content">
+                                            <div class="tab-pane active" id="branchSales">
+                                                <div>
+                                                    <div class="col-lg-12" style="padding-right:20px;height:40px;text-align:right;padding-top:5px;">
+                                                        <button class="btn btn-primary" id="btnSaveBF1" name="btnSaveBF1" type="button" style="width:100px;">Save</button>
+                                                        <button type="reset" class="btn" style="width:100px;">Cancel</button>
+                                                    </div>
+                                                    <div id="divbranchSales"></div>
+                                                    <div style="width:100%;padding-right:20px;height:50px;text-align:right;padding-top:10px;">
+                                                        <button class="btn btn-primary" id="btnSaveB" name="btnSaveB" type="button" style="width:100px;">Save</button>
+                                                        <button type="reset" class="btn" style="width:100px;">Cancel</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="tab-pane" id="sales">
+                                                @*<div class="box">*@
+                                                @*<div class="box-header" data-original-title>
+                                                        <h2><i class="fa fa-dollar"></i><span class="break"></span>Sales Detail Entry</h2>
+                                                        <div class="box-icon">
+                                                            <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+                                                            <a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                                                            <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                                                        </div>
+                                                    </div>*@
+                                                <div @*class="box-content"*@>
+                                                    <div class="col-lg-12" style="padding-right:20px;height:40px;text-align:right;padding-top:5px;">
+                                                        <button class="btn btn-primary" id="btnSave1" name="btnSave1" type="button" style="width:100px;">Save</button>
+                                                        <button type="reset" class="btn" style="width:100px;">Cancel</button>
+                                                    </div>
+                                                    <div id="divSaleDetail" style="width:100%;"></div>
+                                                    <div @*class="form-actions"*@ style="width:100%;padding-right:20px;height:50px;text-align:right;padding-top:10px;">
+                                                        <button class="btn btn-primary" id="btnSave" name="btnSave" type="button" style="width:100px;">Save</button>
+                                                        <button type="reset" class="btn" style="width:100px;">Cancel</button>
+                                                    </div>
+                                                </div>
+
+                                                @*</div>*@
+                                            </div>
+                                            <div class="tab-pane" id="activities">
+                                                <div @*class="box-content"*@>
+                                                    <div class="col-lg-12" style="padding-right:20px;height:40px;text-align:right;padding-top:5px;">
+                                                        <button class="btn btn-primary" id="btnSaveF1" name="btnSaveF1" type="button" style="width:100px;">Save</button>
+                                                        <button type="reset" class="btn" style="width:100px;">Cancel</button>
+                                                    </div>
+                                                    <div id="divActivityDetail"></div>
+                                                    <div style="width:100%;padding-right:20px;height:50px;text-align:right;padding-top:10px;">
+                                                        <button class="btn btn-primary" id="btnSaveF" name="btnSaveF" type="button" style="width:100px;">Save</button>
+                                                        <button type="reset" class="btn" style="width:100px;">Cancel</button>
+                                                    </div>
+                                                </div> @*box-content*@
+
+                                            </div>
+
+                                        </div> @*row*@
+                                    </div>
+                                </div>
+                            </div><!--/col-->
+                        </div><!--/row-->
+
+                        <div class="row">
+                            <div class="col-lg-12">
+
+                            </div>
+                        </div> @*row*@
+                    </fieldset>
+                }
+            </div>
+        </div> @*box*@
+    </div>
+</div>@*row*@
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box">
+
+            <div class="col-sm-2">
+                <a class="quick-button" href="~/Access/BranchStaffIndex">
+                    <i class="fa fa-user"></i>
+                    <p>Home</p>
+                </a>
+            </div>
+
+            <div class="col-sm-2">
+                <a class="quick-button" href="#" onclick="reCalculate();">
+                    <i class="fa fa-user"></i>
+                    <p>Recalculate Sales Figure</p>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="dialog-modal" style="display:none;">
+    <div class="col-lg-12" id="divDayOption" style="overflow-style:scrollbar;">
+        @*<div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+                Reserve List for @ViewBag.Member.cussupname
+            </div>*@
+        <button class="btn btn-small" @*style="background-color:white;color:black;"*@ id="btnAttend" name="btnAttend" onclick="StaffDayOption(this)" data-day="ATTEND">Attend</button>
+        <button class="btn btn-small btn-info" id="btnRest" name="btnRest" onclick="StaffDayOption(this)" data-day="REST">Rest</button>
+        <button class="btn btn-small btn-warning" id="btnAL" name="btnAL" onclick="StaffDayOption(this)" data-day="ANNUAL LEAVE">Annual Leave</button>
+        <button class="btn btn-small btn-danger" id="btnMC" name="btnMC" onclick="StaffDayOption(this)" data-day="MEDICAL LEAVE">Medical Leave</button>
+
+    </div>
+</div>
+
+
+<div class="clearfix"></div>
+
+<script type="text/javascript">
+    //$(document).ready(function () {
+
+    //});
+    var load = 1;
+    var d = new Date();
+    var n = d.getHours();
+    var selectstaff;
+    var branchsale = true;
+
+    $('#cbocampaign').val($('#txtCampaignID').val());
+    //alert($('#branchsale').attr("id"));
+    //branchsale=$('#branchsale').val().trim();
+    if ($('#branchsale').val().trim() == "1") {
+        branchsale = true;
+        $('#liSales').attr("style", "display:none");
+        $('#liActivity').attr("style", "display:none");
+    }
+    else {
+        branchsale = false;
+        $('#libranchSales').attr("style", "display:none");
+        $('#branchSales').attr("style", "display:none");
+        $('#branchSales').removeClass();
+        $('#branchSales').addClass("tab-pane");
+        $('#sales').addClass("tab-pane active");
+        $('#liSales').addClass("active");
+    }
+    //$("#datepicker").datepicker({ dateFormat: "dd/mm/yy" });
+    var today = new Date();
+    //$("#txDate").val(today.getDate() + '/' + (parseInt(today.getMonth()) + 1) + '/' + today.getFullYear());
+    //$("#datepicker").datepicker("setDate", today);
+    //alert(today.getDate() + '/' + (parseInt(today.getMonth()) + 1) + '/' + today.getFullYear());
+    //setGroup();
+    //$('#datepicker').change(function () { populateCampaignDetail(); });
+    //getBranches($('#cbogroup').val(),true);
+    if (n < 10 || n > 22)
+        n = 10;
+    //alert(n);
+    $('#cbotime').val(n + ":00:00");
+    $('#btnSaveBF1').click(function e() { SaveBranchSale(2); });
+    $('#btnSaveB').click(function e() { SaveBranchSale(2); });
+    $('#btnSave1').click(function e() { SaveDetail(1); });
+    $('#btnSave').click(function e() { SaveDetail(1); });
+    $('#btnSaveF1').click(function e() { SaveDetail(2); });
+    $('#btnSaveF').click(function e() { SaveDetail(2); });
+    $('#libranchSales').click(function e() { populateCampaignDetail(); });
+    $('#liSales').click(function e() { populateCampaignDetail(); });
+    $('#liActivity').click(function e() { populateCampaignDetail(); });
+    $('#cdate').change(function () { populateCampaignDetail(); });
+    $('#cbotime').change(function () { populateCampaignDetail(); });
+    $('#cbogroup').val($('#txtcurrentgroup').val());
+    getBranches($('#txtcurrentgroup').val(), true);
+    $('#cbocampaign').change(function () { populateCampaignDetail(); });
+    $('#cbogroup').change(function () { getBranches($('#cbogroup').val(), true); });
+    $('#cbobranch').change(function () {
+        populateCampaignDetail();
+    });
+
+    //$('#dialog-modal').dialog({
+    //    position: [300, 100],
+    //    //width: 1000,
+    //    //hight: 800,
+    //    modal: true,
+    //    autoOpen: false,
+    //    open: function (event, ui) {
+    //        $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+    //    }
+
+    //});
+    //var options = {
+    //    modal: true,
+    //    height: 200,
+    //    minHeight: 200,
+    //    maxHeight: 200,
+    //    width: 450,
+    //    minWidth: 450,
+    //    maxWidth: 450,
+    //    dialogClass: "sfFormwrapper"
+    //};
+    //$('#dialog-modal').dialog('option', options);
+
+
+    function getBranches(gid,flag) {
+        $.ajax({
+            url: '@Url.Action("getBranches", "Campaign")',
+            data: { groupid: gid },
+            type: 'POST',
+            success: function (data) {
+                //$("#tese").html(data);
+                //$("#cbobranch").html("<option value = \"\"></option>")
+                var Htmlstr = "";
+
+                for (var x = 0; x < data.length; x++) {
+
+                    Htmlstr += "<option value=" + data[x].branchcode + ">" + data[x].Branch.branchname + "</option>";
+                }
+                $('#cbobranch').html(Htmlstr).show();
+                if (load == 1)
+                    $('#cbobranch').val($('#txtcurrentbranch').val());
+                //alert('branch');
+                //alert($('#cbocampaign').val() + "," + $('#cbobranch').val() + "," + $('#cbogroup').val());
+                populateCampaignDetail();
+                load = "0";
+            }
+        });
+    }
+
+    //function populateCampaignDetail(cid, bid,gid,t1,t2,t3) {
+    function populateCampaignDetail() {
+        //var ct = 1;
+        //var cname = document.getElementById('liSales').className;
+        //if (cname == 'active')
+        //{
+        //    ct = 1;
+        //}
+        //else if (document.getElementById('liActivity').className == 'active')
+        //{
+        //    ct = 2;
+        //    }
+        //else
+        //        ct = 3;
+        var cid = $('#cbocampaign').val();
+        var bid = $('#cbobranch').val();
+        var gid = $('#cbogroup').val();
+        var t = $('#cbotime').val();
+        var d = $('#cdate').datepicker("getDate");
+        var cd = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+        //alert(d);
+        //var d = $('#datepicker').val();//$('#datepicker').datepicker("getDate");
+        //alert('Populate Detail' + $('#datepicker').val());
+        //alert(d.getAttribute());
+        //alert($.format.date(d, "dd/MM/yyyy"));
+        //alert('populate' + cid +','+ bid +','+ gid +','+ t +','+ d +','+ ct);
+        //getCampaignDetailGrid
+        $.ajax({
+            url: '@Url.Action("branchSaleEntryManual", "Campaign")',
+            data: { campaignid: cid, branchcode: bid, groupid: gid, time: t, cdate: cd },
+            type: 'POST',
+            success: function (data) {
+                $('#divbranchSales').html(data);
+                $("#divbranchSales > table > tbody > tr").each(function (index) {
+                    //var sflag = $(this).attr('data-sFlag');
+                    //if (sflag == "1") {
+                    //    var tds = $(this).find('td');
+                    //    var dopt = $(tds[0]).attr('data-day');
+                    //    var cboday = $(tds[1]).find('select');
+                    //    $(cboday).html($(cbodaytype).html());
+                    //    $(cboday).val(dopt);
+                    //}
+
+                    $(this).find('input:text').each(function (index) {
+                        $(this).on('input', function (event) {
+                            this.value = this.value.replace(/[^0-9\.]/g, '');
+                        });
+                    });
+                });                
+            },
+            error: function (ts) { alert(ts.responseText) }
+        });
+
+    }
+
+    function fixTableColumn()
+    {
+        $('#tblSale').fxdHdrCol({
+            fixedCols: 5,
+            width: "100%",
+            height: 600,
+        });
+    }
+    function txtonChanged(txt)
+    {
+        txt.ch = "1";
+        txt.setAttribute("ch","1");
+        //txt.style.backgroundColor = "#D9EF95";
+        txt.style.color = "Red";
+        txt.style.fontWeight = "bold";
+        //txt.style.border = "solid";
+    }
+
+
+    function SaveDetail(ctype)
+    {
+
+        //var inputArray = $("#divCampaignDetail input[ch$='1']");
+        //alert('save');
+        var position = 0;
+        var objCollection = new Array();
+        var aCollection = new Array();
+        var sCollection = new Array();
+        var cid = $('#cbocampaign').val();
+        var bid = $('#cbobranch').val();
+        var gid = $('#cbogroup').val();
+        var t = $('#cbotime').val();
+        var d = $('#cdate').datepicker("getDate"); // $('#cdate').val();
+
+        //alert(d.toString());
+        //var t1 = 9; var t2 = 0; var t3 = 0;
+        //alert(ctype + "," + inputArray.length);
+
+        //if (ctype == 1) {
+        //    ts.createdate = d;
+        //    ts.campaignid = cid;
+        //    ts.branchcode = bid;
+        //    ts.groupid = gid;
+        //    ts.salesforecast = $('#txtDailySales').val();
+        //    //alert($('txtDailySales').val());
+        //}
+        //else {
+        if (ctype == 2)
+        {
+            var inputArray = $("#divActivityDetail input[af$='T']");
+            //alert(inputArray);
+            for (var i = 0; i < inputArray.length; i++)
+            {
+                var obj = new Object();
+                var tmpstr = inputArray[i].id;
+                obj.branchcode = bid;
+                obj.groupid = gid;
+                obj.campaignid = cid;
+                obj.createdate = d;
+                position = tmpstr.search("_");
+                obj.categoryid = tmpstr.substr(position + 1);
+                //alert(tmpstr + "," + tmpstr.substr(position + 1))
+                obj.categorytypeid = ctype;
+                obj.forecast = inputArray[i].value;
+                aCollection.push(obj);
+            }
+            //alert(aCollection.length);
+        }
+
+        if ($('#txtDailySales').attr("ch") == '1')
+        {
+            var ts = new Object();
+            ts.createdate = d;
+            ts.campaignid = cid;
+            ts.branchcode = bid;
+            ts.groupid = gid;
+            ts.salesforecast = $('#txtDailySales').val();
+            ts.staffid = 0;
+            ts.staffdaytype ="";
+            sCollection.push(ts);
+        }
+
+        var ctlstr = "";
+        if (ctype == 1)
+            ctlstr = "#divSaleDetail input[ch$='1']";
+        else
+            ctlstr = "#divActivityDetail input[ch$='1']";
+
+        var inputArray = $(ctlstr);
+        for (var i = 0; i < inputArray.length; i++)
+        {
+
+            var tmpstr = "";
+            //var position = 0;
+            var sid = 0;
+            var catid = 0;
+            tmpstr = inputArray[i].id;
+            tmpstr = tmpstr.substr(3);
+            position = tmpstr.search("_");
+            var tds = $(inputArray[i]).closest('tr').find('td');
+            var tmpobj = $(tds[1]).find('select');
+            var dayopt = $(tmpobj).val(); //$(tds[1]).find('select')
+
+            if (inputArray[i].getAttribute("af") == 'SS')
+            {
+                var ts = new Object();
+                //if (position > 0)
+                {
+                    ts.createdate = d;
+                    ts.campaignid = cid;
+                    ts.branchcode = bid;
+                    ts.groupid = gid;
+                    ts.staffid = tmpstr;
+                    ts.staffdaytype = dayopt;
+                    ts.salesforecast = inputArray[i].value;
+                }
+                sCollection.push(ts);
+            }
+            else
+            {
+                var obj = new Object();
+                //alert($(inputArray[i]).attr("af"));
+                if (position > 0)
+                {
+                    obj.branchcode = bid;
+                    obj.groupid = gid;
+                    obj.campaignid = cid;
+                    obj.time = t;
+                    obj.cdate = d;
+                    obj.categoryid = tmpstr.substr(position + 1);
+                    obj.categorytype = ctype;
+                    obj.staffid = tmpstr.substr(0, position);
+                    //alert(inputArray[i].getAttribute("af"));
+                    if (inputArray[i].getAttribute("af") == 'SA')
+                    {
+                        //obj.staffid = tmpstr.substr(0, position);
+                        obj.salesactual = inputArray[i].value;
+                        obj.salesforecast = -1;
+                        obj.productactual = -1;
+                        obj.productforecast = -1;
+                    }
+                    else if(inputArray[i].getAttribute("af") == 'SF')
+                    {
+                        //obj.staffid = tmpstr.substr(1, position - 1);
+                        obj.salesactual = -1;
+                        obj.salesforecast = inputArray[i].value;
+                        obj.productactual = -1;
+                        obj.productforecast = -1;
+                    }
+                    else if (inputArray[i].getAttribute("af") == 'PA') {
+                        //obj.staffid = tmpstr.substr(1, position - 1);
+                        obj.salesactual = -1;
+                        obj.salesforecast = -1;
+                        obj.productactual = inputArray[i].value;
+                        obj.productforecast =-1 ;
+                    }
+                    else
+                    {
+                        //obj.staffid = tmpstr.substr(1, position - 1);
+                        obj.salesactual = -1;
+                        obj.salesforecast = -1;
+                        obj.productactual = -1;
+                        obj.productforecast = inputArray[i].value;
+                    }
+                    objCollection.push(obj);
+                }
+            }
+
+            //alert(obj.staffid + "," + obj.categoryid + "," + obj.salesamt + "," + obj.forecastsalesamt);
+        }
+
+        if (ctype == 1)
+            SaveCampaignSales(objCollection, sCollection);
+        else
+            SaveCampaignActivity(objCollection, aCollection, sCollection);
+
+    }
+
+    function changeShortage(obj)
+    {
+        txtonChanged(obj);
+    }
+
+    function SaveBranchSale(ctype) {
+        var position = 0;
+        var objCollection = new Array();
+        var aCollection = new Array();
+        var sCollection = new Array();
+        var cid = $('#cbocampaign').val();
+        var bid =""; // = $('#cbobranch').val();
+        var gid = $('#cbogroup').val();
+        var t = $('#cbotime').val();
+        var d = $('#cdate').datepicker("getDate"); //$('#cdate').val();
+
+        var ctlstr = "";
+        ctlstr = "#divbranchSales input[ch$='1']";
+
+        var inputArray = $(ctlstr);
+        for (var i = 0; i < inputArray.length; i++)
+        {
+            var tmpstr = "";
+            var sid = 0;
+            var catid = 0;
+            tmpstr = inputArray[i].id;
+            //tmpstr = tmpstr.substr(3);
+            position = tmpstr.search("_");
+            bid = tmpstr.substr(0, position);
+            var tds = $(inputArray[i]).closest('tr').find('td');
+            var tmpobj = $(tds[1]).find('select');
+            var dayopt = $(tmpobj).val(); //$(tds[1]).find('select')
+
+
+            if (inputArray[i].getAttribute("af") == 'SF') {
+                var ts = new Object();
+                //alert("SF_" + inputArray[i].getAttribute("af") + "," + bid);
+                //if (position > 0)
+                {
+                    ts.createdate = d;
+                    ts.campaignid = cid;
+                    ts.branchcode = bid;
+                    ts.groupid = gid;
+                    ts.staffid = 0;
+                    //ts.staffdaytype = dayopt;
+                    ts.salesforecast = inputArray[i].value;
+                    ts.salesactual = -1;
+                }
+                sCollection.push(ts);
+            }
+            else if (inputArray[i].getAttribute("af") == 'SA') {
+                var obj = new Object();
+                obj.branchcode = bid;
+                obj.groupid = gid;
+                obj.campaignid = cid;
+                obj.time = t;
+                obj.cdate = d;
+                obj.staffid = 0;
+                obj.categorytype = 1;
+                obj.categoryid = 0;
+                obj.salesactual = inputArray[i].value;
+                obj.salesforecast = -1;
+                obj.productactual = 0;
+                obj.productforecast = 0;
+                objCollection.push(obj);
+            }
+            else {
+                var obj = new Object();
+                if (position > 0) {
+                    obj.branchcode = bid;
+                    obj.groupid = gid;
+                    obj.campaignid = cid;
+                    obj.time = t;
+                    obj.cdate = d;
+                    obj.staffid = 0;
+                    //////if (inputArray[i].getAttribute("af") == 'SA') {
+                    //////    obj.categorytype = 1;
+                    //////    obj.categoryid = 0;
+                    //////    obj.salesactual = inputArray[i].value;
+                    //////    obj.salesforecast = -1;
+                    //////    obj.productactual = -1;
+                    //////    obj.productforecast = -1;
+                    //////}
+                    //////else
+                    if (inputArray[i].getAttribute("af") == 'SFH') {
+                        //obj.staffid = tmpstr.substr(1, position - 1);
+                        obj.categorytype = 1;
+                        obj.categoryid = 0;
+                        obj.salesactual = -1;
+                        obj.salesforecast = inputArray[i].value;
+                        obj.productactual = -1;
+                        obj.productforecast = -1;
+                    }
+                    else if (inputArray[i].getAttribute("af") == 'PA') {
+                        obj.categorytype = ctype;
+                        obj.categoryid = tmpstr.substr(position + 1);
+                        obj.salesactual = -1;
+                        obj.salesforecast = -1;
+                        obj.productactual = inputArray[i].value;
+                        obj.productforecast = -1;
+                    }
+                    else {
+                        obj.categorytype = ctype;
+                        obj.categoryid = tmpstr.substr(position + 1);
+                        obj.salesactual = -1;
+                        obj.salesforecast = -1;
+                        obj.productactual = -1;
+                        obj.productforecast = inputArray[i].value;
+                    }
+                    objCollection.push(obj);
+                }
+            }
+        }
+        SaveCampaignBranchSales(objCollection, sCollection);
+    }
+
+    function SaveCampaignBranchSales(objCollection, sCollection)
+    {
+        $.ajax({
+            url: '@Url.Action("SaveCampaignBranchSales", "Campaign")',
+            data: JSON.stringify({ dtls: objCollection, branchsales: sCollection }),
+            type: 'POST',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                //alert("Successfully Saved!");
+                if (data == "SUCCESS") alert("Successfully Saved!");
+                populateCampaignDetail($('#cbocampaign').val(), $('#cbobranch').val(), $('#cbogroup').val(), $('#cbotime').val());
+            },
+            error: function (req, status, err) {
+                alert(err);
+            }
+        });
+    }
+
+    function SaveCampaignSales(objCollection, sCollection) {
+        //alert(sCollection.length);
+        $.ajax({
+            url: '@Url.Action("SaveCampaignDetailSales", "Campaign")',
+            data: JSON.stringify({ dtls: objCollection, branchsales: sCollection }),
+            type: 'POST',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                //alert("Successfully Saved!");
+                if (data == "SUCCESS") alert("Successfully Saved!");
+                populateCampaignDetail($('#cbocampaign').val(), $('#cbobranch').val(), $('#cbogroup').val(), $('#cbotime').val());
+            },
+            error: function (req, status, err) {
+                alert(err);
+            }
+        });
+    }
+
+    function SaveCampaignActivity(objCollection, aCollection, sCollection) {
+        $.ajax({
+            url: '@Url.Action("SaveCampaignDetailActivity", "Campaign")',
+            data: JSON.stringify({ dtls: objCollection, branchactivity: aCollection, branchsales: sCollection }),
+            type: 'POST',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                //alert("Successfully Saved!");
+                if (data == "SUCCESS") alert("Successfully Saved!");
+                populateCampaignDetail($('#cbocampaign').val(), $('#cbobranch').val(), $('#cbogroup').val(), $('#cbotime').val());
+            },
+            error: function (req, status, err) {
+                alert(err);
+            }
+
+        });
+    }
+
+    function OpenStaffDay(paramobj)
+    {
+        selectstaff = paramobj;
+        $('#dialog-modal').dialog('open');
+    }
+
+    function ChangeStaffDay(obj) {
+        var tds = $(obj).closest('tr').find('td');
+        var txtbox = $(tds[2]).find('input');
+        $(txtbox).attr("ch", "1");
+    }
+
+    function reCalculate() {
+        var cid = $('#cbocampaign').val();
+        var bid = $('#cbobranch').val();
+        var gid = $('#cbogroup').val();
+        var t = $('#cbotime').val();
+        var d = $('#cdate').datepicker("getDate"); // $('#cdate').val();
+        var cd = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+        //alert('call recal');
+        $.ajax({
+            url: '@Url.Action("recalculateSaleFigure", "Campaign")',
+            data: JSON.stringify({ campaigndate: cd, gid: gid, bcode: bid, campaignid: cid, resource: $('#rcode').val() }),
+            type: 'POST',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                //alert("Successfully Saved!");
+                if (data == "SUCCESS") alert("Successfully Saved!");
+                //populateCampaignDetail($('#cbocampaign').val(), $('#cbobranch').val(), $('#cbogroup').val(), $('#cbotime').val());
+            },
+            error: function (req, status, err) {
+                alert(err);
+            }
+        });
+    }
+
+    //function StaffDayOption(obj)
+    //{
+    //    $(selectstaff).css("background-color", $(obj).css('background-color'));
+    //    $(selectstaff).attr("data-day", $(obj).attr("data-day"));
+    //    var tds = $(selectstaff).closest('tr').find('td');
+    //    var txtbox = $(tds[1]).find('input');
+    //    $(txtbox).attr("ch", "1");
+    //    $('#dialog-modal').dialog('close');
+    //}
+    //function staffAttend()
+    //{
+    //    $(selectstaff).attr("data-day", "ATTEND");
+    //    $('#dialog-modal').dialog('close');
+    //}
+    //function staffRest() {
+    //    $(selectstaff).attr("data-day", "REST");
+    //    $(selectstaff).css("background-color", "#39AFEA");
+    //    $('#dialog-modal').dialog('close');
+    //}
+    //function staffAL() {
+    //    $(selectstaff).attr("data-day", "ANNUAL LEAVE");
+    //    $('#dialog-modal').dialog('close');
+    //}
+    //function staffMC() {
+    //    $(selectstaff).attr("data-day", "MEDICAL LEAVE");
+    //    $('#dialog-modal').dialog('close');
+    //}
+</script>

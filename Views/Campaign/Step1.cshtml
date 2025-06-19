@@ -1,0 +1,111 @@
+﻿@model BigMac.Models.Campaign_m_Campaign
+
+@{
+    ViewBag.Title = "Step1";
+    Layout = "~/Views/Shared/_CampaignLayout.cshtml";    
+    //var db = Database.Open("BigMacEntities");
+    //var uname = User.Identity.Name;     
+    //var data = db.Query("SELECT * FROM MyTable");
+    //User.   
+    
+}
+<div class="row">
+    <div class ="col-lg-12">
+        <div class="box">
+            <div class ="box-header">
+						<h2><i class="icon-file-alt"></i>New Campaign Entry</h2>
+						<div class="box-icon">
+							<a href="#" class="btn-setting"><i class="icon-wrench"></i></a>
+							<a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>
+							<a href="#" class="btn-close"><i class="icon-remove"></i></a>
+						</div>
+            </div>
+            <div class ="box-content">
+
+            @using (Html.BeginForm("Step1", "Campaign", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+            @Html.ValidationSummary(true)
+                <fieldset  class ="col-sm-12">
+                <div id="MyWizard" class="wizard">
+			        <ul class="steps">
+				        <li data-target="#step1" class="active"><span class="badge badge-info">1</span></li>
+				        <li data-target="#step2"><span class="badge">2</span></li>
+				        <li data-target="#step3"><span class="badge">3</span></li>
+				        <li data-target="#step4"><span class="badge">4</span></li>				    
+			        </ul>
+			        <div class="actions">
+
+                        @{
+                                if (Model.id > 0)
+                                { 
+					                    <a class="btn btn-prev" href="#" aria-disabled="true">
+                                            <i class="icon-arrow-left"></i> Prev								
+					                    </a>                                    
+					                    <a class="btn btn-success btn-next" href="@Url.Action("Step2", "Campaign", new { id = Model.id})">
+                                            Next<i class="icon-arrow-right"></i>
+					                    </a>                    
+                                }
+                            }
+
+			        </div>
+                </div>
+		        <div class="form-group">
+			        <label class="control-label" for="input1">@Html.LabelFor(model => model.gamedesc)</label>
+			        <div class="controls row">
+                        <div class="col-lg-4">
+				            @Html.TextBoxFor(model => model.gamedesc, new { @class ="form-control"})                    
+                        </div>
+                        <span>@Html.ValidationMessageFor(model => model.gamedesc)	</span>	
+			        </div>
+		        </div>
+				<div class="form-group">
+					<label class="control-label" for="selectError30">@Html.LabelFor(model => model.status)</label>
+					<div class="controls row">
+                        <div class="col-lg-4">
+                        @Html.DropDownListFor(model => model.status, new SelectList(@ViewBag.StatusOptions,"Status","Status"), new { @class ="form-control"})
+                        </div>
+                        @Html.ValidationMessageFor(model => model.status)
+					</div>
+				</div>
+		        <div class="form-actions">
+			        <button type="submit" class="btn btn-primary" value="Save">Save changes</button>
+			        <button type="reset" class="btn">Cancel</button>
+		        </div>
+
+            </fieldset>
+            }
+            </div>
+        </div> @*box*@
+    </div>
+</div>@*row*@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box">
+
+            <div class="col-sm-2">
+                <a class="quick-button" href="~/Access/BranchStaffIndex">
+                    <i class="fa fa-user"></i>
+                    <p>Home</p>
+                </a>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+@*        <div class="editor-label">
+            @Html.LabelFor(model => model.createdate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.createdate)
+            @Html.ValidationMessageFor(model => model.createdate)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.lastmodifiedate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.lastmodifiedate)
+            @Html.ValidationMessageFor(model => model.lastmodifiedate)
+        </div>*@
+

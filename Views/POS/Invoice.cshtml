@@ -1,0 +1,292 @@
+﻿@model BigMac.Models.Invoice_m_Invoice
+
+@{
+    ViewBag.Title = "Invoice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="row">
+        <div class ="col-lg-12">
+            <div class="box">
+                <div class ="box-header">
+							<h2><i class ="fa fa-edit"></i>Invoice</h2>
+							<div class="box-icon">
+					            <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+					            <a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+					            <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+							</div>
+                </div>
+                <div class ="box-content">
+                @using (Html.BeginForm("Invoice","Sales",FormMethod.Post)) 
+                {
+                    @Html.ValidationSummary(true)
+                    <fieldset  class ="col-sm-12">
+                        <table style ="width:100%;">
+                            <tr>
+                                <td style="width:15%;"><label class="control-label" >@Html.LabelFor(model => model.cocode)</label></td>
+                                <td style="width:30%;">
+					                <div class="form-group">						            
+						                <div class="controls">                                        
+                                            @Html.DropDownListFor(model => model.cocode, new SelectList(@ViewBag.CompanyOptions,"cocode","name"), new { @class ="form-control"})
+                                            
+						                </div>
+					                </div>
+                                </td>
+                                <td style="width:5%;"></td>
+                                <td style="width:15%;"><label class="control-label" >@Html.LabelFor(model => model.branchcode)</label></td>
+                                <td style="width:30%;">
+					                <div class="form-group">						                
+						                <div class="controls">                                            
+                                            @Html.DropDownListFor(model => model.branchcode, new SelectList(@ViewBag.BranchOptions,"id","branchname"), new { @class ="form-control"})
+                                            
+						                </div>
+					                </div>
+                                </td>
+                                <td style="width:5%;"></td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label" >@Html.LabelFor(model => model.cussupid)</label></td>
+                                <td colspan ="4">
+					                <div class="form-group">						                
+						                <div class="controls">                                            
+                                            @Html.DropDownListFor(model => model.cussupid, new SelectList(@ViewBag.CusSupOptions,"id","cussupname"), new { @class ="form-control"})                                            
+						                </div>
+					                </div>                            
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label" >@Html.LabelFor(model => model.currency)</label></td>
+                                <td>
+		                            <div class="form-group">			            
+			                            <div class="controls">                            
+                                                @Html.TextBoxFor(model => model.currency, new { @class ="form-control"})           
+			                            </div>
+		                            </div>
+                                </td>
+                                <td ></td>
+                                <td ><label class="control-label" >@Html.LabelFor(model => model.exchangerate)</label></td>
+                                <td>
+					                <div class="form-group">						                
+						                <div class="controls">  
+                                            @Html.TextBoxFor(model => model.exchangerate, new { @class ="form-control"})                                              
+						                </div>
+					                </div>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label" for="input1">@Html.LabelFor(model => model.total_subtotal)</label></td>
+                                <td>
+		                            <div class="form-group">
+			                            <div class="controls">                                            
+                                                @Html.TextBoxFor(model => model.total_subtotal, new { @class ="form-control"})                                                
+			                            </div>
+		                            </div>
+                                </td>
+                                <td ></td>
+                                <td ><label class="control-label" for="input1">@Html.LabelFor(model => model.status)</label></td>
+                                <td>
+					                <div class="form-group">						                
+						                <div class="controls">                                            
+                                            @Html.DropDownListFor(model => model.branchcode, new SelectList(@ViewBag.StatusOptions,"status","status"), new { @class ="form-control"})                                            
+						                </div>
+					                </div>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td ><label class="control-label" >@Html.LabelFor(model => model.total_discount)</label></td>
+                                <td>
+					                <div class="form-group">						                
+						                <div class="controls">  
+                                            @Html.TextBoxFor(model => model.total_discount, new { @class ="form-control"})                                              
+						                </div>
+					                </div>
+                                </td>
+                                <td></td>
+                                <td><label class="control-label" for="input1">@Html.LabelFor(model => model.total_salestax)</label></td>
+                                <td>
+		                            <div class="form-group">
+			                            <div class="controls">                                            
+                                                @Html.TextBoxFor(model => model.total_salestax, new { @class ="form-control"})                                                
+			                            </div>
+		                            </div>
+                                </td>
+                                <td ></td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label" for="input1">@Html.LabelFor(model => model.total_amountrefund)</label></td>
+                                <td>
+		                            <div class="form-group">
+			                            <div class="controls">                                            
+                                                @Html.TextBoxFor(model => model.total_amountrefund, new { @class ="form-control"})                                                
+			                            </div>
+		                            </div>
+                                </td>
+                                <td ></td>
+                                <td ><label class="control-label" >@Html.LabelFor(model => model.total_amountvoid)</label></td>
+                                <td>
+					                <div class="form-group">						                
+						                <div class="controls">  
+                                            @Html.TextBoxFor(model => model.total_amountvoid, new { @class ="form-control"})                                              
+						                </div>
+					                </div>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label" for="input1">@Html.LabelFor(model => model.total_total)</label></td>
+                                <td>
+		                            <div class="form-group">
+			                            <div class="controls">                                            
+                                                @Html.TextBoxFor(model => model.total_total, new { @class ="form-control"})                                                
+			                            </div>
+		                            </div>
+                                </td>
+                                <td></td>
+                                <td ><label class="control-label" >@Html.LabelFor(model => model.total_amountreceived)</label></td>
+                                <td>
+					                <div class="form-group">						                
+						                <div class="controls">  
+                                            @Html.TextBoxFor(model => model.total_amountreceived, new { @class ="form-control"})                                              
+						                </div>
+					                </div>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan ="6">
+		                            <div class="form-actions">
+			                            <button type="submit" class="btn btn-primary" value="Save" >Save changes</button>
+                                        @*<a class="btn btn-primary" href="@Url.Action("UserSave", "Access", new { id = item.id })" title ="Edit User"></a>*@
+			                            <button type="reset" class="btn">Cancel</button>
+                                        <div id="dialog-modal" >  </div>
+		                            </div>
+                                </td>     
+                            </tr>
+                        </table>
+
+			        <div class="row">		
+				        <div class="col-lg-12">
+					        <div class="box">
+						        <div class="box-header" data-original-title>
+							        <h2><i class ="fa fa-list"></i><span class="break"></span>Invoice Detail (<u><a style ="color:blue;"  href="#" onclick ="OpenDialog(0,@Model.id)"  title ="Add New Item">Click here to add items</a></u>)</h2>
+							        <div class="box-icon">
+					                    <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+					                    <a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+					                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+							        </div>
+						        </div>
+						        <div class="box-content">
+                                    @*<div style="width:100%;text-align:right;"><a class="btn btn-primary" href="@Url.Action("PurchaseOrderDetail", "Purchase", new { id = Model.id })" title ="Add/Edit Order Detail">Add/Edit Order Detail</a></div>*@
+                                    <br />
+							        <table class="table table-striped table-bordered bootstrap-datatable datatable">
+							          <thead>
+								          <tr>
+									          <th>Line no.</th>
+                                              <th>Product Code</th>
+									          <th>Product</th>
+									          <th>Qty</th>
+									          <th>UOM</th>
+                                              <th>Currency</th>
+									          <th>Unit Price</th>                                                                                            
+                                              <th>Discount</th>
+                                              <th>Tax</th>                                              
+                                              <th>Total</th>                                              
+                                              <th>Exchange Rate</th>                                              
+								          </tr>
+                                        </thead>   
+                                        <tbody>
+                                            @foreach (var item in Model.items)
+                                            {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.lineno  )
+                                                        </td>
+                                                        <td>
+                                                            @*@Html.DisplayFor(modelItem => item.productcode)*@
+                                                             <u><a href="#" id="@item.id" onclick="OpenDialog(@item.id,@item.invoiceid)" >@item.productcode</a></u>
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.productdesc)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.qty)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.uom)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.currency)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.unitprice)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.discountamount)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.taxamount)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.lineamount)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.exchangerate)
+                                                        </td>
+                                                    </tr>                                         
+                                            }
+                                        </tbody>
+                                    </table>
+                                    
+                                </div> @*box-content*@
+                            </div> @*box*@
+                        </div>
+                    </div> @*row*@
+                        </fieldset>
+                
+@*               foreach (var x in Model.accessRights)
+                      {
+                          @Html.RenderPartial("AccessRight",Model.accessRights);
+                      }*@                
+@*                <div>
+                    <a class="btn btn-info" href="@Url.Action("AccessRightCreate", "Access", new { id = Model.id })">
+		                <i class="fa fa-edit"></i>                                            
+	                </a>
+                </div>*@
+                
+                }
+            </div> @*box*@
+            </div>
+        </div>
+    </div>@*row*@    
+
+<script type ="text/javascript">
+
+    function OpenDialog(itemid, invid) {
+        //id = itemid;
+        //pid = purchaseid;
+        //$('#dialog-modal').dialog('open');
+        //alert("open dia");
+        
+        @*$("#dialog-modal").load('@Url.Content("~/Purchase/PurchaseOrderDetail?itemid=")' + itemid + '&purchaseid=' + purchaseid, function (responseText, textStatus, XMLHttpRequest) {*@
+        $("#dialog-modal").load('@Url.Content("~/Sales/InvoiceDetail?itemid=")' + itemid + '&invoiceid=' + invid, function (responseText, textStatus, XMLHttpRequest) {
+            if (textStatus == "error") {
+                alert("Error");
+            } else {
+                $(this).dialog({
+                    position: [200, 100],
+                    width: 900,
+                    hight: 450,                    
+                    modal: true,
+                    autoOpen: true,
+                    open: function (event, ui) {
+                        $('.ui-widget-header').removeClass('ui-widget-header').htm('');                        
+                    }
+                    
+                });
+            }
+        });
+        
+    }
+</script>

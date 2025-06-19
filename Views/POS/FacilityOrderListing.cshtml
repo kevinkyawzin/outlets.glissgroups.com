@@ -1,0 +1,659 @@
+﻿@{
+    ViewBag.Title = "FacilityOrderListing";
+    Layout = "~/Views/Shared/_GeneralLayoutPage.cshtml";
+    var i = 0;
+}
+
+<style>
+
+    .btn-default {
+        background-color: #dddddd;
+    }
+
+     .text-center {
+       text-align:center !important;
+     }
+     .text-left {
+           text-align:left !important;
+     }
+     .text-right{
+          text-align:right !important;
+     }
+
+     .btn-default:hover {
+        cursor:not-allowed !important;
+     }
+
+</style>
+
+@section partialCSS {
+    <link href="@Url.Content("~/css/app/salesorder/salesorder_main.css")" rel="stylesheet" type="text/css" />
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box">
+            <input type="hidden" id="rcode" value="@ViewBag.Rcode"/>
+            <input type="hidden" id="hidismobile" value="@ViewBag.IsMobile" />
+            <div class="box-header" data-original-title>
+                <h2><i class="fa fa-list-alt"></i><span class="break"></span>Order Listing</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+                    <a href="#" class="btn-minimize"><i class="fa fa-chev1on-up"></i></a>
+                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="box-content">                
+                @*<div id="divOrder">
+                    <div class="col-lg-1" style="width:50px;padding-top:2px;">
+                        Date:
+                    </div>
+                    <div class="col-lg-2" style="width:500px;padding-top:2px;">
+                        <input class="date-picker" data-date-format="dd/mm/yyyy" id="datepicker" style="width:100px;height:22px;">
+                    </div>
+                </div>*@
+                <table class='table table-striped table-bordered' id="tblFacilityOrder" width="100%">
+                    <thead>
+                        <tr>
+                            <th style='width:100px;'>Order#</th>
+                            <th style='width:100px;'>Queue#</th>
+                            <th style='width:100px;'>Type</th>
+                            <th style='width:80px;'>Time</th>
+                            <th style='width:100px;'>Facility</th>
+                            <th style='width:100px;'>Staff</th>
+                            <th style='width:100px;'>Customer</th>
+                            <th style='width:100px;'>Refund</th>
+                            <th style='width:100px;'>Total Price</th>
+                            <th style='width:50px;'>Status</th>
+                            <th></th>
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div> @*box-content*@
+        </div> @*box*@
+    </div>
+</div> @*row*@
+
+<ul class="noty_cont noty_layout_topRight" id="ulBalance"></ul>
+<button id="btnMessage" class="btn btn-primary noty" data-noty-options='{"text":"Please select Member","layout":"topRight","type":"error"}' style="display:none;">Top Right</button>
+<div class="row">
+    <div class="col-lg-12 hidden-sm">
+        <div class="box">
+            <div class="col-sm-2">
+                <a class="quick-button" href="~/Access/BranchStaffIndex">
+                    <i class="fa fa-home"></i>
+                    <p>Home</p>
+                </a>
+            </div>
+        </div>
+        <div class="box">
+            <div class="col-sm-2">
+                <a class="quick-button" href="~/Access/BranchAssetIndex">
+                    <i class="fa fa-list-alt"></i>
+                    <p>Order</p>
+                </a>
+            </div>
+        </div>
+        <div class="box">
+            <div class="col-sm-2">
+                <a class="quick-button" href="~/POS/AppointmentListing">
+                    <i class="fa fa-list"></i>
+                    <p>Appointment List</p>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+</div>
+<div class="modal-dialog" id="OrderManage_dialog-modal" style="width: 650px; top: 0px; ">
+    <div class="box">
+        <div class="box-header" data-original-title>
+            <h4>
+                <i class="fa fa-list-alt"></i><span class="break"></span>
+                <span id="txtorderno"> </span>
+                <input type="hidden" id="hidcurorderno" />
+            </h4>
+        </div>
+        <div class="box-content">
+            <div class="row">
+                <div class="col-lg-3" style="color:black;height:25px;vertical-align:middle;text-align:left;padding-right:10px;padding-top:5px;">
+                    Staff     :
+                </div>
+                <div class="col-lg-5" style=" padding-left:0px;padding-right:0px;">
+                    @Html.DropDownList("cbobkstaff", new SelectList(@ViewBag.StaffOptions, "id", "name"), string.Empty, new { @class = "form-control" })
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-lg-3" style="color:black;height:25px;vertical-align:middle;text-align:left;padding-right:10px;padding-top:5px;">
+                    Start Time:
+                </div>
+                <div class="col-lg-2" style="padding-left:0px;padding-right:0px;width:115px;">
+                    <input type='text' class='form-control' id="txtStartTime" placeholder="hh:mm AM/PM" />
+                </div>
+              
+                <div class="col-lg-1" style="padding-left:0px;padding-right:0px;">
+                    <button type="button" id="btnStart" class="btn btn-success" style="background-color: #931313; width: 55px;" onclick="updateStartTime();" >Start</button>
+                </div>
+                <div class="col-lg-2" style="color:black;height:25px;vertical-align:middle;text-align:left;padding-right:10px;padding-top:5px;">
+                    End Time:
+                </div>
+               
+                <div class="col-lg-2" style="padding-left:0px;padding-right:0px;width:115px;">
+                    <input type='text' class='form-control' id="txtEndTime" placeholder="hh:mm AM/PM" />
+                </div>
+                <div class="col-lg-1" style="padding-left:0px;padding-right:0px;">
+                    <button type="button" id="btnEnd" class="btn btn-success" style="background-color: #931313; width: 55px;" onclick="updateEndTime();">End</button>
+                </div>
+                
+            </div>
+        
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2" style="color:black;height:25px;vertical-align:middle;text-align:right;padding-right:10px;padding-top:5px;">
+            <button type="button" id="btnMangeDialogClose" class="btn btn-danger" style="background-color: #931313; width: 100px;" onclick="CloseOrderManageDialog();">Close</button>
+        </div>
+     
+    </div>  
+</div>
+    <div id="Login_dialog-modal">
+    <div class="col-lg-12" id="divLoginDialog" style="overflow-style:scrollbar;">
+        <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+            <span id="loginheader"></span>
+        </div>
+        <div id="divMember">
+            <table style="width:100%;border-spacing:5px;border-collapse:separate;padding-top:10px;">
+                <tr>
+                    <td style="width:20px;"></td>
+                    <td style="width:200px;">User Name</td>
+                    <td colspan="2" style="width:200px;"><input id="txtname" class="form-control" /></td>
+                    <td><span style="color:red;">*</span></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Password</td>
+                    <td colspan="2"><input type="password" id="txtpwd" class="form-control" /></td>
+                    <td><span style="color:red;">*</span></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td style="width:60px;"><button type="button" id="btnVoid" onclick="voidOrderTaking();" class="btn btn-primary" style="width:100px;">Cancel</button></td>
+                    <td style="width:60px;"><button type="button" id="btnClose" onclick="closeLoginDialog()" class="btn btn-primary" style="width: 100px;">Close</button></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+    <script type="text/javascript">
+        var load = 1;
+        var posid = 0;
+        var posno = "";
+        var oTable;
+        var soidtoVoid = 0;
+        var isMobile = $('#hidismobile').val();
+    
+        $(document).on('change', '#datepicker', function () {
+            $("#datepicker").datepicker("hide");
+            getFacilityOrderList();
+        });
+
+        $('#OrderManage_dialog-modal').dialog({
+            position: [260, 140],
+            modal: true,
+            autoOpen: false,
+            open: function (event, ui) {
+                $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+            }
+        });
+
+        var loginOptions = {
+            modal: true,
+            height: 270,
+            minHeight: 260,
+            maxHeight: 280,
+            width: 620,
+            minWidth: 480,
+            maxWidth: 480,
+            dialogClass: "sfFormwrapper"
+        };
+        $('#OrderManage_dialog-modal').dialog('option', loginOptions);
+
+        getFacilityOrderList();
+        $("#btnStart").removeAttr("disabled");
+        $("#btnEnd").removeAttr("disabled");
+
+        $("#txtpwd").keyup(function (event) {
+            if (event.keyCode == 13) {
+                $("#btnVoid").focus();
+            }
+        });
+
+        $('#Login_dialog-modal').dialog({
+            modal: true,
+            autoOpen: false,
+            open: function (event, ui) {
+                $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+            }
+        });
+
+        var loginOptions = {
+            modal: true,
+            height: 250,
+            minHeight: 250,
+            maxHeight: 250,
+            width: 480,
+            minWidth: 480,
+            maxWidth: 480,
+            dialogClass: "sfFormwrapper"
+        };
+
+        $('#Login_dialog-modal').dialog('option', loginOptions);
+
+        function getFacilityOrderList() {
+            var date = "";
+            if (($("#datepicker").val() === undefined)) {
+                date = "";
+            }
+            else {
+                date = $("#datepicker").val();
+            }
+      
+            oTable = $('#tblFacilityOrder').dataTable({
+                "iDisplayLength": 10, // Default No of Records per page on 1st load
+                "bLengthChange": false,
+                "aaSorting": [], // Default 1st column sorting
+                "bProcessing": true,
+                "aoColumnDefs": [
+                    {
+                        "aTargets": [10],
+                        "mRender": function (data, type, full) {
+                            var str = "<a class='btn btn-primary' title ='Click to view order.' onclick='goToSalesOrder(" + data + ");'><i class='fa fa-edit '></i></a>";
+                            return str;
+                        }
+                    },
+                    {
+                        "aTargets": [11],
+                        "mRender": function (data, type, full) {
+                            var str = "";
+
+                            if(full.status=="CANCEL"){
+                               str = "<a class='btn btn-default'><i class='fa fa-trash-o '></i></a>";
+                            }
+                            else {
+                               str = "<a class='btn btn-danger' title ='Click to cancel order.' onclick='cancelOrderTaking(" + data + ",this);'><i class='fa fa-trash-o '></i></a>";
+                            }
+
+                            return str;
+                        }
+                    }
+
+                ],
+                "sAjaxSource": 'getFacilityOrderListWithPaging?date=' + date,
+                "bStateSave": false, // Remember paging & filters
+                "bDeferRender": false,
+                "bServerSide": true,
+                "bDestroy": true,
+                "oSearch": { "sSearch": "" },
+                "aoColumns": [
+                      
+                             { "sWidth": "60px", "mDataProp": "resourcecode" }, { "sWidth": "40px", "mDataProp": "queuenumber" }, { "sWidth": "40px", "mDataProp": "type" },
+                             { "sWidth": "70px", "mDataProp": "starttime" },
+                             { "sWidth": "100px", "mDataProp": "facility" }, { "sWidth": "100px", "mDataProp": "staffname" },
+                             { "sWidth": "120px", "mDataProp": "cussupname" }, { "sWidth": "50px", "mDataProp": "total_amountrefund", "sClass": "text-right" },{ "sWidth": "50px", "mDataProp": "total_total", "sClass": "text-right" },
+                             { "sWidth": "50px", "mDataProp": "status" },
+                             { "sWidth": "30px", "mDataProp": "id", "sClass": "text-center" }, { "sWidth": "30px", "mDataProp": "id", "sClass": "text-center" },
+                           
+                ],
+                "fnDrawCallback": function () {
+           
+
+                }
+            });
+
+            $('#tblFacilityOrder_wrapper .row').find('div').first().remove();
+            $('.dataTables_filter').parent().removeClass();
+            $('.dataTables_filter').parent().addClass("col-xs-12");
+            $('.dataTables_filter').each(function () {
+                $(this).append('Date: <input class="date-picker" data-date-format="dd/mm/yyyy" id="datepicker" style="width:100px;height:22px;" value="' + date + '">');
+            });
+
+            $("#datepicker").datepicker();
+        }
+
+        function goToSalesOrder(soid) {
+            var url = "SalesOrder";
+            var rcode = $('#rcode').val();
+            var form = $('<form action="' + url + '" method="post">' +
+              '<input type="hidden" name="id"  id="id" value="' + soid + '" />' +
+              '<input type="hidden" name="rcode"  id="rcode" value="' + rcode + '" />' +
+              '</form>');
+            $('body').append(form);
+            $(form).submit();
+        }
+
+        function goToPOS(soid, paramtr) {
+            var tds = $(paramtr).closest("tr").find("td");
+            var aPos = oTable.fnGetPosition(tds[0]);
+            var aData = oTable.fnGetData(aPos[0]);
+            if (aData.status == "PAID" || aData.status == "REDEEM") {
+                var msg = "This order is already paid or redeem.";
+                var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                showMessage(attrvalue);
+            }
+            else {
+                var url = "POS";
+              
+                var rcode = "POS";
+                var form = $('<form action="' + url + '" method="post">' +
+                  '<input type="hidden" name="id"  id="id" value="0" />' +
+                  '<input type="hidden" name="soid"  id="soid" value="' + soid + '" />' +
+                  '<input type="hidden" name="rcode"  id="rcode" value="' + rcode + '" />' +
+                  '</form>');
+                $('body').append(form);
+                $(form).submit();
+            }
+        }
+
+        function goToRedeem(soid, paramtr) {
+            var tds = $(paramtr).closest("tr").find("td");
+            var aPos = oTable.fnGetPosition(tds[0]);
+            var aData = oTable.fnGetData(aPos[0]);
+            if (aData.status == "PAID" || aData.status == "REDEEM") {
+                var msg = "This order is already paid or redeem.";
+                var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                showMessage(attrvalue);
+            }
+            else {
+                var url = "../sales/Redeem";
+                var rcode = "Redeem";
+                var form = $('<form action="' + url + '" method="post">' +
+                  '<input type="hidden" name="id"  id="id" value="0" />' +
+                  '<input type="hidden" name="soid"  id="soid" value="' + soid + '" />' +
+                  '<input type="hidden" name="rcode"  id="rcode" value="' + rcode + '" />' +
+                  '</form>');
+                $('body').append(form);
+                $(form).submit();
+            }
+        }
+        function ShowOrderManageDialog(orderid, paramtr) {
+            var tds = $(paramtr).closest("tr").find("td");
+            var aPos = oTable.fnGetPosition(tds[0]);
+            var aData = oTable.fnGetData(aPos[0]);
+            if (aData.status == "CANCEL") {
+                var msg = "Unable to update as it was already cancelled.";
+                var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                showMessage(attrvalue);
+            }
+            else {
+                $('#txtorderno').html('Manage Order #' + orderid);
+                $('#hidcurorderno').val(orderid);
+                getFacilityOrderInfo();
+                $('#OrderManage_dialog-modal').dialog('open');
+            }
+        }
+        function CloseOrderManageDialog() {
+            $('#OrderManage_dialog-modal').dialog("close");
+        }
+        function updateStartTime() {
+            var orderid = $('#hidcurorderno').val();
+            var orderstarttime = "";
+            var staffID = 0;
+         
+                if ($('#txtStartTime').val() == '') {
+                    alert("Please input start time");
+                    return false;
+                }
+
+                if (isValidTimeFormat($('#txtStartTime').val()) == false) {
+                    alert("Invalid start time format.");
+                    return false;
+                }
+
+                orderstarttime = $('#txtStartTime').val();
+                //Added by ZawZO on 4 Feb 2016
+                staffID = $('#cbobkstaff').val();
+    
+           
+            $.ajax({
+                url: '@Url.Action("UpdateFacilityOrderStartTime", "POS")',
+                data: JSON.stringify({ id: orderid, starttime: orderstarttime, sid: staffID }),
+                type: 'POST',
+                async: false,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data == "SUCCESS") {
+                        CloseOrderManageDialog();
+                        getFacilityOrderList();
+                    }
+                    else {
+
+                    }
+                },
+                error: function (req, status, err) {
+                    showMessage(err, "error");
+                }
+            });
+        }
+
+        function isValidPeriod() {
+            var retval = false;
+            var stime = ""; var etime = "";
+    
+            stime = $("#txtStartTime").val();
+            etime = $("#txtEndTime").val();
+           
+            if (stime < etime) {
+                retval = true;
+            }
+            else {
+                retval = false;
+            }
+            return retval;
+        }
+        function isValidTimeFormat(strTime) {
+            var isValid = true;
+            if (strTime.length != 8)
+                isValid = false;
+            else {
+                var intHr = parseInt(strTime.substring(0, 2));
+                var intMin = parseInt(strTime.substring(3, 5));
+                var strsep = strTime.substring(2, 3);
+                var strAMPM = strTime.substring(6, 8).toUpperCase();
+                if ((intHr <= 0) || (intHr > 12)) {
+                    isValid = false;
+                }
+                if (strsep != ':') {
+                    isValid = false;
+                }
+                if ((intMin < 0) || (intMin > 59)) {
+                    isValid = false;
+                }
+                if ((strAMPM == "AM") || (strAMPM == "PM")) {
+                    isValid = true;
+                }
+                else {
+                    isValid = false;
+                }
+            }
+            return isValid;
+        }
+
+        function updateEndTime() {
+            var orderid = $('#hidcurorderno').val();
+            var orderendtime = '';
+            var staffID = 0;
+
+                if ($('#txtEndTime').val() == ''){
+                    alert("Please input end time");
+                    return;
+                }
+
+                if (isValidTimeFormat($('#txtEndTime').val()) == false) {
+                    var msg = "Invalid end time format.";
+                    alert(msg);
+                    return false;      
+                }
+
+                if (!isValidPeriod())
+                {
+                    alert("Start time should be less than end time.");
+                    return false;
+                }
+
+                orderendtime = $('#txtEndTime').val();
+                //Added by ZawZO on 4 Feb 2016
+                staffID = $('#cbobkstaff').val();
+       
+
+            
+            $.ajax({
+                url: '@Url.Action("UpdateFacilityOrderEndTime", "POS")',
+                data: JSON.stringify({ id: orderid, endtime: orderendtime, sid: staffID }),
+                type: 'POST',
+                async: false,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data == "SUCCESS") {
+                        CloseOrderManageDialog();
+                        getFacilityOrderList();
+                    }
+                    else {
+
+                    }
+                },
+                error: function (req, status, err) {
+                    showMessage(err, "error");
+                }
+            });
+        }
+
+        function cancelOrderTaking(soid,paramtr) {
+            soidtoVoid = soid;
+            openPasswordDialog();
+        }
+
+        function voidOrderTaking() {
+       
+            $.ajax({
+                url: '@Url.Action("VoidSO", "POS")',
+                data: JSON.stringify({ soid: soidtoVoid, resource: $('#rcode').val(), uname: $('#txtname').val(), pwd: $('#txtpwd').val() }),
+                type: 'POST',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data == "Success") {
+                        closeLoginDialog();
+                        getFacilityOrderList();
+                        var msg = "Order has been successfully cancelled.";
+                        var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"success"}';
+                        showMessage(attrvalue);
+
+                    }
+                    else {
+                        closeLoginDialog();
+                        var msg = data;
+                        var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                        showMessage(attrvalue);
+                    }
+
+                },
+                error: function (ts) { showMessage(ts.responseText, "error") }
+            });
+        }
+
+        function openPasswordDialog() {
+            $('#txtname').val("");
+            $('#txtpwd').val("");
+            
+            $('#loginheader').html("Enter user name and password to cancel");
+            $('#Login_dialog-modal').dialog("open");
+        }
+
+        function closeLoginDialog() {
+            $('#Login_dialog-modal').dialog("close");
+        }
+
+        function updateStatusCancel(soid, paramtr) {
+            var tds = $(paramtr).closest("tr").find("td");
+            var aPos = oTable.fnGetPosition(tds[0]);
+            var aData = oTable.fnGetData(aPos[0]);
+            if (aData.status == "END") {
+                var msg = "Unable to cancel as it was already ended.";
+                var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                showMessage(attrvalue);
+            }
+            else {
+                $.ajax({
+                    url: '@Url.Action("UpdateFacilityOrderStatusCancel", "POS")',
+                    data: JSON.stringify({ id: soid }),
+                    type: 'POST',
+                    async: false,
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data == "SUCCESS") {
+                            getFacilityOrderList();
+                        }
+                        else {
+                        }
+                    },
+                    error: function (req, status, err) {
+                        showMessage(err, "error");
+                    }
+                });
+            }
+        }
+        function getFacilityOrderInfo() {
+            var soid = $('#hidcurorderno').val();
+            $.ajax({
+                url: '@Url.Action("getFacilityOrderInfo", "POS")',
+                data: { ordercode: soid },
+                type: 'POST',
+                success: function (data) {
+                    if (data.length > 0) {
+                       $('#cbobkstaff').val(data[0].staffid);
+                      
+
+                        if (data[0].status == "QUEUE") {
+                                $('#txtStartTime').val(data[0].starttime);
+                                $("#btnStart").removeAttr("disabled");
+                                $('#txtEndTime').val('');
+                                $("#btnEnd").removeAttr("disabled");
+                        }
+                        else if (data[0].status == "START") {
+                                $('#txtStartTime').val(data[0].starttime);
+                                $("#btnStart").attr("disabled", true);
+                                $('#txtEndTime').val('');
+                                $("#btnEnd").removeAttr("disabled");
+                        }
+                        else if (data[0].status == "END") {
+                                $('#txtStartTime').val(data[0].starttime);
+                                $("#btnStart").attr("disabled", true);
+                                $('#txtEndTime').val(data[0].endtime);
+                                $("#btnEnd").attr("disabled", true);
+                        }
+                        else {
+                                $('#txtStartTime').val(data[0].starttime);
+                                $("#btnStart").attr("disabled", true);
+                                $('#txtEndTime').val(data[0].endtime);
+                                $("#btnEnd").attr("disabled", true);
+                        }
+                    }
+                },
+                error: function (ts) { showMessage(ts.responseText, "error") }
+            });
+        }
+        function showMessage(attrvalue) {
+            $('#btnMessage').attr('data-noty-options', attrvalue);
+            $('#btnMessage').trigger("click");
+        }
+    </script>

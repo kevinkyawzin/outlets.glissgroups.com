@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- start: Meta -->
+    <meta charset="utf-8">
+    <title>@System.Web.Configuration.WebConfigurationManager.AppSettings["appName"] Outlets</title>
+    <meta name="description" content="ACME Dashboard Bootstrap Admin Template.">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword" content="ACME, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <!-- end: Meta -->
+    <style>
+        .dataTables_processing {
+            padding-left: 15px !important;
+        }
+    </style>
+    <!-- start: Mobile Specific -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- end: Mobile Specific -->
+    <!-- start: CSS -->
+    <link href="@Url.Content("~/assets/css/bootstrap.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/assets/css/style.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/assets/css/retina.min.css")" rel="stylesheet">
+    <!-- end: CSS -->
+    <link rel="shortcut icon" href="@Url.Content(@System.Web.Configuration.WebConfigurationManager.AppSettings["favicon"])">
+
+    <!-- end: Favicon and Touch Icons -->
+
+    <style type="text/css">
+        body {
+            background: url("assets/img/bg-login7.jpg") !important;
+        }
+    </style>
+    <script src="assets/js/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='assets/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
+    </script>
+    <script src="@Url.Content("~/assets/js/jquery-migrate-1.2.1.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/bootstrap.min.js")"></script>
+
+
+    <!-- theme scripts -->
+    <script src="@Url.Content("~/assets/js/custom.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/core.min.js")"></script>
+</head>
+<body>
+    @RenderBody()
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,4022 @@
+﻿﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_GeneralLayoutPage.cshtml";
+
+}
+
+@section partialCSS {
+    <link href="@Url.Content("~/css/app/common/main.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/app/appointment/appointment_main.css")" rel="stylesheet" type="text/css" />
+}
+
+<input type="hidden" value="@ViewBag.StaffID" id="staffId" />
+<input type="hidden" value="@ViewBag.UserID" id="userId" />
+<input type="hidden" value="@ViewBag.Bcode" id="bcode" />
+
+
+<style>
+    .vertical-alignment-helper {
+        display: table;
+        height: 100%;
+        width: 100%;
+        pointer-events: none; /* This makes sure that we can still click outside of the modal to close it */
+    }
+
+    .vertical-align-center {
+        /* To center vertically */
+        display: table-cell;
+        vertical-align: middle;
+        pointer-events: none;
+    }
+
+    .modal-content {
+        /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+        width: inherit;
+        max-width: inherit; /* For Bootstrap 4 - to avoid the modal window stretching full width */
+        height: inherit;
+        /* To center horizontally */
+        margin: 0 auto;
+        pointer-events: all;
+    }
+</style>
+
+@*<div class="row">
+    <div class="col-lg-12">*@
+<div>
+    <input type="hidden" id="rcode" value="@ViewBag.Rcode" />
+    <div class="box-header" data-original-title>
+        <h2><i class="fa fa-list-alt"></i><span class="break"></span>Daily Appointment</h2>
+        <div class="box-icon">
+            <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+            <a href="#" class="btn-minimize"><i class="fa fa-chev1on-up"></i></a>
+            <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+        </div>
+    </div>
+    <div class="box-content">
+        <div class="col-sm-12" style="padding-bottom:10px;">
+            <button id="btnByDAy" type="button" class="btn btn-primary" onclick="showPanelByDay();">By Day/Week</button>
+            <button id="btnByStaff" type="button" class="btn btn-primary" style="" onclick="showPanelByStaff();">By Staff</button>
+            <button id="btnByMonth" type="button" class="btn btn-primary" style="" onclick="showPanelByMonth();">By Month</button>
+            <button id="btnPrint" type="button" class="btn btn-primary" style="float:right;"><i class="fa fa-print" aria-hidden="true"> Print</i></button>
+
+            <div class="clearfix"></div>
+        </div>
+        <div id="panelByDay" class="box-content" style="display:none;padding-top:10px;">
+
+            <div class="row">
+                <div class="col-lg-12 hidden-sm">
+                    <div>
+                        <div id="" class="col-sm-12">
+                            <div class="row">
+                                <div class="col-lg-3" style="white-space:nowrap;">
+                                    <div class="input-group">
+                                        <div class="form-group" style="white-space:nowrap;">
+                                            <div>
+                                                <label class="labelStaffDepartment">
+                                                    Department : &nbsp;
+                                                </label>
+                                                @Html.DropDownList("cboDepartmentByDay", new SelectList(@ViewBag.DepartmentOptions, "id", "departmentname"), new { @class = "form-control", style = "width:100% !important" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2" style="white-space:nowrap;">
+                                    <div class="input-group" style="white-space:nowrap;">
+                                        <label class="">
+                                            Year : &nbsp;
+                                        </label>
+                                        <select class="form-control" style="width:100px;" id="ddl_year"></select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="input-group" style=" white-space:nowrap;">
+                                        <label class="">
+                                            Month : &nbsp;
+                                        </label>
+                                        <select class="form-control" style="width:150px;" id="ddl_month"></select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5">
+                                    <div style="float:right; padding-top: -15px;">
+                                        <label>
+                                            <button id="removeOnLeave" type="button" style=" height: 35px; border: 1px solid #eee; color: #fff; background-color : #2a8ae4; border-radius: 5px; " onclick="showOrHideRemoveOnLeave()">Remove Staff on Leave</button>
+                                        </label>
+                                        <select multiple="multiple" placeholder="Staff Members" class="selectStaffMembers" required></select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div id="scheduler_by_day" class="dhx_cal_container" style='width: 100%; height: 450px;'>
+
+                                    <div class="dhx_cal_navline">
+                                        <div id="prevByDay" class="dhx_cal_prev_button">&nbsp;</div>
+                                        <div id="nextByDay" class="dhx_cal_next_button">&nbsp;</div>
+
+                                        <div class="dhx_cal_today_button"></div>
+                                        <div class="dhx_cal_date_button">
+                                            <select onchange="select_date_onchange();" class="form-control date_pick" id="select_date"></select>
+                                        </div>
+
+                                        <div class="dhx_cal_date" id="current_date"></div>
+                                        <div class="dhx_cal_tab" id="byDayDay" name="day_tab"></div>
+                                        <div class="dhx_cal_tab" id="byDayWeek" name="week_tab"></div>
+                                    </div>
+                                    <div class="dhx_cal_header">
+                                    </div>
+                                    <div class="dhx_cal_data">
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-outer legend" style="overflow-x: auto;padding-top:15px;border-top:2px solid gray;">
+            </div>
+            <div class="container-outer holiday" style="overflow-x: auto;padding-top:15px;">
+            </div>
+        </div>
+        <div id="panelByStaff" class="box-content" style="display:none;">
+            <div class="row">
+                <div class="col-lg-12 hidden-sm">
+                    <div>
+                        <div id="" class="col-sm-12">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="col-lg-3">
+                                        <div class="input-group">
+                                            <div class="form-group">
+                                                <div style="white-space:nowrap;">
+                                                    <label class="labelStaffDepartment">
+                                                        Department:
+                                                    </label>
+                                                    @Html.DropDownList("cboDepartmentByStaff", new SelectList(@ViewBag.DepartmentOptions, "id", "departmentname"), new { @class = "form-control", style = "width:100% !important" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="input-group">
+                                            <div class="form-group">
+                                                <div style="white-space:nowrap;">
+                                                    <label class="labelStaffSchedule">
+                                                        Staff:
+                                                    </label>
+                                                    @Html.DropDownList("cbobkstaff", new SelectList(@ViewBag.StaffOptions, "id", "name"), string.Empty, new { @class = "form-control", style = "width:100% !important" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div id="scheduler_by_staff" class="dhx_cal_container" style='width: 100%; height: 450px;'>
+                                    <div class="dhx_cal_navline">
+                                        <div class="dhx_cal_prev_button">&nbsp;</div>
+                                        <div class="dhx_cal_next_button">&nbsp;</div>
+
+
+                                        <div class="dhx_cal_today_button"></div>
+                                        <div class="dhx_cal_date_button">
+                                            <select class="form-control date_pick"></select>
+                                        </div>
+                                        <div class="dhx_cal_date"></div>
+                                        <div class="dhx_cal_tab day_tab" name="day_tab" style="right:204px;"></div>
+                                        <div class="dhx_cal_tab week_tab" name="week_tab" style="right:140px;"></div>
+                                    </div>
+                                    <div class="dhx_cal_header">
+                                    </div>
+                                    <div class="dhx_cal_data">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-outer legend" style="overflow-x: auto;padding-top:15px;border-top:2px solid gray;">
+            </div>
+            <div class="container-outer holiday" style="overflow-x: auto;padding-top:15px;">
+            </div>
+        </div>
+        <div id="panelByMonth" class="box-content" style="display:none;">
+            <div class="row">
+                <div class="col-lg-12 hidden-sm">
+                    <div>
+                        <div id="" class="col-sm-12">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="col-lg-3">
+                                        <div class="input-group">
+                                            <div class="form-group">
+                                                <div style="white-space:nowrap;">
+                                                    <label class="labelStaffDepartment">
+                                                        Department:
+                                                    </label>
+                                                    @Html.DropDownList("cboDepartmentByMonth", new SelectList(@ViewBag.DepartmentOptions, "id", "departmentname"), new { @class = "form-control", style = "width:100% !important" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div id="scheduler_by_month" class="dhx_cal_container" style='width: 100%; height: 400px;'>
+                                    <div class="dhx_cal_navline">
+                                        <div class="dhx_cal_prev_button">&nbsp;</div>
+                                        <div class="dhx_cal_next_button">&nbsp;</div>
+                                        <div class="dhx_cal_today_button"></div>
+                                        <div class="dhx_cal_date_button">
+                                            <select class="form-control date_pick"></select>
+                                        </div>
+                                        <div class="dhx_cal_date"></div>
+                                    </div>
+                                    <div class="dhx_cal_header">
+                                    </div>
+                                    <div class="dhx_cal_data">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-outer legend" style="overflow-x: auto;padding-top:15px;border-top:2px solid gray;">
+            </div>
+            <div class="container-outer holiday" style="overflow-x: auto;padding-top:15px;">
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+<div class="modal fade" id="divSpinner" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center" style="width: 200px;">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div></div>
+                    <span class=" fa fa-spinner fa-spin fa-3x"></span>
+                    <span style="margin: 20px;">
+                        Loading ...
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ul class="noty_cont noty_layout_topRight" id="ulBalance"></ul>
+<button id="btnMessage" class="btn btn-primary noty" data-noty-options='{"text":"Please select Member","layout":"topRight","type":"error"}' style="display:none;">Top Right</button>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box">
+            <div class="col-sm-2">
+                <a class="quick-button" href="~/Access/BranchStaffIndex">
+                    <i class="fa fa-home"></i>
+                    <p>Home</p>
+                </a>
+            </div>
+        </div>
+        <div class="box">
+            <div class="col-sm-2">
+                <a class="quick-button" href="~/POS/FacilityOrderListing">
+                    <i class="fa fa-list"></i>
+                    <p>Order List</p>
+                </a>
+            </div>
+        </div>
+        <div class="box">
+            <div class="col-sm-2">
+                <a class="quick-button" href="~/POS/SalesOrder">
+                    <i class="fa fa-dollar"></i>
+                    <p>Create Order</p>
+                </a>
+            </div>
+        </div>
+        <div class="box">
+            <div class="col-sm-2">
+                <a class="quick-button" href="~/POS/AppointmentListing">
+                    <i class="fa fa-list"></i>
+                    <p>Appointment List</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="mdlRemarks" tabindex="-1" role="dialog" aria-labelledby="mdlRemarks" aria-hidden="true">
+    <div class="modal-dialog" id="Remarks_dialog-modal" style="width: 500px; top: 200px; ">
+        <div class="modal-content">
+            <div class="modal-header" style="color:white;background-image: -webkit-gradient(linear,left top,left bottom,from(#841A1A),to(#B52F2F));">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="mdlAccessRightLabel">Leave Remarks</h4>
+            </div>
+
+            <div class="widget-body no-padding">
+                <div style="padding: 10px 10px 10px 10px; background-color: #FAFAFA;">
+                    <div style="width: 100%;">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <label class="labelRemarks">
+                                        Remarks:
+                                    </label>
+                                </div>
+                                <div class="col-lg-10">
+                                    <textarea id="txtRemarks" rows="4" style="height:50px;width:100%;"></textarea>
+                                </div>
+                            </div>
+                            <div class="row" style="padding-top:10px;">
+                                <div style="white-space:nowrap;text-align:right;">
+                                    <button type="button" class="btn btn-primary" onclick="saveStaffSchedRemark()">Save</button>
+                                    <button type="button" class="btn btn-primary" onclick="closeModal('mdlRemarks');">Close</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="mdlOrderDetails" tabindex="-1" role="dialog" aria-labelledby="mdlOrderDetails" aria-hidden="true">
+    <div class="modal-dialog" id="OrderDetails_dialog-modal" style="width: 500px; top: 150px; ">
+        <div class="modal-content">
+            <div class="modal-header" style="color:white;background-image: -webkit-gradient(linear,left top,left bottom,from(#841A1A),to(#B52F2F));">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="mdlAccessRightLabel">Queue Order Details</h4>
+            </div>
+
+            <div class="widget-body no-padding">
+                <div style="padding: 10px 10px 10px 10px; background-color: #FAFAFA;">
+                    <div style="width: 100%;">
+                        <div class="row ptop5">
+                            <div class="col-lg-6">
+                                <label> Customer </label>
+                                <input type="text" id="txtSOCustomerName" class="form-control" value="" disabled />
+                            </div>
+                            <div class="col-lg-6">
+                                <label> Staff </label>
+                                <input type="text" id="txtSOStaffName" class="form-control" value="" disabled />
+                            </div>
+                        </div>
+                        <div class="row ptop5">
+                            <div class="col-lg-6">
+                                <label> Facility </label>
+                                <input type="text" id="txtSOFacility" class="form-control" value="" disabled />
+                            </div>
+                            <div class="col-lg-6">
+                                <label> Remarks </label>
+                                <textarea id="txtSORemarks" style="width:100%;" disabled></textarea>
+                            </div>
+                        </div>
+                        <div class="ptop5">
+                            <table class="table table-striped table-bordered" id="tblItem">
+                                <thead>
+                                    <tr>
+                                        <th rowspan='2' style="width:18%;background-color:#903030;color:#e5e5e5">Queue #</th>
+                                        <th rowspan='2' style="width:20%;background-color:#903030;color:#e5e5e5">Order #</th>
+                                        <th rowspan='2' style="width:22%;background-color:#903030;color:#e5e5e5">Start Time</th>
+                                        <th rowspan='2' style="width:20%;background-color:#903030;color:#e5e5e5">End Time</th>
+                                        <th rowspan='2' style="width:20%;background-color:#903030;color:#e5e5e5">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="ptop5" style="white-space:nowrap;text-align:right;">
+                            <button type="button" class="btn btn-primary" onclick="goToSalesOrder()">Go To Order</button>
+                            <button type="button" class="btn btn-primary" onclick="closeModal('mdlOrderDetails');">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="mdlHistory" tabindex="-1" role="dialog" aria-labelledby="mdlHistory" aria-hidden="true" style="z-index:9999;">
+    <div class="modal-dialog" id="History_dialog-modal" style="width: 650px; top: 150px; ">
+        <div class="modal-content">
+            <div class="modal-header" style="color:white;background-image: -webkit-gradient(linear,left top,left bottom,from(#841A1A),to(#B52F2F));">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="mdlAccessRightLabel">Appointment History</h4>
+            </div>
+
+            <div class="widget-body no-padding">
+                <div style="padding: 10px 10px 10px 10px; background-color: #FAFAFA;">
+                    <div style="width: 100%;">
+                        <div class="ptop5" style="height:200px;overflow-y:auto;">
+                            <table class="table table-striped table-bordered" id="tblHistory">
+                                <thead>
+                                    <tr>
+                                        <th rowspan='2' style="width:5%;background-color:#903030;color:#e5e5e5">S/N</th>
+                                        <th rowspan='2' style="width:35%;background-color:#903030;color:#e5e5e5">Description</th>
+                                        <th rowspan='2' style="width:15%;background-color:#903030;color:#e5e5e5">Date</th>
+                                        <th rowspan='2' style="width:30%;background-color:#903030;color:#e5e5e5">Time</th>
+                                        <th rowspan='2' style="width:15%;background-color:#903030;color:#e5e5e5">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="ptop5" style="white-space:nowrap;text-align:right;">
+                            <button type="button" class="btn btn-primary" onclick="closeModal('mdlHistory');">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="mdlPackageBalance" tabindex="-1" role="dialog" aria-labelledby="mdlPackageBalance" aria-hidden="true" style="z-index:9999;">
+    <div class="modal-dialog" id="OrderDetails_dialog-modal" style="width: 700px; top: 150px; ">
+        <div class="modal-content">
+            <div class="modal-header" style="color:white;background-image: -webkit-gradient(linear,left top,left bottom,from(#841A1A),to(#B52F2F));">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="mdlAccessRightLabel">Package Balance</h4>
+            </div>
+
+            <div class="widget-body no-padding">
+                <div style="padding: 10px 10px 10px 10px; background-color: #FAFAFA;">
+                    <div style="width: 100%;">
+                        <div class="ptop5">
+                            <table class="table table-striped table-bordered" id="tblPackageBalance">
+                                <thead>
+                                    <tr>
+                                        <th rowspan='2' style="width:10%;background-color:#903030;color:#e5e5e5">S/N</th>
+                                        <th rowspan='2' style="width:15%;background-color:#903030;color:#e5e5e5">Date</th>
+                                        <th rowspan='2' style="width:15%;background-color:#903030;color:#e5e5e5">Receipt</th>
+                                        <th rowspan='2' style="width:25%;background-color:#903030;color:#e5e5e5">Package</th>
+                                        <th rowspan='2' style="width:25%;background-color:#903030;color:#e5e5e5">Product</th>
+                                        <th rowspan='2' style="width:10%;background-color:#903030;color:#e5e5e5">Balance</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="ptop5" style="white-space:nowrap;text-align:right;">
+                            <button type="button" class="btn btn-primary" onclick="closeModal('mdlPackageBalance');">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="mdlServices" tabindex="-1" role="dialog" aria-labelledby="mdlServices" aria-hidden="true" style="z-index:9999;">
+    <div class="modal-dialog" id="OrderDetails_dialog-modal" style="width: 650px; top: 150px; ">
+        <div class="modal-content">
+            <div class="modal-header" style="color:white;background-image: -webkit-gradient(linear,left top,left bottom,from(#841A1A),to(#B52F2F));">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="mdlAccessRightLabel">Services</h4>
+            </div>
+
+            <div class="widget-body no-padding">
+                <div style="padding: 10px 10px 10px 10px; background-color: #FAFAFA;">
+                    <div style="width: 100%;">
+                        <div class="row ptop5">
+                            <div class="col-lg-4">
+                            </div>
+                            <div class="col-lg-4">
+                                Gliss Pts
+                            </div>
+                            <div class="col-lg-4">
+                                Rwd Pts
+                            </div>
+                        </div>
+                        <div class="row ptop5">
+                            <div class="col-lg-4">
+                                Balance
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="text" id="txtCBalance" class="form-control" value="600" style="text-align:right;" />
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="text" id="txtBBalance" class="form-control" value="200" style="text-align:right;" />
+                            </div>
+                        </div>
+                        <div class="row ptop5">
+                            <div class="col-lg-4">
+                                Reserve Amount
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="text" id="txtCReserved" class="form-control" value="0" style="text-align:right;" />
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="text" id="txtBReserved" class="form-control" value="0" style="text-align:right;" />
+                            </div>
+                        </div>
+                        <div class="row ptop5">
+                            <div class="col-lg-4">
+                                Available
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="text" id="txtCAvailable" class="form-control" value="600" style="text-align:right;" />
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="text" id="txtBAvailable" class="form-control" value="200" style="text-align:right;" />
+                            </div>
+                        </div>
+                        <div class="row ptop15">
+                            <div class="col-lg-4">
+                                Product
+                            </div>
+                            <div class="col-lg-8">
+                                <input type="text" id="txtProduct" class="form-control" value="" placeholder="Enter Product Name/Code" />
+                            </div>
+                        </div>
+                        <div class="ptop5">
+                            <table class="table table-striped table-bordered" id="tblProductDetails">
+                                <thead>
+                                    <tr>
+                                        <th rowspan='2' style="width:30%;background-color:#903030;color:#e5e5e5">Product Code</th>
+                                        <th rowspan='2' style="width:30%;background-color:#903030;color:#e5e5e5">Description</th>
+                                        <th rowspan='2' style="width:10%;background-color:#903030;color:#e5e5e5">UOM</th>
+                                        <th rowspan='2' style="width:10%;background-color:#903030;color:#e5e5e5">Selling Price</th>
+                                        <th rowspan='2' style="width:10%;background-color:#903030;color:#e5e5e5">Gliss Pts</th>
+                                        <th rowspan='2' style="width:10%;background-color:#903030;color:#e5e5e5">Rwd Pts</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="ptop5" style="white-space:nowrap;text-align:right;">
+                            <button type="button" class="btn btn-primary" onclick="closeModal('mdlServices');">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="mdlAppointment" tabindex="-1" role="dialog" aria-labelledby="mdlAppointment" aria-hidden="true">
+    <div class="modal-dialog" id="Appointment_dialog-modal" style="width: 700px; top: 5px; ">
+        <div class="modal-content">
+            <div class="modal-header" style="color:white;background-image: -webkit-gradient(linear,left top,left bottom,from(#841A1A),to(#B52F2F));">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="mdlAccessRightLabel">Appointments</h4>
+            </div>
+
+            <div class="widget-body no-padding">
+                <div style="padding: 10px 10px 10px 10px; background-color: #FAFAFA;">
+                    <div class="col-lg-12">
+                        <div class="row ptop5">
+                            <div class="col-lg-2">
+                                <label>
+                                    Date:
+                                </label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="text" id="txtAppDate" value="" class="form-control" disabled />
+                            </div>
+                            <div class="col-lg-2">
+                                <label>
+                                    Staff:
+                                </label>
+                                <span style="color:red;">*</span>
+                            </div>
+                            <div class="col-lg-4">
+                                @Html.DropDownList("cboAppStaff", new SelectList(@ViewBag.AllStaffOptions, "id", "name"), string.Empty, new { @class = "form-control" })
+                            </div>
+
+                        </div>
+                        <div class="row ptop5">
+                            <div class="col-lg-2">
+                                <label>
+                                    Name:
+                                </label>
+                                <span style="color:red;">*</span>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="controls">
+                                    <input type='text' class='form-control' id="txtAppCustomerName" placeholder="Enter Customer Name" />
+                                </div>
+
+                            </div>
+                            <div class="col-lg-2">
+                                <label>
+                                    Room:
+                                </label>
+                                <span style="color:red;">*</span>
+                            </div>
+                            <div class="col-lg-4">
+                                @Html.DropDownList("cboAppFacility", new SelectList(@ViewBag.FacilityOptions, "id", "name"), string.Empty, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="row ptop5">
+                            <div class="col-lg-2">
+                                <label>
+                                    C. Code:
+                                </label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="text" id="txtAppCode" value="" class="form-control" placeholder="Enter Customer Code" />
+                            </div>
+                            <div class="col-lg-2">
+                                <label>
+                                    Email:
+                                </label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="text" id="txtAppEmail" value="" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row ptop5">
+                            <div class="col-lg-2">
+                                <label>
+                                    Mobile:
+                                </label>
+                                <span style="color:red;">*</span>
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="text" id="txtAppMobile" value="" class="form-control" />
+                            </div>
+                            <div class="col-lg-2">
+                                <label>
+                                    NRIC:
+                                </label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="text" id="txtAppNRIC" value="" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row ptop5">
+                            <div class="col-lg-2">
+                                <label>
+                                    From:
+                                </label>
+                            </div>
+                            <div class="col-lg-4">
+                                <select id="cboStartTimeHR" class='form-control' style="width:45px;display:inline;">
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08" selected="">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                                <label class="control-label">:</label>
+                                <select id="cboStartTimeMin" class='form-control' style="width:45px;display:inline;">
+                                    <option value="00" selected="">00</option>
+                                    <option value="15">15</option>
+                                    <option value="30">30</option>
+                                    <option value="45">45</option>
+                                </select>
+                                <select id="cboStartTimeAMPM" class='form-control' style="width:51px;display:inline;">
+                                    <option value="AM" selected="">AM</option>
+                                    <option value="PM">PM</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2">
+                                <label>
+                                    To:
+                                </label>
+                            </div>
+                            <div class="col-lg-4">
+                                <select id="cboEndTimeHR" class='form-control' style="width:45px;display:inline;">
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08" selected="">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                                <label class="control-label">:</label>
+                                <select id="cboEndTimeMin" class='form-control' style="width:45px;display:inline;">
+                                    <option value="00" selected="">00</option>
+                                    <option value="15">15</option>
+                                    <option value="30">30</option>
+                                    <option value="45">45</option>
+                                </select>
+                                <select id="cboEndTimeAMPM" class='form-control' style="width:51px;display:inline;">
+                                    <option value="AM" selected="">AM</option>
+                                    <option value="PM">PM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row ptop5">
+                            <div class="col-lg-2">
+                                <label>
+                                    Category:
+                                </label>
+                            </div>
+                            <div class="col-lg-4">
+                                <select id="cboCategory" class='form-control'>
+                                    <option value="0"></option>
+                                    <option value="1">Hair</option>
+                                    <option value="2">Spa</option>
+                                    <option value="3">Nails</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2">
+                                <label>
+                                    Subcategory:
+                                </label>
+                            </div>
+                            <div class="col-lg-4">
+                                <select id="cboSubCategory" class='form-control'></select>
+                            </div>
+                        </div>
+
+                        <div class="row ptop10">
+                            <div class="col-lg-2">
+                                <label>
+                                    Description:
+                                </label>
+                            </div>
+                            <div class="col-lg-10">
+                                <textarea id="txtAppDescription" rows="6" style="height:90px;width:100%;"></textarea>
+                            </div>
+                        </div>
+                        <div class="row ptop5">
+                            <div class="col-lg-4">
+                            </div>
+                            <div class="col-lg-3" style="text-align:right;margin-top:5px;">
+                                <label id="outstandingBalance" class="control-label"></label>
+                            </div>
+                            <div class="col-lg-5">
+                                <div style="white-space:nowrap;text-align:right;">
+                                    <button type="button" class="btn btn-primary" style="width: 150px;height:30px;" onclick="openPackageBalance()">Package Balance</button>
+                                    <button type="button" class="btn btn-primary" style="width: 90px;height:30px;" onclick="openServices();">Jumbo</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row ptop5">
+                            <div class="col-lg-2">
+                                <label>
+                                    Channel:
+                                </label>
+                            </div>
+                            <div class="col-lg-4">
+                                <select id="cboAppChannel" class='form-control'>
+                                    <option value="0"></option>
+                                    <option value="1">Advertisement</option>
+                                    <option value="2">Website</option>
+                                    <option value="3">Referred By Friend</option>
+                                    <option value="4">Newspaper</option>
+                                    <option value="5">Facebook</option>
+                                    <option value="6">Twitter</option>
+                                    <option value="7">Walk in</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>
+                                    <label class="control-label"><input type="radio" value="Wait List" name="rbStatus">Wait List</label>
+                                </label>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>
+                                    <label class="control-label"><input type="radio" value="Arrived" name="rbStatus">Arrived</label>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row ptop5">
+                            <div class="col-lg-2" style="white-space:nowrap;">
+                                <label>
+                                    Booked By:
+                                </label>
+                            </div>
+                            <div class="col-lg-4">
+                                @Html.DropDownList("cboAppBookedBy", new SelectList(@ViewBag.AllStaffOptions, "id", "name"), string.Empty, new { @class = "form-control", @disabled = "disabled" })
+                            </div>
+                            <div class="col-lg-3">
+                                <label>
+                                    <label class="control-label"><input type="radio" value="Booking" checked name="rbStatus">Booking</label>
+                                </label>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>
+                                    <label class="control-label"><input type="radio" value="Done" name="rbStatus">Done</label>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row ptop5">
+                            <div class="col-lg-2">
+                                <button id="btnCreateOrder" type="button" class="btn btn-primary" style="text-align:center;padding:4px;" onclick="openAppointmentLink()">Create Order</button>
+                            </div>
+                            <div class="col-lg-4">
+                                <label id="sonumber" class="control-label"></label>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>
+                                    <label class="control-label"><input type="radio" value="Confirmed" name="rbStatus">Confirmed</label>
+                                </label>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>
+                                    <label class="control-label"><input type="radio" value="No Show" name="rbStatus">No Show</label>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row ptop5">
+                            <div class="col-lg-2">
+                                <label>
+
+                                </label>
+                            </div>
+                            <div class="col-lg-4" style="margin-top:-15px;">
+                                <label id="queuenumber" class="control-label"></label>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>
+                                    <label class="control-label"><input type="radio" value="Cancelled" name="rbStatus">Cancelled</label>
+                                </label>
+                            </div>
+                            <div class="col-lg-3">
+
+                            </div>
+                        </div>
+                        <div class="row ptop5">
+                            <div class="col-lg-6">
+                                <div style="white-space:nowrap;text-align:left;">
+                                    <button id="btnHistory" type="button" class="btn btn-primary" onclick="openHistory()">History</button>
+                                    <button id="btnPrintAppointment" type="button" class="btn btn-primary">Print</button>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div style="white-space:nowrap;text-align:right;">
+                                    <button id="btnSaveAppointment" type="button" class="btn btn-primary" onclick="saveNewAppointment()">Save</button>
+                                    <button id="btnCloseAppointment" type="button" class="btn btn-primary" onclick="closeModal('mdlAppointment');">Close</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="mdlRefresh" tabindex="-1" role="dialog" aria-labelledby="mdlRefresh" aria-hidden="true">
+    <div class="modal-dialog" id="Remarks_dialog-modal" style="width: 500px; top: 200px; ">
+        <div class="modal-content">
+            <div class="modal-header" style="color:white;background-image: -webkit-gradient(linear,left top,left bottom,from(#841A1A),to(#B52F2F));">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="mdlAccessRightLabel">Session Timeout</h4>
+            </div>
+
+            <div class="widget-body no-padding">
+                <div style="padding: 10px 10px 10px 10px; background-color: #FAFAFA;">
+                    <div style="width: 100%;">
+                        <div class="input-group">
+                            <div class="form-group">
+                                <div style="white-space:nowrap;">
+                                    Your session is about to expire. Please click <b>Refresh</b> to continue.
+                                </div>
+                            </div>
+                        </div>
+                        <div style="white-space:nowrap;text-align:right;">
+                            <button type="button" class="btn btn-primary" onclick="refreshTimeout()">Refresh</button>
+                            <button type="button" class="btn btn-primary" onclick="closeModal('mdlRefresh')">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script type="text/javascript">
+    var load = 1;
+    var staffValue = 0;
+    var _editMode = false,
+        _customerCode = "";
+
+    var _isByDayClick = true,
+        _isByDayWeekClick = true,
+        _isByStaff = true,
+        _isByMonthClick = true,
+        _isByDayRefreshSection = false,
+        _isSelectDayDropdown = false;
+
+
+    var _year = 0,
+        _month = 0,
+        _day = 0,
+        _mode = "";
+
+    var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    var panelByDay = $("#panelByDay"),
+        panelByStaff = $("#panelByStaff"),
+        panelByMonth = $("#panelByMonth");
+
+    var leaves = [],
+        holidays = [],
+        sections = [],
+        sectionsTemp = [];
+
+    var byDayData = [],
+        byDayDataTemp = [],
+        byDayWeekData = [],
+        byDayWeekDataTemp = [],
+        byDayStaffNoLeave = [],
+        byStaffData = [],
+        byMonthData = [],
+        staffWorkScheduleList = [];
+
+    var _onBeforeEvent,
+        _emptyClickEvent,
+        _dblClickEvent,
+        _onBeforeDragEvent,
+        _onDragEndEvent;
+
+    var _dateBeforeDragStartByDay = "",
+        _dateBeforeDragEndByDay = "",
+        _dateBeforeDragUnitByDay = "",
+        _startTimeBeforeDragUnitByDay = "",
+        _endTimeBeforeDragUnitByDay = "",
+        _dragToSelf = false;
+
+    var _dateBeforeDragStartByStaff = "";
+    var _dateBeforeDragEndByStaff = "";
+
+    var _dateBeforeDragByMonth = "";
+
+    var staffSchedId = 0,
+        staffId = 0,
+        appointmentDate = "",
+        appointmentStaffId = "",
+        appointmentId = 0,
+        currentSelectedDate = "",
+        nextSelectedDate = "",
+        prevSelectedDate = "",
+        hideOnLeave = false;
+
+    var _panel = "byDay",
+        _panelMode = "day",
+        _byDayMode = "day";
+
+    var selectedcust,
+        selectedprod;
+
+    var _dragLeaveId = 0,
+        _dragEventId = 0,
+        _dragStaffId = 0,
+        _dragEndDate = "",
+        _dragStartTime = "",
+        _dragEndTime = "";
+
+    $(document).ready(function () {
+
+        populateMonthDropDown();
+        populateYearDropDown();
+
+        resetCboStaff();
+
+        getStaff();
+        //   console.log("getStaff");
+
+        getCustomer();
+        //   console.log("getCustomer");
+
+        getProduct();
+        //   console.log("getProduct");
+
+        initEvents();
+        //  console.log("initEvents");
+
+        loadPublicHoliday();
+        //  console.log("loadPublicHoliday");
+
+        loadLeave();
+        //  console.log("loadLeave");
+
+        showPanelByDay();
+        // console.log("showPanelByDay");
+
+        setInterval(function () {
+            if (_panel == "byDay")
+                (_byDayMode == "day") ? reloadByDay() : reloadByWeek();
+            else if (_panel == "byStaff")
+                reloadByStaff();
+            else if (_panel == "byMonth")
+                reloadByMonth();
+        }, 180000);
+
+        var idleTime = 0;
+
+        var idleInterval = setInterval(timerIncrement, 30000);
+
+        function timerIncrement() {
+            idleTime++;
+            if (idleTime >= 59) {
+                openModal('mdlRefresh');
+            }
+            if (idleTime >= 60) {
+                refreshTimeout();
+            }
+        }
+
+        $(this).mousemove(function (e) {
+            idleTime = 0;
+        });
+
+
+        $('#select_date').on('change', function () {
+            _day = $('#select_date').find(":selected").text();
+            showDivSpinner();
+
+            setTimeout(function () {
+                date_selected();
+                // getAllStaffScheduleByDate(_day, _month, _year);
+            }, 200);
+
+            console.log("day change : " + _day);
+        });
+
+        $('#ddl_month').on('change', function () {
+            _month = $('#ddl_month').find(":selected").val();
+            showDivSpinner();
+
+            setTimeout(function () {
+                date_selected();
+                // getAllStaffScheduleByDate(_day, _month, _year);
+            }, 200);
+
+            console.log("month change : " + _month);
+        });
+
+        $('#ddl_year').on('change', function () {
+            _year = $('#ddl_year').find(":selected").text();
+            showDivSpinner();
+
+            setTimeout(function () {
+                date_selected();
+                // getAllStaffScheduleByDate(_day, _month, _year);
+            }, 200);
+
+            console.log("year change : " + _year);
+        });
+
+    });
+
+
+
+
+    function populateYearDropDown() {
+        var currentYear = new Date().getFullYear();
+
+        console.log(currentYear);
+
+        for (let i = 0; i < 10; i++) {
+            $("#ddl_year").append("<option value=" + (currentYear + i) + ">" + (currentYear + i) + "</option>");
+        }
+    }
+
+    function populateMonthDropDown() {
+        const currentMonth = new Date().getMonth();
+
+        var optAction = "";
+
+        for (let i = 0; i < monthNames.length; i++) {
+            const monthName = monthNames[i];
+            const monthValue = i + 1; // Month value as 1-based (e.g., January = 1)
+
+            if (i == currentMonth)
+                optAction = "selected";
+            else
+                optAction = "";
+
+            //if (i < currentMonth)
+            //    optAction = "disabled";
+            //else
+            //    optionAction = "";
+
+            $("#ddl_month").append("<option " + optAction + " value=" + monthValue + ">" + monthName + "</option>");
+        }
+    }
+
+    function showDivSpinner() {
+        if (!$('#divSpinner').is(':visible')) {
+            // console.log("spinner not show yet" + $('#divSpinner').is(':visible'));
+            $('#divSpinner').modal('show');
+        }
+    }
+
+
+
+
+
+    function select_date_onchange() {
+
+
+    }
+
+
+
+
+
+
+    function date_selected() {
+
+        _isByDayClick = false;
+        $('.day_tab').click();
+        panelByMonth.hide();
+        panelByStaff.hide();
+        panelByDay.show();
+        $("#removeOnLeave").show();
+        _panel = "byDay";
+        _byDayMode = "day";
+
+        getStaff();
+        getAllStaffScheduleByDate(_day, _month, _year);
+        initPanelByDay();
+
+        console.log("_day : " + _day);
+        console.log("_month : " + _month);
+        console.log("_year : " + _year);
+    }
+
+    //reload
+    function loadPublicHoliday() {
+        getPublicHoliday();
+        initHoliday();
+    }
+
+    function loadLeave() {
+        getLeave();
+        initLeave();
+    }
+
+    function reloadByDay() {
+        getAllStaffSchedule();
+        initPanelByDay();
+    }
+
+    function reloadByWeek() {
+        getAllStaffScheduleByWeek();
+        initPanelByWeek();
+    }
+
+    function reloadByStaff() {
+        getScheduleByStaff();
+        initPanelByStaff();
+    }
+
+    function reloadByMonth() {
+        getAllStaffScheduleByMonth();
+        initPanelByMonth();
+    }
+
+
+    //init Events
+    function initEvents() {
+
+        $("#btnPrintAppointment").click(function () {
+            if (appointmentId != 0) {
+                $.ajax({
+                    url: '@Url.Action("GetBranchDetails", "Appointment")',
+                    data: JSON.stringify({ bcode: $("#bcode").val() }),
+                    type: 'POST',
+                    async: true,
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data.length > 0) {
+                            var address = data[0].address.replace("#", "No.");
+                            var url = "../Reports/AppointmentReceipt.aspx?id=" + appointmentId + "&cname=" + data[0].branchname + "&caddress=" + address + "&ctel=" + data[0].tel + "&cfax=" + data[0].fax + "&cemail=" + data[0].email;
+                            window.open(url, 'popup_window', 'width=900,height=600,left=10,top=10,resizable=yes');
+                        }
+                    },
+                    error: function (req, status, err) {
+                        openMessage("An error occured while saving. Please contact the administrator.", "error");
+                    }
+                });
+            }
+            else {
+                openMessage("Please create an appointment", "error");
+            }
+
+
+        });
+
+        $("#btnPrint").click(function () {
+            if (_panel == "byMonth") {
+                var header = monthNames[_month - 1] + " " + _year;
+                scheduler.exportToPDF({
+                    header: "<h2 style='text-align:center;'>" + header + "</h2>",
+                    footer: "",
+                    name: "appointment_bymonth.pdf",
+                    format: "A2",
+                });
+            }
+            else if (_panel == "byStaff") {
+                var staffname = $("#cbobkstaff option:selected").text();
+                scheduler.exportToPDF({
+                    header: "<h2 style='text-align:center;'>Staff: " + staffname + "</h2>",
+                    footer: "",
+                    name: "appointment_bystaff.pdf",
+                    format: "A3",
+                });
+            }
+            else {
+                scheduler.exportToPDF({
+                    footer: "",
+                    name: "appointment.pdf",
+                    format: "A4",
+                });
+            }
+        });
+
+        $('#cbobkstaff').on('change', function () {
+            staffId = this.value;
+            reloadByStaff();
+        });
+
+        $('#cboDepartmentByDay').on('change', function () {
+            $('.selectStaffMembers')[0].sumo.unload();
+            getStaff();
+            (_byDayMode == "day") ? reloadByDay() : reloadByWeek();
+        });
+
+        $('#cboDepartmentByStaff').on('change', function () {
+            resetCboStaff();
+            getStaff();
+            reloadByStaff();
+        });
+
+        $('#cboDepartmentByMonth').on('change', function () {
+            getStaff();
+            reloadByMonth();
+        });
+
+
+        $('#cboCategory').on('change', function () {
+            var html = "";
+            $("#txtAppDescription").val("");
+            if (this.value == "1") {
+                html += "<option value=''></option>";
+                html += "<option value='Color'>Color</option>";
+                html += "<option value='Perm'>Perm</option>";
+                html += "<option value='Treatment'>Treatment</option>";
+                html += "<option value='Cut'>Cut</option>";
+                html += "<option value='Child Cut'>Child Cut</option>";
+                html += "<option value='GK Treatment'>GK Treatment</option>";
+            }
+            else if (this.value == "2") {
+                html += "<option value=''></option>";
+                html += "<option value='Facial'>Facial</option>";
+                html += "<option value='Body'>Body</option>";
+                html += "<option value='DPL/IPL'>DPL/IPL</option>";
+                html += "<option value='Foot'>Foot</option>";
+            }
+            else if (this.value == "3") {
+                html += "<option value=''></option>";
+                html += "<option value='Treatment'>Treatment</option>";
+                html += "<option value='Gel mani or pedi'>Gel mani or pedi</option>";
+                html += "<option value='Gel mani and pedi'>Gel mani and pedi</option>";
+                html += "<option value='Gel mani n redo'>Gel mani n redo</option>";
+                html += "<option value='Express gel'>Express gel</option>";
+                html += "<option value='Express mani or pedi'>Express mani or pedi</option>";
+            }
+
+            $("#cboSubCategory").html(html);
+        });
+
+        $('#cboSubCategory').on('change', function () {
+            if (this.value != "")
+                $("#txtAppDescription").val($("#cboCategory option:selected").text() + "-" + this.value);
+            else
+                $("#txtAppDescription").val("");
+        });
+
+        $('#prevByDay').click(function () {
+            showDivSpinner();
+            if (_byDayMode == "day") {
+                var onLeave = $("#removeOnLeave").text();
+
+                if (onLeave == "Show on Leave")
+                    _isByDayRefreshSection = true;
+            }
+            setTimeout(function () {
+                date_selected();
+            }, 400);
+        });
+
+        $('#nextByDay').click(function () {
+            showDivSpinner();
+            //    getAllStaffScheduleByDate(_day, _month, _year);
+            if (_byDayMode == "day") {
+                var onLeave = $("#removeOnLeave").text();
+
+                if (onLeave == "Show on Leave")
+                    _isByDayRefreshSection = true;
+            }
+
+            setTimeout(function () {
+                date_selected();
+            }, 400);
+
+
+        });
+
+        $('#byDayDay').click(function () {
+            _byDayMode = "day";
+            $("#removeOnLeave").show();
+            $(".dhx_cal_today_button").css("right", "200px");
+            $(".dhx_cal_prev_button").css("right", "120px");
+            $(".dhx_cal_date_button").css("right", "68px");
+            $(".date_pick").show();
+            sections = sectionsTemp;
+            $('select.selectStaffMembers')[0].sumo.selectAll();
+            getAllStaffSchedule();
+            initPanelByDay();
+        });
+
+        $('#byDayWeek').click(function () {
+            _byDayMode = "week";
+            _isByDayWeekClick = true;
+            $("#removeOnLeave").hide();
+            $(".dhx_cal_today_button").css("right", "150px");
+            $(".dhx_cal_prev_button").css("right", "70px");
+            $(".date_pick").hide();
+            sections = sectionsTemp;
+            $('select.selectStaffMembers')[0].sumo.selectAll();
+            getAllStaffScheduleByWeek();
+            initPanelByWeek();
+        });
+
+        $("#scheduler_by_day .date_pick").change(function () {
+            var onLeave = $("#removeOnLeave").text();
+            _day = $("#scheduler_by_day .date_pick option:selected").text();
+
+            if (onLeave == "Show on Leave") {
+                sections = sectionsTemp;
+                byDayData = byDayDataTemp;
+                $('select.selectStaffMembers')[0].sumo.selectAll();
+                var date = new Date(_year, _month - 1, _day);
+                hideLeave(date.toLocaleDateString());
+            }
+
+            initPanelByDay();
+        });
+
+        $("#scheduler_by_staff .date_pick").change(function () {
+            _day = $("#scheduler_by_staff .date_pick option:selected").text();
+            initPanelByStaff();
+        });
+
+        $("#scheduler_by_month .date_pick").change(function () {
+
+            if (_mode == "day")
+                _day = $("#scheduler_by_month .date_pick option:selected").text();
+            else if (_mode == "month")
+                _month = parseInt($("#scheduler_by_month .date_pick option:selected").val()) + 1;
+
+            initPanelByMonth();
+        });
+
+        $('.day_tab').click(function () {
+            $(".dhx_cal_today_button").css("right", "200px");
+            $(".dhx_cal_prev_button").css("right", "120px");
+            $(".dhx_cal_date_button").css("right", "68px");
+            $(".date_pick").show();
+            _panelMode = "day";
+        });
+
+        $('.week_tab').click(function () {
+            $(".dhx_cal_today_button").css("right", "200px");
+            $(".dhx_cal_prev_button").css("right", "70px");
+            $(".dhx_cal_date_button").css("right", "68px");
+            $(".date_pick").hide();
+            _panelMode = "week";
+        });
+
+        $("#week_multiple_staff").click(function () {
+            $('.week_tab').click();
+        });
+
+        $('.month_tab').click(function () {
+            $(".dhx_cal_today_button").css("right", "240px");
+            $(".dhx_cal_prev_button").css("right", "170px");
+            $(".dhx_cal_date_button").css("right", "68px");
+            $(".date_pick").show();
+        });
+    }
+
+    //common
+    function showMessage(attrvalue) {
+        $('#btnMessage').attr('data-noty-options', attrvalue);
+        $('#btnMessage').trigger("click");
+    }
+
+    function openMessage(msg, type) {
+        var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"' + type + '"}';
+        showMessage(attrvalue);
+    }
+
+    //navigation button
+    function showPanelByDay() {
+
+
+
+
+        _isByDayClick = true;
+        $('.day_tab').click();
+        panelByMonth.hide();
+        panelByStaff.hide();
+        panelByDay.show();
+        $("#removeOnLeave").show();
+        _panel = "byDay";
+        _byDayMode = "day";
+
+        getStaff();
+        // console.log("getStaff");
+
+        getAllStaffSchedule();
+        //  console.log("getAllStaffSchedule");
+
+        initPanelByDay();
+        //  console.log("initPanelByDay");
+    }
+
+    function showPanelByStaff() {
+        _isByStaff = true;
+        $('.day_tab').click();
+        panelByDay.hide();
+        panelByMonth.hide();
+        panelByStaff.show();
+
+        _panel = "byStaff";
+        byStaffData = [];
+        getStaff();
+        $("#cbobkstaff").val("");
+        initPanelByStaff();
+    }
+
+    function showPanelByMonth() {
+        _isByMonthClick = true;
+        $(".dhx_cal_today_button").css("right", "240px");
+        $(".dhx_cal_prev_button").css("right", "170px");
+        $(".dhx_cal_date_button").css("right", "68px");
+        $(".date_pick").show();
+
+        panelByDay.hide();
+        panelByStaff.hide();
+        panelByMonth.show();
+        _panel = "byMonth";
+        getStaff();
+        getAllStaffScheduleByMonth();
+        initPanelByMonth();
+    }
+
+    function detachEvent() {
+        scheduler.detachEvent(_onBeforeEvent);
+        scheduler.detachEvent(_emptyClickEvent);
+        scheduler.detachEvent(_dblClickEvent);
+        scheduler.detachEvent(_onBeforeDragEvent);
+        scheduler.detachEvent(_onDragEndEvent);
+    }
+
+    function showSpinner() {
+        if (scheduler.config.show_loading) {
+            var spin;
+            spin = scheduler.config.show_loading = document.createElement("div");
+            spin.className = 'dhx_loading';
+            spin.style.left = Math.round((scheduler._x - 128) / 2) + "px";
+            spin.style.top = Math.round((scheduler._y - 15) / 2) + "px";
+            scheduler._obj.appendChild(spin);
+        }
+
+    }
+
+    function hideSpinner() {
+        var spin = scheduler.config.show_loading;
+        if (spin && typeof spin == "object") {
+            if (spin.parentNode) {
+                spin.parentNode.removeChild(spin);
+            }
+            scheduler.config.show_loading = true;
+        }
+    }
+
+    // Initialize Scheduler
+    function initPanelByDay() {
+        scheduler.clearAll();
+        // showSpinner();
+        detachEvent();
+        scheduler.locale.labels.byDayDay = "Day"
+        scheduler.locale.labels.byDayWeek = "Week"
+        scheduler.locale.labels.section_custom = "Section";
+        scheduler.config.details_on_dblclick = true;
+        scheduler.config.details_on_create = false;
+        scheduler.config.xml_date = "%Y-%m-%d %h:%i %A";
+        scheduler.config.first_hour = 8;
+        scheduler.config.last_hour = 22;
+        scheduler.config.multi_day = true;
+
+        scheduler.config.hour_date = "%:%i %A";
+        //scheduler.config.hour_size_px = "32";
+        //scheduler.config.time_step = 15;
+
+        scheduler.config.separate_short_events = true;
+
+        var format = scheduler.date.date_to_str("%H:%i");
+        var step = 15;
+
+        scheduler.templates.hour_scale = function (date) {
+            var html = "";
+            for (var i = 0; i < 60 / step; i++) {
+                html += "<div style='height:10px;line-height:10px;'>" + format(date) + "</div>";
+                date = scheduler.date.add(date, step, "minute");
+            }
+            return html;
+        }
+
+        var period = (_isByDayClick) ? new Date() : new Date(_year, _month - 1, _day);
+
+        //console.log(" _isByDayClick : " + _isByDayClick);
+        //console.log(" period : " + period);
+
+
+        //scheduler.attachEvent("onXLS", function() { showSpinner() });
+        //scheduler.attachEvent("onXLE", function () { hideSpinner() });
+
+
+        _onBeforeEvent = scheduler.attachEvent("onBeforeViewChange", function (old_mode, old_date, mode, date) {
+            var year = date.getFullYear();
+            var month = (date.getMonth() + 1);
+            var d = new Date(year, month, 0);
+
+            _year = year;
+            _month = month;
+            _day = date.getDate();
+
+            var days = d.getDate();
+
+            var html = "";
+
+            $("#scheduler_by_day .date_pick").html("");
+
+            for (var i = 0; i < days; i++) {
+                html += "<option>" + (i + 1) + "</option>";
+            }
+
+            var prevDate = new Date();
+            prevDate.setDate(date.getDate() - 1);
+
+            var nextDate = new Date();
+            nextDate.setDate(date.getDate() + 1);
+
+            prevSelectedDate = prevDate.toLocaleDateString();
+            currentSelectedDate = date.toLocaleDateString();
+            nextSelectedDate = nextDate.toLocaleDateString();
+
+
+
+            $("#scheduler_by_day .date_pick").append(html);
+            $("#scheduler_by_day .date_pick").val(_day);
+
+            if (_isByDayRefreshSection) {
+                sections = sectionsTemp;
+                byDayData = byDayDataTemp;
+                $('select.selectStaffMembers')[0].sumo.selectAll();
+
+                _isByDayRefreshSection = false;
+                hideLeave(currentSelectedDate);
+                initPanelByDay();
+            }
+
+            return true;
+        });
+
+
+        scheduler.createUnitsView({
+            name: "unit",
+            list: sections,
+            property: "unit_id",
+            size: 20,
+            step: 5
+        });
+
+
+
+        scheduler.templates.event_class = function (start, end, event) {
+
+            var subClass = "";
+
+            if ((event.end_date - event.start_date) / 60000 == 15) {
+                subClass = " fourth";
+                if (event.type == "appointment") {
+                    subClass = " fourth " + event.status.trim();
+                }
+            }
+            else if ((event.end_date - event.start_date) / 60000 == 30) {
+                subClass = " half";
+                if (event.type == "appointment") {
+                    subClass = " half " + event.status.trim();
+                }
+            }
+            else if ((event.end_date - event.start_date) / 60000 == 45) {
+                subClass = " third";
+                if (event.type == "appointment") {
+                    subClass = " third " + event.status.trim();
+                }
+            }
+            else {
+                subClass = "";
+            }
+
+
+            if (event.type == 'work') return "work_event" + subClass;
+            if (event.type == 'holiday') return "holiday_event" + subClass;
+            if (event.type == 'salesorder') return "salesorder_event" + subClass;
+            if (event.type == 'appointment') return "appointment_event" + subClass;
+        };
+
+        scheduler.templates.tooltip_date_format = function (date) {
+            var formatFunc = scheduler.date.date_to_str("%Y-%m-%d %h:%i %A");
+            return formatFunc(date);
+        };
+
+        scheduler.templates.tooltip_text = function (start, end, event) {
+
+            var startStr = (scheduler.templates.tooltip_date_format(start)).split(" ");
+            var endStr = (scheduler.templates.tooltip_date_format(end)).split(" ");
+
+            var html = "";
+
+            if (event.type == "salesorder") {
+                html += "<b>Type:</b> Queued Order";
+                html += "<br/><b>Date:</b> " + startStr[0];
+                html += "<br/><b>Start Time:</b> " + startStr[1] + " " + startStr[2];
+                html += "<br/><b>End Time:</b> " + endStr[1] + " " + endStr[2];
+                html += "<br/><b>Customer Name:</b> " + event.customername;
+                html += "<br/><b>Queue#:</b> " + event.queueno;
+                html += "<br/><b>Order#:</b> " + event.sono;
+                html += "<br/><b>Status:</b> " + event.status;
+            }
+            else if (event.type == "holiday") {
+                html += "<b>Public Holiday:</b> " + event.text;
+                html += "<br/><b>Date:</b> " + startStr[0];
+            }
+            else if (event.type == "appointment") {
+                html += "<b>Type:</b> Appointment";
+                html += "<br/><b>Date:</b> " + startStr[0];
+                html += "<br/><b>Start Time:</b> " + startStr[1] + " " + startStr[2];
+                html += "<br/><b>End Time:</b> " + endStr[1] + " " + endStr[2];
+                html += "<br/><b>Customer Name:</b> " + event.customername;
+                if (event.queueno != "") {
+                    html += "<br/><b>Queue#:</b> " + event.queueno;
+                }
+                if (event.sono != "") {
+                    html += "<br/><b>Order#:</b> " + event.sono;
+                }
+                html += "<br/><b>Status:</b> " + event.status;
+                html += "<br/><b>Balance:</b> " + event.balance;
+            }
+            else {
+                html += "<b>Leave Type:</b> " + event.text;
+                html += "<br/><b>Date:</b> " + startStr[0];
+                if (event.isWholeDay == "0") {
+                    html += "<br/><b>Start Time:</b> " + startStr[1] + " " + startStr[2];
+                    html += "<br/><b>End Time:</b> " + endStr[1] + " " + endStr[2];
+                }
+            }
+
+            if (event.remarks != "") {
+                html += "<br/><b>Remarks:</b> " + event.remarks;
+            }
+
+            return html;
+        };
+
+
+        getStaffWorkScheduleByDay();
+
+        scheduler.deleteMarkedTimespan();
+
+        for (var i = 0; i < staffWorkScheduleList.length; i++) {
+            var fromdate = getDateFromAspString(staffWorkScheduleList[i].startdate);
+            var todate = getDateFromAspString(staffWorkScheduleList[i].enddate);
+            var stTime = fromdate.getHours();
+            var eTime = todate.getHours();
+
+            if (fromdate.getMinutes() == 30) {
+                stTime = fromdate.getHours() + .50;
+            }
+
+            if (todate.getMinutes() == 30) {
+                eTime = todate.getHours() + .50;
+            }
+
+
+            if (eTime == 0) {
+                eTime = 24;
+            }
+
+            scheduler.addMarkedTimespan({
+                days: new Date(fromdate.getFullYear(), fromdate.getMonth(), fromdate.getDate()),
+                zones: [stTime * 60, eTime * 60],
+                css: (staffWorkScheduleList[i].type == "Off") ? "off_event" : "small_lines_section",
+                sections: {
+                    unit: staffWorkScheduleList[i].staffid
+                }
+            });
+        }
+
+        for (var i = 0; i < sections.length; i++) {
+            for (var j = 0; j < holidays.length; j++) {
+                var date = getDateFromAspString(holidays[j].holidaydate);
+
+                scheduler.addMarkedTimespan({
+                    days: new Date(date.getFullYear(), date.getMonth(), date.getDate()),
+                    zones: [1 * 60, 24 * 60],
+                    css: "holiday_lines_section",
+                    sections: {
+                        unit: sections[i].key
+                    }
+                });
+            }
+        }
+
+        scheduler.renderEvent = function (container, ev) {
+            if ((ev.end_date - ev.start_date) / 60000 < 60) {
+
+                var container_width = container.style.width;
+
+                var html = "<div class='dhx_event_move' style='width: " + container_width + ";cursor:pointer;'>";
+                html += scheduler.templates.event_text(ev.start_date, ev.end_date, ev) +
+           "</div>";
+
+                container.innerHTML = html;
+                return true;
+            }
+        };
+
+        scheduler.init('scheduler_by_day', period, "unit");
+
+        scheduler.parse(byDayData, "json");
+
+        _dblClickEvent = scheduler.attachEvent("onClick", function (id, e) {
+            var event = scheduler.getEvent(id);
+            staffSchedId = event.id;
+            appointmentId = event.id;
+
+            _panel = "byDay";
+            _byDayMode = "day";
+
+            if ((event.type == "salesorder")) {
+                populateQueueOrderDetails();
+                openModal('mdlOrderDetails');
+            }
+            else if ((event.type == "appointment")) {
+                populateAppointment();
+                openModal('mdlAppointment');
+            }
+            else {
+                $("#txtRemarks").val(event.remarks);
+                openModal('mdlRemarks');
+            }
+            return true;
+        });
+
+        _onBeforeDragEvent = scheduler.attachEvent("onBeforeDrag", function (id, mode, e) {
+            if (mode == "create")
+                return false;
+
+            var event = scheduler.getEvent(id);
+
+            if (event.type == "holiday")
+                return false;
+            else if (event.type == "salesorder")
+                return false;
+            else {
+                if (mode == 'resize') {
+                    return false;
+                }
+                else {
+                    _dateBeforeDragStartByDay = event.start_date.toLocaleDateString();
+                    _dateBeforeDragEndByDay = event.end_date.toLocaleDateString();
+                    _dateBeforeDragUnitByDay = event.unit_id;
+                    _startTimeBeforeDragUnitByDay = moment(event.start_date).format('hh:mm A');
+                    _endTimeBeforeDragUnitByDay = moment(event.end_date).format('hh:mm A');
+                    return true;
+                }
+            }
+        });
+
+        _emptyClickEvent = scheduler.attachEvent("onEmptyClick", function (date, e) {
+            appointmentId = 0;
+            selectedcust = null;
+            _editMode = false;
+
+            appointmentDate = date.toLocaleDateString();
+            //appointmentDate = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+
+            var action_data = scheduler.getActionData(e);
+            appointmentStaffId = action_data.section;
+
+            resetAppointment();
+            openModal('mdlAppointment');
+
+        });
+
+        _onDragEndEvent = scheduler.attachEvent("onDragEnd", function (id, e) {
+
+            var event = scheduler.getEvent(id);
+
+            _dragToSelf = (_dateBeforeDragUnitByDay == event.unit_id
+                      && _dateBeforeDragStartByDay == event.start_date.toLocaleDateString()
+                      && _dateBeforeDragEndByDay == event.end_date.toLocaleDateString()
+                      && _startTimeBeforeDragUnitByDay == moment(event.start_date).format('hh:mm A')
+                      && _endTimeBeforeDragUnitByDay == moment(event.end_date).format('hh:mm A')) ? true : false;
+
+            _dragEventId = event.id;
+            _dragEndDate = event.end_date.toLocaleDateString();
+            _dragStaffId = event.unit_id;
+            _dragStartTime = moment(event.start_date).format('hh:mm A');
+            _dragEndTime = moment(event.end_date).format('hh:mm A');
+
+            if (event.type == "leave")
+                updateStaffLeaveByDay();
+            else if (event.type == "appointment")
+                updateStaffAppointmentByDay();
+
+        });
+
+        _isByDayClick = false;
+        _isByDayRefreshSection = false;
+
+        var d = new Date(currentSelectedDate);
+        var dd = (d + " ").split(" ");
+        $('#current_date').text(dd[0] + " " + dd[2] + " " + dd[1] + " " + dd[3] + " ");
+
+    }
+
+    function initPanelByWeek() {
+        scheduler.clearAll();
+        detachEvent();
+        scheduler.locale.labels.byDayWeek = "Week"
+        scheduler.locale.labels.section_custom = "Section";
+        scheduler.config.details_on_dblclick = true;
+        scheduler.config.details_on_create = false;
+        scheduler.config.xml_date = "%Y-%m-%d %h:%i %A";
+
+        scheduler.config.first_hour = 8;
+        scheduler.config.multi_day = true;
+        scheduler.config.hour_date = "%h:%i %A";
+
+        var period = (_isByDayWeekClick) ? new Date() : new Date(_year, _month - 1, _day);
+
+        scheduler.createUnitsView({
+            name: "week_unit",
+            property: "section_id",
+            list: sections,
+            property: "unit_id",
+            days: 3
+        });
+
+        scheduler.templates.event_class = function (start, end, event) {
+            var subClass = "";
+
+            if ((event.end_date - event.start_date) / 60000 == 15) {
+                subClass = " fourth";
+                if (event.type == "appointment") {
+                    subClass = " fourth " + event.status.trim();
+                }
+            }
+            else if ((event.end_date - event.start_date) / 60000 == 30) {
+                subClass = " half";
+                if (event.type == "appointment") {
+                    subClass = " half " + event.status.trim();
+                }
+            }
+            else if ((event.end_date - event.start_date) / 60000 == 45) {
+                subClass = " third";
+                if (event.type == "appointment") {
+                    subClass = " third " + event.status.trim();
+                }
+            }
+            else {
+                subClass = "";
+            }
+
+
+            if (event.type == 'work') return "work_event" + subClass;
+            if (event.type == 'holiday') return "holiday_event" + subClass;
+            if (event.type == 'salesorder') return "salesorder_event" + subClass;
+            if (event.type == 'appointment') return "appointment_event" + subClass;
+        };
+
+        scheduler.templates.tooltip_text = function (start, end, event) {
+
+            var startStr = (scheduler.templates.tooltip_date_format(start)).split(" ");
+            var endStr = (scheduler.templates.tooltip_date_format(end)).split(" ");
+
+            var html = "";
+
+            if (event.type == "salesorder") {
+                html += "<b>Type:</b> Queued Order";
+                html += "<br/><b>Staff Name:</b> " + event.staff_name;
+                html += "<br/><b>Date:</b> " + startStr[0];
+                html += "<br/><b>Start Time:</b> " + startStr[1] + " " + startStr[2];
+                html += "<br/><b>End Time:</b> " + endStr[1] + " " + endStr[2];
+                html += "<br/><b>Customer Name:</b> " + event.customername;
+                html += "<br/><b>Queue#:</b> " + event.queueno;
+                html += "<br/><b>Order#:</b> " + event.sono;
+                html += "<br/><b>Status:</b> " + event.status;
+            }
+            else if (event.type == "holiday") {
+                html += "<b>Public Holiday:</b> " + event.name;
+                html += "<br/><b>Date:</b> " + startStr[0];
+            }
+            else if (event.type == "appointment") {
+                html += "<b>Type:</b> Appointment";
+                html += "<br/><b>Staff Name:</b> " + event.staff_name;
+                html += "<br/><b>Date:</b> " + startStr[0];
+                html += "<br/><b>Start Time:</b> " + startStr[1] + " " + startStr[2];
+                html += "<br/><b>End Time:</b> " + endStr[1] + " " + endStr[2];
+                html += "<br/><b>Customer Name:</b> " + event.customername;
+                if (event.queueno != "") {
+                    html += "<br/><b>Queue#:</b> " + event.queueno;
+                }
+                if (event.sono != "") {
+                    html += "<br/><b>Order#:</b> " + event.sono;
+                }
+                html += "<br/><b>Status:</b> " + event.status;
+                html += "<br/><b>Balance:</b> " + event.balance;
+            }
+            else {
+                html += "<b>Leave Type:</b> " + event.name;
+                html += "<br/><b>Staff Name:</b> " + event.staff_name;
+                html += "<br/><b>Date:</b> " + startStr[0];
+                if (event.isWholeDay == "0") {
+                    html += "<br/><b>Start Time:</b> " + startStr[1] + " " + startStr[2];
+                    html += "<br/><b>End Time:</b> " + endStr[1] + " " + endStr[2];
+                }
+            }
+
+            if (event.remarks != "") {
+                html += "<br/><b>Remarks:</b> " + event.remarks;
+            }
+
+            return html;
+        };
+
+        _onBeforeEvent = scheduler.attachEvent("onBeforeViewChange", function (old_mode, old_date, mode, date) {
+            var year = date.getFullYear();
+            var month = (date.getMonth() + 1);
+            var d = new Date(year, month, 0);
+
+            _year = year;
+            _month = month;
+            _day = date.getDate();
+
+            var days = d.getDate();
+
+            var prevDate = new Date();
+            prevDate.setDate(date.getDate() - 1);
+
+            var nextDate = new Date();
+            nextDate.setDate(date.getDate() + 1);
+
+            prevSelectedDate = prevDate.toLocaleDateString();
+            currentSelectedDate = date.toLocaleDateString();
+            nextSelectedDate = nextDate.toLocaleDateString();
+
+            return true;
+        });
+
+
+        getStaffWorkScheduleByDay();
+        scheduler.deleteMarkedTimespan();
+
+        for (var i = 0; i < staffWorkScheduleList.length; i++) {
+            var fromdate = getDateFromAspString(staffWorkScheduleList[i].startdate);
+            var todate = getDateFromAspString(staffWorkScheduleList[i].enddate);
+            var stTime = fromdate.getHours();
+            var eTime = todate.getHours();
+
+            if (fromdate.getMinutes() == 30) {
+                stTime = fromdate.getHours() + .50;
+            }
+
+            if (todate.getMinutes() == 30) {
+                eTime = todate.getHours() + .50;
+            }
+
+            if (eTime == 0) {
+                eTime = 24;
+            }
+
+            scheduler.addMarkedTimespan({
+                days: new Date(fromdate.getFullYear(), fromdate.getMonth(), fromdate.getDate()),
+                zones: [stTime * 60, eTime * 60],
+                css: (staffWorkScheduleList[i].type == "Off") ? "off_event" : "small_lines_section",
+                sections: {
+                    week_unit: staffWorkScheduleList[i].staffid
+                }
+            });
+        }
+
+        for (var i = 0; i < sections.length; i++) {
+            for (var j = 0; j < holidays.length; j++) {
+                var date = getDateFromAspString(holidays[j].holidaydate);
+
+                scheduler.addMarkedTimespan({
+                    days: new Date(date.getFullYear(), date.getMonth(), date.getDate()),
+                    zones: [1 * 60, 24 * 60],
+                    css: "holiday_lines_section",
+                    sections: {
+                        week_unit: sections[i].key
+                    }
+                });
+            }
+        }
+
+        scheduler.renderEvent = function (container, ev) {
+            if ((ev.end_date - ev.start_date) / 60000 < 60) {
+
+                var container_width = container.style.width;
+
+                var html = "<div class='dhx_event_move' style='width: " + container_width + ";cursor:pointer;'>";
+                html += scheduler.templates.event_text(ev.start_date, ev.end_date, ev) +
+                "</div>";
+
+                container.innerHTML = html;
+                return true;
+            }
+        };
+
+        scheduler.init('scheduler_by_day', period, "week_unit");
+
+        scheduler.parse(byDayWeekData, "json");
+
+        _onBeforeDragEvent = scheduler.attachEvent("onBeforeDrag", function (id, mode, e) {
+            if (mode == "create")
+                return false;
+
+            var event = scheduler.getEvent(id);
+
+            if (event.type == "holiday")
+                return false;
+            else if (event.type == "salesorder")
+                return false;
+            else {
+                if (mode == 'resize') {
+                    return false;
+                }
+                else {
+                    _dateBeforeDragStartByDay = event.start_date.toLocaleDateString();
+                    _dateBeforeDragEndByDay = event.end_date.toLocaleDateString();
+                    _dateBeforeDragUnitByDay = event.unit_id;
+                    _startTimeBeforeDragUnitByDay = moment(event.start_date).format('hh:mm A');
+                    _endTimeBeforeDragUnitByDay = moment(event.end_date).format('hh:mm A');
+                    return true;
+                }
+            }
+        });
+
+        _dblClickEvent = scheduler.attachEvent("onClick", function (id, e) {
+            var event = scheduler.getEvent(id);
+            staffSchedId = event.id;
+            appointmentId = event.id;
+
+            _panel = "byDay";
+            _byDayMode = "week";
+
+            if ((event.type == "salesorder")) {
+                populateQueueOrderDetails();
+                openModal('mdlOrderDetails');
+            }
+            else if ((event.type == "appointment")) {
+                populateAppointment();
+                openModal('mdlAppointment');
+            }
+            else {
+                $("#txtRemarks").val(event.remarks);
+                openModal('mdlRemarks');
+            }
+            return true;
+        });
+
+        _emptyClickEvent = scheduler.attachEvent("onEmptyClick", function (date, e) {
+            appointmentId = 0;
+            selectedcust = null;
+            _editMode = false;
+            appointmentDate = date.toLocaleDateString();
+            //appointmentDate = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+            var action_data = scheduler.getActionData(e);
+            appointmentStaffId = action_data.section;
+
+            resetAppointment();
+            openModal('mdlAppointment')
+        });
+
+        _onDragEndEvent = scheduler.attachEvent("onDragEnd", function (id, e) {
+            var event = scheduler.getEvent(id);
+
+            _dragToSelf = (_dateBeforeDragUnitByDay == event.unit_id
+                && _dateBeforeDragStartByDay == event.start_date.toLocaleDateString()
+                && _dateBeforeDragEndByDay == event.end_date.toLocaleDateString()
+                && _startTimeBeforeDragUnitByDay == moment(event.start_date).format('hh:mm A')
+                && _endTimeBeforeDragUnitByDay == moment(event.end_date).format('hh:mm A')) ? true : false;
+
+            _dragEventId = event.id;
+            _dragEndDate = event.end_date.toLocaleDateString();
+            _dragStaffId = event.unit_id;
+            _dragStartTime = moment(event.start_date).format('hh:mm A');
+            _dragEndTime = moment(event.end_date).format('hh:mm A');
+
+            if (event.type == "leave")
+                updateStaffLeaveByWeek();
+            else if (event.type == "appointment")
+                updateStaffAppointmentByWeek();
+
+
+        });
+
+        _isByDayWeekClick = false;
+    }
+
+    function initPanelByStaff() {
+        scheduler.clearAll();
+        detachEvent();
+        scheduler.config.first_hour = 8;
+        scheduler.config.details_on_create = false;
+        scheduler.config.xml_date = "%Y-%m-%d %h:%i %A";
+        scheduler.config.hour_date = "%h:%i %A";
+
+        var period = (_isByStaff) ? new Date() : new Date(_year, _month - 1, _day);
+
+        _onBeforeEvent = scheduler.attachEvent("onBeforeViewChange", function (old_mode, old_date, mode, date) {
+            var year = date.getFullYear();
+            var month = (date.getMonth() + 1);
+            var d = new Date(year, month, 0);
+
+            _year = year;
+            _month = month;
+            _day = date.getDate();
+
+            var days = d.getDate();
+
+            var html = "";
+            $("#scheduler_by_staff .date_pick").html("");
+
+            //day mode
+            if (mode == "day") {
+                for (var i = 0; i < days; i++) {
+                    html += "<option>" + (i + 1) + "</option>";
+                }
+
+                $("#scheduler_by_staff .date_pick").append(html);
+                $("#scheduler_by_staff .date_pick").val(_day);
+            }
+
+            //week mode
+            if (mode == "week") {
+
+            }
+            return true;
+        });
+
+        scheduler.templates.tooltip_text = function (start, end, event) {
+
+            var startStr = (scheduler.templates.tooltip_date_format(start)).split(" ");
+            var endStr = (scheduler.templates.tooltip_date_format(end)).split(" ");
+
+            var html = "";
+
+            if (event.type == "salesorder") {
+                html += "<b>Type:</b> Queued Order";
+                html += "<br/><b>Date:</b> " + startStr[0];
+                html += "<br/><b>Start Time:</b> " + startStr[1] + " " + startStr[2];
+                html += "<br/><b>End Time:</b> " + endStr[1] + " " + endStr[2];
+                html += "<br/><b>Customer Name:</b> " + event.customername;
+                html += "<br/><b>Queue#:</b> " + event.queueno;
+                html += "<br/><b>Order#:</b> " + event.sono;
+                html += "<br/><b>Status:</b> " + event.status;
+            }
+            else if (event.type == "holiday") {
+                html += "<b>Public Holiday:</b> " + event.text;
+                html += "<br/><b>Date:</b> " + startStr[0];
+            }
+            else if (event.type == "appointment") {
+                html += "<b>Type:</b> Appointment";
+                html += "<br/><b>Date:</b> " + startStr[0];
+                html += "<br/><b>Start Time:</b> " + startStr[1] + " " + startStr[2];
+                html += "<br/><b>End Time:</b> " + endStr[1] + " " + endStr[2];
+                html += "<br/><b>Customer Name:</b> " + event.customername;
+                if (event.queueno != "") {
+                    html += "<br/><b>Queue#:</b> " + event.queueno;
+                }
+                if (event.sono != "") {
+                    html += "<br/><b>Order#:</b> " + event.sono;
+                }
+                html += "<br/><b>Status:</b> " + event.status;
+                html += "<br/><b>Balance:</b> " + event.balance;
+            }
+            else {
+                html += "<b>Leave Type:</b> " + event.text;
+                html += "<br/><b>Date:</b> " + startStr[0];
+                if (event.isWholeDay == "0") {
+                    html += "<br/><b>Start Time:</b> " + startStr[1] + " " + startStr[2];
+                    html += "<br/><b>End Time:</b> " + endStr[1] + " " + endStr[2];
+                }
+            }
+
+            if (event.remarks != "") {
+                html += "<br/><b>Remarks:</b> " + event.remarks;
+            }
+
+            return html;
+        };
+
+
+        getStaffWorkScheduleByStaff();
+        scheduler.deleteMarkedTimespan();
+        for (var i = 0; i < staffWorkScheduleList.length; i++) {
+
+            var fromdate = getDateFromAspString(staffWorkScheduleList[i].startdate);
+            var todate = getDateFromAspString(staffWorkScheduleList[i].enddate);
+            var stTime = fromdate.getHours();
+            var eTime = todate.getHours();
+
+            if (fromdate.getMinutes() == 30) {
+                stTime = fromdate.getHours() + .50;
+            }
+
+            if (todate.getMinutes() == 30) {
+                eTime = todate.getHours() + .50;
+            }
+
+            if (eTime == 0) {
+                eTime = 24;
+            }
+
+            scheduler.addMarkedTimespan({
+                days: new Date(fromdate.getFullYear(), fromdate.getMonth(), fromdate.getDate()),
+                zones: [stTime * 60, eTime * 60],
+                css: (staffWorkScheduleList[i].type == "Off") ? "off_event" : "small_lines_section"
+            });
+        }
+
+
+        for (var j = 0; j < holidays.length; j++) {
+            var date = getDateFromAspString(holidays[j].holidaydate);
+
+            scheduler.addMarkedTimespan({
+                days: new Date(date.getFullYear(), date.getMonth(), date.getDate()),
+                zones: [1 * 60, 24 * 60],
+                css: "holiday_lines_section",
+            });
+        }
+
+        scheduler.renderEvent = function (container, ev) {
+            if ((ev.end_date - ev.start_date) / 60000 < 60) {
+
+                var container_width = container.style.width;
+
+                var html = "<div class='dhx_event_move' style='width: " + container_width + ";cursor:pointer;'>";
+                html += scheduler.templates.event_text(ev.start_date, ev.end_date, ev) +
+                "</div>";
+
+                container.innerHTML = html;
+                return true;
+            }
+        };
+
+        scheduler.init('scheduler_by_staff', period, _panelMode);
+
+        scheduler.parse(byStaffData, "json");
+
+        _dblClickEvent = scheduler.attachEvent("onClick", function (id, e) {
+            var event = scheduler.getEvent(id);
+            staffSchedId = event.id;
+            appointmentId = event.id;
+            _panel = "byStaff";
+            if ((event.type == "salesorder")) {
+                populateQueueOrderDetails();
+                openModal('mdlOrderDetails');
+            }
+            else if ((event.type == "appointment")) {
+                populateAppointment();
+                openModal('mdlAppointment');
+            }
+            else {
+                $("#txtRemarks").val(event.remarks);
+                openModal('mdlRemarks');
+            }
+            return true;
+        });
+
+        _onBeforeDragEvent = scheduler.attachEvent("onBeforeDrag", function (id, mode, e) {
+
+            if (mode == "create")
+                return false;
+
+            var event = scheduler.getEvent(id);
+
+            if (event.type == "holiday")
+                return false;
+            else if (event.type == "salesorder")
+                return false;
+            else {
+                if (mode == 'resize') {
+                    return false;
+                }
+                else {
+                    _dateBeforeDragStartByStaff = event.start_date.toLocaleDateString();
+                    _dateBeforeDragEndByStaff = event.end_date.toLocaleDateString();
+                    _startTimeBeforeDragUnitByDay = moment(event.start_date).format('hh:mm A');
+                    _endTimeBeforeDragUnitByDay = moment(event.end_date).format('hh:mm A');
+                    return true;
+                }
+            }
+        });
+
+        _emptyClickEvent = scheduler.attachEvent("onEmptyClick", function (date, e) {
+
+            if ($("#cbobkstaff option:selected").text().trim() != "") {
+                appointmentId = 0;
+                selectedcust = null;
+                _editMode = false;
+                appointmentDate = date.toLocaleDateString();
+                // appointmentDate = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+                var action_data = scheduler.getActionData(e);
+                appointmentStaffId = action_data.section;
+
+                resetAppointment();
+                openModal('mdlAppointment');
+            }
+        });
+
+
+        _onDragEndEvent = scheduler.attachEvent("onDragEnd", function (id, e) {
+            var event = scheduler.getEvent(id);
+
+            _dragToSelf = (_dateBeforeDragStartByStaff == event.start_date.toLocaleDateString()
+                          && _startTimeBeforeDragUnitByDay == moment(event.start_date).format('hh:mm A')
+                          && _endTimeBeforeDragUnitByDay == moment(event.end_date).format('hh:mm A')) ? true : false;
+
+            _dragEventId = event.id;
+            _dragEndDate = event.start_date.toLocaleDateString();
+            _dragStaffId = event.unit_id;
+            _dragStartTime = moment(event.start_date).format('hh:mm A');
+            _dragEndTime = moment(event.end_date).format('hh:mm A');
+
+            if (event.type == "leave")
+                updateStaffLeaveByStaff();
+            else if (event.type == "appointment")
+                updateStaffAppointmentByStaff();
+
+        });
+
+        _isByStaff = false;
+    }
+
+    function initPanelByMonth() {
+        scheduler.clearAll();
+        detachEvent();
+        scheduler.config.first_hour = 8;
+        scheduler.config.details_on_create = false;
+        scheduler.config.xml_date = "%Y-%m-%d %h:%i %A";
+        scheduler.config.hour_date = "%h:%i %A";
+
+        var period = (_isByMonthClick) ? new Date() : new Date(_year, _month - 1, _day);
+
+        scheduler.attachEvent("onViewChange", function (new_mode, new_date) {
+            if (new_mode == "day") {
+                _mode = "day";
+            }
+            else if (new_mode == "week") {
+                _mode = "week";
+            }
+            else if (new_mode == "month") {
+                _mode = "month";
+            }
+
+        });
+
+
+        scheduler.templates.event_class = function (start, end, event) {
+            if (event.type == 'work') return "work_event";
+            if (event.type == 'holiday') return "holiday_event";
+            if (event.type == 'salesorder') return "salesorder_event";
+            if (event.type == 'appointment') return "appointment_event";
+        };
+
+        _onBeforeEvent = scheduler.attachEvent("onBeforeViewChange", function (old_mode, old_date, mode, date) {
+            var year = date.getFullYear();
+            var month = (date.getMonth() + 1);
+            var d = new Date(year, month, 0);
+
+            _year = year;
+            _month = month;
+            _day = date.getDate();
+
+            var days = d.getDate();
+
+            var html = "";
+            $("#scheduler_by_month .date_pick").html("");
+
+            //month mode
+            if (mode == "month") {
+                for (var i = 0; i < monthNames.length; i++) {
+                    html += "<option value=" + i + ">" + monthNames[i] + "</option>";
+                }
+
+                $("#scheduler_by_month .date_pick").append(html);
+                $("#scheduler_by_month .date_pick").val(_month - 1);
+            }
+
+            return true;
+        });
+
+        _onBeforeDragEvent = scheduler.attachEvent("onBeforeDrag", function (id, mode, e) {
+
+            if (mode == "create")
+                return false;
+
+            var event = scheduler.getEvent(id);
+
+            if (event.type == "holiday")
+                return false;
+            else if (event.type == "salesorder")
+                return false;
+            else {
+                if (mode == 'resize') {
+                    return false;
+                }
+                else {
+                    _dateBeforeDragByMonth = event.start_date.toLocaleDateString();
+                    return true;
+                }
+            }
+        });
+
+        _dblClickEvent = scheduler.attachEvent("onClick", function (id, e) {
+
+            var event = scheduler.getEvent(id);
+            staffSchedId = event.id;
+            appointmentId = event.id;
+            _panel = "byMonth";
+
+            if ((event.type == "salesorder")) {
+                populateQueueOrderDetails();
+                openModal('mdlOrderDetails');
+            }
+            else if ((event.type == "appointment")) {
+                populateAppointment();
+                openModal('mdlAppointment');
+            }
+            else {
+                $("#txtRemarks").val(event.remarks);
+                openModal('mdlRemarks');
+            }
+
+            return true;
+        });
+
+        _emptyClickEvent = scheduler.attachEvent("onEmptyClick", function (date, e) {
+            appointmentId = 0;
+            selectedcust = null;
+            _editMode = false;
+            appointmentDate = date.toLocaleDateString();
+            //appointmentDate = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+            var action_data = scheduler.getActionData(e);
+            appointmentStaffId = action_data.section;
+
+            resetAppointment();
+            openModal('mdlAppointment')
+        });
+
+        _onDragEndEvent = scheduler.attachEvent("onDragEnd", function (id, e) {
+            var event = scheduler.getEvent(id);
+
+            if (_dateBeforeDragByMonth != event.start_date.toLocaleDateString()) {
+                _dragEventId = event.id;
+                _dragEndDate = event.start_date.toLocaleDateString();
+                _dragStaffId = event.unit_id;
+
+                if (event.type == "leave")
+                    updateStaffLeaveByMonth();
+                else if (event.type == "appointment")
+                    updateStaffAppointmentByMonth();
+            }
+        });
+
+        scheduler.templates.tooltip_text = function (start, end, event) {
+
+            var startStr = (scheduler.templates.tooltip_date_format(start)).split(" ");
+            var endStr = (scheduler.templates.tooltip_date_format(end)).split(" ");
+
+            var html = "";
+
+            if (event.type == "salesorder") {
+                html += "<b>Staff Name:</b> " + event.staffName;
+                html += "<br/><b>Type:</b> " + event.eventType;
+                html += "<br/><b>Date:</b> " + startStr[0];
+                html += "<br/><b>Start Time:</b> " + startStr[1] + " " + startStr[2];
+                html += "<br/><b>End Time:</b> " + endStr[1] + " " + endStr[2];
+                html += "<br/><b>Customer Name:</b> " + event.customername;
+                html += "<br/><b>Queue#:</b> " + event.queueno;
+                html += "<br/><b>Order#:</b> " + event.sono;
+                html += "<br/><b>Status:</b> " + event.status;
+            }
+            else if (event.type == "holiday") {
+                html += "<b>Public Holiday:</b> " + event.eventType;
+                html += "<br/><b>Date:</b> " + startStr[0];
+            }
+            else if (event.type == "appointment") {
+                html += "<b>Staff Name:</b> " + event.staffName;
+                html += "<br/><b>Type:</b> " + event.eventType;
+                html += "<br/><b>Date:</b> " + startStr[0];
+                html += "<br/><b>Start Time:</b> " + startStr[1] + " " + startStr[2];
+                html += "<br/><b>End Time:</b> " + endStr[1] + " " + endStr[2];
+                html += "<br/><b>Customer Name:</b> " + event.customername;
+                if (event.queueno != "") {
+                    html += "<br/><b>Queue#:</b> " + event.queueno;
+                    html += "<br/><b>Order#:</b> " + event.sono;
+                }
+                html += "<br/><b>Status:</b> " + event.status;
+
+            }
+            else {
+                html += "<b>Staff Name:</b> " + event.staffName;
+                html += "<br/><b>Leave Type:</b> " + event.eventType;
+                html += "<br/><b>Date:</b> " + startStr[0];
+                if (event.isWholeDay == "0") {
+                    html += "<br/><b>Start Time:</b> " + startStr[1] + " " + startStr[2];
+                    html += "<br/><b>End Time:</b> " + endStr[1] + " " + endStr[2];
+                }
+            }
+
+            if (event.remarks != "") {
+                html += "<br/><b>Remarks:</b> " + event.remarks;
+            }
+
+            return html;
+        };
+
+        scheduler.deleteMarkedTimespan();
+        for (var j = 0; j < holidays.length; j++) {
+            var date = getDateFromAspString(holidays[j].holidaydate);
+
+            scheduler.addMarkedTimespan({
+                days: new Date(date.getFullYear(), date.getMonth(), date.getDate()),
+                zones: "fullday",
+                css: "holiday_lines_section",
+            });
+        }
+
+
+        scheduler.init('scheduler_by_month', period, "month");
+
+        scheduler.parse(byMonthData, "json");
+
+        _isByMonthClick = false;
+    }
+
+    //Modal Window
+    function openModal(modalName) {
+        $(".tooltip").css("visibility", "hidden");
+        $('#' + modalName).modal('show');
+    }
+
+    function closeModal(modalName) {
+        $('#' + modalName).modal('hide');
+    }
+
+
+    function getAllStaffScheduleByDate(day, month, year) {
+
+        console.log("getAllStaffScheduleByDate day", day + "/" + month + "/" + year + "/");
+
+        byDayData = [];
+
+        $.ajax({
+            url: '@Url.Action("GetAllStaffScheduleDay", "Appointment")',
+            data: JSON.stringify({ bcode: $("#bcode").val(), departmentid: $("#cboDepartmentByDay").val(), day: day, month: month, year: year }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                byDayData = data;
+                byDayDataTemp = byDayData;
+
+                $('#divSpinner').modal('hide');
+                //console.log(byDayData);
+            },
+            error: function (ts) { openMessage(ts.responseText, "error") }
+        });
+    }
+
+    //ByDay
+    function getAllStaffSchedule() {
+
+        byDayData = [];
+
+        $.ajax({
+            url: '@Url.Action("GetAllStaffSchedule", "Appointment")',
+            data: JSON.stringify({ bcode: $("#bcode").val(), departmentid: $("#cboDepartmentByDay").val() }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                byDayData = data;
+                byDayDataTemp = byDayData;
+            },
+            error: function (ts) { openMessage(ts.responseText, "error") }
+        });
+    }
+
+    function getAllStaffScheduleByWeek() {
+
+        byDayWeekData = [];
+
+        $.ajax({
+            url: '@Url.Action("GetAllStaffScheduleByWeek", "Appointment")',
+            data: JSON.stringify({ bcode: $("#bcode").val(), departmentid: $("#cboDepartmentByDay").val() }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                byDayWeekData = data;
+                byDayWeekDataTemp = byDayWeekData;
+            },
+            error: function (ts) { openMessage(ts.responseText, "error") }
+        });
+    }
+
+    function getCustomer() {
+        $("#txtAppCustomerName").autocomplete({
+            minLength: 3,
+            source: function (req, res) {
+                jQuery.ajax({
+                    url: '@Url.Action("getMemberInfoByName", "Appointment")',
+                    cache: false,
+                    dataType: 'json',
+                    data: { custInfo: $('#txtAppCustomerName').val(), count: 10 },
+                    error: function (data) {
+                        return false;
+                    },
+                    success: function (data) {
+                        res($.map(data, function (item) {
+                            return {
+                                label: item.cussupname + "(" + item.inhousecode + ")",
+                                value: item.cussupname,
+                                id: item.id,
+                                inhousecode: item.inhousecode,
+                                cussupname: item.cussupname,
+                                nric: item.nric,
+                                mobile: item.mobile,
+                                email: item.email
+                            }
+                        }));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                selectedcust = ui.item;
+                $("#txtAppCode").val(selectedcust.inhousecode);
+                $("#txtAppNRIC").val(selectedcust.nric);
+                $("#txtAppMobile").val(selectedcust.mobile);
+                $("#txtAppEmail").val(selectedcust.email);
+                getOutstandingBalance(selectedcust.inhousecode);
+            }
+        });
+
+        $("#txtAppCode").autocomplete({
+            minLength: 3,
+            source: function (req, res) {
+                jQuery.ajax({
+                    url: '@Url.Action("getMemberInfoByCode", "Appointment")',
+                    cache: false,
+                    dataType: 'json',
+                    data: { custInfo: $('#txtAppCode').val(), count: 10 },
+                    error: function (data) {
+                        return false;
+                    },
+                    success: function (data) {
+                        res($.map(data, function (item) {
+                            return {
+                                label: item.inhousecode + "(" + item.cussupname + ")",
+                                value: item.inhousecode,
+                                id: item.id,
+                                inhousecode: item.inhousecode,
+                                cussupname: item.cussupname,
+                                nric: item.nric,
+                                mobile: item.mobile,
+                                email: item.email
+                            }
+                        }));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                selectedcust = ui.item;
+
+                $("#txtAppCustomerName").val(selectedcust.cussupname);
+                $("#txtAppNRIC").val(selectedcust.nric);
+                $("#txtAppMobile").val(selectedcust.mobile);
+                $("#txtAppEmail").val(selectedcust.email);
+
+                getOutstandingBalance(selectedcust.inhousecode);
+            }
+        });
+
+    }
+
+
+
+    function getProduct() {
+
+        $("#txtProduct").autocomplete({
+            minLength: 3,
+            source: function (req, res) {
+                jQuery.ajax({
+                    url: '@Url.Action("getProductInfoAppointment", "Product")',
+                    cache: false,
+                    dataType: 'json',
+                    data: { prodInfo: $('#txtProduct').val(), count: 10 },
+                    error: function (data) {
+                        return false;
+                    },
+                    success: function (data) {
+                        res($.map(data, function (item) {
+                            return {
+                                label: item.desc + " per " + item.uom + "(" + item.productcode + ")",
+                                value: item.desc,
+                                category: item.category,
+                                categorysub: item.categorysub,
+                                brand: item.brand,
+                                RangesNSeries: item.RangesNSeries,
+                                uom: item.uom,
+                                desc: item.desc,
+                                id: item.id,
+                                productcode: item.productcode,
+                                sellprice: item.sellprice.toFixed(2),
+                                serviceallowance: item.serviceallowance.toFixed(2),
+                                redeemdollars: item.redeemdollars,
+                                redeembonus: item.redeembonus
+
+                            }
+                        }));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                selectedprod = ui.item;
+                var html = "<tr>";
+                html += "<td>" + selectedprod.productcode + "</td>";
+                html += "<td>" + selectedprod.desc + "</td>";
+                html += "<td>" + selectedprod.uom + "</td>";
+                html += "<td>" + selectedprod.sellprice + "</td>";
+                html += "<td>" + selectedprod.redeemdollars + "</td>";
+                html += "<td>" + selectedprod.redeembonus + "</td>";
+                html += "</tr>";
+                $("#tblProductDetails tbody").html(html);
+            }
+        });
+
+
+    }
+
+
+    function getOutstandingBalance(code) {
+        $.ajax({
+            url: '@Url.Action("getOutstandingBalance", "Appointment")',
+            data: JSON.stringify({ cussupcode: code }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $("#outstandingBalance").text("Balance: " + data);
+            },
+            error: function (ts) { openMessage(ts.responseText, "error") }
+        });
+    }
+
+    function hideLeave(date) {
+        byDayStaffNoLeave = [];
+        var staffWithFullLeave = $.grep(byDayDataTemp, function (item) {
+            return item.isWholeDay == "1" && item.end_date.toLocaleDateString() == date;
+        });
+
+        for (var i = 0; i < staffWithFullLeave.length; i++) {
+            byDayStaffNoLeave.push({ id: staffWithFullLeave[i].id, staffid: staffWithFullLeave[i].unit_id });
+        }
+
+        for (var i = 0; i < staffWithFullLeave.length; i++) {
+            $('select.selectStaffMembers')[0].sumo.unSelectItem(byDayStaffNoLeave[i].staffid);
+        }
+
+        for (var i = 0; i < byDayStaffNoLeave.length; i++) {
+            sections = $.grep(sections, function (item) {
+                return item.key != byDayStaffNoLeave[i].staffid;
+            });
+
+            byDayData = $.grep(byDayData, function (item) {
+                return item.unit_id != byDayStaffNoLeave[i].staffid;
+            });
+        }
+
+    }
+
+    function showLeave(date) {
+        byDayStaffNoLeave = [];
+        var staffWithFullLeave = $.grep(byDayDataTemp, function (item) {
+            return item.isWholeDay == "1" && item.end_date.toLocaleDateString() == date;
+        });
+
+        for (var i = 0; i < staffWithFullLeave.length; i++) {
+            byDayStaffNoLeave.push({ id: staffWithFullLeave[i].id, staffid: staffWithFullLeave[i].unit_id });
+        }
+
+        for (var i = 0; i < staffWithFullLeave.length; i++) {
+            $('select.selectStaffMembers')[0].sumo.selectItem(byDayStaffNoLeave[i].staffid);
+        }
+
+        for (var i = 0; i < byDayStaffNoLeave.length; i++) {
+            var text = $(".selectStaffMembers option[value='" + byDayStaffNoLeave[i].staffid + "']").text();
+
+            var duplicate = $.grep(sections, function (item) {
+                return item.key == byDayStaffNoLeave[i].staffid;
+            });
+
+            if (duplicate.length == 0) {
+
+                sections.push({ key: byDayStaffNoLeave[i].staffid, label: text })
+
+                var oldData = $.grep(byDayDataTemp, function (item) {
+                    return item.unit_id == byDayStaffNoLeave[i].staffid;
+                });
+
+                byDayData = $.merge($.merge([], byDayData), oldData);
+            }
+        }
+
+        sections = sections.sort(function (a, b) {
+            var aLabel = a.label.toLowerCase();
+            var bLabel = b.label.toLowerCase();
+            return ((aLabel < bLabel) ? -1 : ((aLabel > bLabel) ? 1 : 0));
+        });
+
+
+    }
+
+    function showOrHideRemoveOnLeave() {
+        var onLeave = $("#removeOnLeave").text();
+        byDayStaffNoLeave = [];
+
+        if (_byDayMode == "day") {
+            if (onLeave == "Remove Staff on Leave") {
+                $("#removeOnLeave").text("Show Staff on Leave");
+                hideLeave(currentSelectedDate);
+                hideOnLeave = true;
+            }
+            else {
+                $("#removeOnLeave").text("Remove Staff on Leave");
+                showLeave(currentSelectedDate);
+                hideOnLeave = false;
+            }
+
+            initPanelByDay();
+        }
+    }
+
+    function getStaff() {
+
+        var deptId = 0;
+        if (_panel == "byDay")
+            deptId = $("#cboDepartmentByDay").val();
+        else if (_panel == "byStaff")
+            deptId = $("#cboDepartmentByStaff").val();
+        else if (_panel == "byMonth")
+            deptId = $("#cboDepartmentByMonth").val();
+
+        sections = [];
+        sectionsTemp = [];
+        var html = "";
+        $(".selectStaffMembers").html("");
+
+        $.ajax({
+            url: '@Url.Action("GetStaffByDepartment", "StaffSchedule")',
+            data: JSON.stringify({ bcode: $("#bcode").val(), departmentid: deptId }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    html += "<option selected value=" + data[i].id + ">" + data[i].name.trim() + "</option>";
+                    sections.push({ key: data[i].id, label: data[i].name.trim() });
+                }
+                sectionsTemp = sections;
+            },
+            error: function (ts) { openMessage(ts.responseText, "error") }
+        });
+
+
+        $(".selectStaffMembers").append(html);
+
+
+        $('.selectStaffMembers').SumoSelect({
+            csvDispCount: 2,
+            captionFormat: '{0} Staff Members',
+            captionFormatAllSelected: "All Staff Members",
+            selectAll: true,
+            triggerChangeCombined: false
+        });
+
+        $(".SumoSelect li").unbind("click.check");
+
+        $(".SumoSelect li").bind('click.check', function (event) {
+
+            $("select.selectStaffMembers option").each(function (a, b) {
+                if ($(this).html().trim() == event.currentTarget.innerText.trim()) {
+                    staffValue = $(this).val();
+                }
+            });
+
+            if ($(this).hasClass('selected')) {
+
+                sections.push({ key: staffValue, label: event.currentTarget.innerText.trim() })
+
+                sections = sections.sort(function (a, b) {
+                    var aLabel = a.label.toLowerCase();
+                    var bLabel = b.label.toLowerCase();
+                    return ((aLabel < bLabel) ? -1 : ((aLabel > bLabel) ? 1 : 0));
+                });
+
+                if (_byDayMode == "day") {
+                    var oldData = $.grep(byDayDataTemp, function (item) {
+                        return item.unit_id == staffValue;
+                    });
+
+                    byDayData = $.merge($.merge([], byDayData), oldData);
+
+                    initPanelByDay();
+                }
+                else {
+                    var oldData = $.grep(byDayWeekDataTemp, function (item) {
+                        return item.unit_id == staffValue;
+                    });
+
+                    byDayWeekData = $.merge($.merge([], byDayWeekData), oldData);
+
+                    initPanelByWeek();
+                }
+            }
+            else {
+
+                sections = $.grep(sections, function (item) {
+                    return item.key != staffValue;
+                });
+
+                if (_byDayMode == "day") {
+                    byDayData = $.grep(byDayData, function (item) {
+                        return item.unit_id != staffValue;
+                    });
+
+                    initPanelByDay();
+                }
+                else {
+                    byDayWeek = $.grep(byDayWeekData, function (item) {
+                        return item.unit_id != staffValue;
+                    });
+
+                    initPanelByWeek();
+                }
+            }
+
+        })
+
+    }
+
+    function updateStaffLeaveByDay() {
+
+        $.ajax({
+            url: '@Url.Action("UpdateStaffLeaveByDay", "Appointment")',
+            data: JSON.stringify({ id: _dragEventId, staffId: _dragStaffId }),
+            type: 'POST',
+            async: true,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == "SUCCESS") {
+                    if (!_dragToSelf)
+                        openMessage("Successfully updated.", "success");
+
+                    _dragToSelf = false;
+                    reloadByDay();
+
+                }
+                else {
+                    openMessage("An error occured while saving. Please contact the administrator.", "error");
+                }
+
+            },
+            error: function (req, status, err) {
+                openMessage("An error occured while saving. Please contact the administrator.", "error");
+            }
+        });
+    }
+
+    function updateStaffAppointmentByDay() {
+
+
+        $.ajax({
+            url: '@Url.Action("UpdateStaffAppointmentByDay", "Appointment")',
+            data: JSON.stringify({ id: _dragEventId, staffId: _dragStaffId, starttime: _dragStartTime, endtime: _dragEndTime }),
+            type: 'POST',
+            async: true,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == "SUCCESS") {
+                    if (!_dragToSelf)
+                        openMessage("Successfully updated.", "success");
+                    _dragToSelf = false;
+                    reloadByDay();
+                }
+                else {
+                    openMessage("An error occured while saving. Please contact the administrator.", "error");
+                }
+
+            },
+            error: function (req, status, err) {
+                openMessage("An error occured while saving. Please contact the administrator.", "error");
+            }
+        });
+    }
+
+
+
+    function updateStaffLeaveByWeek() {
+
+        $.ajax({
+            url: '@Url.Action("UpdateStaffLeaveByWeek", "Appointment")',
+            data: JSON.stringify({ id: _dragEventId, staffId: _dragStaffId, date: _dragEndDate }),
+            type: 'POST',
+            async: true,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == "SUCCESS") {
+                    if (!_dragToSelf)
+                        openMessage("Successfully updated.", "success");
+                    _dragToSelf = false;
+                    reloadByWeek();
+                }
+                else {
+                    openMessage("An error occured while saving. Please contact the administrator.", "error");
+                }
+
+            },
+            error: function (req, status, err) {
+                openMessage("An error occured while saving. Please contact the administrator.", "error");
+            }
+        });
+    }
+
+    function updateStaffAppointmentByWeek() {
+
+        $.ajax({
+            url: '@Url.Action("UpdateStaffAppointmentByWeek", "Appointment")',
+            data: JSON.stringify({ id: _dragEventId, staffId: _dragStaffId, date: _dragEndDate, starttime: _dragStartTime, endtime: _dragEndTime }),
+            type: 'POST',
+            async: true,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == "SUCCESS") {
+                    if (!_dragToSelf)
+                        openMessage("Successfully updated.", "success");
+                    _dragToSelf = false;
+                    reloadByWeek();
+                }
+                else {
+                    openMessage("An error occured while saving. Please contact the administrator.", "error");
+                }
+
+            },
+            error: function (req, status, err) {
+                openMessage("An error occured while saving. Please contact the administrator.", "error");
+            }
+        });
+    }
+
+
+    //End ByDay
+
+
+    //ByStaff
+    function resetCboStaff() {
+        staffId = 0;
+        $("#cbobkstaff").empty();
+        var html = "";
+        $.ajax({
+            url: '@Url.Action("GetStaffByDepartment", "StaffSchedule")',
+            data: JSON.stringify({ bcode: $("#bcode").val(), departmentid: $("#cboDepartmentByStaff").val() }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    staffId = data[i].id;
+                    html += "<option selected value=" + data[i].id + ">" + data[i].name.trim() + "</option>";
+
+                }
+            },
+            error: function (ts) { openMessage(ts.responseText, "error") }
+        });
+
+        $("#cbobkstaff").html(html);
+
+    }
+    function getScheduleByStaff() {
+
+        byStaffData = [];
+        if (staffId != 0) {
+            $.ajax({
+                url: '@Url.Action("GetScheduleByStaff", "Appointment")',
+                data: JSON.stringify({ id: staffId, bcode: $("#bcode").val() }),
+                type: 'POST',
+                async: false,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    byStaffData = data;
+                },
+                error: function (ts) { openMessage(ts.responseText, "error") }
+            });
+        }
+    }
+
+    function updateStaffLeaveByStaff() {
+
+        $.ajax({
+            url: '@Url.Action("UpdateStaffLeaveByStaff", "Appointment")',
+            data: JSON.stringify({ id: _dragEventId, date: _dragEndDate }),
+            type: 'POST',
+            async: true,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == "SUCCESS") {
+
+                    if (!_dragToSelf)
+                        openMessage("Successfully updated.", "success");
+
+                    _dragToSelf = false;
+                    reloadByStaff();
+
+                }
+                else {
+                    openMessage("An error occured while saving. Please contact the administrator.", "error");
+                }
+
+            },
+            error: function (req, status, err) {
+                openMessage("An error occured while saving. Please contact the administrator.", "error");
+            }
+        });
+    }
+
+    function updateStaffAppointmentByStaff() {
+
+        $.ajax({
+            url: '@Url.Action("UpdateStaffAppointmentByStaff", "Appointment")',
+            data: JSON.stringify({ id: _dragEventId, date: _dragEndDate, starttime: _dragStartTime, endtime: _dragEndTime }),
+            type: 'POST',
+            async: true,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == "SUCCESS") {
+
+                    if (!_dragToSelf)
+                        openMessage("Successfully updated.", "success");
+
+                    _dragToSelf = false;
+                    reloadByStaff();
+
+                }
+                else {
+                    openMessage("An error occured while saving. Please contact the administrator.", "error");
+                }
+
+            },
+            error: function (req, status, err) {
+                openMessage("An error occured while saving. Please contact the administrator.", "error");
+            }
+        });
+    }
+    //End ByStaff
+
+
+    //ByMonth
+    function getAllStaffScheduleByMonth() {
+
+        byMonthData = [];
+        $.ajax({
+            url: '@Url.Action("GetAllStaffScheduleByMonth", "Appointment")',
+            data: JSON.stringify({ bcode: $("#bcode").val(), departmentid: $("#cboDepartmentByMonth").val() }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                byMonthData = data;
+            },
+            error: function (ts) { openMessage(ts.responseText, "error") }
+        });
+    }
+
+    function updateStaffLeaveByMonth() {
+
+        $.ajax({
+            url: '@Url.Action("UpdateStaffLeaveByStaff", "Appointment")',
+            data: JSON.stringify({ id: _dragEventId, date: _dragEndDate }),
+            type: 'POST',
+            async: true,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == "SUCCESS") {
+                    openMessage("Successfully updated.", "success");
+                    reloadByMonth();
+
+                }
+                else {
+                    openMessage("An error occured while saving. Please contact the administrator.", "error");
+                }
+
+            },
+            error: function (req, status, err) {
+                openMessage("An error occured while saving. Please contact the administrator.", "error");
+            }
+        });
+    }
+
+    function updateStaffAppointmentByMonth() {
+
+        $.ajax({
+            url: '@Url.Action("UpdateStaffAppointmentByMonth", "Appointment")',
+            data: JSON.stringify({ id: _dragEventId, date: _dragEndDate }),
+            type: 'POST',
+            async: true,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == "SUCCESS") {
+                    openMessage("Successfully updated.", "success");
+                    reloadByMonth();
+                }
+                else {
+                    openMessage("An error occured while saving. Please contact the administrator.", "error");
+                }
+
+            },
+            error: function (req, status, err) {
+                openMessage("An error occured while saving. Please contact the administrator.", "error");
+            }
+        });
+    }
+
+    //End ByMonth
+
+
+    //Leave Methods
+    function getLeave() {
+
+        leaves = [];
+
+        $.ajax({
+            url: '@Url.Action("GetLeave", "StaffSchedule")',
+            data: {},
+            type: 'POST',
+            async: false,
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    leaves.push({ id: data[i].id, name: data[i].leaveName, backgroundcolor: data[i].backgroundColor, textcolor: data[i].textColor, start: data[i].start, end: data[i].end, isWholeDay: data[i].isWholeDay });
+                }
+            },
+            error: function (ts) { openMessage(ts.responseText, "error") }
+        });
+
+    }
+
+    function initLeave() {
+        $(".legend").empty();
+        var html = "";
+
+        html = "<div class='container-inner'>";
+        html += "<b>Legend:</b>";
+        html += "<input type='text' class='summaryleaveColor' style='background-image: url(../Images/small_lines.png);' disabled> Work Schedule";
+        html += "<input type='text' class='summaryleaveColor' style='background-color: #7f7f7f;opacity:.7;' disabled> Off";
+        for (var i = 0; i < leaves.length; i++) {
+            html += "<input type='text' class='summaryleaveColor' style='background-color:" + leaves[i].backgroundcolor + "' disabled> " + leaves[i].name;
+        }
+        html += "</div>";
+
+        $(".legend").append(html);
+    }
+    //End Leave Methods
+
+    //Holiday Methods
+    function getPublicHoliday() {
+        holidays = [];
+        $.ajax({
+            url: '@Url.Action("GetPublicHoliday", "StaffSchedule")',
+            data: {},
+            type: 'POST',
+            async: false,
+            success: function (data) {
+                holidays = data
+            },
+            error: function (ts) { openMessage(ts.responseText, "error") }
+        });
+    }
+    function initHoliday() {
+        $(".holiday").empty();
+        var html = "";
+        html = "<b>Public Holidays</b> <input type='text' class='publicHolidayBox' style='border:3px solid blue !important;' disabled>";
+        html += "<div class='container-inner publicHoliday'>";
+        for (var i = 0; i < holidays.length; i++) {
+            html += "<div style='display:inline;margin-left:20px;'>" + holidays[i].name + "</div>";
+        }
+        html += "</div>";
+
+        $(".holiday").append(html);
+    }
+
+    //End Holiday Methods
+
+    //Modal Methods
+
+    function openAppointmentLink() {
+        if ($("#btnCreateOrder").text() == "Create Order") {
+            createOrder();
+        }
+        else {
+
+            goToSalesOrder();
+        }
+    }
+
+    function createOrder() {
+
+        if (appointmentId != 0) {
+            var url = "../POS/SalesOrder";
+
+            var form = $('<form action="' + url + '" method="post">' +
+              '<input type="hidden" name="appid"  id="appid" value="' + appointmentId + '" />' +
+            '</form>');
+            $('body').append(form);
+            $(form).submit();
+        }
+
+    }
+
+    function openRemarks() {
+        $("#txtRemarks").empty();
+        openModal('mdlRemarks');
+    }
+
+    function openPackageBalance() {
+        $("#tblPackageBalance tbody").html("");
+        var id = 0;
+
+        if (selectedcust != null) {
+            id = selectedcust.id;
+        }
+
+        if (_editMode == true) {
+
+            $.ajax({
+                url: '@Url.Action("GetCustomerIdByCode", "Appointment")',
+                data: { code: $("#txtAppCode").val().trim() },
+                type: 'POST',
+                async: false,
+                success: function (data) {
+                    id = data;
+                },
+                error: function (ts) { openMessage(ts.responseText, "error") }
+            });
+
+        }
+
+        if (id != 0) {
+
+            $.ajax({
+                url: '@Url.Action("getPackageDetail", "Appointment")',
+                data: { mid: id },
+                type: 'POST',
+                async: false,
+                success: function (data) {
+                    var html = "";
+
+                    for (var i = 0; i < data.length; i++) {
+                        var ctmp = getDateFromAspString(data[i].date);
+                        var createddate = ctmp.getDate() + "/" + (ctmp.getMonth() + 1) + "/" + ctmp.getFullYear();
+                        html += "<tr><td>" + (i + 1) + "</td><td>" + createddate + "</td><td>" + data[i].receipt + "</td><td>" + data[i].packagedesc + "</td><td>" + data[i].productdesc + "</td><td>" + data[i].balance + "</td></tr>";
+                    }
+
+                    $("#tblPackageBalance tbody").append(html);
+                },
+                error: function (ts) { openMessage(ts.responseText, "error") }
+            });
+
+            openModal('mdlPackageBalance');
+        }
+        else {
+            openMessage("Please select a customer", "error");
+        }
+
+    }
+
+    function openHistory() {
+        $("#tblHistory tbody").html("");
+
+        var code = "";
+
+        if (selectedcust != null) {
+            code = selectedcust.inhousecode;
+        }
+
+        if (_editMode == true) {
+            code = $("#txtAppCode").val().trim();
+        }
+
+
+        if (code != "") {
+
+            $.ajax({
+                url: '@Url.Action("getAppointmentHistory", "Appointment")',
+                data: { code: code },
+                type: 'POST',
+                success: function (data) {
+                    var html = "";
+
+                    for (var i = 0; i < data.length; i++) {
+
+                        html += "<tr>";
+                        html += "<td>" + (i + 1) + "</td>";
+                        html += "<td>" + data[i].description + "</td>";
+                        html += "<td>" + data[i].appointmentdate + "</td>";
+                        html += "<td>" + data[i].starttime + " - " + data[i].endtime + "</td>";
+                        html += "<td>" + data[i].status + "</td>";
+                        html += "</tr>";
+                    }
+
+                    $("#tblHistory tbody").append(html);
+                    openModal('mdlHistory');
+                },
+                error: function (ts) { openMessage(ts.responseText, "error") }
+            });
+
+        }
+        else {
+            openMessage("Please select a customer", "error");
+        }
+    }
+
+
+    function openServices() {
+        $("#tblProductDetails tbody").html("");
+        $('#txtProduct').val('');
+        $('#txtCBalance').val('');
+        $('#txtBBalance').val('');
+        $('#txtCReserved').val('');
+        $('#txtBReserved').val('');
+        $('#txtCAvailable').val('');
+        $('#txtBAvailable').val('');
+
+        var id = 0;
+
+        if (selectedcust != null) {
+            id = selectedcust.id;
+        }
+
+        if (_editMode == true) {
+
+            $.ajax({
+                url: '@Url.Action("GetCustomerIdByCode", "Appointment")',
+                data: { code: $("#txtAppCode").val().trim() },
+                type: 'POST',
+                async: false,
+                success: function (data) {
+                    id = data;
+                },
+                error: function (ts) { openMessage(ts.responseText, "error") }
+            });
+
+        }
+
+        if (id != 0) {
+
+            $.ajax({
+                url: '@Url.Action("getMemberList", "CusSup")',
+                data: { mid: id },
+                type: 'POST',
+                async: false,
+                success: function (data) {
+                    if (data.length > 0) {
+                        $('#txtCBalance').val(data[0].CBalance);
+                        $('#txtBBalance').val(data[0].BBalance);
+                        $('#txtCReserved').val(data[0].CReserved);
+                        $('#txtBReserved').val(data[0].BReserved);
+                        $('#txtCAvailable').val(data[0].CAvailable);
+                        $('#txtBAvailable').val(data[0].BAvailable);
+                    }
+
+                },
+                error: function (ts) { alert(ts.responseText) }
+            });
+
+            openModal('mdlServices');
+        }
+        else {
+            openMessage("Please select a customer", "error");
+        }
+
+    }
+
+    function saveStaffSchedRemark() {
+
+        $.ajax({
+            url: '@Url.Action("UpdateStaffSchedRemark", "Appointment")',
+            data: JSON.stringify({ id: staffSchedId, remarks: $("#txtRemarks").val() }),
+            type: 'POST',
+            async: true,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                if (data == "SUCCESS") {
+                    if (_panel == "byDay")
+                        (_byDayMode == "day") ? reloadByDay() : reloadByWeek();
+                    else if (_panel == "byStaff")
+                        reloadByStaff();
+                    else if (_panel == "byMonth")
+                        reloadByMonth();
+
+
+                    openMessage("Successfully saved.", "success");
+                }
+                else {
+                    openMessage("An error occured while saving. Please contact the administrator.", "error");
+                }
+
+            },
+            error: function (req, status, err) {
+                openMessage("An error occured while saving. Please contact the administrator.", "error");
+            }
+        });
+
+        closeModal('mdlRemarks');
+    }
+
+    function resetAppointment() {
+
+        if (_panel == "byDay") {
+            $("#cboAppStaff").val(appointmentStaffId);
+            $("#cboAppStaff").removeAttr("disabled");
+        }
+        else if (_panel == "byStaff") {
+
+            $("#cboAppStaff").val($("#cbobkstaff").val());
+            $("#cboAppStaff").prop('disabled', 'disabled');
+        }
+        else if (_panel == "byMonth") {
+            $("#cboAppStaff").val("");
+            $("#cboAppStaff").removeAttr("disabled");
+        }
+
+
+        $("#cboAppFacility").val("");
+
+        var apptdatestr = appointmentDate.split("/");
+        var year = apptdatestr[2];
+        var month = apptdatestr[0]
+        var day = apptdatestr[1];
+
+        day = (day <= 9) ? "0" + day : day;
+        month = (month <= 9) ? "0" + month : month;
+
+        $("#txtAppDate").val(day + "/" + month + "/" + year);
+        //$("#txtAppDate").val(appointmentDate);
+
+        $("#txtAppCustomerName").val("");
+        $("#txtAppCode").val("");
+        $("#txtAppMobile").val("");
+        $("#txtAppEmail").val("");
+        $("#txtAppNRIC").val("");
+
+        $("#cboAppBookedBy").val($("#staffId").val());
+        $('input[name="rbStatus"][value="Booking"]').attr('checked', true);
+        $("#cboAppChannel").val("0");
+        $("#cboCategory").val("0");
+        $("#cboSubCategory").val("0");
+        $("#txtAppDescription").val("");
+        $("#cboStartTimeHR").val("08");
+        $("#cboStartTimeMin").val("00");
+        $("#cboStartTimeAMPM").val("AM");
+
+        $("#cboEndTimeHR").val("08");
+        $("#cboEndTimeMin").val("00");
+        $("#cboEndTimeAMPM").val("AM");
+        $("#sonumber").text("");
+        $("#queuenumber").text("");
+        $("#btnCreateOrder").hide();
+        $("#outstandingBalance").text("");
+        $("#btnSaveAppointment").text("Save");
+
+    }
+
+
+    function populateAppointment() {
+
+        _editMode = true;
+        resetAppointment();
+        $("#btnSaveAppointment").text("Update");
+        $("#btnCreateOrder").show();
+        $.ajax({
+            url: '@Url.Action("GetAppointmentDetails", "Appointment")',
+            data: JSON.stringify({ id: appointmentId }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data.length > 0) {
+                    $("#txtAppCustomerName").val(data[0].customername);
+                    $("#txtAppCode").val(data[0].customercode);
+                    $("#txtAppMobile").val(data[0].mobile);
+                    $("#txtAppEmail").val(data[0].email);
+                    $("#txtAppNRIC").val(data[0].nric);
+                    _customerCode = data[0].customercode;
+                    getOutstandingBalance(_customerCode);
+
+
+                    $("#txtAppDate").val(data[0].appointmentdate);
+
+
+                    $("#cboAppStaff").val(data[0].staffid);
+                    $("#cboAppFacility").val(data[0].branchassetid);
+                    $("#cboAppBookedBy").val(data[0].bookedby);
+                    $("#txtAppDescription").val(data[0].description);
+                    $("#cboAppChannel").val(data[0].channel);
+                    $('input[name="rbStatus"][value="' + data[0].status + '"]').attr('checked', true);
+
+                    var strStartTime = data[0].starttime;
+                    var strEndTime = data[0].endtime;
+
+                    var startTime = strStartTime.split(":");
+                    var endTime = strEndTime.split(":");
+
+                    var startTimeHr = startTime[0];
+                    var endTimeHr = endTime[0];
+
+                    var startTimeMin = startTime[1].split(" ")[0];
+                    var endTimeMin = endTime[1].split(" ")[0];
+
+                    var startTimeAMPM = startTime[1].split(" ")[1];
+                    var endTimeAMPM = endTime[1].split(" ")[1];
+
+                    $("#cboStartTimeHR").val(startTimeHr);
+                    $("#cboStartTimeMin").val(startTimeMin);
+                    $("#cboStartTimeAMPM").val(startTimeAMPM);
+
+                    $("#cboEndTimeHR").val(endTimeHr);
+                    $("#cboEndTimeMin").val(endTimeMin);
+                    $("#cboEndTimeAMPM").val(endTimeAMPM);
+
+                    if (data[0].queuenumber != "") {
+                        $("#queuenumber").text("Queue # " + data[0].queuenumber);
+                        $("#sonumber").text("Order # " + data[0].sonumber);
+                        $("#btnCreateOrder").text("Go To Order");
+                        staffSchedId = data[0].soid;
+                    }
+                    else {
+                        $("#btnCreateOrder").text("Create Order");
+                    }
+
+
+                }
+
+            },
+            error: function (ts) { openMessage(ts.responseText, "error") }
+        });
+
+    }
+
+    function getHour24(timeString) {
+        time = 0;
+
+        var timeStr = timeString.split(":");
+        var minday = timeStr[1].split(" ");
+
+        var hr = timeStr[0].replace(/^0+/, '');
+        var min = minday[0];
+        var day = minday[1];
+
+        var mins = min / 60;
+
+        if (day == "PM") {
+            if (parseInt(hr) == 12)
+                time = parseInt(hr) + mins;
+            else
+                time = parseInt(hr) + 12 + mins;
+        }
+        else
+            time = parseInt(hr) + mins;
+
+        return time;
+    }
+
+    function saveNewAppointment() {
+
+        if (validAppointment()) {
+
+            var stTime = $("#cboStartTimeHR option:selected").text() + ":" + $("#cboStartTimeMin option:selected").text() + " " + $("#cboStartTimeAMPM option:selected").text();
+            var eTime = $("#cboEndTimeHR option:selected").text() + ":" + $("#cboEndTimeMin option:selected").text() + " " + $("#cboEndTimeAMPM option:selected").text();
+
+            var starttime = getHour24(stTime);
+            var endtime = getHour24(eTime);
+
+            var timeDifference = endtime - starttime;
+
+
+            if (timeDifference > 0) {
+                var obj = new Object();
+                obj.customername = $("#txtAppCustomerName").val();
+                obj.customercode = $("#txtAppCode").val();
+                obj.mobile = $("#txtAppMobile").val();
+                obj.email = $("#txtAppEmail").val();
+                obj.nric = $("#txtAppNRIC").val();
+                obj.staffid = $("#cboAppStaff option:selected").val();
+                obj.branchassetid = $("#cboAppFacility option:selected").val();
+
+                var apptdatestr = $("#txtAppDate").val().split("/");
+                $("#txtAppDate").val(apptdatestr[1] + "/" + apptdatestr[0] + "/" + apptdatestr[2]);
+                //obj.appointmentdate = $("#txtAppDate").val();
+                obj.appointmentdate = apptdatestr[1] + "/" + apptdatestr[0] + "/" + apptdatestr[2]
+
+                obj.starttime = stTime;//$('#txtStartTime').val();
+                obj.endtime = eTime;//$('#txtEndTime').val();
+                obj.description = $("#txtAppDescription").val();
+                obj.status = $('input[name="rbStatus"]:checked').val()
+                obj.channel = $("#cboAppChannel option:selected").val();
+                obj.bookedby = $("#cboAppBookedBy option:selected").val();
+                obj.source = 0;
+
+
+
+                if ($("#btnSaveAppointment").text() == "Update") {
+                    obj.id = appointmentId;
+                    $.ajax({
+                        url: '@Url.Action("UpdateAppointment", "Appointment")',
+                        data: JSON.stringify({ app: obj }),
+                        type: 'POST',
+                        async: false,
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            if (data == "SUCCESS") {
+                                if (_panel == "byDay")
+                                    (_byDayMode == "day") ? reloadByDay() : reloadByWeek();
+                                else if (_panel == "byStaff")
+                                    reloadByStaff();
+                                else if (_panel == "byMonth")
+                                    reloadByMonth();
+
+                                closeModal('mdlAppointment');
+                                openMessage("Successfully updated.", "success");
+                            }
+                            else {
+                                openMessage("An error occured while saving. Please contact the administrator.", "error");
+                            }
+
+                        },
+                        error: function (req, status, err) {
+                            openMessage("An error occured while saving. Please contact the administrator.", "error");
+                        }
+                    });
+                }
+                else {
+                    $.ajax({
+                        url: '@Url.Action("AddNewAppointment", "Appointment")',
+                        data: JSON.stringify({ app: obj, bcode: $("#bcode").val() }),
+                        type: 'POST',
+                        async: false,
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+
+                            if (data == "SUCCESS") {
+                                if (_panel == "byDay")
+                                    (_byDayMode == "day") ? reloadByDay() : reloadByWeek();
+                                else if (_panel == "byStaff")
+                                    reloadByStaff();
+                                else if (_panel == "byMonth")
+                                    reloadByMonth();
+                                closeModal('mdlAppointment');
+                                openMessage("Successfully saved.", "success");
+                            }
+                            else {
+                                openMessage("An error occured while saving. Please contact the administrator.", "error");
+                            }
+
+                        },
+                        error: function (req, status, err) {
+                            openMessage("An error occured while saving. Please contact the administrator.", "error");
+                        }
+                    });
+                }
+            }
+            else {
+                openMessage("Please input a valid duration.", "error");
+            }
+
+
+
+        }
+
+    }
+
+    function validAppointment() {
+        var isValid = true;
+
+        if ($("#cboAppStaff option:selected").text().trim() == "") {
+            isValid = false;
+            openMessage("Please Select Staff.", "error");
+        }
+        else if ($("#txtAppCustomerName").val().trim() == "") {
+            isValid = false;
+            openMessage("Please Enter Customer Name.", "error");
+        }
+        else if ($("#cboAppFacility option:selected").text().trim() == "") {
+            isValid = false;
+            openMessage("Please Select Room.", "error");
+        }
+            //else if ($("#txtAppEmail").val().trim() == "") {
+            //    isValid = false;
+            //    openMessage("Please Enter Email.", "error");
+            //}
+        else if ($("#txtAppMobile").val().trim() == "") {
+            isValid = false;
+            openMessage("Please Enter Mobile.", "error");
+        }
+        //else if ($("#txtAppNRIC").val().trim() == "") {
+        //    isValid = false;
+        //    openMessage("Please Enter NRIC.", "error");
+        //}
+
+        return isValid;
+    }
+
+    function populateQueueOrderDetails() {
+        $("#txtSOCustomerName").val("");
+        $("#txtSOStaffName").val("");
+        $("#txtSOFacility").val("");
+        $("#txtSORemarks").val("");
+        $("#tblItem tbody").empty();
+
+        $.ajax({
+            url: '@Url.Action("GetSalesOrderDetails", "Appointment")',
+            data: JSON.stringify({ id: staffSchedId }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data.length > 0) {
+                    $("#txtSOCustomerName").val(data[0].cussupname);
+                    var result = $.grep(sections, function (e) { return e.key == data[0].staffid; });
+                    $("#txtSOStaffName").val(result[0].label);
+                    $("#txtSOFacility").val(data[0].contactperson);
+                    $("#txtSORemarks").val(data[0].remark);
+
+                    var html = "<tr><td>" + data[0].queuenumber + "</td><td>" + data[0].resourcecode + "</td><td>" + data[0].starttime + "</td><td>" + data[0].endtime + "</td><td>" + data[0].status + "</td></tr>";
+                    $("#tblItem tbody").append(html);
+                }
+
+            },
+            error: function (ts) { openMessage(ts.responseText, "error") }
+        });
+
+    }
+
+    function goToSalesOrder() {
+        var url = "../POS/SalesOrder";
+        var rcode = "Sales Order";
+
+        var form = $('<form action="' + url + '" method="post">' +
+          '<input type="hidden" name="id"  id="id" value="' + staffSchedId + '" />' +
+          '<input type="hidden" name="rcode"  id="rcode" value="' + rcode + '" />' +
+          '</form>');
+        $('body').append(form);
+        $(form).submit();
+    }
+
+    function refreshTimeout() {
+        location.reload();
+    }
+
+    //End Modal
+
+
+    //Work Schedule
+    function getStaffWorkScheduleByDay() {
+        staffWorkScheduleList = [];
+
+        $.ajax({
+            url: '@Url.Action("GetStaffWorkScheduleListByDay", "StaffSchedule")',
+            data: JSON.stringify({ bcode: $("#bcode").val(), departmentid: $("#cboDepartmentByDay").val() }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                staffWorkScheduleList = data;
+            },
+            error: function (ts) { openMessage(ts.responseText, "error") }
+        });
+    }
+
+    function getStaffWorkScheduleByStaff() {
+        staffWorkScheduleList = [];
+
+        $.ajax({
+            url: '@Url.Action("GetStaffWorkScheduleListByStaff", "StaffSchedule")',
+            data: JSON.stringify({ bcode: $("#bcode").val(), departmentid: $("#cboDepartmentByStaff").val(), staffid: $("#cbobkstaff").val() }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                staffWorkScheduleList = data;
+            },
+            error: function (ts) { openMessage(ts.responseText, "error") }
+        });
+    }
+
+    //End Work Schedule
+
+</script>
+@*<script type="text/javascript" src="@Url.Content("~/js/app/appointment.js")"></script>*@

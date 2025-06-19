@@ -1,0 +1,534 @@
+﻿@model IEnumerable<BigMac.Models.Common_m_StaffBranch>
+
+@{
+    ViewBag.Title = "BranchStaffIndex";
+    @*Layout = "~/Views/Shared/_Layout.cshtml";*@
+    Layout = "~/Views/Shared/_GeneralLayoutPage.cshtml";
+    int i = 0;
+}
+
+        <div class="col-sm-12">
+            <div class="col-sm-2">
+                <a class="quick-button" onclick="CampaignDetailFunction(this);" id="BTNCAMPAIGNDETAIL" data-rcode="CAMPAIGNDETAIL">
+                    <i class="fa fa-signal"></i>
+                    <p>Sales Progress</p>
+                </a>
+            </div>
+            <div class="col-sm-2">
+                <a class="quick-button" onclick="GroupReportFunction(this);" id="BTNGROUPSALE" data-rcode="GROUPSALEREPORT">
+                    <i class="fa fa-tasks"></i>
+                    <p>Group Sales Report </p>
+                </a>
+            </div>
+            <div class="col-sm-2" id="DIVPOS" style="display:none;" data-rcode="POS">
+                <a class="quick-button" onclick="POSFunction(this);" id="BTNPOSENTRY" data-rcode="POS">
+                    <i class="fa fa-desktop"></i>
+                    <p>Point of Sale</p>
+                </a>
+            </div>
+            <div class="col-sm-2" id="DIVORDER" style="display:none;" data-rcode="ORDER">
+                <a class="quick-button" onclick="BranchAssetFunction(this);" id="BTNORDERENTRY" data-rcode="ORDER">
+                    <i class="fa fa-book"></i>
+                    <p>Order</p>
+                </a>
+            </div>
+
+            @*<div class="col-sm-2" id="DIVPACKAGE"  data-rcode="PACKAGE">
+                <a class="quick-button" onclick="PackageFunction(this);" id="BTNPACKAGE" data-rcode="PACKAGE">
+                    <i class="fa fa-list-alt"></i>
+                    <p>Package Setup</p>
+                </a>
+            </div>*@
+
+            <div class="col-sm-2" id="DIVATTND" style="display:none;" data-rcode="ATTND_IN">
+                
+                @*<a class="quick-button" onclick="OpenAttnDialog();" id="BTNATTNDIN" data-rcode="ATTND_IN">*@
+                    <a class="quick-button" onclick="QRFunction(this);" id="BTNATTENDANCE" data-rcode="ATTND_QR">
+                        <i class="fa fa-unlock"></i>
+                        <p>Attendance</p>
+                    </a>
+</div>
+
+            @*<div class="col-sm-2" id="DIVATTNDIN" style="display:none;" data-rcode="ATTND_IN">
+                <a class="quick-button" onclick="OpenAttnInDialog();" id="BTNATTNDIN" data-rcode="ATTND_IN" >
+                    <i class="fa fa-unlock"></i>
+                    <p>Attendance In</p>
+                </a>
+            </div>
+            <div class="col-sm-2" id="DIVATTNDOUT" style="display:none;" data-rcode="ATTND_OUT">
+                <a class="quick-button" onclick="OpenAttnOutDialog();" id="BTNATTNDOUT" data-rcode="ATTND_OUT">
+                    <i class="fa fa-lock"></i>
+                    <p>Attendance Out</p>
+                </a>
+            </div>*@
+            
+            <div class="clearfix"></div>
+            <br />
+       
+
+            <div class="col-sm-2" id="DIVSTAFFSCHED" style="display:none;" data-rcode="ATTND_IN">
+                <a class="quick-button" onclick="AttendanceListing();" id="BTNATTNDIN" data-rcode="BTNATTNDIN">
+                    <i class="fa fa-calendar"></i>
+                    <p>Customer Attendance</p>
+                </a>
+            </div>
+
+
+            <div class="col-sm-2" id="DIVSTAFFSCHED" style="display:none;" data-rcode="ATTND_IN">
+                <a class="quick-button" onclick="AppointmentListing();" id="BTNATTNDIN" data-rcode="BTNATTNDIN">
+                    <i class="fa fa-list"></i>
+                    <p>Appointment Listing</p>
+                </a>
+            </div>
+
+
+            <div class="col-sm-2" id="DIVSTAFFSCHED" style="display:none;" data-rcode="STAFFSCHED">
+                <a class="quick-button" onclick="OpenStaffScheduleDialog();" id="BTNSTAFFSCHED" data-rcode="STAFFSCHED">
+                    <i class="fa fa-calendar"></i>
+                    <p>Staff Schedule</p>
+                </a>
+            </div>
+            <div class="clearfix"></div>
+            <br />
+        </div>
+      
+        <div class="col-sm-12" @*style="min-height:495px;"*@>
+            @using (Html.BeginForm("BranchStaffIndex", "Access", FormMethod.Post))
+            {
+                <input value="" type="hidden" id="sid" name="sid" />
+                <input value="" type="hidden" id="sname" name="sname" />
+
+                foreach (var item in Model)
+                {
+                    i++;
+                    <div class="col-sm-2">
+                        <a class="quick-button" data-sid="@item.staffid" href="#" onclick="submitFormfunction(this);" data-sname="@item.Staff.name">
+                            <i class="fa fa-user"></i>
+                            <p>@item.Staff.name</p>
+                        </a>
+                    </div>
+
+                    if ((i % 6) == 0)
+                    {
+                        <div class="clearfix"></div>
+                        <br />
+                    }
+                }
+                <div class="col-sm-2" style="display:none;" data-rcode="BRANCHSTAFF">
+                    <a class="quick-button" id="BTNBRANCHSTAFF" data-rcode="BRANCHSTAFF" onclick="BranchStaffFunction(this);">
+                        <i class="fa fa-user"></i>
+                        <p>Branch Staff List</p>
+                    </a>
+                </div>
+                <div class="clearfix"></div>
+            }
+       </div>
+    
+    <div id="Attnd_dialog-modal"style="overflow:hidden;">
+    <div class="col-lg-12" id="divAttndDialog" style="overflow-style:none;">
+        <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;text-align:center;">
+            Scan QR Code
+        </div>
+        <div style="padding: 20px 35px;">
+            <div id="qrcode"></div>
+        </div>
+        <div class="col-lg-12" style="padding: 10px 10px 10px;text-align:right;">
+          
+        </div>
+    </div>
+</div>
+<div id="AttndIn_dialog-modal">
+   <div class="col-lg-12" id="divAttndInDialog" style="overflow-style:scrollbar;">
+      <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+          Attendance In
+      </div>
+      <div style="padding-top:20px;">
+          <table>
+             <tr>
+                 <td style="width:120px;">User Name</td>
+                 <td style="padding-bottom:10px;"><input type="text" class="form-control" id="txtAttdInUserName" /></td>
+             </tr>
+             <tr>
+                 <td>Password</td>
+                 <td><input type="password" class="form-control" id="txtAttdInPwd" /></td>
+             </tr>
+             <tr>
+                 <td></td>
+                 <td><div id="divAttndInErr"></div></td>
+             </tr>
+          </table>
+       </div>
+       <div class="col-lg-12" style="padding: 10px 10px 10px;text-align:right;">
+            <button type="button" id="btnAttndInLogIn" onclick="AttndIn();" class="btn btn-primary" style="width:100px;">OK</button>
+            <button type="button" id="btnAttndInClose" onclick="closeAttndInDialog();" class="btn btn-primary" style="width:100px;">Cancel</button>
+        </div>
+    </div>
+</div>
+<div id="AttndOut_dialog-modal">
+    <div class="col-lg-12" id="divAttndInDialog" style="overflow-style:scrollbar;">
+        <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+            Attendance Out
+        </div>
+        <div style="padding-top:20px;">
+            <table>
+                <tr>
+                    <td style="width:120px;">User Name</td>
+                    <td style="padding-bottom:10px;"><input type="text" class="form-control" id="txtAttdOutUserName" /></td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td><input type="password" class="form-control" id="txtAttdOutPwd" /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><div id="divAttndOutErr"></div></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-lg-12" style="padding: 10px 10px 10px;text-align:right;">
+            <button type="button" id="btnAttndOut" onclick="AttndOut();" class="btn btn-primary" style="width:100px;">OK</button>
+            <button type="button" id="btnAttndOutClose" onclick="closeAttndInDialog();" class="btn btn-primary" style="width:100px;">Cancel</button>
+        </div>
+    </div>
+</div>
+<div id="Login_dialog-modal">
+    <div class="col-lg-12" id="divLoginDialog" style="overflow-style:scrollbar;">
+        <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+            <span id="loginheader">Verification</span>
+        </div>
+        <div id="divMember">
+            <table style="width:100%;border-spacing:5px;border-collapse:separate;padding-top:10px;">
+                <tr>
+                    <td style="width:20px;"></td>
+                    <td style="width:200px;">User Name</td>
+                    <td colspan="2" style="width:200px;"><input id="txtname" class="form-control" /></td>
+                    <td><span style="color:red;">*</span></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Password</td>
+                    <td colspan="2"><input type="password" id="txtpwd" class="form-control" /></td>
+                    <td><span style="color:red;">*</span></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><div id="divVerification"></div></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td style="width:60px;"><button type="button" id="btnOkayStaffSchedule" onclick="loginToStaffSchedule(this)" class="btn btn-primary" style="width:100px;">Okay</button></td>
+                    <td style="width:60px;"><button type="button" id="btnCloseStaffSchedule" onclick="CloseStaffScheduleDialog()" class="btn btn-primary" style="width: 100px;">Cancel</button></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+        /*$(function () {
+            showhideFunction();
+        });*/
+
+    $(document).ready(function () {
+
+       
+        $('#Login_dialog-modal').dialog({
+            modal: true,
+            autoOpen: false,
+            open: function (event, ui) {
+                $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+            }
+        });
+
+        var loginOptions = {
+            modal: true,
+            height: 250,
+            minHeight: 250,
+            maxHeight: 250,
+            width: 480,
+            minWidth: 480,
+            maxWidth: 480,
+            dialogClass: "sfFormwrapper"
+        };
+
+        $('#Login_dialog-modal').dialog('option', loginOptions);
+
+
+       $('#AttndIn_dialog-modal').dialog({
+          //position: [280, 120],
+          modal: true,
+          autoOpen: false,
+          open: function (event, ui) {
+              $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+          },
+       });
+
+       var moptions = {
+             modal: true,
+             height: 280,
+             minHeight: 280,
+             maxHeight: 280,
+             width: 350,
+             minWidth: 350,
+             maxWidth: 350,
+             dialogClass: "sfFormwrapper"
+       };
+       $('#AttndIn_dialog-modal').dialog('option', moptions);
+
+
+       $('#Attnd_dialog-modal').dialog({
+           //position: [280, 120],
+           modal: true,
+           autoOpen: false,
+           open: function (event, ui) {
+         
+           },
+       });
+
+       var moptions = {
+           modal: true,
+           height: 350,
+           minHeight: 350,
+           maxHeight: 350,
+           width: 350,
+           minWidth: 350,
+           maxWidth: 350,
+           dialogClass: "sfFormwrapper"
+       };
+       $('#Attnd_dialog-modal').dialog('option', moptions);
+
+
+       $('#AttndOut_dialog-modal').dialog({
+           //position: [280, 120],
+           modal: true,
+           autoOpen: false,
+           open: function (event, ui) {
+               $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+           },
+       });
+
+       var moptions = {
+           modal: true,
+           height: 280,
+           minHeight: 280,
+           maxHeight: 280,
+           width: 350,
+           minWidth: 350,
+           maxWidth: 350,
+           dialogClass: "sfFormwrapper"
+       };
+       $('#AttndOut_dialog-modal').dialog('option', moptions);
+
+       $("#txtpwd").keypress(function (e) {
+
+           if (e.keyCode == "13") {
+               loginToStaffSchedule(this);
+           }
+       });
+
+       $("#txtname").keypress(function () {
+           if (e.keyCode == "13") {
+               loginToStaffSchedule(this);
+           }
+       });
+   });
+
+
+
+   function submitFormfunction(alnk) {
+       var sid = $(alnk).attr('data-sid');
+       var sname = $(alnk).attr('data-sname');
+       $('#sid').val(sid);
+       $('#sname').val(sname);
+       $(alnk).closest('form').submit();
+  }
+  //Added by ZawZO on 21 May 2015
+   function OpenAttnInDialog() {
+       $('#divAttndInErr').html('');
+       $('#txtAttdInUserName').val('');
+       $('#txtAttdInPwd').val('');
+       $('#AttndIn_dialog-modal').dialog('open');
+   }
+
+   function OpenAttnDialog() {
+       $('#Attnd_dialog-modal').dialog('open');
+
+       setTimeout(function () {
+        
+           $("#qrcode").html("");
+
+           var qrcode = new QRCode("qrcode", {
+               width: 200,
+               height: 200,
+               colorDark: "#000000",
+               colorLight: "#ffffff",
+               correctLevel: QRCode.CorrectLevel.H,
+           });
+
+           var branchcode = '@Session["branchcode"]';
+           var branchid = '@Session["branchid"]';
+           var date = new Date();
+
+           qrcode.makeCode(branchid + "," + branchcode+ "," + date);
+       }, 500);
+
+       
+   }
+   function OpenStaffScheduleDialog() {
+       $('#txtname').val('');
+       $('#txtpwd').val('');
+       $('#divVerification').html('');
+       $('#Login_dialog-modal').dialog('open');
+   }
+
+   function CloseStaffScheduleDialog() {
+       $('#Login_dialog-modal').dialog('close');
+   }
+
+
+  //Added by ZawZO on 21 May 2015
+  function closeAttndInDialog() {
+       $('#AttndIn_dialog-modal').dialog("close");
+  }
+
+  function closeAttndDialog() {
+      $('#Attnd_dialog-modal').dialog("close");
+  }
+  //Added by ZawZO on 21 May 2015
+  function AttndIn() {
+       var username = $('#txtAttdInUserName').val();
+       var pwd = $('#txtAttdInPwd').val();
+       $.ajax({
+           url: '@Url.Action("AttdLogIn", "Attendance")',
+           data: JSON.stringify({ uname: username, pwd: pwd }),
+           type: 'POST',
+           async: false,
+           dataType: "json",
+           contentType: "application/json; charset=utf-8",
+           success: function (data) {
+               if (data == '-2') {
+                   $('#divAttndInErr').html('Already log in.');
+               }
+             else  if (data == '-1') {
+                   $('#divAttndInErr').html('Invalid User Name or Password.');
+             }
+             else {
+                   $('#AttndIn_dialog-modal').dialog("close");
+            }
+         },
+         error: function (req, status, err) {
+             showMessage(err, "error");
+             $('#divAttndInErr').html('Invalid User Name or Password.');
+         }
+   });
+  }
+  //Added by ZawZO on 21 May 2015
+    function OpenAttnOutDialog() {
+        $('#divAttndOutErr').html('');
+        $('#txtAttdOutUserName').val('');
+        $('#txtAttdOutPwd').val('');
+       $('#AttndOut_dialog-modal').dialog('open');
+  }
+    //Added by ZawZO on 21 May 2015
+    function closeAttnOutDialog() {
+        $('#AttndOut_dialog-modal').dialog("close");
+    }
+    //Added by ZawZO on 21 May 2015
+    function AttndOut() {
+        var username = $('#txtAttdOutUserName').val();
+        var pwd = $('#txtAttdOutPwd').val();
+        $.ajax({
+            url: '@Url.Action("AttdLogOut", "Attendance")',
+            data: JSON.stringify({ uname: username, pwd: pwd }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == '-2') {
+                    $('#divAttndOutErr').html('Do not have attendance in.');
+                }
+                else if (data == '-1') {
+                    $('#divAttndInErr').html('Invalid User Name or Password.');
+                }
+                else {
+                    $('#AttndOut_dialog-modal').dialog("close");
+                }
+            },
+            error: function (req, status, err) {
+                showMessage(err, "error");
+                $('#divAttndOutErr').html('Invalid User Name or Password.');
+            }
+        });
+    
+    }
+
+    function loginToStaffSchedule(btn) {
+        var username = $('#txtname').val();
+        var pwd = $('#txtpwd').val();
+        $.ajax({
+            url: '@Url.Action("LoginToStaffSchedule", "StaffSchedule")',
+            data: JSON.stringify({ uname: username, pwd: pwd }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == "true") {
+                    StaffScheduleFunction(btn);
+                }
+                else {
+                    if (data == "invalid") {  
+                        $('#divVerification').html('Invalid User Name or Password.');
+                    }
+                    else if (data == "false") {
+                        showMessage(err, "error");
+                        $('#divVerification').html('Please enter manager account.');
+                    }
+                }
+            },
+            error: function (req, status, err) {
+      
+                $('#divVerification').html('Invalid User Name or Password.');
+            }
+        });
+    }
+
+
+    function QRFunction(btn) {
+        var rcode = $(btn).attr("data-rcode");
+    
+        const win = window.open(
+            "../Access/QR",
+            "win",
+            "width=550,height=470,screenX=200,screenY=200"
+        );
+
+
+
+
+    }
+    
+    //Added by ZawZO on 12 Jan 2015
+    function BranchAssetFunction(btn) {
+        var rcode = $(btn).attr("data-rcode");
+        window.open("../Access/BranchAssetIndex", "_self");
+    }
+
+
+
+    function AppointmentListing(btn) {
+        var rcode = $(btn).attr("data-rcode");
+        window.open("../POS/AppointmentListing", "_self");
+    }
+
+    function AttendanceListing(btn) {
+        var rcode = $(btn).attr("data-rcode");
+        window.open("../POS/AttendanceListing", "_self");
+    }
+
+
+
+</script>

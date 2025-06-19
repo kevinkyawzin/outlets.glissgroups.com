@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.0" application="StiReport">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <Databases isList="true" count="0" />
+    <DataSources isList="true" count="1">
+      <sdsModuleHC Ref="2" type="DataTableSource" isKey="true">
+        <Alias>sdsModuleHC</Alias>
+        <Columns isList="true" count="116">
+          <value>cussupname,System.String</value>
+          <value>resourcecode,System.String</value>
+          <value>productdesc,System.String</value>
+          <value>qty,System.Decimal</value>
+          <value>refno,System.String</value>
+          <value>uom,System.String</value>
+          <value>redeemdollars,System.Decimal</value>
+          <value>redeembonus,System.Decimal</value>
+          <value>address,System.Byte[]</value>
+          <value>inhousecode,System.String</value>
+          <value>postalcode,System.Byte[]</value>
+          <value>id,System.UInt32</value>
+          <value>createdate,System.DateTime</value>
+          <value>lastmodifieddate,System.DateTime</value>
+          <value>cussuptype,System.String</value>
+          <value>dateofbirth,System.DateTime</value>
+          <value>branchcode,System.String</value>
+          <value>cocode,System.String</value>
+          <value>photo,System.String</value>
+          <value>gender,System.String</value>
+          <value>race,System.String</value>
+          <value>nationality,System.String</value>
+          <value>nrictype,System.String</value>
+          <value>canemail,System.Int32</value>
+          <value>cansms,System.Int32</value>
+          <value>cancall,System.Int32</value>
+          <value>nric,System.Byte[]</value>
+          <value>Tel,System.Byte[]</value>
+          <value>mobile,System.Byte[]</value>
+          <value>email,System.Byte[]</value>
+          <value>userid,System.Byte[]</value>
+          <value>password,System.Byte[]</value>
+          <value>ModuleID,System.Int32</value>
+          <value>ModuleDate,System.String</value>
+          <value>ClientID,System.Int32</value>
+          <value>Client,System.String</value>
+          <value>DiscountAmt,System.Decimal</value>
+          <value>SubTotal,System.Decimal</value>
+          <value>GST,System.Decimal</value>
+          <value>Amount,System.Decimal</value>
+          <value>BCSubTotal,System.Decimal</value>
+          <value>BCGST,System.Decimal</value>
+          <value>BCAmount,System.Decimal</value>
+          <value>AmtRecd,System.Decimal</value>
+          <value>Balance,System.Decimal</value>
+          <value>Contact,System.String</value>
+          <value>SalesmanID,System.Int32</value>
+          <value>QuotationID,System.Int32</value>
+          <value>DeliveryOrderID,System.Int32</value>
+          <value>SalesOrderID,System.Int32</value>
+          <value>PaymentTerm,System.String</value>
+          <value>PaymentTermDay,System.Double</value>
+          <value>PaymentModeID,System.Int32</value>
+          <value>PaymentMode,System.String</value>
+          <value>ARAcctID,System.String</value>
+          <value>Discountpc,System.Int32</value>
+          <value>OurRef,System.String</value>
+          <value>CustRef,System.String</value>
+          <value>BranchID,System.Int32</value>
+          <value>BranchPrefix,System.String</value>
+          <value>Branch,System.String</value>
+          <value>Status,System.String</value>
+          <value>PrepByID,System.Int32</value>
+          <value>SalesStaffName,System.String</value>
+          <value>Salestaxpc,System.Int32</value>
+          <value>Charge,System.Decimal</value>
+          <value>ServiceTaxpc,System.Int32</value>
+          <value>PaymentTermID,System.Int32</value>
+          <value>StatusID,System.Int32</value>
+          <value>DeliveryAddress,System.String</value>
+          <value>Remark,System.String</value>
+          <value>WarrantyExpired,System.DateTime</value>
+          <value>CurrencyID,System.String</value>
+          <value>ExchRate,System.Decimal</value>
+          <value>CoName,System.String</value>
+          <value>CoAddress,System.String</value>
+          <value>CoAddress1,System.String</value>
+          <value>CoAddress2,System.String</value>
+          <value>CPostalCode,System.String</value>
+          <value>CCity,System.String</value>
+          <value>CState,System.String</value>
+          <value>CCountry,System.String</value>
+          <value>CTel,System.String</value>
+          <value>CTel1,System.String</value>
+          <value>CFax,System.String</value>
+          <value>CEmail,System.String</value>
+          <value>CWeb,System.String</value>
+          <value>LicenseNo,System.String</value>
+          <value>DateEnter,System.DateTime</value>
+          <value>GSTNo,System.String</value>
+          <value>CoRegNo,System.String</value>
+          <value>mLineNo,System.Int32</value>
+          <value>ItemID,System.Int32</value>
+          <value>ItemAltID,System.String</value>
+          <value>ItemDescription,System.String</value>
+          <value>Unit,System.String</value>
+          <value>ItemQty,System.Decimal</value>
+          <value>UnitPrice,System.String</value>
+          <value>BatchID,System.String</value>
+          <value>LineAmt,System.String</value>
+          <value>Months,System.Int32</value>
+          <value>Prefix,System.Int32</value>
+          <value>ClientAddress,System.String</value>
+          <value>CoLogo,System.Byte[]</value>
+          <value>LineDiscount,System.String</value>
+          <value>LineGST,System.String</value>
+          <value>LineDiscountTotal,System.Decimal</value>
+          <value>ModuleTypeID,System.Int32</value>
+          <value>InvoiceType,System.String</value>
+          <value>PatientRefNo,System.String</value>
+          <value>JobReceivedDate,System.DateTime</value>
+          <value>JobRequestDate,System.DateTime</value>
+          <value>PatientName,System.String</value>
+          <value>ModuleAltID,System.String</value>
+          <value>ModuleDetailID,System.Int32</value>
+          <value>Exp1,System.Int32</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Name>sdsModuleHC</Name>
+        <NameInSource>sdsModuleHC</NameInSource>
+      </sdsModuleHC>
+    </DataSources>
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Variables isList="true" count="1">
+      <value>,MySum,MySum,System.Int32,_x0030_,False,False</value>
+    </Variables>
+  </Dictionary>
+  <GlobalizationStrings isList="true" count="0" />
+  <Pages isList="true" count="1">
+    <Page1 Ref="3" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="0" />
+      <Conditions isList="true" count="0" />
+      <Guid>086c73ef2ad44e408e7e21b52b0cb17c</Guid>
+      <Margins>1,1,1,1</Margins>
+      <Name>Page1</Name>
+      <Page isRef="3" />
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="4" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+  </Pages>
+  <PrinterSettings Ref="5" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Report</ReportAlias>
+  <ReportChanged>3/4/2014 4:42:10 PM</ReportChanged>
+  <ReportCreated>3/4/2014 4:42:02 PM</ReportCreated>
+  <ReportGuid>af61166031c84fb38a22abe7e84cf3a7</ReportGuid>
+  <ReportName>Report</ReportName>
+  <ReportUnit>Centimeters</ReportUnit>
+  <ReportVersion>2008.1.206</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    
+    public class Report : Stimulsoft.Report.StiReport
+    {
+        
+        public Report()
+        {
+            this.InitializeComponent();
+        }
+        #region StiReport Designer generated code - do not modify#endregion StiReport Designer generated code - do not modify
+    }
+}</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="0" />
+</StiSerializer>

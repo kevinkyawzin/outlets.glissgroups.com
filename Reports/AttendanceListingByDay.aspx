@@ -1,0 +1,31 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AttendanceListingByDay.aspx.cs" Inherits="BigMac.Reports.AttendanceListingByDay" %>
+
+<%@ Register Assembly="Stimulsoft.Report.Web, Version=2008.1.206.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a"
+    Namespace="Stimulsoft.Report.Web" TagPrefix="cc3" %>
+
+<%@ Register Assembly="Stimulsoft.Report.Web" Namespace="Stimulsoft.Report.Web" TagPrefix="cc2" %>
+<%@ Register Assembly="Stimulsoft.Report.Web" Namespace="Stimulsoft.Report.Web" TagPrefix="cc1" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>Attendance Listing</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div style="height: 458px">
+        <cc1:stireportweb id="rwModuleHC" runat="server" reportdatasources="sdsModuleHC"
+   
+            reportsource="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"></cc1:stireportweb>
+        <asp:SqlDataSource ID="sdsModuleHC" runat="server" ConnectionString="<%$ ConnectionStrings:BigMacEntities %>"
+            SelectCommand="Select branchcode,customername,mobile,nric,nationality,appointmentdate,starttime,endtime,description,STATUS,'' AS remarks
+                 from schedule_m_appointment where transactiontype= 'attendance' and DATE(appointmentdate) = CURDATE() "  
+            ProviderName="<%$ ConnectionStrings:BigMacEntities.ProviderName %>">
+         
+        </asp:SqlDataSource>
+
+        <cc3:stiwebviewer id="wvModuleHC" runat="server"></cc3:stiwebviewer>
+    
+    </div>
+    </form>
+</body>
+</html>

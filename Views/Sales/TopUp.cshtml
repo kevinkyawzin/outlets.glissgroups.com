@@ -1,0 +1,1150 @@
+﻿@model BigMac.Models.Invoice_m_Invoice
+
+@{
+    ViewBag.Title = "Redeem";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row"  style="padding-top: 0px;margin-top:0px;">
+        <div class ="col-lg-12" style="padding-top: 0px;margin-top:0px;">
+            <div class="box" style="padding-top: 0px;margin-top:0px;">
+                <div class ="box-header" >
+					<h2><i class="fa fa-edit"></i>Search</h2>
+					<div class="box-icon">
+						<a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+						<a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+						<a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+					</div>
+                </div>
+                <div class ="box-content">
+                    <div>
+                        <input type="hidden" id="txtTopUpMember" value="@ViewBag.cardno" placeholder="By Card No" />
+                        <input type="hidden" id="c" value="@ViewBag.CitiDesc" />
+                        <input type="hidden" id="b" value="@ViewBag.BonusDesc" />
+                        <table style="border-spacing:5px;border-collapse:separate;" >
+                           <tr>
+                               <td style="width:400px;"><input type="text" class="form-control" placeholder="By MemberCode/Name/NRIC/Mobile/Cardno" id="txtMemberDesc" data-rcode="MEMBERLISTING" /></td>
+                               <td style="width:20px;"></td>
+                               <td>
+                                   <button id="btnsearch" type="button" class="btn btn-primary" value="search" style="width:150px;" onclick="MemberSearchFunction(this);" data-rcode="MEMBERLISTING" >Search</button>
+                               </td>
+                               <td><button id="btnMember" type="button" class="btn btn-primary" value="search" style="width:180px;" onclick="OpenMemberDialog();">Create New Member</button></td>
+                               <td><button id="btnClub" type="button" class="btn btn-primary" value="search" style="width:180px;"  onclick="NewTopUpFunction();">Create New Club</button></td>
+                            </tr>
+                         </table>
+                    </div>
+                </div>
+             </div>    
+        </div>
+</div>
+
+    <div class="row"  style="padding-top: 0px;margin-top:0px;">
+        <div class ="col-lg-12" style="padding-top: 0px;margin-top:0px;">
+            <div class="box" style="padding-top: 0px;margin-top:0px;">
+                <div class ="box-header" >
+                   <h2><i class="fa fa-edit"></i><span >
+                       @if (Model.id != 0)
+                          { <span><b> Club Edit Entry ( Ref#. @Model.resourcecode ) </b></span> }
+                       else
+                           { <span><b> Club New Entry </b></span> }   
+                           </span>
+                    </h2>
+					<div class="box-icon">
+						<a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+					    <a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+						<a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+					</div>
+                </div>
+                <div class ="box-content">
+                    <input type="hidden" id="resourcecode" value="@Model.resourcecode" />                                           
+                    <input type="hidden" id="topupid" value="@Model.id"  />
+                    <input type="hidden" id="memberid" value="@Model.cussupid" />
+                    <input type="hidden" id="cussupname" value="@ViewBag.Member.cussupname" />
+                    <input type="hidden" id="status" value="@Model.status" />
+                    <input type="hidden" id="resource" value="@ViewBag.Rcode" />
+                    <input type="hidden" id="txtOCBalance" value="@ViewBag.obc">
+                    <input type="hidden" id="txtOBBalance" value="@ViewBag.obb">
+                    <input type="hidden" id="createstaffid" value="@Html.Encode(User.Identity.Name)">
+                    <input type="hidden" value="@ViewBag.CoName" id="hidconame" />
+                    <input type="hidden" value="@ViewBag.CoAddress" id="hidcoaddress" />
+                    <input type="hidden" value="@ViewBag.Tel" id="hidtel" />
+                    <input type="hidden" value="@ViewBag.Fax" id="hidfax" />
+                    <input type="hidden" value="@ViewBag.Email" id="hidemail" />
+                    <input type="hidden" value="@ViewBag.CoRegNo" id="hidcoregno" />
+                    <input type="hidden" value="@ViewBag.GSTRegNo" id="hidgstregno" />
+
+                        <table style="width:100%;border-spacing:2px;border-collapse:separate;padding-left:10px;" >
+                            <tr>
+                                <td style="text-align:center;width:100px;"><label class="control-label" >Member :</label></td>
+                                <td style="text-align:left;width:250px;color:blueviolet;font-weight:bold;"><a href="~/CusSup/MembershipEnquiry?rcode=MEMBER&id=@Model.cussupid" style="color:blueviolet;font-weight:bold;" title="Click here to go membership enquiry">
+                                @if (@ViewBag.Member.inhousecode == null )
+                                {
+                                    <span></span>
+                                }
+                                else
+                                {
+                                    <span>@ViewBag.Member.inhousecode (@ViewBag.Member.cussupname)</span>
+                                }                                    
+                                </a></td>
+                                <td></td>
+                                <td ></td>
+                                <td colspan="4" style="text-align:center;">
+                                    <label class="control-label" style="color:blueviolet;" >Create By : @ViewBag.staffname </label>
+                                    @Html.HiddenFor(x => x.staffid)
+                                    <input type="hidden" value="@ViewBag.staffname" id="txtstaffname" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;width:100px;"><label class="control-label">Card No :</label></td>
+                                <td style="text-align:left;width:250px;color:blueviolet;font-weight:bold;">@ViewBag.CardNo</td>
+                            </tr>
+                            <tr>
+                                <td colspan ="2" rowspan ="5">
+                                    <div style="width:100%;height:100%;border:1px solid #DDD">
+                                        <center>
+                                            <a href="~/CusSup/MembershipEnquiry?rcode=MEMBER&id=@Model.cussupid" title="Click here to go membership enquiry">
+                                                <img src="" style="width:130px;height:150px;" id="imgMember" />
+                                            </a>                                        
+                                        </center>
+                                        <input type="hidden" value ="@ViewBag.Member.photo" id="photo"/>
+                                    </div> 
+                                </td>
+                                <td ></td>
+                                <td style ="width:150px;"></td>
+                                <td style="text-align:center;width:120px;"><label class="control-label" >@ViewBag.CitiDesc </label></td>
+                                <td style ="width:1px;"></td>
+                                <td style="text-align:center;width:120px;"><label class="control-label" >@ViewBag.BonusDesc </label></td>
+                                <td style="width:110px;"></td>
+                            </tr>
+                            <tr>
+                                <td ></td>
+                                <td><label class="control-label" >Balance</label></td>
+                                <td><input type="text" class ="form-control" id="txtCBalance" value ="@ViewBag.Member.CBalance" style="text-align:right;padding-right:20px;" disabled/></td>
+                                <td></td>
+                                <td><input type="text" class ="form-control" id="txtBBalance" value ="@ViewBag.Member.BBalance" style="text-align:right;padding-right:20px;" disabled/></td>
+                                <td ></td>
+                            </tr>
+                            <tr>
+                                <td ></td>
+                                <td><label class="control-label" ><a onclick="OpenRservedDialog();" style="color:blueviolet;" title="Click here to see reserved list.">Reserved Amount</a></label></td>
+                                <td><input type="text" class ="form-control"  id="txtCReserved" value ="@ViewBag.Member.CReserved" style="text-align:right;padding-right:20px;"  disabled/></td>
+                                <td></td>
+                                <td><input type="text" class ="form-control"  id="txtBReserved" value ="@ViewBag.Member.BReserved" style="text-align:right;padding-right:20px;" disabled/></td>
+                                <td ></td>
+                            </tr>
+                            <tr>
+                                <td ></td>
+                                <td><label class="control-label" >Available</label></td>
+                                <td><input type="text" class ="form-control"  id="txtCAvailable" value ="@ViewBag.Member.CAvailable" style="text-align:right;padding-right:20px;" disabled/></td>
+                                <td></td>
+                                <td><input type="text" class ="form-control"  id="txtBAvailable" value ="@ViewBag.Member.BAvailable" style="text-align:right;padding-right:20px;" disabled/></td>
+                                <td ></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><button type="button" class="btn btn-success" onclick="OpenStaffDialog();" style="width:100%;">Add Sales Staff</button></td>
+                                <td colspan="3"><button type="button" class="btn btn-success" onclick="OpenRservedDialog();" style="width:100%;" >Show Reserved List</button></td>
+                            </tr>
+                        </table>
+
+				<div class="col-lg-12" >
+                    <div class="box">
+                        <div class="box-content">
+                            <div id="divTopUp"></div>
+                            <div style="text-align:center;float:right;width:100%;">
+                                <table style="width:100%;border-spacing:2px;border-collapse:separate;">
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td style="width:100px;">Total</td>
+                                        <td style="width:120px;padding-right:5px;"><input type="text" class="form-control" disabled id="ctotal" style="text-align:right;padding-right:20px;" /></td>
+                                        <td style="width:120px;padding-right:5px;"><input type="text" class="form-control" disabled id="btotal" style="text-align:right;padding-right:20px;" /></td>
+                                        <td style="width:85px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:150px;"><label class="control-label" style="color:blueviolet;">POS Receipt Ref:</label></td>
+                                        <td style="width:150px;">@Html.TextBoxFor(x => x.refno, new { @class = "form-control" }) </td>
+                                        <td style="text-align:left;"><span style="color:red;">*</span></td>
+                                        <td></td>
+                                        <td colspan="2"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4"></td>
+                                        <td><br /><button id="print" type="button" class="btn btn-success" value="confirm" style="width:115px;" onclick="printTopUp();">Print Receipt</button> </td>
+                                        <td><br /><button type="button" class="btn btn-primary" value="Save" style="width:115px;" onclick="SaveTopUp('CLOSE');" id="btnSave" disabled>Save</button> </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <br />
+                            <div class="clearfix"></div>
+                            <div class="clearfix"></div>
+                            <div id="dialog-modal">
+                                <div class="col-lg-12" id="divReservedDialog" style="overflow-style:scrollbar;">
+                                    <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+                                        Reserve List for @ViewBag.Member.cussupname
+                                    </div>
+                                    <div id="divReserved"></div>
+                                </div>
+                            </div>
+
+                            <div id="Member_dialog-modal">
+                                <div class="col-lg-12" id="divMemberDialog" style="overflow-style:scrollbar;">
+                                    <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+                                        Create Member
+                                    </div>
+                                    <div id="divMember">
+                                        <table style="width:100%;border-spacing:5px;border-collapse:separate;">
+                                            <tr>
+                                                <td style="width:20px;"></td>
+                                                <td style="width:200px;">Name</td>
+                                                <td colspan="2" style="width:200px;"><input id="txtname" class="form-control" /></td>
+                                                <td><span style="color:red;">*</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>NRIC</td>
+                                                <td colspan="2"><input id="txtnric" class="form-control" /></td>
+                                                <td><span style="color:red;">*</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>Card Type</td>
+                                                <td colspan="2">@Html.DropDownList("cbocardtype", new SelectList(@ViewBag.CardTypeOptions, "value", "value"), new { @class = "form-control" })</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>Expiry Date</td>
+                                                <td colspan="2"><input type="text" id="txtExpiryDate" class="form-control date-picker" data-date-format="dd/mm/yyyy" value="@string.Format("{0:d}",ViewBag.ExpYear)" disabled /></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>Mobile</td>
+                                                <td colspan="2"><input id="txtmobile" class="form-control" /></td>
+                                                <td><span style="color:red;">*</span></td>
+                                            </tr>
+                                            <tr style="display:none;">
+                                                <td></td>
+                                                <td>Card Number</td>
+                                                <td colspan="2"><input id="txtcardno" class="form-control" /></td>
+                                                <td><span style="color:red;">*</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td style="width:60px;"><button type="button" id="btnCardSave" onclick="CHKDuplicateNRICSaveMembership();" class="btn btn-primary" style="width:100px;">Save</button></td>
+                                                <td style="width:60px;"><button type="button" id="btnClose" onclick="closeMemberDialog()" class="btn btn-primary" style="width:100px;">Cancel</button></td>
+                                                <td></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="Staff_dialog-modal">
+                            <div class="col-lg-12" id="divStaffDialog" style="overflow-style:scrollbar;">
+                                <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+                                    Sales Staff Entry
+                                </div>
+                                <div style="display:none;">
+                                    @Html.DropDownList("cbostaff", new SelectList(@ViewBag.StaffOptions, "id", "name"),new { @class = "form-control" })
+                                </div>
+                                <div id="divSalesStaff">
+                                </div>
+                                <div class='clearfix'></div>
+                                <div style="width:100%;padding: 10px 10px 10px;text-align:right;">
+                                    <button type="button" id="btnStaffSave" onclick="SalesSaffSave();" class="btn btn-primary" style="width:120px;">Save</button>
+                                    <button type="button" id="btnStaffClose" onclick="StaffNewRow();" class="btn btn-primary" style="width:120px;">Add Row</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul class="noty_cont noty_layout_topRight" id="ulBalance"></ul>
+                        <button id="btnBalanceMember" class="btn btn-primary noty" data-noty-options='{"text":"Please select Member","layout":"topRight","type":"error"}' style="display:none;">Top Right</button>
+                       </div>
+                    </div>
+                 </div>
+                 <div class="row">
+                       <div class="col-lg-12">
+                            <div class="box">
+                                <div class="col-sm-2" style="display:none;" data-rcode="REDEEM">
+                                    <a class="quick-button" data-rcode="REDEEM" onclick="RedeemFunction(this, 3, $('#memberid').val());" style="display:none;">
+                                       <i class="fa fa-ticket"></i>
+                                            <p>Redeem</p>
+                                     </a>
+                                </div>
+
+                                 <div class="col-sm-2" data-rcode="CREATEMEMBER" style="display:none;">
+                                     <a class="quick-button" onclick="CreateMemberFunction(this);" data-rcode="CREATEMEMBER">
+                                         <i class="fa fa-user"></i>
+                                         <p>Create Member</p>
+                                     </a>
+                                  </div>
+
+                                  <div class="col-sm-2" data-rcode="MEMBERLISTING" style="display:none;">
+                                      <a class="quick-button" onclick="MemberSearchFunction(this);" id="BTNMEMBERLISTING" data-rcode="MEMBERLISTING">
+                                         <i class="fa fa-users"></i>
+                                         <p>Membership Enquiry</p>
+                                      </a>
+                                  </div>
+                                  <div class="col-sm-2">
+                                        <a class="quick-button" href="~/Access/BranchStaffIndex">
+                                            <i class="fa fa-user"></i>
+                                            <p>Branch Staff</p>
+                                        </a>
+                                   </div>
+
+                                    <div class="col-sm-2">
+                                        <a class="quick-button" href="~/Home/Index">
+                                            <i class="fa fa-home"></i>
+                                            <p>Home</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+            </div>
+        </div>
+    
+<script type ="text/javascript">
+    var ctotal = 0;
+    var btotal = 0;
+    var stblrowcount = 0;
+    var cno = 0;
+    $(function () {
+        $('#cbostaff').val($('#staffid').val());
+        $('#txtMemberDesc').live("keypress", function (e) {
+            if (e.keyCode == 13) {
+                MemberSearchFunction(this);
+                return false; // prevent the button click from happening
+            }
+        });
+
+        var img = $("#photo").val();
+        if ($("#photo").val() == "")
+            img = "profile.png";
+
+
+        $("#imgMember").attr("src", "../assets/img/Members/" + img);
+        if ($('#memberid').val())
+        {
+            if ($('#memberid').val() > 0) {
+                $("#btnSave").removeAttr("disabled");
+            }
+            //else { alert("Invalid Member. Please select member agian!"); }
+        }
+        else
+        { //alert("Invalid Member. Please select member agian!");
+        }
+
+        $('#txtTopUpMember').live("keypress", function (e) {
+            if (e.keyCode == 13) {
+                TopUpFunction();
+                return false; // prevent the button click from happening
+            }
+        });
+
+        showTopUpGrid();
+        showReservedGrid();
+        $('#dialog-modal').dialog({
+            //position: [200, 100],
+            modal: true,
+            autoOpen: false,
+            open: function (event, ui) {
+                $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+            }
+        });
+
+        var options = {
+            modal: true,
+            height: 500,
+            minHeight: 500,
+            maxHeight: 500,
+            width: 950,
+            minWidth: 950,
+            maxWidth: 950,
+            dialogClass: "sfFormwrapper"
+        };
+        $('#dialog-modal').dialog('option', options);
+
+        $('#Member_dialog-modal').dialog({
+            //position: [280, 120],
+            modal: true,
+            autoOpen: false,
+            open: function (event, ui) {
+                $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+            },
+        });
+
+        var moptions = {
+            modal: true,
+            height: 350,
+            minHeight: 350,
+            maxHeight: 350,
+            width: 530,
+            minWidth: 530,
+            maxWidth: 530,
+            dialogClass: "sfFormwrapper"
+        };
+        $('#Member_dialog-modal').dialog('option', moptions);
+
+        $('#Staff_dialog-modal').dialog({
+            //position: [280, 120],
+            modal: true,
+            autoOpen: false,
+            open: function (event, ui) {
+                $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+            },
+            close: function () {
+                SalesStaffValidation();
+            }
+        });
+
+        var soptions = {
+            modal: true,
+            height: 380,
+            minHeight: 380,
+            maxHeight: 380,
+            width: 530,
+            minWidth: 530,
+            maxWidth: 530,
+            dialogClass: "sfFormwrapper"
+        };
+        $('#Staff_dialog-modal').dialog('option', soptions);
+        getSalesStaffList();
+
+        if ($('#txtTopUpMember').val() == 0) $('#txtTopUpMember').val("");
+        var tid = $('#topupid').val();
+        if (tid > "0")
+        {
+            $('#btnSave').attr("disabled", "");
+        }
+
+        var qs = getQueryStrings();
+        var sflag = qs["sflag"];
+
+        if (sflag == "1") {
+            var msg = "Topup# " + $('#resourcecode').val() + " was saved successfully";
+            var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"success"}';
+            showMessage(attrvalue);
+            $('#btnClub').show();
+        }
+        else {
+            $('#btnClub').hide();
+        }
+    });
+
+
+    function showReservedRecord(id) {
+        var mid = $('#memberid').val();
+        var cno = $('#txtRedeemMember').val();
+        var rcode = $('#resource').val();
+        window.open("../sales/Redeem?id=" + id + "&mid=" + mid + "&rcode=" + rcode, "_self");
+    }
+
+    function OpenRservedDialog() {
+        $('#dialog-modal').dialog('open');
+    }
+
+    function showReservedGrid() {
+        var mid = $('#memberid').val();
+        $.ajax({
+            url: '@Url.Action("getReserveList", "Sales")',
+            data: { memberid: mid },
+            type: 'POST',
+            success: function (data) {
+                populateReservedList(data);
+            },
+            error: function (ts) { alert(ts.responseText) }
+        });
+    }
+
+    function populateReservedList(data) {
+
+        var Htmlstr = "<table class='table table-striped table-bordered' id ='tblReserved'><thead>";
+        var closeHtml = "</tbody></table>";
+
+        Htmlstr = Htmlstr + "<tr ><th style='Display:none;' rowspan='2'>id</th><th style='Display:none;' rowspan='2'>cid</th><th style='Display:none;' rowspan='2'>pid</th><th rowspan='2' style ='text-align:right;padding-right:10px;width:60px;'>Sr.</th><th rowspan='2'>Branch</th><th rowspan='2'>Ref.</th><th rowspan='2'>Code</th><th  rowspan='2'>Description</th><th rowspan='2' style ='width:60px;'>Qty.</th><th  rowspan='2'>UOM</th>";
+        Htmlstr = Htmlstr + "<th colspan='2' style='text-align:center;width:140px;'>Redeem</th>";
+        Htmlstr = Htmlstr + "<th colspan='2' style='text-align:center;width:140px;'>Award</th>";
+        Htmlstr = Htmlstr + "<tr><th style='text-align:center;width:50px;'>" + $('#c').val() + "</th><th style='text-align:center;width:50px;'>" + $('#b').val() + "</th><th style='text-align:center;width:50px;'>" + $('#c').val() + "</th><th style='text-align:center;width:50px;'>" + $('#b').val() + "</th></tr>";
+        Htmlstr = Htmlstr + "</tr></thead><tbody>";
+
+        for (var x = 0; x < data.length; x++) {
+            Htmlstr += "<tr ><td style='Display:none;'>" + data[x].id + "</td><td style='Display:none;'>" + data[x].createid + "</td><td style='Display:none;'>" + data[x].productid + "</td><td style='text-align:right;padding-right:10px;'>" + (x + 1) + "</td><td >" + data[x].branchcode + "</td><td ><a onclick='showReservedRecord(" + data[x].id + ");' style='color:orange;'>" + data[x].resourcecode + "</a></td><td >" + data[x].productcode + "</td>" + "<td >" + data[x].productdesc + "</td>" + "<td>" + data[x].qty + "</td><td >" + data[x].uom + "</td><td style='width:70px;text-align:right;padding-right:20px;'>" + data[x].redeemdollars + "</td><td style='width:70px;text-align:right;padding-right:20px;'>" + data[x].redeembonus + "</td><td style='width:70px;text-align:right;padding-right:20px;'>" + data[x].awarddollars + "</td><td style='width:70px;text-align:right;padding-right:20px;'>" + data[x].awardbonus + "</td>";
+        }
+
+        Htmlstr += closeHtml;
+        $('#divReserved').html(Htmlstr);
+
+    }
+
+    function getNewCardNo() {
+
+        $.ajax({
+            url: '@Url.Action("getMemberNewCardNo", "CusSup")',
+            type: 'POST',
+            success: function (data) {
+                $('#txtcardno').val(data);
+            },
+            error: function (ts) { alert(ts.responseText) }
+        });
+    }
+
+    function OpenStaffDialog()
+    {
+        $('#Staff_dialog-modal').dialog('open');
+    }
+
+    function getSalesStaffList() {
+        var tid = $('#topupid').val();
+        if (tid == "0")
+        {
+            populateStaffList("");
+        }
+        else
+        {
+            $.ajax({
+                url: '@Url.Action("getInvoiceSalesStaff", "Sales")',
+                data: JSON.stringify({ invid: tid }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                type: 'POST',
+                success: function (data) {
+                    populateStaffList(data);
+
+                },
+                error: function (ts) { alert(ts.responseText) }
+            });
+        }
+    }
+
+    function populateStaffList(data) {
+        var Htmlstr = "<table class='table table-striped table-bordered' id ='tblSalesStaff' style='overflow-x:scroll;width:100%;'><thead>";
+        var closeHtml = "</tbody></table>";
+        var itemcount = 0;
+
+        Htmlstr = Htmlstr + "<tr ><th style='Display:none;'>ID</th>";
+        Htmlstr = Htmlstr + "<th style='width:80px;'>Line no</th>";
+        Htmlstr = Htmlstr + "<th >Staff</th>";
+        Htmlstr = Htmlstr + "<th style='width:80px;'>Percent</th>";
+        Htmlstr = Htmlstr + "<th style='width:80px;'></th></tr></thead><tbody>";
+
+        if (data.length > 0) {
+            for (var x = 0; x < data.length; x++) {
+                Htmlstr += "<tr id='S_" + data[x].id + "'><td style='Display:none;'>" + data[x].id + "</td>" + "<td ><input class='form-control' type='text' value='" + data[x].lineno + "' /></td><td><select v='" + data[x].staffid + "' class='form-control' >" + $('#cbostaff').html() + "</select></td><td ><input class='form-control' type='text' value='" + data[x].percent + "' /></td>";
+                Htmlstr += "<td><a class='btn btn-danger'  onclick='RemoveSalesStaff(this)' title ='Remove Staff'><i class='fa fa-trash-o '></i></a></td></tr>";
+            }
+            Htmlstr += closeHtml;
+            $('#divSalesStaff').html(Htmlstr);
+
+            $("#tblSalesStaff > tbody > tr").find('select').each(function (index) {
+                $(this).val($(this).attr("v"));
+            });
+            stblrowcount = data.length;
+
+        }
+        else {
+            Htmlstr += "<tr id='S_0'><td style='Display:none;'>0</td>" + "<td ><input class='form-control' type='text' value='1' /></td><td ><select class='form-control' >" + $('#cbostaff').html() + "</select></td><td ><input class='form-control' type='text' value='100' /></td>";
+            Htmlstr += "<td><a class='btn btn-danger'  onclick='RemoveSalesStaff(this)' title ='Remove Staff'><i class='fa fa-trash-o '></i></a></td></tr>";
+            Htmlstr += closeHtml;
+            stblrowcount = 1;
+            $('#divSalesStaff').html(Htmlstr);
+            stblrowcount = 1;
+        }
+
+        $("#tblSalesStaff > tbody > tr").find('input:text').each(function (index) {
+            $(this).on('input', function (event) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+        });
+
+        $("#tblSalesStaff > tbody > tr").find('select').each(function (index) {
+            this.value = $('#staffid').val();
+        });
+    }
+
+    function SalesSaffSave() {
+
+        var tid = $('#topupid').val();
+        if (tid > 0)
+        {
+            if (SalesStaffValidation() == false) { return false; }
+            UpdateSalesStaff();
+        }
+        else
+        {
+            $('#Staff_dialog-modal').dialog('close');
+        }
+    }
+
+    function UpdateSalesStaff()
+    {
+        var tid = $('#topupid').val();
+        var staffCollection = new Array();
+        var rcode = $('#resource').val();
+        var invcode = $('#resourcecode').val();
+        $('#tblSalesStaff > tbody > tr').each(function (i, row) {
+            var tds = $(row).find('td');
+            var txts = $(row).find('input');
+            if ($(txts[1]).val() > "0") {
+                var item = new Object();
+                item.id = tds.eq(0).html();
+                item.resourcecode = invcode;
+                item.lineno = $(txts[0]).val();
+                item.staffid = $(row).find('select').val();
+                item.percent = $(txts[1]).val();
+                staffCollection.push(item);
+            }
+        });
+
+        $.ajax({
+            url: '@Url.Action("UpdateServiceStaffList", "Sales")',
+            data: JSON.stringify({ slst: staffCollection, tid: tid, rcode: rcode }),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            type: 'POST',
+            async: false,
+            success: function (data) {
+                $('#Staff_dialog-modal').dialog('close');
+                var attrvalue = "";
+                if (data == "SUCCESS") {
+                    attrvalue = '{"text":"Successfully update sales staff information.","layout":"topRight","type":"success"}';
+                }
+                else {
+                    attrvalue = '{"text":"' + data + '","layout":"topRight","type":"error"}';
+                }
+                showMessage(attrvalue);
+            },
+            error: function (ts) { alert(ts.responseText); alert("Fail to update cardno."); $('#dialog-modal').dialog("close"); }
+        });
+    }
+
+    function showMessage(attrvalue)
+    {
+        $('#btnBalanceMember').attr('data-noty-options', attrvalue);
+        $('#btnBalanceMember').trigger("click");
+    }
+
+    function StaffNewRow() {
+        if (stblrowcount < 3)
+        {
+            var percent=0;
+            if (stblrowcount == 0)
+            { percent = 100; }
+            else if (stblrowcount == 1)
+            { percent = 50; }
+            else
+            { percent = 33; }
+            var Htmlstr = "<tr id='S_0'><td style='Display:none;'>0</td>" + "<td ><input class='form-control' type='text' value ='" + (stblrowcount+1) + "' /></td><td ><select class='form-control' >" + $('#cbostaff').html() + "</select></td><td ><input class='form-control' type='text' value='" + percent + "' /></td>";
+            Htmlstr += "<td><a class='btn btn-danger'  onclick='RemoveSalesStaff(this)' title ='Remove Staff'><i class='fa fa-trash-o '></i></a></td></tr>";
+            $("#tblSalesStaff").append(Htmlstr);
+            stblrowcount++;
+
+            var trs = $("#tblSalesStaff > tbody").find('tr');
+            if (trs.length == 2)
+            {
+                var tds = $(trs[0]).find('td');
+                var txts = tds.eq(3).find('input');
+                $(txts).val(50);
+            }
+            else if (trs.length == 3)
+            {
+                var tds = $(trs[0]).find('td');
+                var txts = tds.eq(3).find('input');
+                $(txts).val(34);
+                var tds2 = $(trs[1]).find('td');
+                var txts2 = tds2.eq(3).find('input');
+                $(txts2).val(33);
+            }
+
+        }
+    }
+
+    function RemoveSalesStaff(paramtr)
+    {
+        { $(paramtr).closest('tr').remove(); stblrowcount--; }
+    }
+
+    function SalesStaffValidation()
+    {
+        var totalpercent = 0;
+        $('#tblSalesStaff > tbody > tr').each(function (i, row) {
+            var txts = $(row).find('input');
+            if ($(txts[1]).val() > "0") {
+                totalpercent += parseInt($(txts[1]).val());
+            }
+        });
+
+        if (totalpercent != 100)
+        {
+            var attrvalue = '{"text":"Total Sales Percentage must be 100 for sales staff.","layout":"topRight","type":"error"}';
+            showMessage(attrvalue);
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    function closeStaffDialog() {
+        if (SalesStaffValidation() == false)
+        {
+            return false;
+        }
+        else
+        { $('#Staff_dialog-modal').dialog("close"); }
+
+    }
+
+    function OpenMemberDialog() {
+
+        $('#txtcardno').val("");
+        $('#txtname').val("");
+        $('#txtnric').val("");
+        $('#txtTempcardno').val("");
+        $('#btnCardSave').removeAttr("disabled");
+        getNewCardNo();
+        $('#Member_dialog-modal').dialog('open');
+
+    }
+
+    function closeMemberDialog() {
+        $('#Member_dialog-modal').dialog("close");
+    }
+
+
+    function MemberValidation() {
+        if ($('#txtname').val().trim() == "") {
+            alert("Please key in Member Names.");
+            $('#txtname').focus();
+            return false;
+        }
+
+        if ($('#txtnric').val().trim() == "") {
+            alert("Please key in NRIC.");
+            $('#txtnric').focus();
+            return false;
+        }
+
+        if ($('#txtmobile').val().trim() == "") {
+            alert("Please key in NRIC.");
+            $('#txtmobile').focus();
+            return false;
+        }
+
+        return true;
+    }
+
+
+    function CHKDuplicateNRICSaveMembership() {
+        var mid = 0;
+        var nric = $('#txtnric').val();
+
+        $.ajax({
+            url: '@Url.Action("isDuplicateNRIC", "CusSup")',
+            data: JSON.stringify({ nric: nric, mid: mid }),
+            type: 'POST',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            success: function (data) {
+                if (data == "1") {
+                    alert("NRIC already exist.Please Key  in again.");
+                    $('#txtnric').focus();
+                    return false;
+                }
+                else {
+                    SaveMember();
+                }
+
+            },
+            error: function (req, status, err) {
+                return false;
+            }
+        });
+    }
+
+    function SaveMember() {
+        var rcode = $('#resource').val();
+        if (MemberValidation() == false) return false;
+        $('#btnCardSave').attr("disabled", "");
+        var name = $('#txtname').val();
+        var nric = $('#txtnric').val();
+        var ctype = $('#cbocardtype').val();
+        var cno = $('#txtcardno').val();
+
+        var mid = 0;
+        var rcode = $('#rcode').val();
+        var obj = new Object();
+
+        obj.id = mid;
+        obj.cussupname = $('#txtname').val();
+        obj.nric = $('#txtnric').val();
+        obj.status = 'Active';
+        obj.photo = "";
+        obj.canemail = 0;
+        obj.cansms = 0;
+        obj.cancall = 0;
+        obj.mobile = $('#txtmobile').val();
+
+        var cardCollection = new Array();
+        var b1 = new Object();
+        b1.id = 0;
+        b1.cardtype = $('#cbocardtype').val();
+        b1.expirydate = $('#txtExpiryDate').val();
+        cardCollection.push(b1);
+
+        obj.cards = cardCollection;
+        $.ajax({
+            url: '@Url.Action("TopUpMembershipSave", "CusSup")',
+            data: JSON.stringify({ m: obj, rcode: rcode }),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            type: 'POST',
+            async: false,
+            success: function (data) {
+                cno = data;
+                closeMemberDialog();
+                printCard();
+            },
+            error: function (ts) { alert(ts.responseText); alert("Fail to update cardno."); $('#dialog-modal').dialog("close"); }
+        });
+    }
+
+    function NewTopUpFunction() {
+        var mid = $('#memberid').val();
+        var rcode = $('#resource').val();
+        window.open("TopUp?rcode=" + rcode + "&mid=" + mid, "_self");
+    }
+
+    function showTopUpGrid() {
+        var tid = $('#topupid').val();
+        if (tid > "0")
+        {
+            $.ajax({
+                url: '@Url.Action("getINVRedeemDetail", "Sales")',
+                data: { id: tid },
+                type: 'POST',
+                success: function (data) {
+                    populateExitingTopUpList(data);
+                },
+                error: function (ts) { alert(ts.responseText) }
+            });
+        }
+        else {
+            $.ajax({
+                url: '@Url.Action("getProductList", "Product")',
+                    data: { ptype: "TOPUPLIST", filter: "%", cat: "", brand: "", firstUOM: 0 },
+                    type: 'POST',
+                    success: function (data) {
+                        populateTopUpList(data);
+                    },
+                    error: function (ts) { alert(ts.responseText) }
+                });
+            }
+        }
+
+        function populateExitingTopUpList(data)
+        {
+            var Htmlstr = "<table class='table table-striped table-bordered' id ='tblTopUp'><thead>";
+            var closeHtml = "</tbody></table>";
+            Htmlstr = Htmlstr + "<tr ><th style='Display:none;' rowspan='2'>id</th><th style='Display:none;' rowspan='2'>pid</th><th style='Display:none;' rowspan='2'>pcode</th><th rowspan='2' style ='text-align:right;padding-right:10px;width:80px;'>Sr.</th><th rowspan='2'>Description</th><th style='Display:none;' rowspan='2'>sellprice</th><th style='Display:none;' rowspan='2'>comission</th><th style='width:80px;' rowspan='2'>Qty</th><th style='width:120px;' rowspan='2'>UOM</th>";
+            Htmlstr = Htmlstr + "<th colspan='2' style='text-align:center;'>Award</th>";
+            Htmlstr = Htmlstr + "<th rowspan='2'>Select</th></tr>";
+            Htmlstr = Htmlstr + "<tr><th style='text-align:center;'>" + $('#c').val() + "</th><th style='text-align:center;'>" + $('#b').val() + "</th></tr>";
+            Htmlstr = Htmlstr + "</tr></thead><tbody>";
+
+            for (var x = 0; x < data.length; x++) {
+                Htmlstr += "<tr id='" + data[x].id + "'><td style='Display:none;'>" + data[x].id  + "</td><td style='Display:none;'>" + data[x].productid + "</td><td style='Display:none;'>" + data[x].productcode + "</td><td style='text-align:right;padding-right:10px;'>" + (x + 1) + "</td><td >" + data[x].productdesc.replace("Mileage Rewards","@System.Configuration.ConfigurationManager.AppSettings["rewardsName"] Rewards") + "</td>" + "<td style='Display:none;' >" + data[x].SellPrice + "</td>" + "<td style='Display:none;'>" + data[x].servicecommission + "</td><td><input type='text'class='form-control' id='txtQty" + (x+1) + "' value='" + data[x].qty + "' disabled/></td><td >" + data[x].uom + "</td><td style='width:120px;text-align:right;padding-right:20px;'>" + data[x].awarddollars + "</td><td style='width:120px;text-align:right;padding-right:20px;'>" + data[x].awardbonus + "</td>";
+                Htmlstr += " <td style='width:90px;'><center><input type ='checkbox' onclick='ItemChecking(this)' checked/></center></td></tr>";
+            }
+            Htmlstr += closeHtml;
+
+            $('#divTopUp').html(Htmlstr);
+
+            $("#tblTopUp > tbody > tr").find('input:text').each(function (index) {
+                $(this).on('input', function (event) {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                });
+
+            });
+        
+        }
+
+        function populateTopUpList(data) {
+
+            var Htmlstr = "<table class='table table-striped table-bordered' id ='tblTopUp'><thead>";
+            var closeHtml = "</tbody></table>";
+            var tid = $('#topupid').val();
+            var chkhtml = "";
+            if (tid > "0")
+            { chkhtml = " <td style='width:60px;'><center><input type ='checkbox' onclick='ItemChecking(this)' checked/></center></td></tr>"; }
+            else
+            { chkhtml = " <td style='width:60px;'><center><input type ='checkbox' onclick='ItemChecking(this)'/></center></td></tr>"; }
+
+
+            Htmlstr = Htmlstr + "<tr ><th style='Display:none;' rowspan='2'>id</th><th style='Display:none;' rowspan='2'>pid</th><th style='Display:none;' rowspan='2'>pcode</th><th rowspan='2' style ='text-align:right;padding-right:10px;width:80px;'>Sr.</th><th rowspan='2'>Description</th><th style='Display:none;' rowspan='2'>sellprice</th><th style='Display:none;' rowspan='2'>comission</th><th rowspan='2' style='width:80px;'>Qty</th><th rowspan='2' style='width:120px;'>UOM</th>";
+            Htmlstr = Htmlstr + "<th colspan='2' style='text-align:center;'>Award</th>";
+            Htmlstr = Htmlstr + "<th rowspan='2'>Select</th></tr>";
+            Htmlstr = Htmlstr + "<tr><th style='text-align:center;'>" + $('#c').val() + "</th><th style='text-align:center;'>" + $('#b').val() + "</th></tr>";
+            Htmlstr = Htmlstr + "</tr></thead><tbody>";
+
+            for (var x = 0; x < data.length; x++) {
+                Htmlstr += "<tr id='" + data[x].id + "'><td style='Display:none;'>0</td><td style='Display:none;'>" + data[x].id + "</td><td style='Display:none;'>" + data[x].productcode + "</td><td style='text-align:right;padding-right:10px;'>" + (x + 1) + "</td><td >" + data[x].desc + "</td>" + "<td style='Display:none;' >" + data[x].sellprice + "</td>" + "<td style='Display:none;'>" + data[x].servicecommission + "</td><td><input class='form-control' style='text-align:right;' type='text' value='1' id='txtQty" + (x + 1) + "' onchange ='ChangeQty(this);'/></td><td >" + data[x].uom + "</td><td style='width:100px;text-align:right;padding-right:10px;'>" + data[x].awarddollars + "</td><td style='width:100px;text-align:right;padding-right:10px;'>" + data[x].awardbonus + "</td>";
+                Htmlstr += chkhtml;
+            }
+            Htmlstr += closeHtml;
+
+            $('#divTopUp').html(Htmlstr);
+
+            $("#tblTopUp > tbody > tr").find('input:text').each(function (index) {
+                $(this).on('input', function (event) {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                });
+            
+            });
+      }
+
+
+        function SaveTopUp(s) {
+            $('#btnSave').attr("disabled", "");
+            if (SalesStaffValidation() == false) { $('#Staff_dialog-modal').dialog('open'); return false;}
+            var rcode = $('#resource').val();
+            if ($('#refno').val()) {
+                if ($('#refno').val() == "") {
+                    $('#btnSave').removeAttr('disabled');
+                    var msg = "Please enter POS Ref No.";
+                    var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                    showMessage(attrvalue);
+                    return false;
+                }
+                var tid = $('#topupid').val();
+                var obj = new Object();
+                obj.id = tid;
+                obj.cussupid = $('#memberid').val();
+                obj.cussupname = $('#cussupname').val();
+                obj.type = $('#resource').val();
+                obj.refno = $('#refno').val();
+                obj.status = s;
+                obj.staffid = $('#staffid').val();
+
+                var tsellprice = 0;
+                var tac = 0;
+                var tab = 0;
+                var tsc = 0;
+                var i = 0;
+                var itemcount = 0;
+                var itemCollection = new Array();
+                $('#tblTopUp > tbody > tr').filter(':has(:checkbox:checked)').each(function (i, row) {
+                    i = i + 1;
+                    itemcount++;
+                    var tds = $(row).find('td');
+                    var item = new Object();
+                    item.lineno = i;
+                    item.productid = tds.eq(1).html();
+                    item.productcode = tds.eq(2).html();
+                    item.productdesc = tds.eq(4).html();
+                    item.unitprice = tds.eq(5).html();
+                    item.servicecommission = tds.eq(6).html();
+                    item.qty = tds.eq(7).find('input').val();
+                    item.uom = tds.eq(8).html();
+                    item.awarddollars = tds.eq(9).html();
+                    item.awardbonus = tds.eq(10).html();
+                    item.lineamount = tds.eq(5).html();
+                    item.redeembonus = 0;
+                    item.redeemdollars = 0;
+                    itemCollection.push(item);
+                    tsellprice = tsellprice + parseFloat(item.unitprice);
+                    });
+                if (itemcount <= '0')
+                {
+                    $('#btnSave').removeAttr('disabled');
+                    var msg = "Please select the item.";
+                    var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                    showMessage(attrvalue);
+                    return false;
+                }
+                obj.total_subtotal = tsellprice;
+                obj.total_total = tsellprice;
+                obj.items = itemCollection;
+
+                var staffCollection = new Array();
+                $('#tblSalesStaff > tbody > tr').each(function (i, row) {
+                    i = i + 1
+                    var tds = $(row).find('td');
+                    var txts = $(row).find('input');
+                    if ($(txts[1]).val() > "0")
+                    {
+                        var item = new Object();
+                        item.id = tds.eq(0).html();
+                        item.lineno = $(txts[0]).val();
+                        item.staffid = $(row).find('select').val();
+                        item.percent = $(txts[1]).val();
+                        staffCollection.push(item);
+                    }
+                });
+
+                obj.salestaffs = staffCollection;
+
+                $.ajax({
+                    url: '@Url.Action("TopUpSave", "Sales")',
+                data: JSON.stringify({ topup: obj, resource: $('#resource').val()}),
+                type: 'POST',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data == "DUPLICATEREF")
+                    {
+                        var msg = "Duplicate POS Ref.";
+                        var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                        showMessage(attrvalue);
+                        $('#btnSave').removeAttr('disabled');
+                        $('#btnSave').removeAttr('disabled');
+                        ;                        }
+                    else if (data> "0" && data != "FAIL")
+                    {
+                        $('#btnSave').attr("Disabled", "");
+                        window.open("TopUp?sflag=1&rcode=" + rcode + "&id=" + data + "&mid=" + $('#memberid').val() + "&cardno=" + $('#txtTopUpMember').val(), "_self");
+                    }
+                },
+                error: function (req, status, err) {
+                    alert(err);
+                }
+
+            });
+        }
+        else
+        {
+            var msg = "Please enter POS Ref No.";
+            var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+            showMessage(attrvalue);
+            $('#btnSave').removeAttr('disabled');
+            return false;
+        }
+
+    }
+
+    function getMemberbalance()
+    {
+        var mid = $('#memberid').val();
+        $.ajax({
+            url: '@Url.Action("getMemberList", "CusSup")',
+            data: { mid: mid },
+            type: 'POST',
+            success: function (data) {
+                if (data.length > 0) {
+                    $('#txtCBalance').val(data[0].CBalance);
+                    $('#txtBBalance').val(data[0].BBalance);
+                    $('#txtCReserved').val(data[0].CReserved);
+                    $('#txtBReserved').val(data[0].BReserved);
+                    $('#txtCAvailable').val(data[0].CAvailable);
+                    $('#txtBAvailable').val(data[0].BAvailable);
+                }
+            },
+            error: function (ts) { alert(ts.responseText) }
+        });
+    }
+
+    function ChangeQty(obj)
+    {
+        var tds = $(obj).closest('tr').find('td');
+        var chk = tds.eq(11).find('input');
+        ItemChecking(chk);
+    }
+
+    function ItemChecking(chk)
+    {
+        var tds = $(chk).closest('tr').find('td');
+        var mid = $('#memberid').val();
+
+        if (chk.checked == true)
+        {
+            if (mid <= "0") {
+                var msg = "Please select Member first.";
+                var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                showMessage(attrvalue);
+                return false;
+            }
+        }
+        calculateSelectedTotal();
+    }
+
+    function calculateSelectedTotal() {
+        ctotal = 0;
+        btotal = 0;
+        var mid = $('#memberid').val();
+
+        $("#tblTopUp > tbody > tr").each(function (index, row) {
+            var tds = $(this).find('td');
+            var chk = tds.eq(11).find("input");
+            if (chk[0].checked == true)
+            {
+                var qtys = tds.eq(7).find("input");
+                var qty = $(qtys[0]).val();
+                ctotal += (parseFloat(tds.eq(9).html()) * parseInt(qty));
+                btotal += (parseFloat(tds.eq(10).html()) * parseInt(qty));
+            }
+        });
+
+        $('#ctotal').val(ctotal);
+        $('#btotal').val(btotal);
+    }
+
+    function calculateTotal(tds,PlusFlag)
+    {
+        if (PlusFlag == 1)
+        {
+            ctotal += ( parseFloat(tds.eq(9).html()) * parseFloat(tds.eq(7).find('input').val()));
+            btotal += ( parseFloat(tds.eq(10).html()) * parseFloat(tds.eq(7).find('input').val()));
+
+        }
+        else
+        {
+            ctotal -= (parseFloat(tds.eq(9).html()) * parseFloat(tds.eq(7).find('input').val()));
+            btotal -= (parseFloat(tds.eq(10).html()) * parseFloat(tds.eq(7).find('input').val()));
+        }
+
+        $('#ctotal').val(ctotal);
+        $('#btotal').val(btotal);
+    }
+
+    function printTopUp() {
+        var tid = $('#topupid').val();
+        var sid = $('#txtstaffname').val();
+        var citidesc = $('#c').val();
+        var bonusdesc = $('#b').val();
+        //Added by ZawZO on 12 Nov 2015
+        var coname = $('#hidconame').val();
+        var coaddress = encodeURIComponent($('#hidcoaddress').val());
+        var email = $('#hidemail').val();
+        var tel = $('#hidtel').val();
+        var fax = $('#hidfax').val();
+        var coreg = $('#hidcoregno').val();
+        var gstreg = $('#hidgstregno').val();
+
+        if (tid > "0") {
+            var strurl = "../Reports/TopUpReceipt.aspx?id=" + tid + "&staffid=" + sid + "&citidesc=" + citidesc + "&bonusdesc=" + bonusdesc + "&cname=" + coname + "&caddress=" + coaddress + "&ctel=" + tel + "&cfax=" + fax + "&cemail=" + email + "&coreg=" + coreg + "&gstreg=" + gstreg;
+            window.open(strurl);
+        }
+    }
+
+    function printCard() {
+        var name = $('#txtname').val();
+        var cexpdate = $('#txtExpiryDate').val();
+        var sid = $('#txtstaffname').val();
+
+        if (name > "0") {
+            window.open("../Reports/WelcomeLetter.aspx?name=" + name + "&cno=" + cno + "&staffid=" + sid);
+            var rcode = $('#resource').val();
+            window.location.href = "TopUp?rcode=" + rcode + "&cardno=" + $('#txtcardno').val();
+        }
+    }
+
+    </script>

@@ -1,0 +1,228 @@
+﻿@model IEnumerable<BigMac.Models.Product_m_ProductPromotion>
+
+@{
+    ViewBag.Title = "PromotionIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var i = 0;        
+}
+
+        <div class="row">
+				<div class="box col-sm-12">			                    
+                    <div >
+                        <p >
+                        <a href="@Url.Action("PromotionSave", "Product", new { id = 0, rcode = ViewBag.RCode })" class="btn btn-primary" >
+	                        @*<i class="fa fa-plus" ></i> *@
+                            New Product Promotion
+                            <input type="hidden" id="rcode" value ="@ViewBag.RCode" />
+                        </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+			<div class="row">		
+				<div class="col-lg-12">
+					<div class="box">
+						<div class="box-header" data-original-title>
+							<h2><i class="fa fa-signal"></i><span class="break"></span>Product Promotion Listing</h2>
+							<div class="box-icon">
+								<a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+								<a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+								<a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+							</div>
+						</div>
+						<div class="box-content">
+                            <table class="table table-striped table-bordered " id ="tblPromo" >							
+							  <thead>
+								  <tr>
+                                      <th rowspan="2" >ID</th>
+									  <th rowspan="2">Description</th>
+									  <th rowspan="2">Start Date</th>
+									  <th rowspan="2">End Date</th>
+                                      <th rowspan="2">Price</th>
+                                      <th colspan ="2"><center>Redeem</center></th>
+                                      <th colspan ="2"><center>Award</center></th>
+                                      @*<th></th>*@
+								  </tr>
+                                  <tr>
+                                      <th ><center>@ViewBag.CitiDesc</center></th>
+                                      <th ><center>@ViewBag.BonusDesc</center></th>
+                                      <th ><center>@ViewBag.CitiDesc</center></th>
+                                      <th ><center>@ViewBag.BonusDesc</center></th>
+                                  </tr>
+                                </thead>   
+                                <tbody>
+@*                                        @foreach (var item in Model)
+                                        {
+                                            i = i+1;
+                                            <tr>
+                                                <td>
+                                                    @i
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.product.desc )
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.startdate)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.enddate)
+                                                </td>        
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.price)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.redeemdollars)
+                                                </td> 
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.redeembonus)
+                                                </td> 
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.awarddollars)
+                                                </td> 
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.awardbonus)
+                                                </td> 
+									            <td class="center">
+										            <a class="btn btn-info" href="@Url.Action("PromotionSave", "Product", new { id = item.id })" title ="Edit Promotion">
+											            <i class="fa fa-edit"></i>                                            
+										            </a>										            
+                                                    <a class="btn btn-danger" href="#" title ="Remove" onclick ='RemoveRow(this,@item.id)'>
+											            <i class="fa fa-trash-o "></i> 
+										            </a>
+									            </td>                                                
+                                            </tr>                                            
+                                        }*@
+                                </tbody>
+                            </table>							   
+                        </div> @*box-content*@
+                    </div> @*box*@
+                </div>
+            </div> @*row*@
+
+<div class="row" >	
+	<div class="col-lg-12" >
+		<div class="box">
+                                          
+		    <div class="col-sm-2">
+			    <a class="quick-button" href="~/Sales/Redeem">
+				    <i class="fa fa-ticket"></i>
+				    <p>Redeem</p>
+			    </a>
+		    </div>
+
+		    <div class="col-sm-2">
+			    <a class="quick-button" href="~/Sales/TopUp">
+				    <i class="fa fa-money"></i>
+				    <p>Top Up</p>
+			    </a>
+		    </div>
+
+		    <div class="col-sm-2">
+			    <a class="quick-button" href="~/CusSup/CreateMember">
+				    <i class="fa fa-user" ></i>
+				    <p>Create Member</p>
+			    </a>
+		    </div>
+                                   
+		    @*<div class="col-sm-2">
+			    <a class="quick-button" href="~/POS/DailySales">
+				    <i class="fa fa-bar-chart-o"></i>
+				    <p>Daily Sales Summary</p>
+			    </a>
+		    </div>*@                          
+
+		    <div class="col-sm-2">
+                <a class="quick-button" @*href="~/CusSup/MembershipEnquiry"*@ onclick="MemberSearchFunction(this);" data-rcode="MEMBERLISTING">
+                    <i class="fa fa-users"></i>
+                    <p>Membership Enquiry</p>
+                </a>
+		    </div>   
+
+
+		    <div class="col-sm-2">
+			    <a class="quick-button" href="~/Home/Index">
+				    <i class="fa fa-home"></i>
+				    <p>Home</p>
+			    </a>
+		    </div> 
+        </div>
+    </div><!--/col-->				
+</div><!--/row-->
+<script type ="text/javascript">
+    $(function () {
+        //showPromotionList();
+        //$("#tblPromo").dataTable().fnDestroy();
+    });
+
+     //$("#tblPromo").dataTable().fnDestroy();
+     showPromotionList();
+
+
+
+     function showPromotionList() {
+
+         var oTable = $('#tblPromo').dataTable({
+            "iDisplayLength": 10, // Default No of Records per page on 1st load
+            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]], // Set no of records in per page
+            "aaSorting": [[0, "id"],[1, "product.desc"], [2, "startdate"], [3, "enddate"]], // Default 1st column sorting
+            "bProcessing": true,
+            //"bJQueryUI": true, //No themeroller
+            "aoColumnDefs": [
+                {
+                    "aTargets": [2, 3],
+                    "mRender": function (data, type, full) {
+                        //alert(data);
+                        if (data) {
+                            var ctmp = getDateFromAspString(data);
+                            return (ctmp.getDate() + "/" + (ctmp.getMonth()+1) + "/" + ctmp.getFullYear());
+                        }
+                        return "";
+                    }
+                }
+            ], //, { "bVisible": false, "aTargets": [1] }], // Hide Column
+            "sAjaxSource": 'getPromotionListWithPaging',
+            "bStateSave": true, // Remember paging & filters
+            "bDeferRender": false,
+            "bServerSide": true,
+            "bDestroy": true,
+            "bRetrieve": true,
+            //"bDestroy": true,
+            "oSearch": { "sSearch": "" },
+            //"sPaginationType": "full_numbers", // Include page number
+            "aoColumns": [
+                         { "sWidth": "50px", "mDataProp": "id" }, { "sWidth": "200px", "mDataProp": "product.desc" }, { "sWidth": "100px", "mDataProp": "startdate" }, { "sWidth": "100px", "mDataProp": "enddate" }, { "sWidth": "100px", "mDataProp": "price" },
+                         { "sWidth": "80px", "mDataProp": "redeemdollars" }, { "sWidth": "80px", "mDataProp": "redeembonus" }, { "sWidth": "80px", "mDataProp": "awarddollars" }, { "sWidth": "80px", "mDataProp": "awardbonus" }
+            ],
+            "fnDrawCallback": function () {
+                $("#tblPromo tbody tr").click(function () {
+                    var tds = $(this).find("td");
+                    window.location.href = "PromotionSave?rcode=" +  $('#rcode').val() + "&id=" + tds.eq(0).html();
+                });
+
+                $('#tblPromo tbody tr').each(function () {
+                    this.setAttribute('title', "Click to view detail.");
+                });
+            }
+        });
+
+
+    }   // Display Listing -- END
+
+    function RemoveRow(paramtr, cid) {
+        var result = confirm("Are you sure you Want to remove this promotion?");
+        if (result == true) {
+            @*            $.ajax({
+                url: '@Url.Action("CampaignDelete", "Campaign")',
+                data: { id: cid },
+                type: 'POST',
+                success: function (data) {
+                    if (data == "SUCCESS")
+                    { $(paramtr).closest('tr').remove(); }
+                    //alert(data);
+                }
+            });*@
+        }
+    }
+
+</script>
+

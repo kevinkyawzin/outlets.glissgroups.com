@@ -1,0 +1,676 @@
+﻿@model BigMac.Models.Invoice_m_Invoice
+
+@{
+    ViewBag.Title = "Redeem";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row"  style="padding-top: 0px;margin-top:0px;">
+        <div class ="col-lg-12" style="padding-top: 0px;margin-top:0px;">
+            <div class="box" style="padding-top: 0px;margin-top:0px;">
+                <div class ="box-header" >
+							<h2><i class="fa fa-edit"></i>Search</h2>
+							<div class="box-icon">
+								<a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+								<a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+								<a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+							</div>
+                </div>
+                <div class ="box-content">
+                    <div>
+                            <input type="hidden" id="c" value="@ViewBag.CitiDesc" />
+                            <input type="hidden" id="b" value="@ViewBag.BonusDesc" />
+                            <table style="border-spacing:5px;border-collapse:separate;" >
+                                <tr>
+                                    <td style="width:400px;"><input type="text" class="form-control" placeholder="By MemberCode/Name/NRIC/Mobile/Cardno" id="txtCustomer" data-rcode="MEMBERLISTING" /></td>
+                                    <td style="width:20px;"></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                    </div>
+                </div>
+             </div>    
+        </div>
+</div>
+
+<div class="row" style="padding-top: 0px;margin-top:0px;">
+    <div class="col-lg-12" style="padding-top: 0px;margin-top:0px;">
+        <div class="box" style="padding-top: 0px;margin-top:0px;">
+
+            <div class="clearfix"></div>
+            <div class="box-header">
+                <h2>
+                    <i class="fa fa-edit"></i>Redeem Package
+                    <span id="pkgrefno"></span>
+                </h2>
+                <div class="box-icon">
+                    <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+                    <a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                <input type="hidden" id="resourcecode" value="@Model.resourcecode" />
+                <input type="hidden" id="redeemid" value="@Model.id" />
+                <input type="hidden" id="memberid" value="@Model.cussupid" />
+                <input type="hidden" id="cussupname"  />
+                <input type="hidden" id="status" value="@Model.status" />
+                <input type="hidden" id="resource" value="@ViewBag.RCode" />
+                <input type="hidden" id="createstaffid" value="@Html.Encode(User.Identity.Name)">
+                <input type="hidden" id="txtorgC" value="0">
+                <input type="hidden" id="txtorgB" value="0">
+                <input type="hidden" value="@ViewBag.CoName" id="hidconame" />
+                <input type="hidden" value="@ViewBag.CoAddress" id="hidcoaddress" />
+                <input type="hidden" value="@ViewBag.Tel" id="hidtel" />
+                <input type="hidden" value="@ViewBag.Fax" id="hidfax" />
+                <input type="hidden" value="@ViewBag.Email" id="hidemail" />
+                <input type="hidden" value="@ViewBag.CoRegNo" id="hidcoregno" />
+                <input type="hidden" value="@ViewBag.GSTRegNo" id="hidgstregno" />
+                <div style="display:none;">
+                    @Html.DropDownList("cbostaff", new SelectList(@ViewBag.StaffOptions, "id", "name"), new { @class = "form-control" })
+                </div>
+
+                <table style="width:100%;border-spacing:0px;border-collapse:separate;padding-left:10px;">
+                    <tr>
+                        <td style="text-align:center;width:100px;"><label class="control-label">Member :</label></td>
+                        <td style="text-align:left;width:250px;color:blueviolet;font-weight:bold;">
+                            <a href="~/CusSup/MembershipEnquiry?rcode=MEMBER&id=@Model.cussupid" style="color:blueviolet;font-weight:bold;" title="Click here to go membership enquiry">
+                            <span id="custname"></span></a>                                
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="4" style="text-align:center;">                            
+                            <label class="control-label" style="color:blueviolet;">Create By : @ViewBag.staffname </label>
+                            @Html.HiddenFor(x => x.staffid)
+                            <input type="hidden" value="@ViewBag.staffname" id="txtstaffname" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" rowspan="6">
+                            <div style="width:100%;height:100%;border:1px solid #DDD">
+                                <center>
+                                    <a href="~/CusSup/MembershipEnquiry?rcode=MEMBER&id=@Model.cussupid" title="Click here to go membership enquiry">
+                                        <img src="../assets/img/Members/profile.png" style="width:130px;height:150px;" id="imgMember" />
+                                    </a>
+                                </center>
+                                <input type="hidden" @*value="@ViewBag.Member.photo"*@ id="photo" />
+                            </div>
+                        </td>
+                        <td></td>
+                        <td style="width:150px;background-image: -moz-linear-gradient(center top , #841a1a 0px, #b52f2f 100%);border-style:none; box-shadow: none; color: white; font-size: 16px;height: 38px;line-height: 16px;margin-bottom: -1px;overflow: hidden; padding: 10px;">
+                            <i class="fa fa-edit"></i>&nbsp;Item Change
+                        </td>
+                        <td style="width:120px;background-image: -moz-linear-gradient(center top , #841a1a 0px, #b52f2f 100%);border-style:none;  box-shadow: none; color: white; font-size: 16px;height: 38px;line-height: 16px;margin-bottom: -1px;overflow: hidden; padding: 10px;"></td>
+                        <td style="width:1px;background-image: -moz-linear-gradient(center top , #841a1a 0px, #b52f2f 100%);border-style:none;  box-shadow: none; color: white; font-size: 16px;height: 38px;line-height: 16px;margin-bottom: -1px;overflow: hidden; padding: 10px;"></td>
+                        <td style="width:120px;background-image: -moz-linear-gradient(center top , #841a1a 0px, #b52f2f 100%);border-style:none;  box-shadow: none; color: white; font-size: 16px;height: 38px;line-height: 16px;margin-bottom: -1px;overflow: hidden; padding: 10px;"></td>
+                        <td style="width:110px;background-image: -moz-linear-gradient(center top , #841a1a 0px, #b52f2f 100%);border-style:none;  box-shadow: none; color: white; font-size: 16px;height: 38px;line-height: 16px;margin-bottom: -1px;overflow: hidden; padding: 10px;"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><label class="control-label">Old Item</label></td>
+                        <td colspan="4" style="padding-top:5px;"><input type='text' class='form-control' id="txtOldProduct" placeholder="Enter Product Name/Code" /></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><label class="control-label">New Item</label></td>
+                        <td colspan="4" style="padding-top:5px;"><input type='text' class='form-control' id="txtProduct" placeholder="Enter Product Name/Code" /></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><label class="control-label">Unit Price</label></td>
+                        <td colspan="2" style="padding-top:5px;"><input type='text' class='form-control' id="txtUnitPrice" style="text-align:right" disabled="disabled" /></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><label class="control-label">Description</label></td>
+                        <td colspan="4" style="padding-top:5px;"><textarea rows=" 3" style="width: 100%; overflow: hidden; word-wrap: break-word; resize: horizontal;" id="txtProdDescription" disabled="disabled"> </textarea></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td colspan="4">
+                            <div style="float:right;padding:0px 0px 0px 0px;">
+                              <button type="button" id="btnAddItem" class="btn btn-success" value="Print" onclick="ChangeItem();">Change Item</button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>      
+
+                
+                    <div class="box">
+                        <div class="box-content">                            
+                            <!--<div class="clearfix"></div>-->
+                            <div class="col-lg-12">
+                                <div id="divRedeem"></div>
+                                <!--
+        <div style="text-align:center;float:right;width:100%;">
+            <table style="width:100%;border-spacing:1px;border-collapse:separate;">
+                <tr>
+                    <td></td>
+                    <td style="width:120px;"><br /><button type="button" class="btn btn-primary" value="Save" style="width:110px;" onclick="SaveRedeemPackage('ACTIVE');" id="btnReserve" disabled>Reserve</button> </td>
+                    <td style="width:120px;"><br /><button type="button" class="btn btn-success" value="confirm" style="width:110px;" onclick="SaveRedeemPackage('CLOSE');" id="btnConfirm" disabled>Confirm</button> </td>
+                    <td style="width:120px;"><br /><button type="button" class="btn btn-success" value="print" style="width:110px;" onclick="printReceipt();" id="btnPrint" disabled>Print Receipt</button> </td>
+                    <td style="width:85px;"></td>
+                </tr>
+            </table>
+        </div>
+
+        <br />
+        -->
+                                <!--
+        <div class="clearfix"></div>
+        <div id="dialog-modal">
+            <div class="col-lg-12" id="divReservedDialog" style="overflow-style:scrollbar;">
+                <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+                    @*Reserve List for @ViewBag.Member.cussupname*@
+                </div>
+                <div id="divReserved"></div>
+            </div>
+        </div>-->
+                                @*<div id="Balnace_dialog-modal">
+                <div class="col-lg-12" id="divBalanceDialog" style="overflow-style:scrollbar;">
+                    <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+                        CiteBella
+                    </div>
+                    <div id="divReserved">
+                        <br />
+                        <div style="color: blueViolet; font-weight: bolder; padding-left: 10px;">
+                            Balance of C$/B$ is not enough for redemption. <br />Please Top Up & Redeem again.
+                        </div>
+
+                        <br />
+                        <div style="width:100%">
+                            <table style="width:100%">
+                                <tr>
+                                    <td></td>
+                                    <td style="width:120px;"><button type="button" style="width:100%;" class="btn btn-primary" onclick="goToTopUp();" >OK</button></td>
+                                    <td style="width:120px;"><button type="button" style="width:100%;" class="btn btn-primary" onclick="TopUpCancel();">Cancel</button></td>
+                                    <td style="width:20px;"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="divSelectedList" style="Display:none;"></div>*@
+                            </div>
+                        <ul class="noty_cont noty_layout_topRight" id="ulBalance"></ul>
+                        <button id="btnBalanceMember" class="btn btn-primary noty" data-noty-options='{"text":"Please select Member first.","layout":"topRight","type":"confirm"}' style="display:none;">Top Right</button>
+                    </div>
+                </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="box">
+                        <div class="col-sm-2" data-rcode="TOPUP" style="display:none;">
+                            <a class="quick-button" onclick="TopUpFunction(this, 3, $('#memberid').val());" data-rcode="TOPUP" style="display:none;">
+                                <i class="fa fa-ticket"></i>
+                                <p>Club</p>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-2" data-rcode="CREATEMEMBER" style="display:none;">
+                            <a class="quick-button" onclick="CreateMemberFunction(this);" data-rcode="CREATEMEMBER">
+                                <i class="fa fa-user"></i>
+                                <p>Create Member</p>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-2" data-rcode="MEMBERLISTING" style="display:none;">
+                            <a class="quick-button" onclick="MemberSearchFunction(this);" id="BTNMEMBERLISTING" data-rcode="MEMBERLISTING">
+                                <i class="fa fa-users"></i>
+                                <p>Membership Enquiry</p>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <a class="quick-button" href="~/Access/BranchStaffIndex">
+                                <i class="fa fa-user"></i>
+                                <p>Branch Staff</p>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <a class="quick-button" href="~/Home/Index">
+                                <i class="fa fa-home"></i>
+                                <p>Home</p>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>    
+<script type="text/javascript">
+     var load = 1;
+     var PFlag = 1;
+     var cboPageLoad = 1;
+     var selectedcust = new Object();
+     var btnobj = new Object();
+     var oldpid = 0; 
+     var curpkgcode = "";
+     $(function () {
+       selectedcust.id = 0;
+       var rid = $('#redeemid').val();
+       if (rid == 0) {
+           $("#btnConfirm").attr("disabled", true);
+       }
+       else {
+           $('#pkgrefno').html("Package Redeem Entry # : " + $('#resourcecode').val());
+      }
+      if ($('#memberid').val().trim() != "" || $('#memberid').val().trim() != "0") {
+           selectedcust.id = $('#memberid').val();
+           getSelectedMemberInfo();
+           showRedeemPackageList();
+      }
+
+      getCustomer(); // customer autocomplete setup
+      getProduct();//product autocomplete setup
+         //showProductList();
+     
+
+      $('select[name=tblProduct_length]').addClass("form-control");
+
+      $('#tblProduct_filter :input').addClass("form-control");
+      $('#tblProduct_filter :input').width("150px");
+      //$('#cbopages').addClass("form-control");
+
+      var qs = getQueryStrings();
+      var sflag = qs["sflag"];
+
+       $('#dialog-modal').dialog({
+            //position: [200, 100],
+            modal: true,
+            autoOpen: false,
+            open: function (event, ui) {
+                 $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+            }
+       });
+       var options = {
+            modal: true,
+            height: 500,
+            minHeight: 500,
+            maxHeight: 500,
+            width: 950,
+            minWidth: 950,
+            maxWidth: 950,
+            dialogClass: "sfFormwrapper"
+      };
+          $('#dialog-modal').dialog('option', options);
+});
+
+function getCustomer() {
+         $("#txtCustomer").autocomplete({
+              minLength: 3,
+              source: function (req, res) {
+                   jQuery.ajax({
+                      url: '@Url.Action("getReemMemberInfo", "CusSup")',
+                      cache: false,
+                      dataType: 'json',
+                      data: { custInfo: $('#txtCustomer').val(), count: 10 },
+                      error: function (data) {
+                           return false;
+                      },
+                      success: function (data) {
+                          res($.map(data, function (item) {
+                             return {
+                                     label: item.cussupname + "(" + item.inhousecode + ")",
+                                     value: item.cussupname + "(" + item.inhousecode + ")",
+                                     id: item.id,
+                                     inhousecode: item.inhousecode,
+                                     cussupname: item.cussupname
+                             }
+                     }));
+                 }
+           });
+       },
+       select: function (event, ui) {
+               selectedcust = ui.item;
+               getSelectedMemberInfo();
+               showRedeemPackageList();
+       }
+   });
+ }
+
+ function getSelectedMemberInfo() {
+       if (selectedcust.id > 0) {
+           $('#memberid').val(selectedcust.id);
+           $('#cussupname').val(selectedcust.cussupname);
+           $.ajax({
+               url: '@Url.Action("getPkgRedeemMemberInfo", "CusSup")',
+               data: { mid: selectedcust.id },
+               type: 'POST',
+               success: function (data) {
+                    if (data) {
+                       $('#txtCBalance').val(data.CBalance);
+                       $('#txtBBalance').val(data.BBalance);
+                       $('#txtCReserved').val(data.CReserved);
+                       $('#txtBReserved').val(data.BReserved);
+                       $('#txtCAvailable').val(data.CAvailable);
+                       $('#txtBAvailable').val(data.BAvailable);
+                       $('#custname').html(data.cussupname + "(" + data.inhousecode + ")");
+
+                       var img = data.photo;
+                       if (data.photo == "" || data.photo == null)
+                           img = "profile.png";
+
+
+                       $('#imgMember').attr("src", "../assets/img/Members/" + img)
+               }
+               //$('#txtCBalance').val(data.photo);
+         },
+         error: function (ts) { alert(ts.responseText) }
+       });
+    }
+ }
+
+ function showRedeemPackageList() {
+        var rid = $('#redeemid').val();
+        var mid = $('#memberid').val();
+        $.ajax({
+                 url: '@Url.Action("getPackageRedeemDetail", "Sales")',
+                 data: { mid: mid },
+                 type: 'POST',
+                 success: function (data) {
+                     PFlag = 0;
+                     populateRedeemPackageList(data);
+                     if (cboPageLoad == 1) {
+                         if (data.length > 0)
+                             getPageList(data[0].TotalPages);
+                     }
+                 },
+                 error: function (ts) {
+                     alert(ts.responseText)
+                }
+         });
+         load = 0;
+    }
+
+    function populateRedeemPackageList(data) {
+           var OpenHtmlstr = "<table class='table table-striped table-bordered' id ='tblSelectedList'><thead>";
+           var Htmlstr = "";
+           var closeHtml = "</tbody></table>";
+           var pkgcode;
+           Htmlstr = Htmlstr + "<tr><th style='Display:none;' >id</th>";
+           Htmlstr = Htmlstr + "<th style='width:10px;text-align:right;'>Sr.</th><th style='Display:none;' >Package Code</th>";
+           Htmlstr = Htmlstr + "<th style='width:120px;text-align:left;'>Package</th><th style='Display:none;' >Product Code</th>";
+           Htmlstr = Htmlstr + "<th style='width:120px;text-align:left;'>Product</th><th style='width:40px;text-align:left;' >UOM</th>";
+           Htmlstr = Htmlstr + "<th style='width:30px;text-align:right;'>Credit</th>";
+           Htmlstr = Htmlstr + "<th style='width:30px;text-align:right;'>Debit</th><th style='width:40px;' >Qty </th>";
+           Htmlstr = Htmlstr + "<th style='width:30px;text-align:right;'>Balance</th>";
+        //   Htmlstr = Htmlstr + "<th style='width:30px;text-align:right;'>Max Redeemable</th>";
+           Htmlstr = Htmlstr + "<th style='width:10px;'>Redeem</th>";
+           Htmlstr = Htmlstr + "<th style='width:10px;'>Print</th>";
+           Htmlstr = Htmlstr + "<th style='width:10px;'>Change</th>";
+           Htmlstr = Htmlstr + "</tr></thead><tbody>";
+
+           for (var x = 0; x < data.length; x++) {
+              Htmlstr += "<tr id=" + data[x].id + "'><td style='Display:none;'>" + data[x].id + "</td>";
+              Htmlstr += "<td style='width:10px;text-align:right;'>" + (x + 1) + "</td><td style='Display:none;'>" + data[x].packagecode + "</td>";
+              Htmlstr += "<td style='width:120px;text-align:left;'>" + data[x].packagedesc + "</td>" + "<td style='Display:none;'>" + data[x].productid + "</td>";
+              Htmlstr += "<td style='width:120px;text-align:left;'>" + data[x].productdesc + "</td><td style='width:40px;text-align:left;'>" + data[x].uom + "</td>";
+              Htmlstr += "<td style='width:40px;text-align:right;'>" + data[x].credit + "</td>";
+              Htmlstr += "<td style='width:40px;text-align:right;'>" + data[x].debit + "</td>";
+              Htmlstr += "<td style='width:40px;'><input class='form-control' name='txtQty' style='text-align:right;'/></td>";
+              Htmlstr += "<td style='width:40px;text-align:right;'>" + data[x].balance + "</td>";
+           //   Htmlstr += "<td style='width:40px;text-align:right;'>" + data[x].maxredeemamt + "</td>";
+              if (data[x].packagecode == null) {
+                  pkgcode = "";
+             }
+             else {
+                  pkgcode = data[x].packagecode;
+             }
+              Htmlstr += "<td style='width:10px;'><a class='btn btn-primary' onclick='SaveRedeemPackage(this);'><i class='fa fa-user' title='Redeem'></i></a></td>";
+              Htmlstr += "<td style='width:10px;'><a class='btn btn-success' onclick='PrintReceipt(this);'><i class='fa fa-print' title='Print'></i></a></td>";
+              Htmlstr += "<td style='width:10px;'><a class='btn btn-primary' onclick='EditItem(this);'><i class='fa fa-edit' title='Edit Items'></i></a></td></tr>";
+        }
+        OpenHtmlstr = "<table class='table table-bordered' id ='tblRedeem'><thead>";
+        $('#divRedeem').html(OpenHtmlstr + Htmlstr + closeHtml);
+
+        $("#tblRedeem > tbody > tr").find('input:text').each(function (index) {
+            $(this).on('input', function (event) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            var tds = $(this).closest('tr').find('td');
+                // 10 balance, 11 max redeemable 
+            if (parseInt(this.value) > parseInt(tds.eq(10).html())) {
+                this.value = tds.eq(10).html();
+                 var msg = "Not allow to enter more than available quantity!";
+              //  var msg = "Not allow to enter more than max redeemable quantity!";
+
+                var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                     showMessage(attrvalue);
+               }
+         });
+         $(this).change(function e() { changeQty(this); });
+        });
+
+     $("#tblRedeem > tbody > tr").find('select').each(function (index) {
+          $(this).val($(this).attr("v"));
+          $(this).change(function e() { changeStaff(this); });
+     });
+     $("#tblSelectedList > tbody > tr").find('select').each(function (index) {
+           $(this).val($(this).attr("v"));
+      });
+    }
+
+
+ function EditItem(obj) {
+        var tds = $(obj).closest('tr').find('td');
+        var debit = tds.eq(8).html();
+        if (debit > 0) {
+            alert('Unable to change this product.');
+            clearProductInfo();
+            $('#txtProduct').focus();
+        }
+        else {
+            $('#txtOldProduct').val(tds.eq(5).html());
+            //$('#txtProdDescription').val($('#txtProduct').val() + " : " + tds.eq(3).html() + "\nUOM :" + tds.eq(6).html());
+            selectedprod = new Object();
+            selectedprod.id = tds.eq(4).html();
+            selectedprod.productdesc = tds.eq(5).html();
+            curpkgcode = tds.eq(2).html();
+            oldpid = tds.eq(4).html();
+        }
+}
+ function ChangeItem() {
+     var mid = $('#memberid').val();
+     var newpdesc = $('#txtProduct').val();
+    $.ajax({
+        url: '@Url.Action("ChangeRedeemPackageItem", "Sales")',
+        data: JSON.stringify({ mid: mid, pkgcode: curpkgcode, oldpid: oldpid, pdesc: newpdesc, resource: "REDEEM PACKAGE" }),
+        type: 'POST',
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            var res = data.split(",");
+            if (res[0] == "SUCCESS"){
+                showRedeemPackageList();
+                clearProductInfo();
+            }
+        },
+        error: function (req, status, err) {
+            alert('Unable to update.');
+        }
+    });
+ }
+ function clearProductInfo() {
+        $('#txtOldProduct').val("");
+        $('#txtProduct').val("");
+        $('#txtUnitPrice').val("");
+        $('#txtProdDescription').val("");
+    }
+
+ function selectProduct(obj) {
+      btnobj = obj;
+ }
+
+ function SaveRedeemPackage(robj) {
+     if ($(robj).closest('tr').find('input[name=txtQty]').val() == "") {
+         alert('Please enter quantity to redeem.');
+         return;
+     }
+       if (confirm('Are you sure you want to redeem?')) {
+           var tds = $(robj).closest('tr').find('td');
+           var obj = new Object();
+           obj.cussupid = $('#memberid').val();
+         
+           obj.packagecode = $(tds[2]).html();
+           obj.packagedesc = $(tds[3]).html();
+           obj.productid = $(tds[4]).html();
+           obj.productdesc = $(tds[5]).html();
+           obj.uom = $(tds[6]).html();
+           obj.credit = 0;
+           obj.debit = $(robj).closest('tr').find('input[name=txtQty]').val();
+           obj.resource = "PACKAGEREDEEM";
+           obj.redemptiontype = "PQ";
+           $.ajax({
+                  url: '@Url.Action("RedeemPackageSavetoCussupRedemption", "Sales")',
+                  data: JSON.stringify({ redeem: obj, resource: $('#resource').val() }),
+                  type: 'POST',
+                  dataType: "json",
+                  contentType: "application/json; charset=utf-8",
+                  success: function (data) {
+                     if (data) {
+                         showRedeemPackageList();
+                     }
+                 },
+                  error: function (req, status, err) {
+                      debugger;
+                     $("#btnReserve").removeAttr("disabled");
+                     var msg = "Not allow to enter more than available quantity!";
+                     //  var msg = "Not allow to enter more than max redeemable quantity!";
+
+                     var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                     showMessage(attrvalue);
+                 
+                 }
+            });
+         }
+         else { }
+      }
+      function getProduct() {
+            $("#txtProduct").autocomplete({
+                minLength: 3,
+                source: function (req, res) {
+                jQuery.ajax({
+                url: '@Url.Action("getProductInfo", "Product")',
+                cache: false,
+                dataType: 'json',
+                data: { prodInfo: $('#txtProduct').val(), count: 10 },
+                error: function (data) {
+                     return false;
+                },
+                success: function (data) {
+                     res($.map(data, function (item) {
+                         return {
+                                    label: item.desc + " per " + item.uom + "(" + item.productcode + ")",
+                                    value: item.desc,
+                                    category: item.category,
+                                    categorysub: item.categorysub,
+                                    brand: item.brand,
+                                    RangesNSeries: item.RangesNSeries,
+                                    uom: item.uom,
+                                    desc: item.desc,
+                                    id: item.id,
+                                    productcode: item.productcode,
+                                    sellprice: item.sellprice,
+                                    servicecommission: item.servicecommission
+                               }
+                     }));
+                 }
+             });
+          },
+          select: function (event, ui) {
+                selectedprod = ui.item;
+                $("#txtProdDescription").val(selectedprod.desc + " : " + selectedprod.productcode + "\n" + selectedprod.category + "," + selectedprod.categorysub + "," + selectedprod.brand + "," + selectedprod.RangesNSeries + "\nUOM: " + selectedprod.uom);
+          }
+       });
+       $('#txtProduct').keypress(function (e) {
+           if (e.keyCode == 13) {  // detect the enter key
+               var AltCode = $('#txtProduct').val();
+               if (AltCode!=''){
+                   $.ajax({
+                       url: '@Url.Action("getProductInfoByAltCode", "Product")',
+                       data: { altCode: AltCode },
+                       type: 'POST',
+                       success: function (data) {
+                           if (data.length>0){
+                               $("#txtProdDescription").val(data[0].desc + " : " + data[0].productcode + "\n" + data[0].category + "," + data[0].categorysub + "," + data[0].brand + "," + data[0].RangesNSeries + "\nUOM: " + data[0].uom);
+                           }
+                       },
+                       error: function (ts) {
+                           alert(ts.responseText)
+                       }
+                   });
+               }
+            }
+          });
+    }
+
+function goToTopUp(btn) {
+    mid = $('#memberid').val();
+    if (mid != "" || mid != "0") {
+        $('#Balnace_dialog-modal').dialog('close');
+        window.open("TopUp?rcode=TOPUP&mid=" + mid, "_self");
+     }
+     else {
+         $('#Balnace_dialog-modal').dialog('open');
+    }
+}
+function TopUpCancel() {
+     $('#Balnace_dialog-modal').dialog('close');
+     $('#btnReserve').attr("disabled", "");
+     $('#btnConfirm').attr("disabled", "");
+}
+function NewRedeemFunction() {
+      var mid = $('#memberid').val();
+      var rcode = $('#resource').val();
+      window.open("Redeem?rcode=" + rcode + "&mid=" + mid, "_self");
+}
+
+function getPageList(itemcount) {
+        cboPageLoad = 0;
+        var Htmlstr = "";
+
+        for (var i = 1; i <= itemcount ; i++) {
+            Htmlstr += "<option value=" + i + ">" + i + "</option>";
+        }
+
+        $('#cbopages').html(Htmlstr).show();
+ }
+function PrintReceipt(robj) {
+    var tds = $(robj).closest('tr').find('td');
+    var obj = new Object();
+    var memberid = $('#memberid').val();
+    var pkgcode = $(tds[2]).html();
+    var pid = $(tds[4]).html();
+    var uom = $(tds[6]).html();
+
+    var coname = $('#hidconame').val();
+    var coaddress = encodeURIComponent($('#hidcoaddress').val());
+    var email = $('#hidemail').val();
+    var tel = $('#hidtel').val();
+    var fax = $('#hidfax').val();
+    var coreg = $('#hidcoregno').val();
+    var gstreg = $('#hidgstregno').val();
+      //var cbc = $('#txtCBalance').val();
+      //var cbb = $('#txtBBalance').val();
+      //var obc = $('#txtOCBalance').val();
+      //var obb = $('#txtOBBalance').val();
+      //var sid = $('#createstaffid').val();
+      var sid = $('#txtstaffname').val();
+      var citidesc = $('#c').val();
+      var bonusdesc = $('#b').val();
+      strurl = "../Reports/PackageRedemptionReceipt.aspx?cname=" + coname + "&caddress=" + coaddress + "&ctel=" + tel + "&cfax=" + fax + "&cemail=" + email + "&coreg=" + coreg + "&gstreg=" + gstreg + "&cussupid=" + memberid + "&packagecode=" + pkgcode + "&productid=" + pid + "&uom1=" + uom + "&citidesc=" + citidesc + "&bonusdesc=" + bonusdesc;
+      window.open(strurl);
+}
+function showMessage(attrvalue) {
+       $('#btnBalanceMember').attr('data-noty-options', attrvalue);
+       $('#btnBalanceMember').trigger("click");
+ }
+</script>

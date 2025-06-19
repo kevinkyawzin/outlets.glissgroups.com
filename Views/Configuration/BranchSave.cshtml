@@ -1,0 +1,139 @@
+﻿@model BigMac.Models.Configuration_m_Branches
+
+@{
+    ViewBag.Title = "BranchEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class ="col-lg-12">
+        <div class="box">
+            <div class ="box-header">
+						<h2><i class="fa fa-edit"></i>Branch Entry</h2>
+						<div class="box-icon">
+					        <a href="table.html#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+					        <a href="table.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+					        <a href="table.html#" class="btn-close"><i class="fa fa-times"></i></a>
+						</div>
+            </div>
+            <div class ="box-content">
+            @using (Html.BeginForm("BranchSave", "Configuration", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+                <fieldset  class ="col-sm-12">
+                    <table style="width:100%;border-spacing:5px 5px;border-collapse:separate;">
+                        <tr style="width:100%">
+                            <td>@Html.LabelFor(model => model.cocode)</td>
+                            <td>@Html.DropDownListFor(model => model.cocode, new SelectList(@ViewBag.CompanyOptions,"cocode","name"), new { @class ="form-control"})</td>
+                            <td style ="width:10%"></td>
+                            <td>@Html.LabelFor(model => model.branchcode)</td>
+                            <td>@Html.TextBoxFor(model => model.branchcode, new { @class ="form-control"}) </td>
+                        </tr>
+                        <tr style="width:100%">
+                            <td>@Html.LabelFor(model => model.branchname)</td>
+                            <td>@Html.TextBoxFor(model => model.branchname, new { @class ="form-control"}) </td>
+                            <td style ="width:10%"></td>
+                            <td>@Html.LabelFor(model => model.email)</td>
+                            <td>@Html.TextBoxFor(model => model.email, new { @class ="form-control"}) </td>
+                        </tr>
+                        <tr style="width:100%">
+                            <td>@Html.LabelFor(model => model.tel)</td>
+                            <td>@Html.TextBoxFor(model => model.tel, new { @class ="form-control"})</td>
+                            <td style ="width:10%"></td>
+                            <td>@Html.LabelFor(model => model.fax)</td>
+                            <td>@Html.TextBoxFor(model => model.fax, new { @class ="form-control"})</td>
+                        </tr>
+                    </table>
+		            <div class="form-actions">
+			            <button type="submit" class="btn btn-primary" value="Save" >Save changes</button>
+                        @*<a class="btn btn-primary" href="@Url.Action("UserSave", "Access", new { id = item.id })" title ="Edit User"></a>*@
+			            <button type="reset" class="btn">Cancel</button>
+                        <a class="btn btn-primary" href="@Url.Action("BranchIndex")">Back to the List</a>
+		            </div>
+
+
+
+
+@*		                        <div class="form-group">
+			                        <label class="control-label" for="input1">@Html.LabelFor(model => model.prefix)</label>
+			                        <div class="controls row">
+                                        <div class="col-lg-4">
+                                            @Html.TextBoxFor(model => model.prefix, new { @class ="form-control"})                  
+                                        
+                                        </div>
+                                         <span>@Html.ValidationMessageFor(model => model.prefix)</span>	
+			                        </div>
+		                        </div>
+
+		                        <div class="form-group">
+			                        <label class="control-label" for="input1">@Html.LabelFor(model => model.postfix)</label>
+			                        <div class="controls row">
+                                        <div class="col-lg-4">
+                                            @Html.TextBoxFor(model => model.postfix, new { @class ="form-control"})                  
+                                        
+                                        </div>
+                                         <span>@Html.ValidationMessageFor(model => model.postfix)</span>	
+			                        </div>
+		                        </div>
+                                <div class="form-group">
+			                        <label class="control-label" for="input1">@Html.LabelFor(model => model.website)</label>
+			                        <div class="controls row">
+                                        <div class="col-lg-4">
+                                            @Html.TextBoxFor(model => model.website, new { @class ="form-control"})                  
+                                        
+                                        </div>
+                                         <span>@Html.ValidationMessageFor(model => model.website)</span>	
+			                        </div>
+		                        </div>
+
+                                <div class="form-group">
+			                        <label class="control-label" for="input1">@Html.LabelFor(model => model.facebook)</label>
+			                        <div class="controls row">
+                                        <div class="col-lg-4">
+                                            @Html.TextBoxFor(model => model.facebook, new { @class ="form-control"})                  
+                                        
+                                        </div>
+                                         <span>@Html.ValidationMessageFor(model => model.facebook)</span>	
+			                        </div>
+		                        </div>
+
+                                <div class="form-group">
+			                        <label class="control-label" for="input1">@Html.LabelFor(model => model.twitter)</label>
+			                        <div class="controls row">
+                                        <div class="col-lg-4">
+                                            @Html.TextBoxFor(model => model.twitter, new { @class ="form-control"})                  
+                                        
+                                        </div>
+                                         <span>@Html.ValidationMessageFor(model => model.twitter)</span>	
+			                        </div>
+		                        </div>
+
+                                <div class="form-group">
+			                        <label class="control-label" for="input1">@Html.LabelFor(model => model.googlemap)</label>
+			                        <div class="controls row">
+                                        <div class="col-lg-4">
+                                            @Html.TextBoxFor(model => model.googlemap, new { @class ="form-control"})                  
+                                        
+                                        </div>
+                                         <span>@Html.ValidationMessageFor(model => model.googlemap)</span>	
+			                        </div>
+		                        </div>*@
+
+@*		                        <div class="form-actions">
+			                        <button type="submit" class="btn btn-primary" value="Save">Save changes</button>
+			                        <button type="reset" class="btn">Cancel</button>
+		                        </div>*@
+                </fieldset>
+            }                 
+            </div>
+        </div> @*box*@
+    </div>
+</div>@*row*@
+
+@*<div>
+    @Html.ActionLink("Back to List", "BranchIndex")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@

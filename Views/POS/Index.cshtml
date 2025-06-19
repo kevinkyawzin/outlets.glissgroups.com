@@ -1,0 +1,870 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @*Layout = "~/Views/Shared/_GeneralLayoutPage.cshtml";*@
+}
+
+			@*<div class="row">*@	
+<div>
+    <input type="hidden" id="uname" value="@Html.Encode(User.Identity.Name)">
+</div>
+<div class="col-sm-6" style="padding-left:0px;padding-right:0px;">
+    <div class="col-lg-4" id="DIVREDEEM" style="display:none;" data-rcode="REDEEM">
+        <div class="box">
+            <div class="box-header">
+                <center><i class="fa fa-hand-up"></i></center>
+            </div>
+            <div class="box-content">
+                <div class="col-sm-12">
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control" placeholder="By Card No" id="txtRedeemMember" data-rcode="REDEEM" />
+                    </div>
+                    <br />
+                    <div class="col-sm-12">
+                        <a class="quick-button" onclick="RedeemFunction(this);" id="BTNREDEEM" data-rcode="REDEEM" style="height:30px;">
+                            <i class="fa fa-ticket"></i>
+                            <p>Redeem</p>
+                        </a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4" id="DIVPKGREDEEM" style="display:none;" data-rcode="PACKAGE REDEEM">
+        <div class="box">
+            <div class="box-header">
+                <center><i class="fa fa-hand-up"></i></center>
+            </div>
+            <div class="box-content">
+                <div class="col-sm-12">
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control" placeholder="By Card No" id="txtPkgRedeemMember" data-rcode="PACKAGE REDEEM" />
+                    </div>
+                    <br />
+                    <div class="col-sm-12">
+                        <a class="quick-button" onclick="PackageRedeemFunction(this);" id="BTNREDEEM" data-rcode="PACKAGE REDEEM" style=" height:30px;">
+                            <i class="fa fa-ticket"></i>
+                            <p>Package Redeem</p>
+                        </a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4" id="DIVTOPUP" style="display:none;" data-rcode="TOPUP">
+        <div class="box">
+            <div class="box-header">
+                <center><i class="fa fa-hand-up"></i></center>
+            </div>
+            <div class="box-content">
+                <div class="col-sm-12">
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control" placeholder="By Card No" id="txtTopUpMember" data-rcode="TOPUP" />
+                    </div>
+                    <br />
+                    <div class="col-sm-12">
+                        <a class="quick-button" onclick="TopUpFunction(this);" id="BTNTOPUP" data-rcode="TOPUP">
+                            <i class="fa fa-money"></i>
+                            <p>Club</p>
+                        </a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    @*</div>*@
+
+    @*<div class="row">*@
+
+    
+
+    @*</div>*@
+    @*<div class="row">*@
+    <div class="col-lg-12" id="DIVPRODUCT" style="display:none;" data-rcode="PRODUCT">
+        <div class="box">
+            <div style="float:right;padding-right:5px;">
+                @*<label>Date : &nbsp;&nbsp;&nbsp;@DateTime.Today.ToString("dd MMM yyyy")</label>*@
+            </div>
+            @*<div class="clearfix"></div>*@
+            <div class="box-header">
+                <center><i class="fa fa-hand-up"></i>Product</center>
+            </div>
+            <div class="box-content">
+                <div class="col-sm-12">
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="By Product Code/Alternate Code/Description" id="txtProductDesc" />
+                    </div>
+                    <div class="col-sm-2" style="padding-left:0px;">
+                        <button type="button" style="width:80px;height:28px;" onclick="productSearchFunction();" id="btnProductSearch">Search</button>
+                        @* @Html.ActionLink("Search", "Index", new { ptype = "%",filter " }, new  { @class="btn btn-primary"}) *@
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-sm-12" @*style="padding-top:10px;margin-top:10px;"*@ id="divProduct">
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+
+    @*<div class="clearfix"></div>*@
+
+
+    @*</div>*@
+    @*<div class="clearfix"></div>*@
+    @*<div class="row">*@
+
+    
+
+
+
+    @*<div class="clearfix"></div>*@
+    <div class="col-lg-6" id="DIVPROMOTION" style="display:none;" @*data-rcode="PROMOTION"*@>
+        <div class="box">
+            <div style="float:right;padding-right:5px;">
+                @*<label>Date : &nbsp;&nbsp;&nbsp;@DateTime.Today.ToString("dd MMM yyyy")</label>*@
+            </div>
+
+            <div class="box-header">
+                <center><i class="fa fa-hand-up"></i>Promotion</center>
+            </div>
+            <div class="box-content">
+                <div class="col-sm-12">
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="By Product Code/Alternate Code/Description" id="txtProductDesc" />
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-sm-12">
+
+                    <div class="col-sm-4" style="display:none;" data-rcode="PROMOTIONLISTING">
+                        <a class="quick-button" id="BTNPROMOTIONLISTING" data-rcode="PROMOTIONLISTING" onclick="PromotionListingFunction(this);">
+                            <i class="fa fa-signal"></i>
+                            <p>Listing</p>
+                        </a>
+                    </div>
+
+                    <div class="col-sm-4" style="display:none;" data-rcode="PROMOTIONSAVE">
+                        <a class="quick-button" id="BTNPROMOTIONSAVE" data-rcode="PROMOTIONSAVE" onclick="PromotionSaveFunction(this);">
+                            <i class="fa fa-gift"></i>
+                            <p>Create</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-2" id="DIVCHECKIN" style="display:none;" @*data-rcode="CHECKIN"*@>
+        <div class="box">
+            <div class="box-header">
+                <center><i class="fa fa-hand-up"></i></center>
+            </div>
+            <div class="box-content">
+                <div class="col-sm-12">
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control" placeholder="By Card No" id="txtCheckInMember" />
+                    </div>
+                    <br />
+                    <div class="col-sm-12">
+                        <a class="quick-button" onclick="MemberCheckInOut(1);" id="BTNCHECKIN" data-rcode="CHECKIN">
+                            <i class="fa fa-sign-in"></i>
+                            <p>Check In</p>
+                        </a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-2" id="DIVCHECKOUT" style="display:none;" @*data-rcode="CHECKOUT"*@>
+        <div class="box">
+            <div class="box-header">
+                <center><i class="fa fa-hand-up"></i></center>
+            </div>
+            <div class="box-content">
+                <div class="col-sm-12">
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control" placeholder="By Card No" id="txtCheckOutMember" />
+                    </div>
+                    <br />
+                    <div class="col-sm-12">
+                        <a class="quick-button" onclick="MemberCheckInOut(0);" id="BTNCHECKOUT">
+                            <i class="fa fa-sign-out"></i>
+                            <p>Check Out</p>
+                        </a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6" id="DIVPRODUCTTRANSFER" style="display:none;" data-rcode="PRODUCTTRANSFER">
+        <div class="box">
+            <div class="box-header">
+                <center><i class="fa fa-hand-up"></i></center>
+            </div>
+            <div class="box-content">
+                <div class="col-sm-4">
+                    @*<a class="quick-button" href="~/Product/ProductCitiBellaList?" id="BTNTRANSFERPRODUCT" data-rcode="TRANSFERPRODUCT">*@
+                    <a class="quick-button" id="BTNTRANSFERPRODUCT" data-rcode="PRODUCTTRANSFER" onclick="TransferProductFunction(this);">
+                        <i class="fa fa-share-square-o"></i>
+                        <p>Product Transfer</p>
+                    </a>
+                </div>
+                <div class="col-sm-4">
+                    @*<a class="quick-button" href="~/Product/PostedProductCitiBellaList" id="BTNCOMPLETETRANSFER" data-rcode="COMPLETETRANSFER">*@
+                    <a class="quick-button" id="BTNCOMPLETETRANSFER" data-rcode="COMPLETETRANSFER" onclick="CompleteTransferFunction(this);">
+                        <i class="fa fa-share-square-o"></i>
+                        <p>Completed Transfer</p>
+                    </a>
+                </div>
+
+                <div class="col-sm-4">
+                    <a class="quick-button" onclick="CustomerTransferFunction(this);" id="BTNCITIMEMBERLISTING" data-rcode="CUSTOMERTRANSFER">
+                        <i class="fa fa-share-square-o"></i>
+                        <p>Customer Transfer</p>
+                    </a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3" id="DIVCHATGROUP" style="display:none;" data-rcode="ChatGroup">
+        <div class="box">
+            <div class="box-header">
+                <center><i class="fa fa-hand-up"></i></center>
+            </div>
+            <div class="box-content">
+                <div class="col-sm-12">
+                    <a class="quick-button" href="~/Message/Index" id="BTNCHATDETAIL" data-rcode="ChatGroup" @*style="height:30px;"*@>
+                        <i class="fa fa-comments-o"></i>
+                        <p>Chat Groups</p>
+                    </a>
+                </div>
+                <div class="clearfix"></div>
+
+            </div>
+        </div>
+    </div>
+
+    
+
+    <div class="col-lg-6" style="display:none;" id="DIVRBRANCHSTAFF" data-rcode="BRANCHSTAFF">
+        <div class="box">
+            <div style="float:right;padding-right:5px;">
+                @*<label>Date : &nbsp;&nbsp;&nbsp;@DateTime.Today.ToString("dd MMM yyyy")</label>*@
+            </div>
+
+            @*<div class="clearfix"></div> *@
+
+            <div class="box-header">
+                <center><i class="fa fa-hand-up"></i>Staff Entry</center>
+            </div>
+
+            <div class="box-content">
+                <div class="col-sm-12" style="display:none;" data-rcode="BRANCHSTAFF">
+                    <a class="quick-button" id="BTNBRANCHSTAFF" data-rcode="BRANCHSTAFF" onclick="BranchStaffFunction(this);">
+                        <i class="fa fa-user"></i>
+                        <p>Branch Staff List</p>
+                    </a>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6" id="DIVSTAFFLIST" @*style="display:none;"*@ data-rcode="STAFFLIST">
+        <div class="box">
+            <div class="box-header">
+                <center><i class="fa fa-hand-up"></i>Staff Home Page</center>
+            </div>
+            <div class="box-content">
+                <div class="col-sm-12">
+                    <a class="quick-button" id="BTNSTAFFPAGE" data-rcode="STAFFPAGE" href="~/Access/BranchStaffIndex">
+                        <i class="fa fa-user"></i>
+                        <p>Staff Page</p>
+                    </a>
+                </div>
+                <div class="clearfix"></div>
+
+            </div>
+        </div>
+    </div>   
+
+    <div class="col-lg-6" id="DIVATTNDIN" style="display:none;" data-rcode="ATTND_IN">
+        <div class="box">
+            <div class="box-header">
+                <center><i class="fa fa-hand-up"></i>Attendance In</center>
+            </div>
+            <div class="box-content">
+                <div class="col-sm-12">
+                    <a class="quick-button" onclick="OpenAttnInDialog();" id="BTNATTNDIN" data-rcode="ATTND_IN">
+                       <i class="fa fa-unlock"></i>
+                          <p>Attendance In</p>
+                    </a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6" id="DIVATTNDOUT" style="display:none;" data-rcode="ATTND_OUT">
+        <div class="box">
+            <div class="box-header">
+                <center><i class="fa fa-hand-up"></i>Attendance Out</center>
+            </div>
+            <div class="box-content">
+                <div class="col-sm-12">
+                    <a class="quick-button" onclick="OpenAttnOutDialog();" id="BTNATTNDOUT" data-rcode="ATTND_OUT">
+                        <i class="fa fa-lock"></i>
+                        <p>Attendance Out</p>
+                    </a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <div class="clearfix"></div>
+</div>
+    <div class=" col-sm-6" style="padding-left:0px; padding-right:0px;" >
+        <div class="col-lg-12" id="DIVMEMBER" style="display:none;" data-rcode="MEMBER">
+            <div class="box">
+                <div style="float:right;padding-right:5px;">
+                    @*<label>Date : &nbsp;&nbsp;&nbsp;@DateTime.Today.ToString("dd MMM yyyy")</label>*@
+                </div>
+                @*<div class="clearfix"></div>*@
+                <div class="box-header">
+                    <center><i class="fa fa-hand-up"></i>Membership</center>
+                </div>
+                <div class="box-content">
+                    @*<div class="col-sm-12">*@
+                    @*<div class="col-sm-12">*@
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="By MemberCode/Name/NRIC/Mobile/Cardno" id="txtMemberDesc" data-rcode="MEMBERLISTING" />
+                    </div>
+                    <div class="col-sm-2" style="padding-left:0px;height:28px;">
+                        <button type="button" style="width:80px;height:28px;" onclick="MemberSearchFunction(this);" id="btnMemberSearch" data-rcode="MEMBERLISTING">Search</button>
+                    </div>
+                    @*</div>*@
+                    <div class="clearfix"></div>
+                    <br />
+
+                    @*<div class="col-sm-12" >*@
+                    <div class="col-sm-3" style="display:none;" data-rcode="MEMBERLISTING">
+                        <a class="quick-button" onclick="MemberSearchFunction(this);" id="BTNMEMBERLISTING" data-rcode="MEMBERLISTING">
+                            <i class="fa fa-users"></i>
+                            <p>Enquiry</p>
+                        </a>
+                    </div>
+                    <div class="col-sm-3" style="display:none;" data-rcode="CREATEMEMBER">
+                        <a class="quick-button" onclick="CreateMemberFunction(this);" id="BTNCREATEMEMBER" data-rcode="CREATEMEMBER">
+                            <i class="fa fa-user"></i>
+                            <p>Create Member</p>
+                        </a>
+                    </div>
+
+                    <div class="col-sm-3" style="display:none;" data-rcode="MEMBERCARDPRINT">
+                        <a class="quick-button" onclick="printMemberCardFunction(this);" id="BTNPRINTCARD" data-rcode="MEMBERCARDPRINT">
+                            <i class="fa fa-credit-card"></i>
+                            <p>Print Card</p>
+                        </a>
+                    </div>
+                    <div class="col-sm-3" style="display:none;" data-rcode="MEMBERCARDCOLLECTION">
+                        <a class="quick-button" onclick="memberCardCollectionFunction(this);" id="BTNMEMBERCARDCOLLECTION" data-rcode="MEMBERCARDCOLLECTION">
+                            <i class="fa fa-credit-card"></i>
+                            <p>Card Collection</p>
+                        </a>
+                    </div>
+                    @*                                    <br />
+                    <div class="clearfix"></div>*@
+
+                    @*</div>*@
+
+                    <div class="clearfix"></div>
+                    @*</div>*@
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12" id="DIVSALE" style="display:none;" data-rcode="SALE">
+            <div class="box">
+                <div style="float:right;padding-right:5px;">
+                    @*<label>Date : &nbsp;&nbsp;&nbsp;@DateTime.Today.ToString("dd MMM yyyy")</label>*@
+                </div>
+                @*<div class="clearfix"></div>*@
+                <div class="box-header">
+                    <center><i class="fa fa-hand-up"></i>Sales</center>
+                </div>
+                <div class="box-content">
+                    <div class="col-sm-4" style="display:none;" data-rcode="PRODUCTPACKAGE">
+                        <a class="quick-button" href="~/Product/ProductListing?ptype=PACKAGE" id="BTNPRODUCTLISTINGPACKAGE" data-rcode="PRODUCTPACKAGE">
+                            <i class="fa fa-dollar"></i>
+                            <p>Package</p>
+                        </a>
+                    </div>
+                    <div class="col-sm-4" style="display:none;" data-rcode="PRODUCTSALESKIT">
+                        <a class="quick-button" href="~/Product/ProductListing?ptype=SALESKIT" id="BTNPRODUCTLISTINGSALESKIT" data-rcode="PRODUCTSALESKIT">
+                            <i class="fa fa-wrench"></i>
+                            <p>Sales Kit</p>
+                        </a>
+                    </div>
+                    <div class="col-sm-4" style="display:none;" data-rcode="POS">
+                        <a class="quick-button" onclick="POSFunction(this);" id="BTNPOSENTRY" data-rcode="POS">
+                            <i class="fa fa-dollar"></i>
+                            <p>Point of Sale</p>
+                        </a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12" id="DIVREPORT" style="display:none;" data-rcode="REPORT">
+            <div class="box">
+                <div style="float:right;padding-right:5px;">
+                    @*<label>Date : &nbsp;&nbsp;&nbsp;@DateTime.Today.ToString("dd MMM yyyy")</label>*@
+                </div>
+
+                @* <div class="clearfix"></div> *@
+
+                <div class="box-header">
+                    <center><i class="fa fa-hand-up"></i>Reports</center>
+                </div>
+
+                <div class="box-content">
+                    <div class="col-sm-4" style="display:none;" data-rcode="REPORTDAILYSALES">
+                        <a class="quick-button" id="BTNTRANSFERPRODUCT" data-rcode="REPORTDAILYSALES" onclick="rptDailySalesFunction(this);">
+                            <i class="fa fa-list-alt"></i>
+                            <p>Daily Sales</p>
+                        </a>
+                    </div>
+
+                    <div class="col-sm-4" style="display:none;" data-rcode="REPORTDAILYREDEEM">
+                        <a class="quick-button" id="BTNTRANSFERPRODUCT" data-rcode="REPORTDAILYREDEEM" onclick="rptDailyRedeemFunction(this);">
+                            <i class="fa fa-list-alt"></i>
+                            <p>Daily Redemption</p>
+                        </a>
+                    </div>
+
+                    <div class="col-sm-4" style="display:none;" data-rcode="REPORTSERVICE">
+                        <a class="quick-button" id="BTNSERVICECOMMISSION" data-rcode="REPORTSERVICE" onclick="rptServiceFunction(this);">
+                            <i class="fa fa-list-alt"></i>
+                            <p>Service By Branch</p>
+                        </a>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div class="col-sm-12" style="min-height: 10px;"></div>
+                    @*<br/>*@
+
+
+                    <div class="col-sm-4" style="display:none;" data-rcode="REPORT MEMBER TRANSACTION">
+                        <a class="quick-button" id="BTNREPORTMEMBERTRANSACTION" data-rcode="REPORT MEMBER TRANSACTION" onclick="rptMemberTransactionListFunction(this);">
+                            <i class="fa fa-list-alt"></i>
+                            <p>Member Transactions</p>
+                        </a>
+                    </div>
+
+                    <div class="col-sm-4" style="display:none;" data-rcode="REPORTPRODUCT">
+                        <a class="quick-button" id="BTNREPORTPRODUCT" data-rcode="REPORTPRODUCT" onclick="rptProductListFunction(this);">
+                            <i class="fa fa-list-alt"></i>
+                            <p>Product Listing</p>
+                        </a>
+                    </div>
+
+                    <div class="col-sm-4" style="display:none;" data-rcode="REPORTVOIDLIST">
+                        <a class="quick-button" id="BTNREPORTVOIDLIST" data-rcode="REPORTVOIDLIST" onclick="rptVoidTransactionListFunction(this);">
+                            <i class="fa fa-list-alt"></i>
+                            <p>VOID Transaction</p>
+                        </a>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div class="col-sm-12" style="min-height: 10px;"></div>
+
+                    <div class="col-sm-4" style="display:none;" data-rcode="REPORTSERVICECOMMISSION">
+                        <a class="quick-button" id="BTNSERVICECOMMISSION" data-rcode="REPORTSERVICECOMMISSION" onclick="rptServiceCommissionFunction(this);">
+                            <i class="fa fa-list-alt"></i>
+                            <p>Service Commission</p>
+                        </a>
+                    </div>
+
+                    <div class="col-sm-4" style="display:none;" data-rcode="REPORTPRINTCARD">
+                        <a class="quick-button" id="BTNREPORTPRINTCARD" data-rcode="REPORTPRINTCARD" onclick="rptPrintCardFunction(this);">
+                            <i class="fa fa-list-alt"></i>
+                            <p>Card List To Print</p>
+                        </a>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+             
+
+    </div>
+
+<div class="clearfix"></div>
+<div id="AttndIn_dialog-modal">
+    <div class="col-lg-12" id="divAttndInDialog" style="overflow-style:scrollbar;">
+        <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+            Attendance In
+        </div>
+        <div style="padding-top:20px;">
+            <table>
+                <tr>
+                    <td style="width:120px;">User Name</td>
+                    <td style="padding-bottom:10px;"><input type="text" class="form-control" id="txtAttdInUserName" /></td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td><input type="password" class="form-control" id="txtAttdInPwd" /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><div id="divAttndInErr"></div></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-lg-12" style="padding: 10px 10px 10px;text-align:right;">
+            <button type="button" id="btnAttndInLogIn" onclick="AttndIn();" class="btn btn-primary" style="width:100px;">OK</button>
+            <button type="button" id="btnAttndInClose" onclick="closeAttndInDialog();" class="btn btn-primary" style="width:100px;">Cancel</button>
+        </div>
+    </div>
+</div>
+<div id="AttndOut_dialog-modal">
+    <div class="col-lg-12" id="divAttndInDialog" style="overflow-style:scrollbar;">
+        <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+            Attendance Out
+        </div>
+        <div style="padding-top:20px;">
+            <table>
+                <tr>
+                    <td style="width:120px;">User Name</td>
+                    <td style="padding-bottom:10px;"><input type="text" class="form-control" id="txtAttdOutUserName" /></td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td><input type="password" class="form-control" id="txtAttdOutPwd" /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><div id="divAttndOutErr"></div></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-lg-12" style="padding: 10px 10px 10px;text-align:right;">
+            <button type="button" id="btnAttndOut" onclick="AttndOut();" class="btn btn-primary" style="width:100px;">OK</button>
+            <button type="button" id="btnAttndOutClose" onclick="closeAttnOutDialog();" class="btn btn-primary" style="width:100px;">Cancel</button>
+        </div>
+    </div>
+</div>
+
+    @*</div>*@
+
+
+    <script type="text/javascript">
+
+          $(function () {
+       // $(document).ready(function () {
+            showProductCategory();
+            $('#txtTopUpMember').live("keypress", function (e) {
+                if (e.keyCode == 13) {
+                    TopUpFunction(this);
+                    return false; // prevent the button click from happening
+                }
+            });
+
+            $('#txtRedeemMember').live("keypress", function (e) {
+                if (e.keyCode == 13) {
+                    RedeemFunction(this);
+                    return false; // prevent the button click from happening
+                }
+            });
+
+            $('#txtPkgRedeemMember').live("keypress", function (e) {
+                if (e.keyCode == 13) {
+                    PackageRedeemFunction(this);
+                    return false; // prevent the button click from happening
+                }
+            });
+
+            $('#txtProductDesc').live("keypress", function (e) {
+                if (e.keyCode == 13) {
+                    productSearchFunction();
+                    return false; // prevent the button click from happening
+                }
+            });
+
+            $('#txtMemberDesc').live("keypress", function (e) {
+                if (e.keyCode == 13) {
+                    MemberSearchFunction(this);
+                    return false; // prevent the button click from happening
+                }
+            });
+
+            $('#txtCheckInMember').live("keypress", function (e) {
+                if (e.keyCode == 13) {
+                    MemberCheckInOut(1);
+                    return false; // prevent the button click from happening
+                }
+            });
+
+            $('#txtCheckOutMember').live("keypress", function (e) {
+                if (e.keyCode == 13) {
+                    MemberCheckInOut(0);
+                    return false; // prevent the button click from happening
+                }
+            });
+            $('#AttndIn_dialog-modal').dialog({
+                position: [280, 120],
+                modal: true,
+                autoOpen: false,
+                open: function (event, ui) {
+                    $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+                },
+            });
+            //Added by ZawZO on 2 Sep 2015
+            var moptions = {
+                modal: true,
+                height: 280,
+                minHeight: 280,
+                maxHeight: 280,
+                width: 350,
+                minWidth: 350,
+                maxWidth: 350,
+                dialogClass: "sfFormwrapper"
+            };
+            $('#AttndIn_dialog-modal').dialog('option', moptions);
+
+            $('#AttndOut_dialog-modal').dialog({
+                position: [280, 120],
+                modal: true,
+                autoOpen: false,
+                open: function (event, ui) {
+                    $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+                },
+            });
+
+            var moptions = {
+                modal: true,
+                height: 280,
+                minHeight: 280,
+                maxHeight: 280,
+                width: 350,
+                minWidth: 350,
+                maxWidth: 350,
+                dialogClass: "sfFormwrapper"
+            };
+            $('#AttndOut_dialog-modal').dialog('option', moptions);
+
+            //showhideFunction();
+        });
+
+        function productSearchFunction() {
+            var desc = $('#txtProductDesc').val();
+            window.open("../Product/ProductListing?ptype=%&filter=" + desc, "_self");
+        }
+
+        function showProductCategory() {
+            //var pid = $('#pid').val();
+            //alert("topup");
+            $.ajax({
+                url: '@Url.Action("getProductCategoryForIndex", "Product")',
+                //data: { ptype: "TopUp", filter: "%", cat: "", brand: "", firstUOM: 0 },
+                type: 'POST',
+                success: function (data) {
+                    //if (data)
+                    //alert(data);
+                    populateProductCategory(data);
+                },
+                error: function (ts) { alert(ts.responseText) }
+            });
+        }
+
+        function populateProductCategory(data) {
+            //divProduct
+            var Htmlstr = "";
+            for (var x = 0; x < data.length; x++) {
+                if (data[x].Category != "Package") {
+                    Htmlstr += "<div class='col-sm-4'><a class='quick-button' href='../Product/ProductListing?rcode=PRODUCT&ptype=" + data[x].Category + "'><i class='fa fa-list-alt'></i><p>" + data[x].Category + "</p></a> </div>";
+                    if (((x + 1) % 3 == 0) && x != 0) Htmlstr += "<div class='clearfix'></div><div class='col-sm-12'  style='min-height: 10px;'></div>";
+                    //if (((x + 1) % 3 == 0) && x != 0) Htmlstr += "<div class='clearfix'><div class='col-sm-12' style='min-height:10px;'></div>";
+                }
+            }
+            $('#divProduct').html(Htmlstr);
+
+        }
+        //Added by ZawZO on 2 Sep 2015
+        function OpenAttnInDialog() {
+            $('#divAttndInErr').html('');
+            $('#txtAttdInUserName').val('');
+            $('#txtAttdInPwd').val('');
+            $('#AttndIn_dialog-modal').dialog('open');
+        }
+        //Added by ZawZO on 2 Sep 2015
+        function closeAttndInDialog() {
+            $('#AttndIn_dialog-modal').dialog("close");
+        }
+        //Added by ZawZO on 2 Sep 2015
+        function AttndIn() {
+            var username = $('#txtAttdInUserName').val();
+            var pwd = $('#txtAttdInPwd').val();
+            $.ajax({
+                url: '@Url.Action("AttdLogIn", "Attendance")',
+                data: JSON.stringify({ uname: username, pwd: pwd }),
+                type: 'POST',
+                async: false,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data == '-2') {
+                        $('#divAttndInErr').html('Already log in.');
+                    }
+                    else if (data == '-1') {
+                        $('#divAttndInErr').html('Invalid User Name or Password.');
+                    }
+                    else {
+                        $('#AttndIn_dialog-modal').dialog("close");
+                    }
+                },
+                error: function (req, status, err) {
+                    showMessage(err, "error");
+                    $('#divAttndInErr').html('Invalid User Name or Password.');
+                }
+            });
+        }
+        //Added by ZawZO on 2 Sep 2015
+        function OpenAttnOutDialog() {
+            $('#divAttndOutErr').html('');
+            $('#txtAttdOutUserName').val('');
+            $('#txtAttdOutPwd').val('');
+            $('#AttndOut_dialog-modal').dialog('open');
+        }
+        //Added by ZawZO on 2 Sep 2015
+        function closeAttnOutDialog() {
+            $('#AttndOut_dialog-modal').dialog("close");
+        }
+        //Added by ZawZO on 2 Sep 2015
+        function AttndOut() {
+            var username = $('#txtAttdOutUserName').val();
+            var pwd = $('#txtAttdOutPwd').val();
+            $.ajax({
+                url: '@Url.Action("AttdLogOut", "Attendance")',
+                data: JSON.stringify({ uname: username, pwd: pwd }),
+                type: 'POST',
+                async: false,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data == '-2') {
+                        $('#divAttndOutErr').html('Do not have attendance in.');
+                    }
+                    else if (data == '-1') {
+                        $('#divAttndInErr').html('Invalid User Name or Password.');
+                    }
+                    else {
+                        $('#AttndOut_dialog-modal').dialog("close");
+                    }
+                },
+                error: function (req, status, err) {
+                    showMessage(err, "error");
+                    $('#divAttndOutErr').html('Invalid User Name or Password.');
+                }
+            });
+        }
+    </script>
+    @*			<div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+                    <div style ="float:right;padding-right:5px;">
+                    <label>Date : &nbsp;&nbsp;&nbsp;@DateTime.Today.ToString("dd MMM yyyy")</label>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="box-header">
+                        <center><i class="fa fa-hand-up"></i>Main Menu</center>
+                    </div>
+                    <div class="box-content">
+
+                        <div class="row" style ="padding:20px;">
+
+                            <div class="col-sm-2">
+                                <a class="quick-button" href="~/POS/DailySales">
+                                    <i class="fa fa-bar-chart-o"></i>
+                                    <p>Daily Sales Summary</p>
+                                </a>
+                            </div>
+
+
+                            <div class="col-sm-2" style="margin-top :20px;">
+                                <a class="quick-button" href="#">
+                                    <i class="fa fa-list-alt"></i>
+                                    <p>HQ Reports</p>
+                                </a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+    @*
+        <div class="col-sm-3">
+            <a class="quick-button" href="~/Product/ProductListing?ptype=SPA">
+                <i class="fa fa-list-alt"></i>
+                <p>SPA</p>
+            </a>
+        </div>
+        <div class="col-sm-3">
+            <a class="quick-button" href="~/Product/ProductListing?ptype=SKIN">
+                <i class="fa fa-list-alt"></i>
+                <p>SKIN</p>
+            </a>
+        </div>
+        <div class="col-sm-3">
+            <a class="quick-button" href="~/Product/Index?ptype=SHAPE">
+                <i class="fa fa-list-alt"></i>
+                <p>Shape</p>
+            </a>
+        </div>
+        <div class="col-sm-3">
+            <a class="quick-button" href="~/Product/Index?ptype=Package">
+                <i class="fa fa-list-alt"></i>
+                <p>Package</p>
+            </a>
+        </div>
+        <div class="col-sm-3">
+            <a class="quick-button" href="~/Product/Index?ptype=TopUp">
+                <i class="fa fa-list-alt"></i>
+                <p>Top Up</p>
+            </a>
+        </div>
+    *@
+
+    @*				<div class="col-lg-6">
+                <div class="box">
+                </div>
+            </div>
+
+        </div>*@

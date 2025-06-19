@@ -1,0 +1,78 @@
+﻿@model BigMac.Models.Access_m_Users
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Access_m_Users</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.roldid)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.roldid)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.username)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.username)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.password)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.password)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.email)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.email)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.lastmodifieddate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.lastmodifieddate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.status)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.status)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.createdate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.createdate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.firstlogin)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.firstlogin)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

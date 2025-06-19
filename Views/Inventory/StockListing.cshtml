@@ -1,0 +1,648 @@
+﻿@{
+    ViewBag.Title = "StockListing";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+ 
+    <div class="col-lg-12">
+        <div class="box">
+            <input type="hidden" value="@ViewBag.Rcode" id="rcode" />
+            <input type="hidden" value="@ViewBag.Acode" id="acode" />   
+
+            <div class="box-header" data-original-title>
+                <h2><i class="fa fa-list-alt"></i><span class="break"></span>Stock Listing</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+                    <a href="#" class="btn-minimize"><i class="fa fa-chev1on-up"></i></a>
+                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label style="font-weight:bold;">Branch</label>
+                                <label class="select">
+                                    @Html.DropDownList("cboBranch", new SelectList(@ViewBag.BranchOptions, "branchcode", "branchcode"), new { @class = "form-control" })
+                                    <i></i>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding-top:10px;padding-bottom:30px;">
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <div class="form-group">
+                                    <label style="font-weight:bold;">Filter By</label>
+                                    <input type="text" class="form-control" style="width:100%;font-size:12px;" placeholder="By Product Code/Alternate Code/Description" id="txtdesc" value="@ViewBag.Filter" />
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding-left: 40px;">
+                                <div class="form-group">
+                                    <label style="font-weight:bold;">Category</label>
+                                    <label class="select">
+                                        @Html.DropDownList("cboCategory", new SelectList(@ViewBag.SubCategoryOptions, "category", "category"), new { @class = "form-control" })
+                                        <i></i>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label style="font-weight:bold;">Brand &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</label>
+                                    <label class="select">
+                                        @Html.DropDownList("cboBrand", new SelectList(@ViewBag.BrandOptions, "value", "value"), new { @class = "form-control" })
+                                        <i></i>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label style="font-weight:bold;width:200px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</label>
+                                    <label class="select">
+                                        <button type="button" class="btn btn-sm btn-primary" style="height: 31px; padding: 0 22px;cursor: pointer; " onclick="showStockMovementListSearch();"> Search </button>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div id="divStockMovement" style="overflow: auto;">
+                    <table class="table table-striped table-bordered table-hover" id='tblStockMovement' width="100%">
+                        <thead>
+                            <tr id="tblStockMovementHeader"></tr>
+                            <tr id="tblStockMovementSecondHeader"></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div id="divStockMovementByBranch" style="display:none;">
+                    <table class="table table-striped table-bordered table-hover" id='tblStockMovementByBranch' width="100%">
+                        <thead>
+                            <tr>
+                                <th data-hide='phone,tablet'>ID</th>
+                                <th data-hide='phone,tablet'></th>
+                                <th data-hide='phone,tablet'>Branch</th>
+                                <th data-hide='phone,tablet'>Product Desc</th>
+                                <th data-hide='phone,tablet'>Product Code</th>
+                                <th data-hide='phone,tablet'>Type</th>
+                                <th data-hide='phone,tablet'>Category</th>
+                                <th data-hide='phone,tablet'>Brand</th>
+                                <th data-hide='phone,tablet'>Qty</th>
+                                <th data-hide='phone,tablet'>UOM</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <ul class="noty_cont noty_layout_topRight" id="ulBalance"></ul>
+                <button id="btnBalanceMember" class="btn btn-primary noty" data-noty-options='{"text":"Already changed to print status.","layout":"topRight","type":"error"}' style="display:none;">Top Right</button>
+
+            </div> @*box-content*@
+        </div> @*box*@
+    </div>
+    <div style="padding-right:150px;padding-bottom:70px;padding-left:20px;height:30px;width:1200px;">
+        <button class="btn btn-primary txt-color-white" data-toggle='modal' data-target='#mdlPrintSTK' id=" btnprintstk" type="button" style="height:30px;font-size:11px;">
+            <i class="fa fa-print"></i> <span class="hidden-mobile">Stock Movement</span>
+        </button>
+        <button class="btn btn-primary txt-color-white" data-toggle='modal' data-target='#mdlPrintStkBal' id=" btnprintstkbal" type="button" style="height:30px;font-size:11px;">
+            <i class="fa fa-print"></i> <span class="hidden-mobile">Monthly Stock Balance</span>
+        </button>
+        <button class="btn btn-primary txt-color-white" data-toggle='modal' data-target='#mdlPrintDailyStkCol' id=" btnprintdailystkcol" type="button" style="height:30px;font-size:11px;">
+            <i class="fa fa-print"></i> <span class="hidden-mobile">Daily Stock Collection</span>
+        </button>
+        <button class="btn btn-primary txt-color-white" data-toggle='modal' id=" btnStockTransfer" type="button" style="height:30px;font-size:11px;" onclick="stockTransfer()">
+            <span class="hidden-mobile">Stock Transfer</span>
+        </button>
+        <button class="btn btn-primary txt-color-white" data-toggle='modal' id=" btnStockReceive" type="button" style="height:30px;font-size:11px;" onclick="stockReceive()">
+            <span class="hidden-mobile">Stock Receive</span>
+        </button>
+        <button class="btn btn-primary txt-color-white" data-toggle='modal' id=" btnStockAdjustment" type="button" style="height:30px;font-size:11px;" onclick="stockAdjustment()">
+            <span class="hidden-mobile">Stock Adjustment</span>
+        </button>
+    </div>
+</div> @*row*@
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box">
+
+            <div class="col-sm-2" data-rcode="TOPUP" style="display:none;">
+                <a class="quick-button" onclick="TopUpFunction(this, 2, $('#mcode').val());" data-rcode="TOPUP" style="display:none;">
+                    <i class="fa fa-ticket"></i>
+                    <p>Club</p>
+                </a>
+            </div>
+
+            <div class="col-sm-2" style="display:none;" data-rcode="REDEEM">
+                <a class="quick-button" data-rcode="REDEEM" onclick="RedeemFunction(this,2,$('#mcode').val());" style="display:none;">
+                    <i class="fa fa-ticket"></i>
+                    <p>Redeem</p>
+                </a>
+            </div>
+
+            <div class="col-sm-2" data-rcode="STOCKRECEIVED" style="display:none;">
+                <a class="quick-button" onclick="AddStockReceivedFunction(this);" data-rcode="STOCKRECEIVED">
+                    <i class="fa fa-user"></i>
+                    <p>Add Stock Received</p>
+                </a>
+            </div>
+
+            <div class="col-sm-2">
+                <a class="quick-button" href="~/Home/Index">
+                    <i class="fa fa-home"></i>
+                    <p>Home</p>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlPrintSTK" tabindex="-1" role="dialog" aria-labelledby="mdlPrintSTKLabel" aria-hidden="true">
+    <div class="modal-dialog" id="modal-dialog_PrintSTK" style="width: 450px; top: 150px; ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="mdlPrintSTKLabel">Print Stock Movement</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="smart-form" id="frmstkmov">
+                        <div class="col-md-11" style="padding-left:20px;padding-bottom:10px;">
+                            <label class="control-label">Product</label>
+                            <label class="input" style="width:100%;">
+                                <input id="txtprdstk" placeholder="Enter product code/name" style="width:100%;" />
+                            </label>
+                        </div>
+                        <div class="col-md-4" style="padding-left:20px;">
+                            <label class="checkbox">
+                                <input type="checkbox" id="chkAll" class="form-control" />
+                                <i></i>
+                                ALL?
+                            </label>
+                        </div>
+                        <div class="col-md-6" style="padding-left:0px;">
+                            <label class="checkbox">
+                                <input type="checkbox" id="chkSZero" class="form-control" />
+                                <i></i>
+                                Hide zero balance?
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="btnStkClosePrint">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-primary" onclick="rptProductStk();" id="btnPrint">
+                    Print
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="mdlPrintStkBal" tabindex="-1" role="dialog" aria-labelledby="mdlPrintStkBal" aria-hidden="true">
+    <div class="modal-dialog" id="modal-dialog_PrintStkBal" style="width: 450px; top: 150px; ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="mdlPrintStkBalLabel">Print Monthly Stock Balance</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="smart-form" id="frmmthlystkbal">
+                        <div class="col-md-11" style="padding-left:20px;padding-bottom:10px;">
+                            <label class="control-label">Branch</label>
+                            <label class="select">@Html.DropDownList("cbostkbranch", new SelectList(@ViewBag.BranchOptions, "branchcode", "branchcode"))<i></i></label>
+                        </div>
+                        <div class="col-md-4" style="padding-left:20px;">
+                            <label class="control-label" style="width:100%;">Month</label>
+                            <label class="select">@Html.DropDownList("cbostkmth", new SelectList(@ViewBag.StockMthOptions, "Value", "Text"))<i></i></label>
+                        </div>
+                        <div class="col-md-4" style="padding-left:20px;">
+                            <label style="width:100%;">Year</label>
+                            <label class="select">@Html.DropDownList("cbostkYr", new SelectList(@ViewBag.StockYrOptions, "stockYr", "stockYr"))<i></i></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="btnMthlyStkbalClosePrint">
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="rptMonthlyStockBal();" id="btnMthlyStkbalPrint">
+                        Print
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+</div>
+<div class="modal fade" id="mdlPrintDailyStkCol" tabindex="-1" role="dialog" aria-labelledby="mdlPrintDailyStkCol" aria-hidden="true">
+    <div class="modal-dialog" id="modal-dialog_PrintDailyStkCol" style="width: 450px; top: 150px; ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="mdlPrintDailyStkColLabel">Print Daily Stock Collection</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="smart-form" id="frmdailystkcol">
+                        <div class="col-md-11" style="padding-left:20px;padding-bottom:10px;">
+                            <label class="control-label">Branch</label>
+                            <label class="select">@Html.DropDownList("cbostkcolbranch", new SelectList(@ViewBag.BranchOptions, "branchcode", "branchcode"))<i></i></label>
+                        </div>
+                        <div class="col-md-4" style="padding-left:20px;">
+                            <label class="control-label">From</label>
+                            <input class="form-control date-picker" data-date-format="dd/mm/yyyy" id="dF" />
+                        </div>
+                        <div class="col-md-4" style="padding-left:20px;">
+                            <label class="control-label">To</label>
+                            <input class="form-control date-picker" data-date-format="dd/mm/yyyy" id="dT" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="btnDailyStkColClosePrint">
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="rptDailyStockCol();" id="btnDailyStkColPrint">
+                        Print
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+</div>
+
+<script type="text/javascript">
+    var load = 1;
+    var cboPageLoad = 1;
+    var uFlag;
+    uFlag = true;
+    var oTable;
+    var defaultSelected = false;
+    var nowSelected = true;
+    var dataObject;
+
+    $(function () {
+     
+        $('#cboBrand').prepend(new Option("ALL", "ALL", defaultSelected, nowSelected));
+        $('#cboCategory').prepend(new Option("ALL", "ALL", defaultSelected, nowSelected));
+        showStockMovementList();
+
+    });
+
+    function showStockMovementListSearch() {
+        if ($("#cboBranch").val() == "ALL") {
+            var table = $('#tblStockMovement').dataTable();
+            table.fnDestroy();
+            showStockMovementList();
+            $("#divStockMovement").show();
+            $("#divStockMovementByBranch").hide();
+        }
+        else {
+            var table = $('#tblStockMovementByBranch').dataTable();
+            table.fnDestroy();
+            showStockMovementList();
+            $("#divStockMovementByBranch").show();
+            $("#divStockMovement").hide();
+        }
+
+    }
+
+    function showStockMovementList() {
+        var header = "";
+        var header2 = "";
+
+        if ($("#cboBranch").val() == "ALL") {
+
+            header = "<th rowspan='2' data-hide='phone,tablet'>ID</th>";
+            header += "<th rowspan='2' data-hide='phone,tablet'></th>";
+            header += "<th rowspan='2' data-hide='phone,tablet'>Product Desc</th>";
+            header += "<th rowspan='2' data-hide='phone,tablet'>Product Code</th>";
+            header += "<th rowspan='2' data-hide='phone,tablet'>Type</th>";
+            header += "<th rowspan='2' data-hide='phone,tablet'>Category</th>";
+            header += "<th rowspan='2' data-hide='phone,tablet'>Brand</th>";
+
+            dataObject = [
+             { "mDataProp": "branchcode" },
+             { "mDataProp": "productid" },
+             { "mDataProp": "productdesc" },
+             { "mDataProp": "productcode" },
+             { "mDataProp": "category" }, //type
+             { "mDataProp": "categorysub" }, //category
+             { "mDataProp": "brand" }];
+
+            var i = 1;
+
+            $("#cboBranch option").each(function (i) {
+                if ($(this).val() != "ALL") {
+                    dataObject.push({ mDataProp: "b" + i });
+                    dataObject.push({ mDataProp: "uom" + i });
+                    header += "<th colspan='2' data-hide='phone,tablet' style='text-align:center'>" + $(this).val() + "</th>";
+
+                    header2 += "<th style='width:30px;text-align:center'>Qty</th>";
+                    header2 += "<th style='width:30px;text-align:center'>UOM</th>";
+                    i++;
+                }
+            });
+
+            $("#tblStockMovementHeader").html(header);
+            $("#tblStockMovementSecondHeader").html(header2);
+
+            var filter = $('#txtdesc').val().trim();
+            var brand = $('#cboBrand').val().trim();
+            var branch = $('#cboBranch').val().trim();
+            var category = $('#cboCategory').val().trim();
+
+            var responsiveHelper_dt = undefined;
+            var breakpointDefinition = {
+                tablet: 1024,
+                phone: 480
+            };
+
+            var oTable = $('#tblStockMovement').dataTable({
+                "iDisplayLength": 10, // Default No of Records per page on 1st load
+                "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]], // Set no of records in per page
+                "aaSorting": [[0, "Date"], [1, "Branch"]], // Default 1st column sorting
+                "bLengthChange": true,
+                "bProcessing": true,
+                "aoColumnDefs": [
+                   {
+                       "aTargets": [1],
+                       "mRender": function (data, type, full) {
+                           return "<input type='checkbox' class='allprodid' name='allprodid' value='" + data + "' /> "
+                       }
+                   }
+                ],
+                "sAjaxSource": "getStockMovementListWithPaging?branchcode=" + branch + "&category=" + category + "&brand=" + brand + "&filter=" + filter,
+                "bStateSave": true, // Remember paging & filters
+                "bDeferRender": false,
+                "bServerSide": true,
+                "bDestroy": true,
+                "oSearch": { "sSearch": "" },
+                "aoColumns": dataObject,
+                "fnDrawCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    var i = 0;
+                    $("#tblStockMovement tbody tr").each(function () {
+                        var tds = $(this).find("td");
+                        tds.eq(0).html(i+1);
+                        i++;
+                    });
+                }
+            });
+
+        }
+        else {
+          
+            var filter = $('#txtdesc').val().trim();
+            var brand = $('#cboBrand').val().trim();
+            var branch = $('#cboBranch').val().trim();
+            var category = $('#cboCategory').val().trim();
+
+            var responsiveHelper_dt = undefined;
+            var breakpointDefinition = {
+                tablet: 1024,
+                phone: 480
+            };
+
+            var oTable = $('#tblStockMovementByBranch').dataTable({
+                "iDisplayLength": 10, // Default No of Records per page on 1st load
+                "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]], // Set no of records in per page
+                "aaSorting": [[0, "Date"], [1, "Branch"]], // Default 1st column sorting
+                "bLengthChange": true,
+                "bProcessing": true,
+                "aoColumnDefs": [
+                   {
+                       "aTargets": [1],
+                       "mRender": function (data, type, full) {
+                           return "<input type='checkbox' class='branchprodid' name='branchprodid' value='" + data + "' /> "
+                       }
+                   }
+                ],
+                "sAjaxSource": "getStockMovementListWithPaging?branchcode="+ branch + "&category=" + category + "&brand=" + brand + "&filter=" + filter,
+                "bStateSave": true, // Remember paging & filters
+                "bDeferRender": false,
+                "bServerSide": true,
+                "bDestroy": true,
+                "oSearch": { "sSearch": "" },
+                "aoColumns": [
+                            { "mDataProp": "branchcode" },
+                            { "mDataProp": "productid" },
+                            { "mDataProp": "branchcode" },
+                            { "mDataProp": "productdesc" },
+                            { "mDataProp": "productcode" },
+                            { "mDataProp": "category" }, //type
+                            { "mDataProp": "categorysub" }, //category
+                            { "mDataProp": "brand" },
+                            { "mDataProp": "productbalance" },
+                            { "mDataProp": "uom" }
+                ],
+                "fnDrawCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    var i = 0;
+                    $("#tblStockMovementByBranch tbody tr").each(function () {
+                        var tds = $(this).find("td");
+                        tds.eq(0).html(i + 1);
+                        i++;
+                    });
+                }
+            });
+
+        }
+
+    }
+
+    function stockTransfer() {
+
+        if ($("#cboBranch").val() == "ALL") {
+            var prodlist = "";
+            $.each($("input[name='allprodid']:checked"), function () {
+                prodlist += $(this).val() + ",";
+            });
+            prodlist = prodlist.substr(0, prodlist.length - 1);
+
+            var rcode = $('#rcode').val();
+            var acode = $('#acode').val();
+            var ucode = "";
+            var url = '@Url.Action("StockTransfer", "Inventory")';
+
+            var form = $('<form action="' + url + '" method="post">' +
+                '<input type="hidden" name="uniquecode"  id="uniquecode" value="' + ucode + '" />' +
+                '<input type="hidden" name="rcode"  id="rcode" value="' + rcode + '" />' +
+                '<input type="hidden" name="acode"  id="acode" value="' + acode + '" />' +
+                 '<input type="hidden" name="productlist"  id="acode" value="' + prodlist + '" />' +
+                '</form>');
+            $('body').append(form);
+            $(form).submit();
+        }
+        else {
+
+            var prodlist = "";
+            $.each($("input[name='branchprodid']:checked"), function () {
+                prodlist += $(this).val() + ",";
+            });
+
+            prodlist = prodlist.substr(0, prodlist.length - 1);
+
+            var rcode = $('#rcode').val();
+            var acode = $('#acode').val();
+            var ucode = "";
+            var url = '@Url.Action("StockTransfer", "Inventory")';
+
+            var form = $('<form action="' + url + '" method="post">' +
+                '<input type="hidden" name="uniquecode"  id="uniquecode" value="' + ucode + '" />' +
+                '<input type="hidden" name="rcode"  id="rcode" value="' + rcode + '" />' +
+                '<input type="hidden" name="acode"  id="acode" value="' + acode + '" />' +
+                 '<input type="hidden" name="productlist"  id="acode" value="' + prodlist + '" />' +
+                '</form>');
+            $('body').append(form);
+            $(form).submit();
+
+        }
+    }
+
+    function stockReceive() {
+        if ($("#cboBranch").val() == "ALL") {
+            var prodlist = "";
+            $.each($("input[name='allprodid']:checked"), function () {
+                prodlist += $(this).val() + ",";
+            });
+            prodlist = prodlist.substr(0, prodlist.length - 1);
+
+            var rcode = $('#rcode').val();
+            var acode = $('#acode').val();
+            var ucode = "";
+            var url = '@Url.Action("StockReceive", "Inventory")';
+
+            var form = $('<form action="' + url + '" method="post">' +
+                '<input type="hidden" name="uniquecode"  id="uniquecode" value="' + ucode + '" />' +
+                '<input type="hidden" name="rcode"  id="rcode" value="' + rcode + '" />' +
+                '<input type="hidden" name="acode"  id="acode" value="' + acode + '" />' +
+                 '<input type="hidden" name="productlist"  id="acode" value="' + prodlist + '" />' +
+                '</form>');
+            $('body').append(form);
+            $(form).submit();
+        }
+        else {
+
+            var prodlist = "";
+            $.each($("input[name='branchprodid']:checked"), function () {
+                prodlist += $(this).val() + ",";
+            });
+
+            prodlist = prodlist.substr(0, prodlist.length - 1);
+
+            var rcode = $('#rcode').val();
+            var acode = $('#acode').val();
+            var ucode = "";
+            var url = '@Url.Action("StockReceive", "Inventory")';
+
+            var form = $('<form action="' + url + '" method="post">' +
+                '<input type="hidden" name="uniquecode"  id="uniquecode" value="' + ucode + '" />' +
+                '<input type="hidden" name="rcode"  id="rcode" value="' + rcode + '" />' +
+                '<input type="hidden" name="acode"  id="acode" value="' + acode + '" />' +
+                '<input type="hidden" name="productlist"  id="acode" value="' + prodlist + '" />' +
+                '</form>');
+            $('body').append(form);
+            $(form).submit();
+
+        }
+    }
+
+    function stockAdjustment() {
+        if ($("#cboBranch").val() == "ALL") {
+            var prodlist = "";
+            $.each($("input[name='allprodid']:checked"), function () {
+                prodlist += $(this).val() + ",";
+            });
+            prodlist = prodlist.substr(0, prodlist.length - 1);
+
+            var rcode = $('#rcode').val();
+            var acode = $('#acode').val();
+            var ucode = "";
+            var url = '@Url.Action("StockAdjustment", "Inventory")';
+
+            var form = $('<form action="' + url + '" method="post">' +
+                '<input type="hidden" name="uniquecode"  id="uniquecode" value="' + ucode + '" />' +
+                '<input type="hidden" name="rcode"  id="rcode" value="' + rcode + '" />' +
+                '<input type="hidden" name="acode"  id="acode" value="' + acode + '" />' +
+                 '<input type="hidden" name="productlist"  id="acode" value="' + prodlist + '" />' +
+                '</form>');
+            $('body').append(form);
+            $(form).submit();
+        }
+        else {
+            var prodlist = "";
+            $.each($("input[name='branchprodid']:checked"), function () {
+                prodlist += $(this).val() + ",";
+            });
+
+            prodlist = prodlist.substr(0, prodlist.length - 1);
+
+            var rcode = $('#rcode').val();
+            var acode = $('#acode').val();
+            var ucode = "";
+            var url = '@Url.Action("StockAdjustment", "Inventory")';
+
+            var form = $('<form action="' + url + '" method="post">' +
+                '<input type="hidden" name="uniquecode"  id="uniquecode" value="' + ucode + '" />' +
+                '<input type="hidden" name="rcode"  id="rcode" value="' + rcode + '" />' +
+                '<input type="hidden" name="acode"  id="acode" value="' + acode + '" />' +
+                 '<input type="hidden" name="productlist"  id="acode" value="' + prodlist + '" />' +
+                '</form>');
+            $('body').append(form);
+            $(form).submit();
+
+        }
+    }
+
+    function rptProductStk() {
+        var uname = $('#uname').val();
+        var chkzero = document.getElementById('chkSZero');
+        var chkall = document.getElementById('chkAll');
+        var zflag = 0;
+        if (chkall.checked == true)
+            itemid = 0;
+        if (chkzero.checked == true)
+            zflag = 1;
+
+        window.open("../Reports/StockMovement.aspx?bcode=ALL&uname=" + uname + "&prdid=" + itemid + "&zflag=" + zflag);
+        $('#btnStkClosePrint').trigger();
+    }
+
+    function rptMonthlyStockBal() {
+        var uname = $('#uname').val();
+        var br = $('#cbostkbranch').val();
+        var stkmth = $('#cbostkmth').val();
+        var stkyr = $('#cbostkYr').val();
+
+        window.open("../Reports/MonthlyStockBalance.aspx?bcode=" + br + "&stkYr=" + stkyr + "&stkMth=" + stkmth + "&uname=" + uname);
+        $('#btnStkClosePrint').trigger();
+    }
+
+    function rptDailyStockCol() {
+        var uname = $('#uname').val();
+        var fdate = $('#dF').val();
+        var tdate = $('#dT').val();
+        var bcode = $('#cbostkcolbranch').val();
+        var citidesc = $('#citidesc').val();
+        var bonusdesc = $('#bonusdesc').val();
+        window.open("../Reports/DailyStockCollectionByBranch.aspx?uname=" + uname + "&fdate=" + fdate + "&tdate=" + tdate + "&bcode=" + bcode);
+    }
+
+
+</script>
+

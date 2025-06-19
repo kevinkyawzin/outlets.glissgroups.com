@@ -1,0 +1,218 @@
+﻿@{
+    ViewBag.Title = "StockReceiveOverview";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box">
+            <input type="hidden" value="@ViewBag.Rcode" id="rcode" />
+            <input type="hidden" value="@ViewBag.Acode" id="acode" />   
+
+            <div class="box-header" data-original-title>
+                <h2><i class="fa fa-list-alt"></i><span class="break"></span>Stock Received Listing</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+                    <a href="#" class="btn-minimize"><i class="fa fa-chev1on-up"></i></a>
+                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                <div id="divMember">
+                                                    <table class="table table-striped table-bordered table-hover" id='tblStockReceived' width="100%" style="height:auto;">
+                                                        <thead>
+                                                            <tr>
+                                                                <th data-hide="phone,tablet">Resource Date</th>
+                                                                <th data-hide="phone,tablet">Branch</th>
+                                                                <th data-class="expand">Stock Received #</th>
+                                                                <th data-hide="phone,tablet">Code</th> 
+                                                                <th data-hide="phone,tablet">Supplier</th>                                                                                                                        
+                                                                @*<th data-hide="phone,tablet">GST</th>
+                                                                <th data-hide="phone,tablet">Total</th>*@
+                                                                <th data-hide="phone,tablet">Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                </div>
+
+                <ul class="noty_cont noty_layout_topRight" id="ulBalance"></ul>
+                <button id="btnBalanceMember" class="btn btn-primary noty" data-noty-options='{"text":"Already changed to print status.","layout":"topRight","type":"error"}' style="display:none;">Top Right</button>
+
+            </div> @*box-content*@
+        </div> @*box*@
+    </div>
+</div> @*row*@
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box">
+
+            <div class="col-sm-2" data-rcode="TOPUP" style="display:none;">
+                <a class="quick-button" onclick="TopUpFunction(this, 2, $('#mcode').val());" data-rcode="TOPUP" style="display:none;">
+                    <i class="fa fa-ticket"></i>
+                    <p>Club</p>
+                </a>
+            </div>
+
+            <div class="col-sm-2" style="display:none;" data-rcode="REDEEM">
+                <a class="quick-button" data-rcode="REDEEM" onclick="RedeemFunction(this,2,$('#mcode').val());" style="display:none;">
+                    <i class="fa fa-ticket"></i>
+                    <p>Redeem</p>
+                </a>
+            </div>
+
+            <div class="col-sm-2" data-rcode="STOCKRECEIVED" style="display:none;">
+                <a class="quick-button" onclick="AddStockReceivedFunction(this);" data-rcode="STOCKRECEIVED">
+                    <i class="fa fa-user"></i>
+                    <p>Add Stock Received</p>
+                </a>
+            </div>
+
+            <div class="col-sm-2">
+                <a class="quick-button" href="~/Home/Index">
+                    <i class="fa fa-home"></i>
+                    <p>Home</p>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var load = 1;
+    var cboPageLoad = 1;
+    var uFlag;
+    uFlag = true;
+
+    $(function () {
+        getStockReceivedList();
+
+        $('div.dataTables_length').append('<div style="float:left;">&nbsp;&nbsp;<button class="btn btn-primary" onclick="goToStockReceive();" id="btnCreateStockReceived"> <span class="hidden-mobile">Add Stock Receive</span></button></div>');
+        
+        $('select[name=tblStockReceived_length]').addClass("form-control");
+
+        $('#tblStockReceived_filter :input').addClass("form-control");
+        $('#tblStockReceived_filter :input').width("200px");
+        $('#tblStockReceived_processing').height("30px");
+
+    });
+
+    function getPageList(itemcount) {
+        cboPageLoad = 0;
+        var Htmlstr = "";
+        for (var i = 1; i <= itemcount ; i++) {
+            Htmlstr += "<option value=" + i + ">" + i + "</option>";
+        }
+        $('#cbopages').html(Htmlstr).show();
+    }
+    
+    function getStockReceivedList() {
+        var rcode = $('#rcode').val();
+
+        var oTable = $('#tblStockReceived').dataTable({
+            "iDisplayLength": 10, // Default No of Records per page on 1st load
+            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]], // Set no of records in per page
+            "aaSorting": [[0, "Date"], [1, "Branch"]], // Default 1st column sorting
+            //"bFilter": false,
+            "bLengthChange": true,
+            "bProcessing": true,
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "mRender": function (data, type, full) {
+                        if (data) {
+                            var ctmp = getDateFromAspString(data);
+                            return (ctmp.getDate() + "/" + (ctmp.getMonth() + 1) + "/" + ctmp.getFullYear());
+                        }
+                        return "";
+                    }
+                //},
+                    //{ "bVisible": false, "aTargets": [7] 
+                }
+            ],
+            "sAjaxSource": 'getStockReceiveListWithPaging?',
+            "bStateSave": true, // Remember paging & filters
+            "bDeferRender": false,
+            "bServerSide": true,
+            "bDestroy": true,
+            "oSearch": { "sSearch": "" },
+            "aoColumns": [
+                         { "sWidth": "120px", "mDataProp": "resourcedate" },
+                         { "sWidth": "150px", "mDataProp": "branchcode" },
+                         { "sWidth": "150px", "mDataProp": "resourcecode" },
+                         { "sWidth": "3px", "mDataProp": "uniquecode" },
+                         { "sWidth": "150px", "mDataProp": "cussupname" },
+                         //{ "sWidth": "150px", "mDataProp": "total_salestax" },
+                         //{ "sWidth": "150px", "mDataProp": "total_total" },
+                         { "sWidth": "150px", "mDataProp": "status" }
+                         //{ "sWidth": "100px", "mDataProp": "id" }
+            ],
+            "fnDrawCallback": function () {
+                $("#tblStockReceived tbody tr").click(function () {                    
+                    var tds = $(this).find("td");
+                    //alert(tds.eq(2).html());
+                    window.location.href = "StockReceive?uniquecode=" + tds.eq(3).html();
+                });
+
+                $('#tblStockReceived tbody tr').each(function () {
+                    this.setAttribute('title', "Click to view detail.");
+                });
+            }
+        });
+    }
+       
+    function refreshStockReceived() {
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: 'getStockReceivedListWithPaging?',
+            success: function (data) {
+                var oTable = $('#tblStockReceived').dataTable();
+                $(oTable).css({ width: $(oTable).parent().width() });
+                oTable.fnAdjustColumnSizing();
+                oTable.fnReloadAjax();
+                //nav_page_height();
+            },
+            error: function () {
+            }
+        });
+    }
+
+    function UpdateStockReceived(srid, paramtr) {
+        var rcode = $('#rcode').val();
+
+        window.open("../Inventory/StockReceive?id=" + srid + "&rcode=" + rcode, "_self");
+
+        //var url = $('#tab-r2').attr('data-src');
+        //$('#lnkDetail').attr("style", "display:normal;");
+        //url = url + "?id=" + srid + "&rcode=" + rcode;
+        //$('#tab-r2' + ' iframe').attr("src", url);
+        //$('#lnkDetail').trigger('click');
+    }
+
+    function rptStockReceivedByBranch() {
+        var uname = $('#uname').val();
+        var fdate = $('#dF').val();
+        var tdate = $('#dT').val();
+        var bcode = $('#cboBptype').val();
+
+        window.open("../Reports/StockReceivedByBranch.aspx?fdate=" + fdate + "&tdate=" + tdate + "&bcode=" + bcode);
+    }
+    function goToStockReceive() {
+        //Added by ZawZO on 6 Sep 2015
+        var ucode = '';
+
+        var rcode = $('#rcode').val();
+        var url = "StockReceive";
+        var form = $('<form action="' + url + '" method="post">' +
+          '<input type="hidden" name="uniquecode"  id="uniquecode" value="' + ucode + '" />' +
+          '<input type="hidden" name="rcode"  id="rcode" value="' + rcode + '" />' +
+          '</form>');
+        $('body').append(form);
+        $(form).submit();
+    }
+
+</script>
+

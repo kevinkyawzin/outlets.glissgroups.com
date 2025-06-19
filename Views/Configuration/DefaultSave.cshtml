@@ -1,0 +1,66 @@
+﻿@model BigMac.Models.Configuration_m_Default
+
+@{
+    ViewBag.Title = "DefaultSave";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class ="col-lg-12">
+        <div class="box">
+            <div class ="box-header">
+						<h2><i class="fa fa-edit"></i>System Default Values</h2>
+						<div class="box-icon">
+							<a href="#" class="btn-setting"><i class="icon-wrench"></i></a>
+							<a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>
+							<a href="#" class="btn-close"><i class="icon-remove"></i></a>
+						</div>
+            </div>
+            <div class ="box-content">
+            @using (Html.BeginForm("DefaultSave", "Configuration", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+                <fieldset  class ="col-sm-12">
+		            <div class="form-group">
+			            <label class="control-label" for="input1">@Html.LabelFor(model => model.description)</label>
+			            <div class="controls row">
+                            <div class="col-lg-4">
+				                @Html.TextBoxFor(model => model.description, new { @class ="form-control"})
+                            </div>                                        
+			            </div>
+		            </div>
+		            <div class="form-group">
+			            <label class="control-label" for="input1">@Html.LabelFor(model => model.key)</label>
+			            <div class="controls row">
+                            <div class="col-lg-4">
+				                @Html.TextBoxFor(model => model.key, new { @class ="form-control"})                    
+                            </div>                                        
+			            </div>
+		            </div>
+		            <div class="form-group">
+			            <label class="control-label" for="input1">@Html.LabelFor(model => model.value)</label>
+			            <div class="controls row">
+                            <div class="col-lg-4">
+                                @Html.TextBoxFor(model => model.value, new { @class ="form-control"})
+                            </div>                                         
+			            </div>
+		            </div>
+		            <div class="form-actions">
+			            <button type="submit" class="btn btn-primary" value="Save">Save Changes</button>
+			            <button type="reset" class="btn">Cancel</button>
+                        <a class="btn btn-primary" href="@Url.Action("DefaultIndex")" title ="Edit User">Back to List</a>
+		            </div>
+                </fieldset>
+            }                 
+            </div>
+        </div> @*box*@
+    </div>
+</div>@*row*@
+
+@*<div>
+    @Html.ActionLink("Back to List", "BranchIndex")
+</div>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

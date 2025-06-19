@@ -1,0 +1,174 @@
+#byDayDay
+{
+    left: 14px !important;
+} 
+
+#byDayWeek
+{
+    left: 75px !important;
+} 
+
+.dhx_cal_today_button {
+    right:200px;
+}
+
+.dhx_cal_prev_button {
+    right:120px;
+}
+
+.dhx_cal_date_button {
+    right:68px;
+
+}
+.date_pick {
+    height:32px !important;
+}
+
+.dhx_title {
+    color:transparent !important;
+}
+
+.holiday_event {
+  border:1px solid blue !important;
+  background-color:white !important;
+}
+
+.salesorder_event {
+  border:1px solid black !important;
+  box-sizing: border-box !important;
+  background-color:white !important;
+}
+.salesorder_event .dhx_body {
+   padding-right:2px !important;
+}
+
+.holiday_event .dhx_body,
+.holiday_event .dhx_footer,
+.holiday_event .dhx_header,
+.holiday_event .dhx_title {
+      border:none !important;
+}
+
+.salesorder_event .dhx_body,
+.salesorder_event .dhx_footer,
+.salesorder_event .dhx_header,
+.salesorder_event .dhx_title {
+      border:none !important;
+}
+
+
+.dhx_cal_event.dhx_cal_select_menu{
+    display:none !important;
+}
+
+.ui-autocomplete {
+  z-index: 999999 !important;
+}
+
+.dhx_cal_event_line_start b{
+    display:none !important;
+}
+
+.SumoSelect {
+    width: 250px !important;
+}
+
+.dhx_scale_bar{
+    font-weight:bold;
+    color:#525252;
+}
+
+/*.dhx_cal_header{
+      border: 1px solid #7f7f7f;
+}
+
+.dhx_scale_bar{
+      border-left: 1px solid #7f7f7f;
+}
+.dhx_month_head {
+    border-right: 1px solid #7f7f7f;
+}
+.dhx_month_body {
+    border-right: 1px solid #7f7f7f;
+    border-bottom: 1px solid #7f7f7f;
+}*/
+
+.small_lines_section {
+     background-image: url(../images/small_lines.png);
+}.holiday_lines_section {
+     box-shadow:0px 0px 0px 2px blue inset;
+} .dhx_scheduler_month .dhx_marked_timespan{
+      display: block;
+ }
+
+ .dhx_scheduler_month .dhx_now_time{
+     display:none;
+ }
+
+ .dhx_scale_hour{
+     color:#545454;
+ }
+
+ .off_event {
+   background-color: #7f7f7f;
+   opacity:.7;
+}
+
+ .half{
+     height:20px !important;
+ }
+
+ .fourth {
+     height:10px !important;
+ }
+
+ .third {
+     height:30px !important;
+ }
+
+
+.Cancelled {
+    background:red;
+    border:1px solid red;
+    color:white;
+}
+
+.Confirmed {
+    background:#00cc00;
+    border:1px solid #00cc00;
+    color:white;
+}
+
+.Arrived {
+    background:#007f00;
+    border:1px solid #007f00;
+    color:white;
+}
+
+.Done {
+    background:#004C00;
+    border:1px solid #004C00;
+    color:white;
+}
+
+.WaitList {
+    background:#ffa500;
+    border:1px solid #ffa500;
+    color:white;
+}
+
+.NoShow {
+    background:#a6a6a6;
+    border:1px solid #a6a6a6;
+    color:white;
+}
+
+.Booking {
+    background:blue;
+    border:1px solid blue;
+    color:white;
+}
+
+#content{
+    padding: 0px 10px 10px 10px !important;
+}

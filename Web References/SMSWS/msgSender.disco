@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
+  <contractRef ref="http://info121.sytes.net/smsurl/msgSender.asmx?wsdl" docRef="http://info121.sytes.net/smsurl/msgSender.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://info121.sytes.net/smsurl/msgSender.asmx" xmlns:q1="http://tempuri.org/SMSURL/MsgSender" binding="q1:MsgSenderSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://info121.sytes.net/smsurl/msgSender.asmx" xmlns:q2="http://tempuri.org/SMSURL/MsgSender" binding="q2:MsgSenderSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+</discovery>

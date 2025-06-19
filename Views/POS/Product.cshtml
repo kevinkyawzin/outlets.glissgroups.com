@@ -1,0 +1,361 @@
+﻿@{
+    ViewBag.Title = "Product";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
+
+<div class="row">
+    <div class="col-lg-12">					
+        <div class="box">
+            <div class="box-header" style="background-color:#EEE;"><i class="fa fa-edit"></i>Product Entry</div>
+	        <div class="box-content">
+@*			        <ul class="nav tab-menu nav-tabs" id="myTab" style ="padding-left:10px;list-style: none;">
+				        <li id="liProduct" name="liProduct" class="active" style ='float: left;' ><a href="#productDetail">Product Detail</a></li>
+				        <li id="liPromotion" name="liPromotion" style ='float: left;'><a href="#promotion">Promotion</a></li>                        
+			        </ul>
+			        <div id="myTabContent" class="tab-content">*@
+
+				        @*<div class="tab-pane active" id="productDetail">*@
+@*					        <div class="box">
+						        <div class="box-header" data-original-title>
+							        <h2><i class="fa fa-dollar"></i><span class="break"></span>Product Entry</h2>
+							        <div class="box-icon">
+								        <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+								        <a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+								        <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+							        </div>
+						        </div>*@
+						        <div class="box-content">            
+                                    <div id ="divproductDetail">
+                                        <table  style="width:100%;border-spacing:5px;border-collapse:separate;padding-left:10px;">
+                                            <tr>
+                                                <td >
+                                                    <img src="~/assets/img/Products/Product3.jpg" class ="img-thumbnail" style="width:130px;height:140px;"/>   
+                                                    <div style ="padding:10px;"><button type="button" class ="btn btn-small btn-success">Choose Image</button></div>                                 
+                                                </td>
+                                                <td colspan ="3" style ="vertical-align:top;">
+                                                    <center>
+                                                    <div style="border:1px solid #EEE;width:90%">
+                                                        <center>                                                   
+                                                    <label style="min-width:30px;height:100%;"><i class="fa fa-angle-left"></i></label>
+                                                    <img src="~/assets/img/Products/Product2.jpg" class ="img-thumbnail"  style="width:130px;height:140px;"/>
+                                                    <img src="~/assets/img/Products/Product1.jpg" class ="img-thumbnail"  style="width:130px;height:140px;"/> 
+                                                    <img src="~/assets/img/Products/Product4.jpg" class ="img-thumbnail"  style="width:130px;height:140px;"/>
+                                                    <label style="min-width:30px;height:100%;"><i class="fa fa-angle-right"></i></label>
+                                                            </center>  
+                                                    </div> 
+                                                    <div style ="padding-top:10px;text-align:center;font-weight:bold;color:green;"><u><a href="#s">SetUp High Resolution Image</a></u> @*<button type="button" class ="btn btn-small btn-success">SetUp High Resolution Image</button>*@</div>
+                                                        </center>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style="width:15%;"><label class="control-label" >Product Code</label></td>
+                                                <td style="width:30%;"><input class ="form-control" disabled value ="1S-HR-1234567"/></td>                                                
+                                                <td style="width:5%;"></td>
+                                                <td style="width:15%;"><label class="control-label" >Company</label> <input type="hidden" id ="productid" > </td>
+                                                <td style="width:30%;">
+                                                        @Html.DropDownList("cboCompany",new SelectList(@ViewBag.CompanyOptions,"id","name"), new { @class ="form-control"})                                                         
+                                                </td>
+                                                <td style="width:5%;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td ><label class="control-label" >Alternative Code</label></td>
+                                                <td ><input class ="form-control" value ="5S-HR-0978978"/></td>
+                                                <td ></td>
+                                                <td ><label class="control-label" >Category</label></td>
+                                                <td >                                         
+                                                     @Html.DropDownList("cboCategory", new SelectList(@ViewBag.CategoryOptions,"id","Category"), new { @class ="form-control"})
+                                                </td>
+                                                <td ></td>
+                                            </tr>
+                                            <tr>
+                                                <td ><label class="control-label" >Description</label></td>
+                                                <td ><input class ="form-control" value ="Shiseido Hair Serum"/></td>
+ @*                                               <td ><label class="control-label" >UOM</label></td>
+                                                <td >@Html.DropDownList("cboUOM", new SelectList(@ViewBag.UOMOptions,"id","UOM"), new { @class ="form-control"})  </td>
+                                                *@
+                                                <td ></td>
+                                                <td ><label class="control-label" >Sub Category</label></td>
+
+                                                <td >
+                                                    <select class ="form-control">
+                                                        <option >Serum</option>
+                                                        <option >Hair Code</option>
+                                                        <option >Shampoo</option>
+                                                        <option >Conditionar</option>
+                                                        <option >Treatment</option>
+                                                    </select>
+                                                </td>
+                                                <td ></td>
+                                            </tr>
+                                            <tr>
+                                                <td ><label class="control-label" >Remark</label></td>
+                                                <td colspan ="4"><input class ="form-control" /></td>
+                                                
+                                            </tr>
+                                            <tr>
+                                                <td ><label class="control-label" >Status</label></td>
+                                                <td >@Html.DropDownList("cboStatus", new SelectList(@ViewBag.StatusOptions,"status","status"), new { @class ="form-control"})</td>                                              
+                                            </tr>
+@*                                            <tr>
+                                                <td>Unit of Measurements</td>
+                                                <td>
+
+                                                </td>
+                                            </tr>*@
+@*                                            <tr>
+                                                <td colspan ="6" style ="width:100%;background-color: whiteSmoke;padding: 20px 20px 20px;">
+		                                            <div >
+			                                            <button type="submit" class="btn btn-primary" value="Save" >Save changes</button>                                                       
+			                                            <button type="reset" class="btn">Cancel</button>
+		                                            </div>
+                                                </td>     
+                                            </tr>*@
+                                        </table>
+                                        <table  style="width:100%;border-spacing:5px;border-collapse:separate;padding-left:10px;">
+                                            <tr>
+                                                <td style="width:15%;vertical-align:middle;"><label class="control-label" >Unit of Measurements</label></td>
+                                                <td style="width:120px;">UOM1 @Html.DropDownList("cboUOM1", new SelectList(@ViewBag.UOMOptions,"UOM","UOM"), new { @class ="form-control"})  </td>                                                
+                                                <td style="width:120px;">Factor <input class ="form-control" value="6" /></td>
+                                                
+                                                <td style="width:120px;">UOM2 @Html.DropDownList("cboUOM2", new SelectList(@ViewBag.UOMOptions,"UOM","UOM"), new { @class ="form-control"})  </td>
+                                                <td style="width:120px;">Factor <input class ="form-control" value="6" /></td>
+                                                                                               
+                                                <td style="width:120px;">UOM3 @Html.DropDownList("cboUOM3", new SelectList(@ViewBag.UOMOptions,"UOM","UOM"), new { @class ="form-control"})  </td>
+                                                <td></td>
+                                            </tr>
+@*                                            <tr>
+                                                <td style="width:15%;"><label class="control-label" >Conversion Factor</label></td>
+                                                <td ><input class ="form-control" /></td>                                                
+                                                <td></td>
+                                                <td ><input class ="form-control" /></td>
+                                                <td></td>                                                
+                                                <td ><input class ="form-control" /></td>
+                                                <td></td>
+                                            </tr>*@
+
+                                        </table>
+                                        @*<hr width="100%" align="left" style="color:red;">*@
+                                        <br />
+                                        <div  style ="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+                                            Product Pricing
+                                        </div>
+                                        <br />
+                                        <div>
+                                            @*<center>*@
+                                        <div style ="width:70%;">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr style="text-align:center;"> 
+                                                        <th rowspan ="2" style="width:40%">Unit of Measurements</th>
+                                                        <th colspan ="2"  style="text-align:center;width:25%">Redemption</th>
+                                                        <th colspan ="2"  style="text-align:center;width:25%">Awards</th>
+                                                        <th  style="text-align:center;width:10%">Commission</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th  style="text-align:center;">Gliss$</th>
+                                                        <th  style="text-align:center;">Bonus$</th>
+                                                        <th  style="text-align:center;">Gliss$</th>
+                                                        <th  style="text-align:center;">Bonus$</th>
+                                                        <th  style="text-align:center;">Service$</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>@Html.DropDownList("cboPUOM1", new SelectList(@ViewBag.UOMOptions,"UOM","UOM"), new { @class ="form-control"}) </td>
+                                                        <td><input class ="form-control" value="20" style="text-align:center;"/></td>
+                                                        <td><input class ="form-control" style="text-align:center;" value="0"/></td>
+                                                        <td><input class ="form-control" style="text-align:center;"/></td>
+                                                        <td><input class ="form-control" style="text-align:center;" value="2" /></td>
+                                                        <td ><center><input class ="form-control" style="text-align:center;" value="2" /></center></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>@Html.DropDownList("cboPUOM2", new SelectList(@ViewBag.UOMOptions,"UOM","UOM"), new { @class ="form-control"}) </td>
+                                                        <td><input class ="form-control" style="text-align:center;" value="110"/></td>
+                                                        <td><input class ="form-control" style="text-align:center;" value="0"/></td>
+                                                        <td><input class ="form-control" style="text-align:center;" /></td>
+                                                        <td><input class ="form-control" style="text-align:center;" value="12"/></td>
+                                                        <td ><center><input class ="form-control" style="text-align:center;" value="15"/></center></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>@Html.DropDownList("cboPUOM3", new SelectList(@ViewBag.UOMOptions,"UOM","UOM"), new { @class ="form-control"}) </td>
+                                                        <td><input class ="form-control" style="text-align:center;" value="630"/></td>
+                                                        <td><input class ="form-control" style="text-align:center;" value="0"/></td>
+                                                        <td><input class ="form-control" style="text-align:center;" /></td>
+                                                        <td><input class ="form-control" style="text-align:center;" value="72"/></td>
+                                                        <td ><center><input class ="form-control" style="text-align:center;" value="90"/></center></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>@Html.DropDownList("cboPUOM4", new SelectList(@ViewBag.UOMOptions,"UOM","UOM"), new { @class ="form-control"}) </td>
+                                                        <td><input class ="form-control" style="text-align:center;" /></td>
+                                                        <td><input class ="form-control" style="text-align:center;" /></td>
+                                                        <td><input class ="form-control" style="text-align:center;" /></td>
+                                                        <td><input class ="form-control" style="text-align:center;" /></td>
+                                                        <td ><center><input class ="form-control" style="text-align:center;" /></center></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>@Html.DropDownList("cboPUOM5", new SelectList(@ViewBag.UOMOptions,"UOM","UOM"), new { @class ="form-control"}) </td>
+                                                        <td><input class ="form-control" style="text-align:center;" /></td>
+                                                        <td><input class ="form-control" style="text-align:center;" /></td>
+                                                        <td><input class ="form-control" style="text-align:center;" /></td>
+                                                        <td><input class ="form-control" style="text-align:center;" /></td>
+                                                        <td ><center><input class ="form-control" style="text-align:center;" /></center></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                                @*</center>*@
+                                        </div>
+@*                                        <div class="col-sm-6">
+                                            <table style="width:100%;border-spacing:5px;border-collapse:separate;padding-left:10px;">
+
+                                                <tr>
+                                                    <td style="width:100px;"></td>
+                                                    <td style="text-align:center;width:120px;" >Gliss$</td>
+                                                    <td style="text-align:center;width:120px;">Bonus$</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Redemption</td>
+                                                    <td><input class ="form-control" /></td>
+                                                    <td><input class ="form-control" /></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Awards</td>
+                                                    <td><input class ="form-control" /></td>
+                                                    <td><input class ="form-control" /></td>
+                                                    <td></td>
+                                                </tr>
+
+                                            </table>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <table style="width:100%;border-spacing:5px;border-collapse:separate;padding-top:25px;border-left:1px solid gray;padding-left:20px;">
+                                                <tr></tr>
+                                                <tr >
+                                                    <td style="width:100px;">Sell Price</td>
+                                                    <td style="width:120px;"><input class ="form-control" /></td>
+                                                    <td style="width:120px;">
+                                                        <select class ="form-control">
+                                                            <option>SGD</option>
+                                                        </select>
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td >Cost Price</td>
+                                                    <td ><input class ="form-control" /></td>
+                                                    <td >
+                                                        <select class ="form-control">
+                                                            <option>SGD</option>
+                                                        </select>
+                                                        
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                            </table>
+                                        </div>*@
+                                        @*<div class="clearfix"></div>  *@
+                                        <br />
+                                        <div  style ="width:100%;background-color: whiteSmoke;padding: 20px 20px 20px;">
+			                                            <button type="submit" class="btn btn-primary" value="Save" >Save changes</button>                                                       
+			                                            <button type="reset" class="btn">Cancel</button>                                            
+                                                        <a type="reset" class="btn"  href="~/POS/ProductListing">Back to Product List</a> 
+                                        </div>                                              
+                                    </div>
+                                </div>
+                             @*</div>*@
+                        @*</div>*@
+                        
+
+@*				        <div class="tab-pane" id="promotion">
+					        <div class="box">
+						        <div class="box-header" data-original-title>
+							        <h2><i class="fa fa-dollar"></i><span class="break"></span>Product Entry</h2>
+							        <div class="box-icon">
+								        <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+								        <a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+								        <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+							        </div>
+						        </div>
+						        <div class="box-content">            
+                                    <div id ="divpromotion">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                    
+                    
+                    
+                    
+                    @*</div>*@
+            </div>
+        </div>
+	
+			            <div class="row" >	
+				            <div class="col-lg-12" >
+					            <div class="box">
+                                          
+							    <div class="col-sm-2">
+								    <a class="quick-button" href="~/POS/Redeem">
+									    <i class="fa fa-ticket"></i>
+									    <p>Redeem</p>
+								    </a>
+							    </div>
+
+							    <div class="col-sm-2">
+								    <a class="quick-button" href="~/POS/TopUp">
+									    <i class="fa fa-money"></i>
+									    <p>Top Up</p>
+								    </a>
+							    </div>
+
+							    <div class="col-sm-2">
+								    <a class="quick-button" href="~/POS/Customer/0?type=Customer">
+									    <i class="fa fa-user" ></i>
+									    <p>Create Member</p>
+								    </a>
+							    </div>
+                                   
+							    <div class="col-sm-2">
+								    <a class="quick-button" href="~/POS/DailySales">
+									    <i class="fa fa-bar-chart-o"></i>
+									    <p>Daily Sales Summary</p>
+								    </a>
+							    </div>                          
+
+@*							    <div class="col-sm-2">
+								    <a class="quick-button" href="~/POS/DailyRedemption">
+									    <i class="fa fa-bar-chart-o"></i>
+									    <p>Daily Redemption</p>
+								    </a>
+							    </div> *@  
+
+							    <div class="col-sm-2">
+								    <a class="quick-button" href="~/POS/MembershipEnquiry">
+									    <i class="fa fa-users"></i>
+									    <p>Membership Enquiry</p>
+								    </a>
+							    </div>   
+
+
+							    <div class="col-sm-2">
+								    <a class="quick-button" href="~/Home/Index">
+									    <i class="fa fa-home"></i>
+									    <p>Home</p>
+								    </a>
+							    </div> 
+    
+    </div><!--/col-->				
+</div><!--/row-->
+
+<script type ="text/javascript">
+    $('#cboUOM1').val("Each");
+    $('#cboUOM2').val("Carton");
+    $('#cboUOM3').val("Box");
+    $('#cboPUOM1').val("Each");
+    $('#cboPUOM2').val("Carton");
+    $('#cboPUOM3').val("Box");
+</script>

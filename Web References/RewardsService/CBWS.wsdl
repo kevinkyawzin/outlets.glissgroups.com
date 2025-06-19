@@ -1,0 +1,2276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/MMClub/Service" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/MMClub/Service" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/MMClub/Service">
+      <s:element name="Rewards_InsertSubmission">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nric" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="dateofbirth" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="receiptno" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="gender" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="amount" type="s:decimal" />
+            <s:element minOccurs="0" maxOccurs="1" name="branchcode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="createid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Rewards_InsertSubmissionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Rewards_InsertSubmissionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Rewards_Submission">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nric" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="dateofbirth" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="receiptno" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="gender" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="amount" type="s:decimal" />
+            <s:element minOccurs="0" maxOccurs="1" name="branchcode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="createid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Rewards_SubmissionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Rewards_SubmissionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Rewards_NewCustomer">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nric" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="dateofbirth" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="gender" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="branchcode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="createid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Rewards_NewCustomerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Rewards_NewCustomerResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Rewards_ReceiptExist">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="receiptno" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Rewards_ReceiptExistResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Rewards_ReceiptExistResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Rewards_GetDefaultProduct">
+        <s:complexType />
+      </s:element>
+      <s:element name="Rewards_GetDefaultProductResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Rewards_GetDefaultProductResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Rewards_GetInvoiceId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="resourcecode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Rewards_GetInvoiceIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Rewards_GetInvoiceIdResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Rewards_GetInvoiceItemId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="resourcecode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Rewards_GetInvoiceItemIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Rewards_GetInvoiceItemIdResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Rewards_GetBalance">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="intcussupid" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="redemptiontype" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Rewards_GetBalanceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Rewards_GetBalanceResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Report_AttendanceListTodayExist">
+        <s:complexType />
+      </s:element>
+      <s:element name="Report_AttendanceListTodayExistResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Report_AttendanceListTodayExistResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Customer_GetCustomerID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="inhousecode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Customer_GetCustomerIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Customer_GetCustomerIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Customer_NotExist">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="nric" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mobileno" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Customer_NotExistResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Customer_NotExistResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Customer_Exist">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="nric" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mobileno" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Customer_ExistResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Customer_ExistResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Customer_NRICExist">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="nric" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Customer_NRICExistResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Customer_NRICExistResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Customer_HPExist">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mobileno" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Customer_HPExistResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Customer_HPExistResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Customer_GetInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="nric" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mobileno" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Customer_GetInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Customer_GetInfoResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Rewards_GetPartnershipByBranchCode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="branchcode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Rewards_GetPartnershipByBranchCodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Rewards_GetPartnershipByBranchCodeResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Customer_GetMemberCardNo">
+        <s:complexType />
+      </s:element>
+      <s:element name="Customer_GetMemberCardNoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Customer_GetMemberCardNoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Customer_UpdateCardNo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cardno" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Customer_UpdateCardNoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Customer_UpdateCardNoResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Branch_GetDetailsByBranchCode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="branchcode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Branch_GetDetailsByBranchCodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Branch_GetDetailsByBranchCodeResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Common_GetGenerateNewID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tblname" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="colname" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="prekeyvalue" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="startnokeyvalue" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Common_GetGenerateNewIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Common_GetGenerateNewIDResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Common_GenerateReturn">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="status" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Common_GenerateReturnResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Common_GenerateReturnResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Common_GenerateReturnSubmit">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="status" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="refno" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="outlet" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="awardbonus" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="balance" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="smsdown" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Common_GenerateReturnSubmitResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Common_GenerateReturnSubmitResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Common_GetMessage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="messagecode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Common_GetMessageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Common_GetMessageResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Common_GetModalMessage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="messagecode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="textToBeReplaced" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Common_GetModalMessageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Common_GetModalMessageResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Common_SendSMS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="messagecode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="textToBeReplaced" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Common_SendSMSResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="Common_SendEmail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="messagecode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="toEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="textToBeReplaced" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Common_SendEmailResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+      <s:element name="boolean" type="s:boolean" />
+      <s:element name="DataSet" nillable="true">
+        <s:complexType>
+          <s:sequence>
+            <s:element ref="s:schema" />
+            <s:any />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="Rewards_InsertSubmissionSoapIn">
+    <wsdl:part name="parameters" element="tns:Rewards_InsertSubmission" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_InsertSubmissionSoapOut">
+    <wsdl:part name="parameters" element="tns:Rewards_InsertSubmissionResponse" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_SubmissionSoapIn">
+    <wsdl:part name="parameters" element="tns:Rewards_Submission" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_SubmissionSoapOut">
+    <wsdl:part name="parameters" element="tns:Rewards_SubmissionResponse" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_NewCustomerSoapIn">
+    <wsdl:part name="parameters" element="tns:Rewards_NewCustomer" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_NewCustomerSoapOut">
+    <wsdl:part name="parameters" element="tns:Rewards_NewCustomerResponse" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_ReceiptExistSoapIn">
+    <wsdl:part name="parameters" element="tns:Rewards_ReceiptExist" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_ReceiptExistSoapOut">
+    <wsdl:part name="parameters" element="tns:Rewards_ReceiptExistResponse" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetDefaultProductSoapIn">
+    <wsdl:part name="parameters" element="tns:Rewards_GetDefaultProduct" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetDefaultProductSoapOut">
+    <wsdl:part name="parameters" element="tns:Rewards_GetDefaultProductResponse" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetInvoiceIdSoapIn">
+    <wsdl:part name="parameters" element="tns:Rewards_GetInvoiceId" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetInvoiceIdSoapOut">
+    <wsdl:part name="parameters" element="tns:Rewards_GetInvoiceIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetInvoiceItemIdSoapIn">
+    <wsdl:part name="parameters" element="tns:Rewards_GetInvoiceItemId" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetInvoiceItemIdSoapOut">
+    <wsdl:part name="parameters" element="tns:Rewards_GetInvoiceItemIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetBalanceSoapIn">
+    <wsdl:part name="parameters" element="tns:Rewards_GetBalance" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetBalanceSoapOut">
+    <wsdl:part name="parameters" element="tns:Rewards_GetBalanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="Report_AttendanceListTodayExistSoapIn">
+    <wsdl:part name="parameters" element="tns:Report_AttendanceListTodayExist" />
+  </wsdl:message>
+  <wsdl:message name="Report_AttendanceListTodayExistSoapOut">
+    <wsdl:part name="parameters" element="tns:Report_AttendanceListTodayExistResponse" />
+  </wsdl:message>
+  <wsdl:message name="Customer_GetCustomerIDSoapIn">
+    <wsdl:part name="parameters" element="tns:Customer_GetCustomerID" />
+  </wsdl:message>
+  <wsdl:message name="Customer_GetCustomerIDSoapOut">
+    <wsdl:part name="parameters" element="tns:Customer_GetCustomerIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="Customer_NotExistSoapIn">
+    <wsdl:part name="parameters" element="tns:Customer_NotExist" />
+  </wsdl:message>
+  <wsdl:message name="Customer_NotExistSoapOut">
+    <wsdl:part name="parameters" element="tns:Customer_NotExistResponse" />
+  </wsdl:message>
+  <wsdl:message name="Customer_ExistSoapIn">
+    <wsdl:part name="parameters" element="tns:Customer_Exist" />
+  </wsdl:message>
+  <wsdl:message name="Customer_ExistSoapOut">
+    <wsdl:part name="parameters" element="tns:Customer_ExistResponse" />
+  </wsdl:message>
+  <wsdl:message name="Customer_NRICExistSoapIn">
+    <wsdl:part name="parameters" element="tns:Customer_NRICExist" />
+  </wsdl:message>
+  <wsdl:message name="Customer_NRICExistSoapOut">
+    <wsdl:part name="parameters" element="tns:Customer_NRICExistResponse" />
+  </wsdl:message>
+  <wsdl:message name="Customer_HPExistSoapIn">
+    <wsdl:part name="parameters" element="tns:Customer_HPExist" />
+  </wsdl:message>
+  <wsdl:message name="Customer_HPExistSoapOut">
+    <wsdl:part name="parameters" element="tns:Customer_HPExistResponse" />
+  </wsdl:message>
+  <wsdl:message name="Customer_GetInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:Customer_GetInfo" />
+  </wsdl:message>
+  <wsdl:message name="Customer_GetInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:Customer_GetInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetPartnershipByBranchCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:Rewards_GetPartnershipByBranchCode" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetPartnershipByBranchCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:Rewards_GetPartnershipByBranchCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="Customer_GetMemberCardNoSoapIn">
+    <wsdl:part name="parameters" element="tns:Customer_GetMemberCardNo" />
+  </wsdl:message>
+  <wsdl:message name="Customer_GetMemberCardNoSoapOut">
+    <wsdl:part name="parameters" element="tns:Customer_GetMemberCardNoResponse" />
+  </wsdl:message>
+  <wsdl:message name="Customer_UpdateCardNoSoapIn">
+    <wsdl:part name="parameters" element="tns:Customer_UpdateCardNo" />
+  </wsdl:message>
+  <wsdl:message name="Customer_UpdateCardNoSoapOut">
+    <wsdl:part name="parameters" element="tns:Customer_UpdateCardNoResponse" />
+  </wsdl:message>
+  <wsdl:message name="Branch_GetDetailsByBranchCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:Branch_GetDetailsByBranchCode" />
+  </wsdl:message>
+  <wsdl:message name="Branch_GetDetailsByBranchCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:Branch_GetDetailsByBranchCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="Common_GetGenerateNewIDSoapIn">
+    <wsdl:part name="parameters" element="tns:Common_GetGenerateNewID" />
+  </wsdl:message>
+  <wsdl:message name="Common_GetGenerateNewIDSoapOut">
+    <wsdl:part name="parameters" element="tns:Common_GetGenerateNewIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="Common_GenerateReturnSoapIn">
+    <wsdl:part name="parameters" element="tns:Common_GenerateReturn" />
+  </wsdl:message>
+  <wsdl:message name="Common_GenerateReturnSoapOut">
+    <wsdl:part name="parameters" element="tns:Common_GenerateReturnResponse" />
+  </wsdl:message>
+  <wsdl:message name="Common_GenerateReturnSubmitSoapIn">
+    <wsdl:part name="parameters" element="tns:Common_GenerateReturnSubmit" />
+  </wsdl:message>
+  <wsdl:message name="Common_GenerateReturnSubmitSoapOut">
+    <wsdl:part name="parameters" element="tns:Common_GenerateReturnSubmitResponse" />
+  </wsdl:message>
+  <wsdl:message name="Common_GetMessageSoapIn">
+    <wsdl:part name="parameters" element="tns:Common_GetMessage" />
+  </wsdl:message>
+  <wsdl:message name="Common_GetMessageSoapOut">
+    <wsdl:part name="parameters" element="tns:Common_GetMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="Common_GetModalMessageSoapIn">
+    <wsdl:part name="parameters" element="tns:Common_GetModalMessage" />
+  </wsdl:message>
+  <wsdl:message name="Common_GetModalMessageSoapOut">
+    <wsdl:part name="parameters" element="tns:Common_GetModalMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="Common_SendSMSSoapIn">
+    <wsdl:part name="parameters" element="tns:Common_SendSMS" />
+  </wsdl:message>
+  <wsdl:message name="Common_SendSMSSoapOut">
+    <wsdl:part name="parameters" element="tns:Common_SendSMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="Common_SendEmailSoapIn">
+    <wsdl:part name="parameters" element="tns:Common_SendEmail" />
+  </wsdl:message>
+  <wsdl:message name="Common_SendEmailSoapOut">
+    <wsdl:part name="parameters" element="tns:Common_SendEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_InsertSubmissionHttpGetIn">
+    <wsdl:part name="name" type="s:string" />
+    <wsdl:part name="mobile" type="s:string" />
+    <wsdl:part name="email" type="s:string" />
+    <wsdl:part name="nric" type="s:string" />
+    <wsdl:part name="dateofbirth" type="s:string" />
+    <wsdl:part name="receiptno" type="s:string" />
+    <wsdl:part name="gender" type="s:string" />
+    <wsdl:part name="amount" type="s:string" />
+    <wsdl:part name="branchcode" type="s:string" />
+    <wsdl:part name="createid" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_InsertSubmissionHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_SubmissionHttpGetIn">
+    <wsdl:part name="name" type="s:string" />
+    <wsdl:part name="mobile" type="s:string" />
+    <wsdl:part name="email" type="s:string" />
+    <wsdl:part name="nric" type="s:string" />
+    <wsdl:part name="dateofbirth" type="s:string" />
+    <wsdl:part name="receiptno" type="s:string" />
+    <wsdl:part name="gender" type="s:string" />
+    <wsdl:part name="amount" type="s:string" />
+    <wsdl:part name="branchcode" type="s:string" />
+    <wsdl:part name="createid" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_SubmissionHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_NewCustomerHttpGetIn">
+    <wsdl:part name="name" type="s:string" />
+    <wsdl:part name="mobile" type="s:string" />
+    <wsdl:part name="email" type="s:string" />
+    <wsdl:part name="nric" type="s:string" />
+    <wsdl:part name="dateofbirth" type="s:string" />
+    <wsdl:part name="gender" type="s:string" />
+    <wsdl:part name="branchcode" type="s:string" />
+    <wsdl:part name="createid" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_NewCustomerHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_ReceiptExistHttpGetIn">
+    <wsdl:part name="receiptno" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_ReceiptExistHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetDefaultProductHttpGetIn" />
+  <wsdl:message name="Rewards_GetDefaultProductHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetInvoiceIdHttpGetIn">
+    <wsdl:part name="resourcecode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetInvoiceIdHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetInvoiceItemIdHttpGetIn">
+    <wsdl:part name="resourcecode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetInvoiceItemIdHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetBalanceHttpGetIn">
+    <wsdl:part name="intcussupid" type="s:string" />
+    <wsdl:part name="redemptiontype" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetBalanceHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="Report_AttendanceListTodayExistHttpGetIn" />
+  <wsdl:message name="Report_AttendanceListTodayExistHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="Customer_GetCustomerIDHttpGetIn">
+    <wsdl:part name="inhousecode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_GetCustomerIDHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="Customer_NotExistHttpGetIn">
+    <wsdl:part name="nric" type="s:string" />
+    <wsdl:part name="mobileno" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_NotExistHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_ExistHttpGetIn">
+    <wsdl:part name="nric" type="s:string" />
+    <wsdl:part name="mobileno" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_ExistHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_NRICExistHttpGetIn">
+    <wsdl:part name="nric" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_NRICExistHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_HPExistHttpGetIn">
+    <wsdl:part name="mobileno" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_HPExistHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_GetInfoHttpGetIn">
+    <wsdl:part name="nric" type="s:string" />
+    <wsdl:part name="mobileno" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_GetInfoHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetPartnershipByBranchCodeHttpGetIn">
+    <wsdl:part name="branchcode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetPartnershipByBranchCodeHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="Customer_GetMemberCardNoHttpGetIn" />
+  <wsdl:message name="Customer_GetMemberCardNoHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_UpdateCardNoHttpGetIn">
+    <wsdl:part name="cardno" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_UpdateCardNoHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="Branch_GetDetailsByBranchCodeHttpGetIn">
+    <wsdl:part name="branchcode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Branch_GetDetailsByBranchCodeHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="Common_GetGenerateNewIDHttpGetIn">
+    <wsdl:part name="tblname" type="s:string" />
+    <wsdl:part name="colname" type="s:string" />
+    <wsdl:part name="prekeyvalue" type="s:string" />
+    <wsdl:part name="startnokeyvalue" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Common_GetGenerateNewIDHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Common_GenerateReturnHttpGetIn">
+    <wsdl:part name="status" type="s:string" />
+    <wsdl:part name="message" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Common_GenerateReturnHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Common_GenerateReturnSubmitHttpGetIn">
+    <wsdl:part name="status" type="s:string" />
+    <wsdl:part name="message" type="s:string" />
+    <wsdl:part name="refno" type="s:string" />
+    <wsdl:part name="outlet" type="s:string" />
+    <wsdl:part name="awardbonus" type="s:string" />
+    <wsdl:part name="balance" type="s:string" />
+    <wsdl:part name="smsdown" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Common_GenerateReturnSubmitHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Common_GetMessageHttpGetIn">
+    <wsdl:part name="messagecode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Common_GetMessageHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="Common_GetModalMessageHttpGetIn">
+    <wsdl:part name="messagecode" type="s:string" />
+    <wsdl:part name="textToBeReplaced" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Common_GetModalMessageHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Common_SendSMSHttpGetIn">
+    <wsdl:part name="messagecode" type="s:string" />
+    <wsdl:part name="mobile" type="s:string" />
+    <wsdl:part name="textToBeReplaced" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Common_SendSMSHttpGetOut" />
+  <wsdl:message name="Common_SendEmailHttpGetIn">
+    <wsdl:part name="messagecode" type="s:string" />
+    <wsdl:part name="toEmail" type="s:string" />
+    <wsdl:part name="textToBeReplaced" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Common_SendEmailHttpGetOut" />
+  <wsdl:message name="Rewards_InsertSubmissionHttpPostIn">
+    <wsdl:part name="name" type="s:string" />
+    <wsdl:part name="mobile" type="s:string" />
+    <wsdl:part name="email" type="s:string" />
+    <wsdl:part name="nric" type="s:string" />
+    <wsdl:part name="dateofbirth" type="s:string" />
+    <wsdl:part name="receiptno" type="s:string" />
+    <wsdl:part name="gender" type="s:string" />
+    <wsdl:part name="amount" type="s:string" />
+    <wsdl:part name="branchcode" type="s:string" />
+    <wsdl:part name="createid" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_InsertSubmissionHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_SubmissionHttpPostIn">
+    <wsdl:part name="name" type="s:string" />
+    <wsdl:part name="mobile" type="s:string" />
+    <wsdl:part name="email" type="s:string" />
+    <wsdl:part name="nric" type="s:string" />
+    <wsdl:part name="dateofbirth" type="s:string" />
+    <wsdl:part name="receiptno" type="s:string" />
+    <wsdl:part name="gender" type="s:string" />
+    <wsdl:part name="amount" type="s:string" />
+    <wsdl:part name="branchcode" type="s:string" />
+    <wsdl:part name="createid" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_SubmissionHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_NewCustomerHttpPostIn">
+    <wsdl:part name="name" type="s:string" />
+    <wsdl:part name="mobile" type="s:string" />
+    <wsdl:part name="email" type="s:string" />
+    <wsdl:part name="nric" type="s:string" />
+    <wsdl:part name="dateofbirth" type="s:string" />
+    <wsdl:part name="gender" type="s:string" />
+    <wsdl:part name="branchcode" type="s:string" />
+    <wsdl:part name="createid" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_NewCustomerHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_ReceiptExistHttpPostIn">
+    <wsdl:part name="receiptno" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_ReceiptExistHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetDefaultProductHttpPostIn" />
+  <wsdl:message name="Rewards_GetDefaultProductHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetInvoiceIdHttpPostIn">
+    <wsdl:part name="resourcecode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetInvoiceIdHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetInvoiceItemIdHttpPostIn">
+    <wsdl:part name="resourcecode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetInvoiceItemIdHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetBalanceHttpPostIn">
+    <wsdl:part name="intcussupid" type="s:string" />
+    <wsdl:part name="redemptiontype" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetBalanceHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="Report_AttendanceListTodayExistHttpPostIn" />
+  <wsdl:message name="Report_AttendanceListTodayExistHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="Customer_GetCustomerIDHttpPostIn">
+    <wsdl:part name="inhousecode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_GetCustomerIDHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="Customer_NotExistHttpPostIn">
+    <wsdl:part name="nric" type="s:string" />
+    <wsdl:part name="mobileno" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_NotExistHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_ExistHttpPostIn">
+    <wsdl:part name="nric" type="s:string" />
+    <wsdl:part name="mobileno" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_ExistHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_NRICExistHttpPostIn">
+    <wsdl:part name="nric" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_NRICExistHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_HPExistHttpPostIn">
+    <wsdl:part name="mobileno" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_HPExistHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_GetInfoHttpPostIn">
+    <wsdl:part name="nric" type="s:string" />
+    <wsdl:part name="mobileno" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_GetInfoHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetPartnershipByBranchCodeHttpPostIn">
+    <wsdl:part name="branchcode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Rewards_GetPartnershipByBranchCodeHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="Customer_GetMemberCardNoHttpPostIn" />
+  <wsdl:message name="Customer_GetMemberCardNoHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_UpdateCardNoHttpPostIn">
+    <wsdl:part name="cardno" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Customer_UpdateCardNoHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="Branch_GetDetailsByBranchCodeHttpPostIn">
+    <wsdl:part name="branchcode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Branch_GetDetailsByBranchCodeHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="Common_GetGenerateNewIDHttpPostIn">
+    <wsdl:part name="tblname" type="s:string" />
+    <wsdl:part name="colname" type="s:string" />
+    <wsdl:part name="prekeyvalue" type="s:string" />
+    <wsdl:part name="startnokeyvalue" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Common_GetGenerateNewIDHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Common_GenerateReturnHttpPostIn">
+    <wsdl:part name="status" type="s:string" />
+    <wsdl:part name="message" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Common_GenerateReturnHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Common_GenerateReturnSubmitHttpPostIn">
+    <wsdl:part name="status" type="s:string" />
+    <wsdl:part name="message" type="s:string" />
+    <wsdl:part name="refno" type="s:string" />
+    <wsdl:part name="outlet" type="s:string" />
+    <wsdl:part name="awardbonus" type="s:string" />
+    <wsdl:part name="balance" type="s:string" />
+    <wsdl:part name="smsdown" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Common_GenerateReturnSubmitHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Common_GetMessageHttpPostIn">
+    <wsdl:part name="messagecode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Common_GetMessageHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="Common_GetModalMessageHttpPostIn">
+    <wsdl:part name="messagecode" type="s:string" />
+    <wsdl:part name="textToBeReplaced" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Common_GetModalMessageHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="Common_SendSMSHttpPostIn">
+    <wsdl:part name="messagecode" type="s:string" />
+    <wsdl:part name="mobile" type="s:string" />
+    <wsdl:part name="textToBeReplaced" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Common_SendSMSHttpPostOut" />
+  <wsdl:message name="Common_SendEmailHttpPostIn">
+    <wsdl:part name="messagecode" type="s:string" />
+    <wsdl:part name="toEmail" type="s:string" />
+    <wsdl:part name="textToBeReplaced" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Common_SendEmailHttpPostOut" />
+  <wsdl:portType name="QWSSoap">
+    <wsdl:operation name="Rewards_InsertSubmission">
+      <wsdl:input message="tns:Rewards_InsertSubmissionSoapIn" />
+      <wsdl:output message="tns:Rewards_InsertSubmissionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_Submission">
+      <wsdl:input message="tns:Rewards_SubmissionSoapIn" />
+      <wsdl:output message="tns:Rewards_SubmissionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_NewCustomer">
+      <wsdl:input message="tns:Rewards_NewCustomerSoapIn" />
+      <wsdl:output message="tns:Rewards_NewCustomerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_ReceiptExist">
+      <wsdl:input message="tns:Rewards_ReceiptExistSoapIn" />
+      <wsdl:output message="tns:Rewards_ReceiptExistSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetDefaultProduct">
+      <wsdl:input message="tns:Rewards_GetDefaultProductSoapIn" />
+      <wsdl:output message="tns:Rewards_GetDefaultProductSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetInvoiceId">
+      <wsdl:input message="tns:Rewards_GetInvoiceIdSoapIn" />
+      <wsdl:output message="tns:Rewards_GetInvoiceIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetInvoiceItemId">
+      <wsdl:input message="tns:Rewards_GetInvoiceItemIdSoapIn" />
+      <wsdl:output message="tns:Rewards_GetInvoiceItemIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetBalance">
+      <wsdl:input message="tns:Rewards_GetBalanceSoapIn" />
+      <wsdl:output message="tns:Rewards_GetBalanceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Report_AttendanceListTodayExist">
+      <wsdl:input message="tns:Report_AttendanceListTodayExistSoapIn" />
+      <wsdl:output message="tns:Report_AttendanceListTodayExistSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_GetCustomerID">
+      <wsdl:input message="tns:Customer_GetCustomerIDSoapIn" />
+      <wsdl:output message="tns:Customer_GetCustomerIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_NotExist">
+      <wsdl:input message="tns:Customer_NotExistSoapIn" />
+      <wsdl:output message="tns:Customer_NotExistSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_Exist">
+      <wsdl:input message="tns:Customer_ExistSoapIn" />
+      <wsdl:output message="tns:Customer_ExistSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_NRICExist">
+      <wsdl:input message="tns:Customer_NRICExistSoapIn" />
+      <wsdl:output message="tns:Customer_NRICExistSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_HPExist">
+      <wsdl:input message="tns:Customer_HPExistSoapIn" />
+      <wsdl:output message="tns:Customer_HPExistSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_GetInfo">
+      <wsdl:input message="tns:Customer_GetInfoSoapIn" />
+      <wsdl:output message="tns:Customer_GetInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetPartnershipByBranchCode">
+      <wsdl:input message="tns:Rewards_GetPartnershipByBranchCodeSoapIn" />
+      <wsdl:output message="tns:Rewards_GetPartnershipByBranchCodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_GetMemberCardNo">
+      <wsdl:input message="tns:Customer_GetMemberCardNoSoapIn" />
+      <wsdl:output message="tns:Customer_GetMemberCardNoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_UpdateCardNo">
+      <wsdl:input message="tns:Customer_UpdateCardNoSoapIn" />
+      <wsdl:output message="tns:Customer_UpdateCardNoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Branch_GetDetailsByBranchCode">
+      <wsdl:input message="tns:Branch_GetDetailsByBranchCodeSoapIn" />
+      <wsdl:output message="tns:Branch_GetDetailsByBranchCodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Common_GetGenerateNewID">
+      <wsdl:input message="tns:Common_GetGenerateNewIDSoapIn" />
+      <wsdl:output message="tns:Common_GetGenerateNewIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Common_GenerateReturn">
+      <wsdl:input message="tns:Common_GenerateReturnSoapIn" />
+      <wsdl:output message="tns:Common_GenerateReturnSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Common_GenerateReturnSubmit">
+      <wsdl:input message="tns:Common_GenerateReturnSubmitSoapIn" />
+      <wsdl:output message="tns:Common_GenerateReturnSubmitSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Common_GetMessage">
+      <wsdl:input message="tns:Common_GetMessageSoapIn" />
+      <wsdl:output message="tns:Common_GetMessageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Common_GetModalMessage">
+      <wsdl:input message="tns:Common_GetModalMessageSoapIn" />
+      <wsdl:output message="tns:Common_GetModalMessageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Common_SendSMS">
+      <wsdl:input message="tns:Common_SendSMSSoapIn" />
+      <wsdl:output message="tns:Common_SendSMSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Common_SendEmail">
+      <wsdl:input message="tns:Common_SendEmailSoapIn" />
+      <wsdl:output message="tns:Common_SendEmailSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="QWSHttpGet">
+    <wsdl:operation name="Rewards_InsertSubmission">
+      <wsdl:input message="tns:Rewards_InsertSubmissionHttpGetIn" />
+      <wsdl:output message="tns:Rewards_InsertSubmissionHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_Submission">
+      <wsdl:input message="tns:Rewards_SubmissionHttpGetIn" />
+      <wsdl:output message="tns:Rewards_SubmissionHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_NewCustomer">
+      <wsdl:input message="tns:Rewards_NewCustomerHttpGetIn" />
+      <wsdl:output message="tns:Rewards_NewCustomerHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_ReceiptExist">
+      <wsdl:input message="tns:Rewards_ReceiptExistHttpGetIn" />
+      <wsdl:output message="tns:Rewards_ReceiptExistHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetDefaultProduct">
+      <wsdl:input message="tns:Rewards_GetDefaultProductHttpGetIn" />
+      <wsdl:output message="tns:Rewards_GetDefaultProductHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetInvoiceId">
+      <wsdl:input message="tns:Rewards_GetInvoiceIdHttpGetIn" />
+      <wsdl:output message="tns:Rewards_GetInvoiceIdHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetInvoiceItemId">
+      <wsdl:input message="tns:Rewards_GetInvoiceItemIdHttpGetIn" />
+      <wsdl:output message="tns:Rewards_GetInvoiceItemIdHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetBalance">
+      <wsdl:input message="tns:Rewards_GetBalanceHttpGetIn" />
+      <wsdl:output message="tns:Rewards_GetBalanceHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Report_AttendanceListTodayExist">
+      <wsdl:input message="tns:Report_AttendanceListTodayExistHttpGetIn" />
+      <wsdl:output message="tns:Report_AttendanceListTodayExistHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_GetCustomerID">
+      <wsdl:input message="tns:Customer_GetCustomerIDHttpGetIn" />
+      <wsdl:output message="tns:Customer_GetCustomerIDHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_NotExist">
+      <wsdl:input message="tns:Customer_NotExistHttpGetIn" />
+      <wsdl:output message="tns:Customer_NotExistHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_Exist">
+      <wsdl:input message="tns:Customer_ExistHttpGetIn" />
+      <wsdl:output message="tns:Customer_ExistHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_NRICExist">
+      <wsdl:input message="tns:Customer_NRICExistHttpGetIn" />
+      <wsdl:output message="tns:Customer_NRICExistHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_HPExist">
+      <wsdl:input message="tns:Customer_HPExistHttpGetIn" />
+      <wsdl:output message="tns:Customer_HPExistHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_GetInfo">
+      <wsdl:input message="tns:Customer_GetInfoHttpGetIn" />
+      <wsdl:output message="tns:Customer_GetInfoHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetPartnershipByBranchCode">
+      <wsdl:input message="tns:Rewards_GetPartnershipByBranchCodeHttpGetIn" />
+      <wsdl:output message="tns:Rewards_GetPartnershipByBranchCodeHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_GetMemberCardNo">
+      <wsdl:input message="tns:Customer_GetMemberCardNoHttpGetIn" />
+      <wsdl:output message="tns:Customer_GetMemberCardNoHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_UpdateCardNo">
+      <wsdl:input message="tns:Customer_UpdateCardNoHttpGetIn" />
+      <wsdl:output message="tns:Customer_UpdateCardNoHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Branch_GetDetailsByBranchCode">
+      <wsdl:input message="tns:Branch_GetDetailsByBranchCodeHttpGetIn" />
+      <wsdl:output message="tns:Branch_GetDetailsByBranchCodeHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Common_GetGenerateNewID">
+      <wsdl:input message="tns:Common_GetGenerateNewIDHttpGetIn" />
+      <wsdl:output message="tns:Common_GetGenerateNewIDHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Common_GenerateReturn">
+      <wsdl:input message="tns:Common_GenerateReturnHttpGetIn" />
+      <wsdl:output message="tns:Common_GenerateReturnHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Common_GenerateReturnSubmit">
+      <wsdl:input message="tns:Common_GenerateReturnSubmitHttpGetIn" />
+      <wsdl:output message="tns:Common_GenerateReturnSubmitHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Common_GetMessage">
+      <wsdl:input message="tns:Common_GetMessageHttpGetIn" />
+      <wsdl:output message="tns:Common_GetMessageHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Common_GetModalMessage">
+      <wsdl:input message="tns:Common_GetModalMessageHttpGetIn" />
+      <wsdl:output message="tns:Common_GetModalMessageHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Common_SendSMS">
+      <wsdl:input message="tns:Common_SendSMSHttpGetIn" />
+      <wsdl:output message="tns:Common_SendSMSHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Common_SendEmail">
+      <wsdl:input message="tns:Common_SendEmailHttpGetIn" />
+      <wsdl:output message="tns:Common_SendEmailHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="QWSHttpPost">
+    <wsdl:operation name="Rewards_InsertSubmission">
+      <wsdl:input message="tns:Rewards_InsertSubmissionHttpPostIn" />
+      <wsdl:output message="tns:Rewards_InsertSubmissionHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_Submission">
+      <wsdl:input message="tns:Rewards_SubmissionHttpPostIn" />
+      <wsdl:output message="tns:Rewards_SubmissionHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_NewCustomer">
+      <wsdl:input message="tns:Rewards_NewCustomerHttpPostIn" />
+      <wsdl:output message="tns:Rewards_NewCustomerHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_ReceiptExist">
+      <wsdl:input message="tns:Rewards_ReceiptExistHttpPostIn" />
+      <wsdl:output message="tns:Rewards_ReceiptExistHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetDefaultProduct">
+      <wsdl:input message="tns:Rewards_GetDefaultProductHttpPostIn" />
+      <wsdl:output message="tns:Rewards_GetDefaultProductHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetInvoiceId">
+      <wsdl:input message="tns:Rewards_GetInvoiceIdHttpPostIn" />
+      <wsdl:output message="tns:Rewards_GetInvoiceIdHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetInvoiceItemId">
+      <wsdl:input message="tns:Rewards_GetInvoiceItemIdHttpPostIn" />
+      <wsdl:output message="tns:Rewards_GetInvoiceItemIdHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetBalance">
+      <wsdl:input message="tns:Rewards_GetBalanceHttpPostIn" />
+      <wsdl:output message="tns:Rewards_GetBalanceHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Report_AttendanceListTodayExist">
+      <wsdl:input message="tns:Report_AttendanceListTodayExistHttpPostIn" />
+      <wsdl:output message="tns:Report_AttendanceListTodayExistHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_GetCustomerID">
+      <wsdl:input message="tns:Customer_GetCustomerIDHttpPostIn" />
+      <wsdl:output message="tns:Customer_GetCustomerIDHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_NotExist">
+      <wsdl:input message="tns:Customer_NotExistHttpPostIn" />
+      <wsdl:output message="tns:Customer_NotExistHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_Exist">
+      <wsdl:input message="tns:Customer_ExistHttpPostIn" />
+      <wsdl:output message="tns:Customer_ExistHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_NRICExist">
+      <wsdl:input message="tns:Customer_NRICExistHttpPostIn" />
+      <wsdl:output message="tns:Customer_NRICExistHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_HPExist">
+      <wsdl:input message="tns:Customer_HPExistHttpPostIn" />
+      <wsdl:output message="tns:Customer_HPExistHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_GetInfo">
+      <wsdl:input message="tns:Customer_GetInfoHttpPostIn" />
+      <wsdl:output message="tns:Customer_GetInfoHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetPartnershipByBranchCode">
+      <wsdl:input message="tns:Rewards_GetPartnershipByBranchCodeHttpPostIn" />
+      <wsdl:output message="tns:Rewards_GetPartnershipByBranchCodeHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_GetMemberCardNo">
+      <wsdl:input message="tns:Customer_GetMemberCardNoHttpPostIn" />
+      <wsdl:output message="tns:Customer_GetMemberCardNoHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Customer_UpdateCardNo">
+      <wsdl:input message="tns:Customer_UpdateCardNoHttpPostIn" />
+      <wsdl:output message="tns:Customer_UpdateCardNoHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Branch_GetDetailsByBranchCode">
+      <wsdl:input message="tns:Branch_GetDetailsByBranchCodeHttpPostIn" />
+      <wsdl:output message="tns:Branch_GetDetailsByBranchCodeHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Common_GetGenerateNewID">
+      <wsdl:input message="tns:Common_GetGenerateNewIDHttpPostIn" />
+      <wsdl:output message="tns:Common_GetGenerateNewIDHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Common_GenerateReturn">
+      <wsdl:input message="tns:Common_GenerateReturnHttpPostIn" />
+      <wsdl:output message="tns:Common_GenerateReturnHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Common_GenerateReturnSubmit">
+      <wsdl:input message="tns:Common_GenerateReturnSubmitHttpPostIn" />
+      <wsdl:output message="tns:Common_GenerateReturnSubmitHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Common_GetMessage">
+      <wsdl:input message="tns:Common_GetMessageHttpPostIn" />
+      <wsdl:output message="tns:Common_GetMessageHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Common_GetModalMessage">
+      <wsdl:input message="tns:Common_GetModalMessageHttpPostIn" />
+      <wsdl:output message="tns:Common_GetModalMessageHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Common_SendSMS">
+      <wsdl:input message="tns:Common_SendSMSHttpPostIn" />
+      <wsdl:output message="tns:Common_SendSMSHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Common_SendEmail">
+      <wsdl:input message="tns:Common_SendEmailHttpPostIn" />
+      <wsdl:output message="tns:Common_SendEmailHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="QWSSoap" type="tns:QWSSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Rewards_InsertSubmission">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Rewards_InsertSubmission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_Submission">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Rewards_Submission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_NewCustomer">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Rewards_NewCustomer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_ReceiptExist">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Rewards_ReceiptExist" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetDefaultProduct">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Rewards_GetDefaultProduct" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetInvoiceId">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Rewards_GetInvoiceId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetInvoiceItemId">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Rewards_GetInvoiceItemId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetBalance">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Rewards_GetBalance" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Report_AttendanceListTodayExist">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Report_AttendanceListTodayExist" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_GetCustomerID">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Customer_GetCustomerID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_NotExist">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Customer_NotExist" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_Exist">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Customer_Exist" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_NRICExist">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Customer_NRICExist" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_HPExist">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Customer_HPExist" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_GetInfo">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Customer_GetInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetPartnershipByBranchCode">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Rewards_GetPartnershipByBranchCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_GetMemberCardNo">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Customer_GetMemberCardNo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_UpdateCardNo">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Customer_UpdateCardNo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Branch_GetDetailsByBranchCode">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Branch_GetDetailsByBranchCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_GetGenerateNewID">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Common_GetGenerateNewID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_GenerateReturn">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Common_GenerateReturn" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_GenerateReturnSubmit">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Common_GenerateReturnSubmit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_GetMessage">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Common_GetMessage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_GetModalMessage">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Common_GetModalMessage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_SendSMS">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Common_SendSMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_SendEmail">
+      <soap:operation soapAction="http://tempuri.org/MMClub/Service/Common_SendEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="QWSSoap12" type="tns:QWSSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Rewards_InsertSubmission">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Rewards_InsertSubmission" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_Submission">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Rewards_Submission" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_NewCustomer">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Rewards_NewCustomer" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_ReceiptExist">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Rewards_ReceiptExist" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetDefaultProduct">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Rewards_GetDefaultProduct" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetInvoiceId">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Rewards_GetInvoiceId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetInvoiceItemId">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Rewards_GetInvoiceItemId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetBalance">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Rewards_GetBalance" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Report_AttendanceListTodayExist">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Report_AttendanceListTodayExist" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_GetCustomerID">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Customer_GetCustomerID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_NotExist">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Customer_NotExist" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_Exist">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Customer_Exist" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_NRICExist">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Customer_NRICExist" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_HPExist">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Customer_HPExist" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_GetInfo">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Customer_GetInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetPartnershipByBranchCode">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Rewards_GetPartnershipByBranchCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_GetMemberCardNo">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Customer_GetMemberCardNo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_UpdateCardNo">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Customer_UpdateCardNo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Branch_GetDetailsByBranchCode">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Branch_GetDetailsByBranchCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_GetGenerateNewID">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Common_GetGenerateNewID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_GenerateReturn">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Common_GenerateReturn" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_GenerateReturnSubmit">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Common_GenerateReturnSubmit" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_GetMessage">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Common_GetMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_GetModalMessage">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Common_GetModalMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_SendSMS">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Common_SendSMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_SendEmail">
+      <soap12:operation soapAction="http://tempuri.org/MMClub/Service/Common_SendEmail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="QWSHttpGet" type="tns:QWSHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="Rewards_InsertSubmission">
+      <http:operation location="/Rewards_InsertSubmission" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_Submission">
+      <http:operation location="/Rewards_Submission" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_NewCustomer">
+      <http:operation location="/Rewards_NewCustomer" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_ReceiptExist">
+      <http:operation location="/Rewards_ReceiptExist" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetDefaultProduct">
+      <http:operation location="/Rewards_GetDefaultProduct" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetInvoiceId">
+      <http:operation location="/Rewards_GetInvoiceId" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetInvoiceItemId">
+      <http:operation location="/Rewards_GetInvoiceItemId" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetBalance">
+      <http:operation location="/Rewards_GetBalance" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Report_AttendanceListTodayExist">
+      <http:operation location="/Report_AttendanceListTodayExist" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_GetCustomerID">
+      <http:operation location="/Customer_GetCustomerID" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_NotExist">
+      <http:operation location="/Customer_NotExist" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_Exist">
+      <http:operation location="/Customer_Exist" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_NRICExist">
+      <http:operation location="/Customer_NRICExist" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_HPExist">
+      <http:operation location="/Customer_HPExist" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_GetInfo">
+      <http:operation location="/Customer_GetInfo" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetPartnershipByBranchCode">
+      <http:operation location="/Rewards_GetPartnershipByBranchCode" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_GetMemberCardNo">
+      <http:operation location="/Customer_GetMemberCardNo" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_UpdateCardNo">
+      <http:operation location="/Customer_UpdateCardNo" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Branch_GetDetailsByBranchCode">
+      <http:operation location="/Branch_GetDetailsByBranchCode" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_GetGenerateNewID">
+      <http:operation location="/Common_GetGenerateNewID" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_GenerateReturn">
+      <http:operation location="/Common_GenerateReturn" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_GenerateReturnSubmit">
+      <http:operation location="/Common_GenerateReturnSubmit" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_GetMessage">
+      <http:operation location="/Common_GetMessage" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_GetModalMessage">
+      <http:operation location="/Common_GetModalMessage" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_SendSMS">
+      <http:operation location="/Common_SendSMS" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output />
+    </wsdl:operation>
+    <wsdl:operation name="Common_SendEmail">
+      <http:operation location="/Common_SendEmail" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output />
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="QWSHttpPost" type="tns:QWSHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="Rewards_InsertSubmission">
+      <http:operation location="/Rewards_InsertSubmission" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_Submission">
+      <http:operation location="/Rewards_Submission" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_NewCustomer">
+      <http:operation location="/Rewards_NewCustomer" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_ReceiptExist">
+      <http:operation location="/Rewards_ReceiptExist" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetDefaultProduct">
+      <http:operation location="/Rewards_GetDefaultProduct" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetInvoiceId">
+      <http:operation location="/Rewards_GetInvoiceId" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetInvoiceItemId">
+      <http:operation location="/Rewards_GetInvoiceItemId" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetBalance">
+      <http:operation location="/Rewards_GetBalance" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Report_AttendanceListTodayExist">
+      <http:operation location="/Report_AttendanceListTodayExist" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_GetCustomerID">
+      <http:operation location="/Customer_GetCustomerID" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_NotExist">
+      <http:operation location="/Customer_NotExist" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_Exist">
+      <http:operation location="/Customer_Exist" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_NRICExist">
+      <http:operation location="/Customer_NRICExist" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_HPExist">
+      <http:operation location="/Customer_HPExist" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_GetInfo">
+      <http:operation location="/Customer_GetInfo" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rewards_GetPartnershipByBranchCode">
+      <http:operation location="/Rewards_GetPartnershipByBranchCode" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_GetMemberCardNo">
+      <http:operation location="/Customer_GetMemberCardNo" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Customer_UpdateCardNo">
+      <http:operation location="/Customer_UpdateCardNo" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Branch_GetDetailsByBranchCode">
+      <http:operation location="/Branch_GetDetailsByBranchCode" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_GetGenerateNewID">
+      <http:operation location="/Common_GetGenerateNewID" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_GenerateReturn">
+      <http:operation location="/Common_GenerateReturn" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_GenerateReturnSubmit">
+      <http:operation location="/Common_GenerateReturnSubmit" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_GetMessage">
+      <http:operation location="/Common_GetMessage" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_GetModalMessage">
+      <http:operation location="/Common_GetModalMessage" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Common_SendSMS">
+      <http:operation location="/Common_SendSMS" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output />
+    </wsdl:operation>
+    <wsdl:operation name="Common_SendEmail">
+      <http:operation location="/Common_SendEmail" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output />
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="QWS">
+    <wsdl:port name="QWSSoap" binding="tns:QWSSoap">
+      <soap:address location="http://webservice.citiwarrior.com/CBWS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="QWSSoap12" binding="tns:QWSSoap12">
+      <soap12:address location="http://webservice.citiwarrior.com/CBWS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="QWSHttpGet" binding="tns:QWSHttpGet">
+      <http:address location="http://webservice.citiwarrior.com/CBWS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="QWSHttpPost" binding="tns:QWSHttpPost">
+      <http:address location="http://webservice.citiwarrior.com/CBWS.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

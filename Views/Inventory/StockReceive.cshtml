@@ -1,0 +1,922 @@
+﻿@using BigMac
+@model BigMac.Models.Stock_m_StockReceived
+
+@{
+    ViewBag.Title = "StockReceive";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="box">
+            <input type="hidden" value="@ViewBag.Rcode" id="rcode" />
+            <input type="hidden" value="@ViewBag.Acode" id="acode" />
+            <input type="hidden" value="@ViewBag.BranchCode" id="hidbcode" />
+            <input type="hidden" value="@Model.id" id="srid" />
+            <input type="hidden" value="@Model.post" id="post" />
+            <input type="hidden" value="@Model.status" id="status" />
+            <input type="hidden" value="@ViewBag.productlist" id="productlist" />
+
+            <div class="box-header" data-original-title>
+                <h2><i class="fa fa-list-alt"></i><span class="break"></span>Stock Received Listing</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+                    <a href="#" class="btn-minimize"><i class="fa fa-chev1on-up"></i></a>
+                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                <div id="divMember">
+                    <form class="smart-form">
+                        <fieldset>
+                            <div class="col-sm-12" style="padding-left:0px;padding-right:0;width:100%;height:100px;">
+                                <div class="col-lg-5">
+                                    <div class="row" style="text-align:right;font-weight:bold;padding-right:40px;padding-bottom:5px;color:blueviolet;">
+                                        <span id="txtstaffname">@ViewBag.UserName</span>
+                                    </div>
+                                    <table style="width:100%;border-spacing:5px;border-collapse:separate;padding-left:10px;">
+                                        <tr>
+                                            <td style="text-align:left;"><label class="control-label">Branch</label></td>
+                                            <td style="text-align:left;">
+                                                @Html.DropDownListFor(model => model.branchcode, new SelectList(@ViewBag.BranchOptions, "branchcode", "branchcode"), new { @class = "form-control" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:left;"><label class="control-label">Stock Received No</label></td>
+                                            <td>@Html.TextBoxFor(model => model.resourcecode, new { @class = "form-control disabled", @disabled = "" })</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:left;"><label class="control-label">Supplier</label></td>
+                                            <td>
+                                                @Html.DropDownListFor(model => model.cussupid, new SelectList(@ViewBag.SupplierOptions, "id", "cussupname"), new { @class = "form-control" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:left;"><label class="control-label">Resource Date</label></td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.resourcedate, string.Format("{0:d}", Model.resourcedate), new { @class = "form-control date-picker", @data_date_format = "dd/mm/yyyy" })
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-5">
+                                    <table style="width:100%;border-spacing:5px;border-collapse:separate;">
+                                        <tr>
+                                            <td style="text-align:left;"><label class="control-label">Reason</label></td>
+                                            <td><label class="textarea" style="width:100%;">@Html.TextAreaFor(model => model.remark, new { @class = "form-control", @rows = "3" })</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:left;"><label class="control-label">Supplier Ref No</label></td>
+                                            <td><label class="input" style="width:100%;">@Html.TextBoxFor(model => model.suprefno, new { @class = "form-control" })</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:left;"><label class="control-label">Ref No</label></td>
+                                            <td><label class="input" style="width:100%;">@Html.TextBoxFor(model => model.refno, new { @class = "form-control" })</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:left;"><label class="control-label">Status</label></td>
+                                            <td><label class="input" style="width:100%;">@Html.TextBoxFor(model => model.status, new { @class = "form-control", disabled="disabled" })</label></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-7" style="padding-top: 10px;">
+                                     <div class="col-lg-12">
+                                        <table class='table table-striped table-bordered' id='tblStockReceived'>
+                                            <thead>
+                                                <tr>
+                                                    <th style='Display:none;'>id</th>
+                                                    <th style='Display:none;'>pid</th>
+                                                    <th style='width:30px;'>Sr.</th>
+                                                    <th style='Display:none;'>pcode</th>
+                                                    <th style='width:180px;'>Description</th>
+                                                    <th style='width:30px;'>Qty</th>
+                                                    <th style='width:50px;'>UOM</th>
+                                                    <th style='width:80px;'>Sell Price</th>
+                                                    <th style='width:80px;display:none;'>Amount</th>
+                                                    <th style="width:20px;"></th>
+                                                    <th style="width:20px;"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                     </div>
+                                </div> 
+                                <div class="col-lg-5">
+                                     <div class="box">
+                                         <div class="box-header">
+                                             <i class="fa fa-edit"></i>&nbsp;Item Entry
+                                         </div>
+                                         <div class="box-content">
+                                             <div class="col-sm-12">
+                                                 <div class="col-lg-7">
+                                                     <div class="form-group">
+                                                         <label class="control-label">Product Code / Description</label>
+                                                         <div class="controls" style="padding-right:10px;"><input type='text' class='form-control' id="txtProduct" placeholder="Enter Product Name/Code" /></div>
+                                                     </div>
+                                                 </div>
+                                                 <div class="col-lg-2">
+                                                     <div class="form-group" style="padding-right: 10px;">
+                                                         <label class="control-label">Qty</label>
+                                                         <div class="controls"><input type='text' class='form-control' style="text-align:right" id="txtQty" /></div>
+                                                     </div>
+                                                 </div>
+                                                 <div class="col-lg-3">
+                                                     <div class="form-group">
+                                                         <label class="control-label">Unit Price</label>
+                                                         <div class="controls"><input type='text' class='form-control' id="txtUnitPrice" style="text-align:right"/></div>
+                                                     </div>
+                                                 </div>
+                                                 <div class="clearfix"></div>
+                                                 <div class="col-lg-12">
+                                                     <div class="form-group">
+                                                         <label class="control-label">Description</label>
+                                                         <div class="controls">
+                                                            <textarea rows="3" style="width: 100%; overflow: hidden; word-wrap: break-word; resize: horizontal;" id="txtProdDescription" disabled="disabled"> </textarea>
+                                                         </div>
+                                                     </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                     <div style="float:right;padding:0px 0px 0px 0px;">
+                                                         <button type="button" id="btnCatalog" class="btn btn-success" value="Catalog" onclick="OpenProductDialog();" style="width:100px;">Catalog</button>
+                                                         <button type="button" id="btnAddItem" class="btn btn-success" value="Add Item" onclick="addItem();">Add Item</button>
+                                                     </div>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                         <div class="box-header" style="display:none;">
+                                             Total
+                                         </div>
+                                         <div class="box-content" style="display:none;">
+                                             <table style="width:100%;border-spacing:5px;">
+                                                 <tr>
+                                                     <td style="text-align:left;width:180px;padding-top:10px;"><label class="control-label">Sub Total</label></td>
+                                                     <td style="width:120px;">@Html.TextBoxFor(model => model.total_subtotal, new { @class = "form-control", disabled = "disabled" })</td>
+                                                 </tr>
+                                                 <tr>
+                                                     <td style="text-align: left; width: 180px;padding-top:10px;"><label class="control-label">GST</label></td>
+                                                     <td style="width:120px;">@Html.TextBoxFor(model => model.total_salestax, new { @class = "form-control", disabled = "disabled" })</td>
+                                                 </tr>
+                                                 <tr>
+                                                     <td style="text-align: left; width: 180px;padding-top:10px;"><label class="control-label">Grand Total</label></td>
+                                                     <td style="width:120px;">@Html.TextBoxFor(model => model.total_total, new { @class = "form-control", disabled = "disabled" })</td>
+                                                 </tr>
+                                             </table>
+                                         </div>
+                                     </div>
+                                </div>
+                            </div>
+        
+               </fieldset>
+               <footer style="background-color:white; text-align:right;">
+                   <button class="btn btn-primary" type="button" id="btnListing" class="btn bg-color-green txt-color-white" value="Listing" onclick="goBackToListing();">Back To Listing</button>
+                   <button class="btn btn-primary" type="button" id="btnPost" class="btn bg-color-green txt-color-white" value="Post" onclick="SaveStockReceive(1);">Post</button>
+                   <button class="btn btn-primary" type="button" id="btnSave" class="btn bg-color-green txt-color-white" value="Edit" onclick="SaveStockReceive(0);">Save</button>
+                   <button class="btn btn-primary" type="button" id="btnprint" class="btn bg-color-green txt-color-white" onclick="printStockReceived();">Print Receipt</button>
+              </footer>
+             </form>
+          </div>
+
+          <ul class="noty_cont noty_layout_topRight" id="ulBalance"></ul>
+          <button id="btnBalanceMember" class="btn btn-primary noty" data-noty-options='{"text":"Already changed to print status.","layout":"topRight","type":"error"}' style="display:none;">Top Right</button>
+
+       </div> @*box-content*@
+       <div class="row">
+          <div class="col-lg-12">
+              <div class="box">
+                 <div class="col-sm-2" data-rcode="TOPUP" style="display:none;">
+                     <a class="quick-button" onclick="TopUpFunction(this, 2, $('#mcode').val());" data-rcode="TOPUP" style="display:none;">
+                        <i class="fa fa-ticket"></i>
+                        <p>Club</p>
+                     </a>
+                 </div>
+                 <div class="col-sm-2" style="display:none;" data-rcode="REDEEM">
+                      <a class="quick-button" data-rcode="REDEEM" onclick="RedeemFunction(this,2,$('#mcode').val());" style="display:none;">
+                          <i class="fa fa-ticket"></i>
+                          <p>Redeem</p>
+                      </a>
+                 </div>
+                 <div class="col-sm-2" data-rcode="STOCKRECEIVED" style="display:none;">
+                     <a class="quick-button" onclick="StockReceivedFunction(this);" data-rcode="STOCKRECEIVED">
+                        <i class="fa fa-user"></i>
+                        <p>Stock Received Listing</p>
+                     </a>
+                 </div>
+                 <div class="col-sm-2">
+                      <a class="quick-button" href="~/Home/Index">
+                         <i class="fa fa-home"></i>
+                         <p>Home</p>
+                      </a>
+                 </div>
+            </div>
+        </div>
+     </div>
+  </div> @*box*@
+ </div>
+</div> @*row*@
+        
+<div id="Product_dialog-modal">
+    <div class="col-lg-12" id="divProductDialog">
+        <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+            Product Catalog
+        </div>
+        <table style="width:100%;border-spacing:5px;border-collapse:separate;padding-left:10px;margin-top:10px;">
+            <tr>
+                <td>Type</td>
+                <td colspan="2">@Html.DropDownList("cboBptype", new SelectList(@ViewBag.CategoryOptions, "category", "category"), new { @class = "form-control" })</td>
+            </tr>
+            <tr>
+                <td>Category</td>
+                <td colspan="2">@Html.DropDownList("cboBpcategory", new SelectList(@ViewBag.SubCategoryOptions, "category", "category"), new { @class = "form-control" })</td>
+            </tr>
+            <tr>
+                <td>Brand</td>
+                <td colspan="2">@Html.DropDownList("cboBpbrand", new SelectList(@ViewBag.BrandOptions, "value", "value"), new { @class = "form-control" })</td>
+            </tr>
+            <tr>
+                <td>Ranges & Series</td>
+                <td colspan="2">@Html.DropDownList("cboBprnc", new SelectList(@ViewBag.RangesNSeriesOptions, "value", "value"), new { @class = "form-control" })</td>
+            </tr>
+            <tr>
+                <td>Product<input type="hidden" id="txtBundleID" /></td>
+                <td colspan="2"><select id="cboProduct" class="form-control"></select></td>
+            </tr>
+            <tr>
+                <td>Unit Price</td>
+                <td colspan="2" style="width:100px;"><input type="text" id="txtunitprice" class="form-control" disabled="disabled" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><button type="button" id="btnBundleSave" onclick="selectItem()" class="btn btn-primary" style="width:100px;">OK</button></td>
+                <td><button type="button" id="btnClose" onclick="CloseProductDialog()" class="btn btn-primary" style="width:100px;">Cancel</button></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+        <script type="text/javascript">
+            var subtotal = 0;
+            var totaltax = 0;
+            var totaldisc = 0;
+            var lineamount = 0;
+            var total = 0;
+            var ItemUpdateFlag = 0;
+            var itemcount = 0;
+            var itemid = 0;
+            var itemlineno = 0;
+            var prodcol;
+
+            var load = 1;
+            var stblrowcount = 0;
+            var cno = 0;
+            var rFlag, cFlag, uFlag, dFlag, vFlag, uvFlag, pFlag;
+            rFlag = cFlag = uFlag = dFlag = vFlag = uvFlag = pFlag = false;
+            var selproduct;
+            var btnobj = new Object();
+
+            $(document).ready(function () {
+
+                if ($("#productlist").val() != "") {
+                    $.ajax({
+                        url: '@Url.Action("getProductDetailsWithNoStock", "Inventory")',
+                        data: { productlist: $("#productlist").val() },
+                        type: 'POST',
+                        async:false,
+                        success: function (data) {
+                            populateSelectedStockReceiveList(data);
+                        },
+                        error: function (ts) {
+                            alert(ts.responseText)
+                        }
+                    });
+                }
+
+                var rcode = $('#rcode').val();
+                var tmp = $('[data-rcode="' + rcode.toUpperCase() + '"]');
+                $(tmp.parent()).addClass("active");
+     
+                getProduct();
+                getProducts();
+
+                showStockReceivedItemsGrid();
+                $('select[name=tblProduct_length]').addClass("form-control");
+
+                $('#tblProduct_filter :input').addClass("form-control");
+                $('#tblProduct_filter :input').width("150px");
+                
+                if ($('#post').val() == 0)
+                    initControls(false);
+                else
+                    initControls(true);
+
+                var srid = $('#srid').val();
+                var status = $('#status').val();
+                if (srid == "0") {
+                    $('#btnSave').removeAttr("disabled");
+                    $('#btnPost').attr("disabled", true);
+                   
+                }
+                else {
+                    if (status.toUpperCase() == "CLOSE") {
+                        $('#btnSave').attr("disabled", true);
+                        $('#btnPost').attr("disabled", true);
+                    }
+                    else {
+                        $('#btnSave').removeAttr("disabled");
+                        $('#btnPost').removeAttr("disabled");
+                    }
+                }
+           
+                $('#Product_dialog-modal').dialog({
+                    position: [400, 100],
+                    width: 450,
+                    hight: 400,
+                    modal: true,
+                    autoOpen: false,
+                    open: function (event, ui) {
+                        $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+                    }
+                });
+                $('#cboBptype').change(function e() { getProducts(0); });
+                $('#cboBpcategory').change(function e() { getProducts(0); });
+                $('#cboBpbrand').change(function e() { getProducts(0); });
+                $('#cboBprnc').change(function e() { getProducts(0); });
+                $('#cboProduct').change(function e() { selectCboProduct(); });
+            });
+
+            function initControls(isPosted) {
+                document.getElementById("cussupid").disabled = isPosted;
+                document.getElementById("branchcode").disabled = isPosted;
+                document.getElementById("refno").disabled = isPosted;
+                document.getElementById("resourcedate").disabled = isPosted;
+                document.getElementById("remark").disabled = isPosted;
+                document.getElementById("suprefno").disabled = isPosted;
+                document.getElementById("btnAddItem").disabled = isPosted;
+                document.getElementById("btnCatalog").disabled = isPosted;
+                document.getElementById("btnPost").disabled = isPosted;
+             
+            }
+            function getProduct() {
+                $("#txtProduct").autocomplete({
+                    minLength: 3,
+                    source: function (req, res) {
+                        jQuery.ajax({
+                            url: '@Url.Action("getProductInfo", "Product")',
+                            cache: false,
+                            dataType: 'json',
+                            data: { prodInfo: $('#txtProduct').val(), count: 10 },
+                            error: function (data) {
+                                return false;
+                            },
+                            success: function (data) {
+                                res($.map(data, function (item) {
+                                    return {
+                                        label: item.desc + " per " + item.uom + "(" + item.productcode + ")",
+                                        value: item.desc,
+                                        uom: item.uom,
+                                        desc: item.desc,
+                                        id: item.id,
+                                        productcode: item.productcode,
+                                        sellprice: item.sellprice,
+                                    }
+                                }));
+                            }
+                        });
+                    },
+                    select: function (event, ui) {
+                        selectedprod = ui.item;
+                       
+                        getProductCostPrice(selectedprod.id);
+
+                        $("#txtProdDescription").val(selectedprod.desc + " : " + selectedprod.productcode + "\nUOM: " + selectedprod.uom);
+                        $('#txtQty').val("1");
+                     
+                        if (selectedprod.category == 'Package') {
+                            getPackagedetail(selectedprod.id);
+                        }
+                        else {
+                            clearProductBundleDetailgrd();
+                        }
+                        $('#txtQty').focus();
+                    }
+                });
+            }
+            function getProducts(value) {
+                var ptype = $('#cboBptype').val();
+                var pcategory = $('#cboBpcategory').val();
+                var pbrand = $('#cboBpbrand').val();
+                var prnc = $('#cboBprnc').val();
+
+                $.ajax({
+                    url: '@Url.Action("getProductInfoByFilter", "Product")',
+                    data: { ptype: ptype, pcategory: pcategory, pbrand: pbrand, prnc: prnc },
+                    type: 'POST',
+                    success: function (data) {
+                        var Htmlstr = "";
+                        if (data.length > 0) prodcol = data;
+                        for (var x = 0; x < data.length; x++) {
+                            Htmlstr += "<option value=" + data[x].id + ">" + data[x].desc + " (per " + data[x].uom + ")</option>";
+                        }
+                        $('#cboProduct').html(Htmlstr).show();
+                        if (value != '0') $('#cboProduct').val(value);
+                        selectCboProduct();
+                    }
+                });
+            }
+
+            function selectCboProduct() {
+                selectedCatprod = new Object();
+                var pindex = $('#cboProduct :selected').index();
+                selectedCatprod.id = $('#cboProduct').val();
+                selectedCatprod.category = $('#cboBptype').val();
+                selectedCatprod.categorysub = $('#cboBpcategory').val();
+                selectedCatprod.brand = $('#BrandOptions').val();
+                selectedCatprod.RangesNSeries = $('#RangesNSeriesOptions').val();
+                selectedCatprod.uom = prodcol[pindex].uom;
+                selectedCatprod.desc = prodcol[pindex].desc;
+                selectedCatprod.productcode = prodcol[pindex].productcode;
+                getProductCostPrice(selectedCatprod.id);
+            }
+
+            function getProductCostPrice(productid) {
+                $.ajax({
+                    url: '@Url.Action("getProductCostPrice", "Product")',
+                    data: { pid: productid },
+                    type: 'POST',
+                    success: function (data) {
+                        if (data.length>0) {
+                            for (var x = 0; x < data.length; x++) {
+                                $("#txtUnitPrice").val(data[x].sellprice);   
+                            }
+                        }
+                        else {
+                            $("#txtUnitPrice").val('0');
+                        }
+                    }
+                });
+            }
+      
+            function getPackagedetail(productid) {
+                $.ajax({
+                    url: '@Url.Action("getProductBundleDetails", "Product")',
+                    data: { pid: productid },
+                    type: 'POST',
+                    success: function (data) {
+                        populateProductBundleDetail(data);
+                    }
+                });
+            }
+
+            function populateProductBundleDetail(data) {
+                var htmlstr = "";
+                var x = 0;
+                if (data) {
+                    for (x; x < data.length; x++) {
+                        htmlstr = htmlstr + "<tr>";
+                        htmlstr = htmlstr + "    <td>" + data[x].lineno + "</td>";
+                        htmlstr = htmlstr + "    <td style='text-align:left;'>" + data[x].description + "</td>";
+                        htmlstr = htmlstr + "    <td>" + data[x].qty + "</td>";
+                        htmlstr = htmlstr + "    <td style='text-align:left;'>" + data[x].uom + "</td>";
+                        htmlstr = htmlstr + "</tr>";
+                    }
+                }
+                $("#tblPackageDetls > tbody").append(htmlstr);
+            }
+
+            function clearProductBundleDetailgrd() {
+                $("#tblPackageDetls > tbody").empty();
+            }
+
+            function addItem() {
+                var trobj;
+                var tds;
+                var trs = $('#tblStockReceived > tbody').find('tr');
+                if (addItemValidation() == false) return false;
+                if (ItemUpdateFlag == 1) {
+                    $('#btnAddItem').text("Add Item");
+                }
+                else
+                    itemcount++;
+
+                var qty = 0;
+                var up = 0;
+                if ($("#txtQty").val().trim() != "")
+                    qty = parseInt($("#txtQty").val());
+                if ($("#txtUnitPrice").val().trim() != "")
+                    up = parseFloat($("#txtUnitPrice").val());
+
+                var total = qty * up;
+                var lno = itemcount;
+                if (ItemUpdateFlag == 1)
+                    lno = itemlineno;
+                                
+                var rowhtml = "<td style='display:none;'>" + itemid + "</td>";
+                rowhtml += "  <td style='display:none;'>" + selectedprod.id + "</td>";
+                rowhtml += "    <td>" + lno + "</td>";
+                rowhtml += "    <td style='display:none;'>" + selectedprod.productcode + "</td>";
+                rowhtml += "    <td style='text-align:left;'>" + selectedprod.desc + "</td>";
+                rowhtml += "    <td style='text-align:right;'>" + $('#txtQty').val() + "</td>";
+                rowhtml += "    <td>" + selectedprod.uom + "</td>";
+                rowhtml += "    <td style='text-align:right;'>" + $('#txtUnitPrice').val() + "</td>";
+                rowhtml += "    <td style='text-align:right;display:none;'>" + total.toFixed(2) + "</td>";
+                rowhtml += "<td style='width:20px;padding:5px;text-align:center;'><a class='btn btn-sm btn-primary' onclick='EditItem(this);'><i class='fa fa-edit' title='Edit Items'></i></a></td>";
+                rowhtml += "<td style='width:20px;padding:5px;text-align:center;'><a class='btn btn-sm btn-danger btn-sm' onclick='RemoveItem(this,0);' style='margin-left:2px;' ><i class='glyphicon glyphicon-trash' title='Remove Items' ></i></a></td>";
+                if (itemcount <=10) {
+                    if (ItemUpdateFlag == 1) {
+                        trobj = trs[itemlineno - 1];
+                        $(trobj).html(rowhtml);
+                    }
+                    else {
+                            trobj = trs[itemcount - 1];
+                            $(trobj).html(rowhtml);
+                    }
+                }
+                else {
+                    $("#tblStockReceived > tbody").append("<tr>" + rowhtml + "</tr>");
+               
+                }
+
+                clearProductInfo();
+                calculateTotal();
+                ItemUpdateFlag = 0;
+                itemid = 0;
+            }
+      
+
+            function addItemValidation() {
+                if ($('#txtQty').val().trim() == "") {
+                    var msg = "Please key in quantity.";
+                    var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                    showMessage(attrvalue);
+                    $('#txtQty').focus();
+                    return false;
+                }
+
+                if ($('#txtUnitPrice').val().trim() == "") {
+                    var msg = "Please key in unit price.";
+                    var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                    showMessage(attrvalue);
+                    $('#txtUnitPrice').focus();
+                    return false;
+                }
+                return true;
+            }
+            function clearProductInfo() {
+                $('#txtProduct').val("");
+                $('#txtQty').val("");
+                $('#txtUnitPrice').val("");
+                $('#txtProdDescription').val("");
+            }            
+            function showStockReceivedItemsGrid() {
+         
+                var srid = $('#srid').val();
+                $.ajax({
+                    url: '@Url.Action("getStockReceivedDetailWithPaging", "Inventory")',
+                    data: { id: srid },
+                    type: 'POST',
+                    success: function (data) {
+                        populateExistingStockReceivedList(data);
+                    },
+                    error: function (ts) { alert(ts.responseText) }
+                });
+            }
+
+            function populateExistingStockReceivedList(data) {
+           
+                $("#branchcode").val($("#hidbcode").val());
+   
+                var Htmlstr = "";
+        
+                itemcount = 0;
+                var x = 0;
+                for (x = 0; x < data.length; x++) {
+                    if ($('#post').val() == 0) {
+                        Htmlstr += "<tr id='" + data[x].id + "'>";
+                        Htmlstr += "  <td style='display:none;'>" + data[x].id + "</td>";
+                        Htmlstr += "  <td style='display:none;'>" + data[x].productid + "</td>";
+                        Htmlstr += "  <td style='width:30px;'>" + (x + 1) + "</td>";
+                        Htmlstr += "  <td style='display:none;'>" + data[x].productcode + "</td>";
+                        Htmlstr += "  <td style='text-align:left;'>" + data[x].productdesc + "</td>";
+                        Htmlstr += "  <td style='text-align:right;'>" + data[x].qty + "</td>";
+                        Htmlstr += "  <td>" + data[x].uom + "</td>";
+                        Htmlstr += "  <td style='text-align:right;'>" + data[x].unitprice + "</td>";
+                        Htmlstr += "  <td  style='text-align:right;display:none;'>" + data[x].lineamount + "</td>";
+                        Htmlstr += "  <td style='width:20px;padding:5px;text-align:center;'><a class='btn btn-primary' onclick='EditItem(this);'><i class='fa fa-edit' title='Edit Items'></i></a></td>";
+                        Htmlstr += "  <td style='width:20px;padding:5px;text-align:center;'><a class='btn  btn-sm btn-danger' onclick='RemoveItem(this,0);' style='margin-left:2px;' ><i class='glyphicon glyphicon-trash' title='Remove Items' ></i></a></td></tr>";
+                    }
+                    else {
+                        Htmlstr += "<tr id='" + data[x].id + "'>";
+                        Htmlstr += "    <td style='display:none;'>" + data[x].id + "</td>";
+                        Htmlstr += "    <td style='display:none;'>" + data[x].productid + "</td>";
+                        Htmlstr += "    <td style='width:30px;'>" + (x + 1) + "</td>";
+                        Htmlstr += "    <td style='display:none;'>" + data[x].productcode + "</td>";
+                        Htmlstr += "    <td style='text-align:left;'>" + data[x].productdesc + "</td>";
+                        Htmlstr += "    <td style='text-align:right;'>" + data[x].qty + "</td>";
+                        Htmlstr += "    <td>" + data[x].uom + "</td>";
+                        Htmlstr += "    <td style='text-align:right;'>" + data[x].unitprice + "</td>";
+                        Htmlstr += "    <td style='text-align:right;display:none;'>" + data[x].lineamount + "</td>";
+                        Htmlstr += "    <td style='width:20px;padding:5px;text-align:center;'></td>";
+                        Htmlstr += "    <td style='width:20px;padding:5px;text-align:center;'></td>";
+                        Htmlstr += "</tr>";
+                    }
+                   
+                    itemcount++;
+                }
+               
+                $("#tblStockReceived > tbody").append(Htmlstr);
+                calculateTotal();
+        
+                if ($("#tblStockReceived > tbody > tr").length < 10) {
+                    fillItemTable(x + 1);
+                }
+            }
+
+            function populateSelectedStockReceiveList(data) {
+
+                var Htmlstr = "";
+
+                itemcount = 0;
+                var x = 0;
+                for (x = 0; x < data.length; x++) {
+                    if ($('#post').val() == 0) {
+                        Htmlstr += "<tr id='" + data[x].id + "'>";
+                        Htmlstr += "  <td style='display:none;'>" + data[x].id + "</td>";
+                        Htmlstr += "  <td style='display:none;'>" + data[x].productid + "</td>";
+                        Htmlstr += "  <td style='width:30px;'>" + (x + 1) + "</td>";
+                        Htmlstr += "  <td style='display:none;'>" + data[x].productcode + "</td>";
+                        Htmlstr += "  <td style='text-align:left;'>" + data[x].desc + "</td>";
+                        Htmlstr += "  <td style='text-align:right;'>1</td>";
+                        Htmlstr += "  <td>" + data[x].uom + "</td>";
+                        Htmlstr += "  <td style='text-align:right;'>" + data[x].sellprice + "</td>";
+                        Htmlstr += "  <td  style='text-align:right;display:none;'>" + data[x].sellprice + "</td>";
+                        Htmlstr += "  <td style='width:20px;padding:5px;text-align:center;'><a class='btn btn-sm btn-primary' onclick='EditItem(this);'><i class='fa fa-edit' title='Edit Items'></i></a></td>";
+                        Htmlstr += "  <td style='width:20px;padding:5px;text-align:center;'><a class='btn btn-sm btn-danger' onclick='RemoveItem(this,0);' style='margin-left:2px;' ><i class='glyphicon glyphicon-trash' title='Remove Items' ></i></a></td></tr>";
+                    }
+                    else {
+                        Htmlstr += "<tr id='" + data[x].id + "'>";
+                        Htmlstr += "    <td style='display:none;'>" + data[x].id + "</td>";
+                        Htmlstr += "    <td style='display:none;'>" + data[x].productid + "</td>";
+                        Htmlstr += "    <td style='width:30px;'>" + (x + 1) + "</td>";
+                        Htmlstr += "    <td style='display:none;'>" + data[x].productcode + "</td>";
+                        Htmlstr += "    <td style='text-align:left;'>" + data[x].desc + "</td>";
+                        Htmlstr += "    <td style='text-align:right;'>1</td>";
+                        Htmlstr += "    <td>" + data[x].uom + "</td>";
+                        Htmlstr += "    <td style='text-align:right;'>" + data[x].sellprice + "</td>";
+                        Htmlstr += "    <td style='text-align:right;display:none;'>" + data[x].sellprice + "</td>";
+                        Htmlstr += "    <td style='width:20px;padding:5px;text-align:center;'></td>";
+                        Htmlstr += "    <td style='width:20px;padding:5px;text-align:center;'></td>";
+                        Htmlstr += "</tr>";
+                    }
+
+                    itemcount++;
+                }
+
+                $("#tblStockReceived > tbody").append(Htmlstr);
+                calculateTotal();
+              
+                if ($("#tblStockReceived > tbody > tr").length < 10) {
+                    fillItemTable(x + 1);
+                }
+            }
+
+            function fillItemTable(r) {
+                var htmlstr = "";
+           
+                if ( itemcount< 10) {
+                    for (var x = r; x <= 10; x++) {
+                        htmlstr += "<tr id='0'>";
+                        htmlstr += "    <td style='display:none;'>0</td>";
+                        htmlstr += "    <td style='display:none;'></td>";
+                        htmlstr += "    <td style='width:30px;'>" + x + "</td>";
+                        htmlstr += "    <td style='display:none;'></td>";
+                        htmlstr += "    <td style='width:200px;'></td>";
+                        htmlstr += "    <td style='width:50px;'></td>";
+                        htmlstr += "    <td style='width:50px;'></td>";
+                        htmlstr += "    <td style='width:50px;'></td>";
+                        htmlstr += "    <td style='width:50px;display:none;'></td>";
+                        htmlstr += "    <td style='width:20px;'></td>";
+                        htmlstr += "    <td style='width:20px;'></td>";
+                        htmlstr += "</tr>";
+                    }
+                }
+                $("#tblStockReceived > tbody").append(htmlstr);
+            }
+
+            function selectProduct(btn) {
+                btnobj = btn;
+            }
+
+            function calculateLineAmount(txtobj) {
+                var tds = $(txtobj).closest('tr').find('td');
+                var qty = parseFloat($(tds[5]).find('input').val());
+                var price = parseFloat($(tds[7]).find('input').val());
+                var discount = parseFloat($(tds[8]).find('input').val());
+                $(tds[9]).find('input').val(((7.0 / 107) * ((qty * price) - discount)).toFixed(2));
+                $(tds[10]).find('input').val(((qty * price) - discount).toFixed(2));
+                calculateTotal();
+            }
+
+            function calculateTotal() {
+                subtotal = 0;
+                totaltax = 0;
+                totaldisc = 0;
+                lineamount = 0;
+                total = 0;
+                var decimalOnly = /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/;
+                $("#tblStockReceived > tbody > tr").each(function (index, row) {
+                    var tds = $(this).find('td');
+                    
+                    total += parseFloat(decimalOnly.test(tds.eq(8).html()) ? parseFloat(tds.eq(8).html()).toFixed(2) : 0);
+                   
+                        subtotal += parseFloat(decimalOnly.test(tds.eq(8).html()) ? parseFloat(tds.eq(8).html()).toFixed(2) : 0);
+                
+                });
+                $('#total_subtotal').val(subtotal.toFixed(2));
+                $('#total_salestax').val(totaltax.toFixed(2));
+               
+                $('#total_total').val(total.toFixed(2));
+           
+            }
+
+            function ExtCalculatedAmount() {
+                var exrate = $('#exchangerate').val();
+               
+            }
+            function RemoveItem(robj, id) {
+                $(robj).closest('tr').remove();
+
+                itemcount--;
+
+                var htmlstr = "";
+                htmlstr += "<tr id='0'>";
+                htmlstr += "    <td style='display:none;'>0</td>";
+                htmlstr += "    <td style='display:none;'></td>";
+                htmlstr += "    <td style='width:30px;'></td>";
+                htmlstr += "    <td style='display:none;'></td>";
+                htmlstr += "    <td style='width:200px;'></td>";
+                htmlstr += "    <td style='width:50px;'></td>";
+                htmlstr += "    <td style='width:50px;'></td>";
+                htmlstr += "    <td style='width:50px;'></td>";
+                htmlstr += "    <td style='width:50px;display:none;'></td>";
+                htmlstr += "    <td style='width:20px;'></td>";
+                htmlstr += "    <td style='width:20px;'></td>";
+                htmlstr += " </tr>";
+
+                $("#tblStockReceived > tbody").append(htmlstr);
+
+                var i = 0;
+                $('#tblStockReceived > tbody > tr').each(function (i, row) {
+                    var tds = $(row).find('td');
+                    tds.eq(2).html(i + 1);
+                    i++;
+                });
+            }
+
+            function EditItem(paramtr) {
+                selectedItemTr = paramtr;
+                ItemUpdateFlag = 1;
+                $('#btnAddItem').text("Update Item");
+                var tds = $(paramtr).closest('tr').find('td');
+                if (tds.eq(10).html().trim() == "") return false;
+                itemid = tds.eq(0).html();
+                $('#txtProduct').val(tds.eq(4).html());
+                $('#txtQty').val(tds.eq(5).html())
+                $('#txtUnitPrice').val(tds.eq(7).html());
+                $('#txtProdDescription').val($('#txtProduct').val() + " : " + tds.eq(3).html() + "\nUOM :" + tds.eq(6).html());
+                selectedprod = new Object();
+                selectedprod.id = tds.eq(1).html();
+                selectedprod.productcode = tds.eq(3).html();
+                selectedprod.desc = tds.eq(4).html();
+                selectedprod.sellprice = tds.eq(7).html();
+                selectedprod.uom = tds.eq(6).html();
+                itemlineno = tds.eq(2).html();
+            }
+            function printStockReceived() {
+                var srid = $('#srid').val();
+                var sid = $('#txtstaffname').val();
+                if (srid > "0") {
+                    window.open("../Reports/StockReceive.aspx?id=" + srid + "&username=" + sid);
+                }
+            }
+
+            function SaveStockReceive(pflag) {
+                $('#btnSave').attr("disabled", true);
+                var rcode = $('#rcode').val();
+                var ucode = $('#ucode').val();
+                var srid = $('#srid').val();
+                var itemidArray = "";
+                var obj = new Object();
+
+                if (pflag) {
+                    $('#status').val("CLOSE");
+                    obj.post = 1;
+                    $('#btnPost').attr("disabled", true);
+                }
+                else {
+                    $('#status').val("ACTIVE");
+                    obj.post = 0;
+                    $('#btnPost').attr("disabled", true);
+                }
+                obj.id = srid;
+                obj.branchcode = $('#branchcode').val();
+                obj.cussupid = $('#cussupid').val();
+                obj.cussupname = $('#cussupid  option:selected').text();
+                obj.resourcecode = $('#resourcecode').val();
+                obj.resourcedate = $('#resourcedate').val();
+                obj.refno = $('#refno').val();
+                obj.suprefno = $('#suprefno').val();
+                obj.remark = $('#remark').val();
+                obj.uniquecode = ucode;
+                obj.status = $('#status').val();
+                obj.reason = $('#reason').val();
+                obj.currency = "SGD";
+                obj.exchangerate = 1;
+                obj.total_subtotal = $('#total_subtotal').val();
+                obj.total_salestax = $('#total_salestax').val();
+                obj.total_total = $('#total_total').val();
+                var i = 0;
+                var itemcount = 0;
+                var itemCollection = new Array();
+                obj.detail = itemCollection;
+                obj.resourcecode = $('#resourcecode').val();
+                var itemCollection = new Array();
+                $('#tblStockReceived > tbody > tr').each(function (i, row) {
+                    i = i + 1;
+                    var tds = $(row).find('td');
+                    var item = new Object();
+                    item.id = tds.eq(0).html();
+
+                    if (tds.eq(4).html() != "") {
+                        if (item.id != "" || item.id != 0) itemidArray += item.id + ",";
+                        item.productid = tds.eq(1).html();
+                        item.lineno = i;
+                        item.productcode = tds.eq(3).html();
+                        item.productdesc = tds.eq(4).html();
+                        item.qty = tds.eq(5).html();
+                        item.uom = tds.eq(6).html();
+                        item.unitprice = parseFloat(tds.eq(7).html());
+                        item.lineamount = parseFloat(tds.eq(8).html());
+                        item.discountamount = 0;
+                        item.taxamount = item.lineamount * (7.0 / 107);
+                        item.stockreceivedid = srid;
+                        item.resourcecode = $('#resourcecode').val();
+                        item.currency = "SGD";
+                        item.exchangerate = 1;
+                        itemCollection.push(item);
+                    }
+                });
+
+                obj.items = itemCollection;
+                $.ajax({
+                    url: '@Url.Action("StockReceiveSave", "Inventory")',
+                    data: JSON.stringify({ stkrec: obj, rcode: rcode, itemids: itemidArray }),
+                    type: 'POST',
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        var res = data.split(",");
+                       
+                        if (res[0] == "SUCCESS") {
+                            var rcode = $('#rcode').val();
+                            var acode = $('#acode').val();
+                            var ucode = res[1];
+                            var url = '@Url.Action("StockReceive", "Inventory")';
+                            var form = $('<form action="' + url + '" method="post">' +
+                                 '<input type="hidden" name="uniquecode"  id="uniquecode" value="' + ucode + '" />' +
+                                 '<input type="hidden" name="rcode"  id="rcode" value="' + rcode + '" />' +
+                                 '<input type="hidden" name="acode"  id="acode" value="' + acode + '" />' +
+                                  '</form>');
+                            $('body').append(form);
+                            $(form).submit();
+                            $('#btnSave').removeAttr("disabled");
+                        }
+                    },
+                    error: function (req, status, err) {
+                        showMessage(err, "error");
+                        $('#btnSave').removeAttr("disabled");
+                    }
+                });
+            }
+            function selectItem() {
+                selectedprod = selectedCatprod;
+                $("#txtProdDescription").val(selectedprod.desc + " : " + selectedprod.productcode + "\nUOM: " + selectedprod.uom);
+                $('#txtQty').val("1");
+                CloseProductDialog();
+                $('#txtQty').focus();
+            }
+            function OpenProductDialog(itemid, paramtr) {
+                $('#Product_dialog-modal').dialog('open');
+            }
+            function CloseProductDialog() {
+                $('#Product_dialog-modal').dialog("close");
+            }
+            function goBackToListing() {
+                var rcode = $('#rcode').val();
+                window.open("../Inventory/StockReceiveOverview?rcode=" + rcode, "_self");
+            }
+        </script>
+

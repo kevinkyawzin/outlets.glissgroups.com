@@ -1,0 +1,95 @@
+﻿@model BigMac.Models.Configuration_m_Company
+
+@{
+    ViewBag.Title = "CommpanySave";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="row">
+        <div class ="col-lg-12">
+            <div class="box">
+                <div class ="box-header">
+							<h2><i class="fa fa-edit"></i>Company Entry</h2>
+							<div class="box-icon">
+					            <a href="table.html#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+					            <a href="table.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+					            <a href="table.html#" class="btn-close"><i class="fa fa-times"></i></a>
+							</div>
+                </div>
+                <div class ="box-content">
+                @using (Html.BeginForm("CompanySave","Configuration",FormMethod.Post)) 
+                {
+                    @Html.ValidationSummary(true)
+                    <fieldset  class ="col-sm-12">
+                    <table style="width:100%;border-spacing:5px;border-collapse:separate;" >
+                        <tr style="width:100%;">
+                            <td><label>Name</label> </td>
+                            <td>@Html.TextBoxFor(model => model.name, new { @class ="form-control"})</td>
+                            <td style ="width:10%"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><label>Company Reg. No</label></td>
+                            <td>@Html.TextBoxFor(model => model.coregno, new { @class ="form-control"})</td>
+                            <td style ="width:10%"></td>
+                            <td><label>GST Reg. No</label></td>
+                            <td>@Html.TextBoxFor(model => model.gstregno, new { @class ="form-control"})</td>
+                        </tr>
+                        <tr>
+                            <td><label>Tel</label></td>
+                            <td>@Html.TextBoxFor(model => model.tel, new { @class ="form-control"})</td>
+                            <td style ="width:10%"></td>
+                            <td><label>Fax</label></td>
+                            <td>@Html.TextBoxFor(model => model.fax, new { @class ="form-control"})</td>
+                        </tr>
+                        <tr>
+                            <td><label>E-mail</label></td>
+                            <td>@Html.TextBoxFor(model => model.email, new { @class ="form-control"})</td>
+                            <td style ="width:10%"></td>
+                            <td><label>Website</label></td>
+                            <td>@Html.TextBoxFor(model => model.website, new { @class ="form-control"})</td>
+                        </tr>
+
+                        <tr>
+                            <td><label>Mail User Name</label></td>
+                            <td>@Html.TextBoxFor(model => model.mailusername, new { @class ="form-control"})</td>
+                            <td style ="width:10%"></td>
+                            <td><label>Mail Password</label></td>
+                            <td>@Html.PasswordFor(model => model.mailpassword, new { @class ="form-control"})</td>
+                        </tr>
+                        <tr>
+                            <td><label>Mail Server</label></td>
+                            <td>@Html.TextBoxFor(model => model.mailserver, new { @class ="form-control"})</td>
+                            <td style ="width:10%"></td>
+                            <td><label>Mail Server Port</label></td>
+                            <td>@Html.TextBoxFor(model => model.mailserverport, new { @class ="form-control"})</td>
+                        </tr>
+                        <tr>
+                            <td><label>Mail Display Name</label></td>
+                            <td>@Html.TextBoxFor(model => model.maildisplayname, new { @class ="form-control"})</td>
+                            <td style ="width:10%"></td>
+                            <td><label>SMTP SSL</label></td>
+                            <td>@Html.TextBoxFor(model => model.mailsmtpssl, new { @class ="form-control"})</td>
+                        </tr>
+                        <tr>
+                            <td><label>Address</label></td>
+                            <td colspan ="4">@Html.TextAreaFor(model => model.address, new { @class ="form-control"})</td>
+                        </tr>
+                        <tr>
+                            <td><label>Postal Code</label></td>
+                            <td>@Html.TextBoxFor(model => model.postalcode, new { @class ="form-control"})</td>
+                        </tr>
+                    </table>
+		            <div class="form-actions">
+			            <button type="submit" class="btn btn-primary" value="Save" >Save changes</button>
+                        @*<a class="btn btn-primary" href="@Url.Action("UserSave", "Access", new { id = item.id })" title ="Edit User"></a>*@
+			            <button type="reset" class="btn">Cancel</button>
+                        <a class="btn btn-primary" href="@Url.Action("CompanyIndex")">Back to the List</a>
+		            </div>
+                        </fieldset>
+                }
+            </div> @*box*@
+        </div>
+    </div>@*row*@
+    

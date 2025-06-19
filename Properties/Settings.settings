@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="BigMac.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="BigMac_SMSWS_MsgSender" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://info121.sytes.net/smsurl/msgSender.asmx</Value>
+    </Setting>
+    <Setting Name="BigMac_RewardsService_QWS" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://webservice.citiwarrior.com/CBWS.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

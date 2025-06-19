@@ -1,0 +1,125 @@
+﻿@model BigMac.Models.CusSup_m_CusSup
+      
+@{
+    Layout = null;
+}
+
+                    <table style="width:100%;border-spacing:5px;border-collapse:separate;">
+@*                            <tr>
+                                <td>
+                                    <img src="~/assets/img/Products/girl1.jpg" class ="img-thumbnail" style="width:130px;height:130px;" />
+                                    <button type="button" class="btn btn-success" value="Save" style="width:120px;">Upload</button>
+                                </td>
+                            </tr>*@
+                            <tr>
+                                <td style="width:15%;"><label class="control-label" >@Html.LabelFor(model => model.cussupname)</label></td>
+                                <td style="width:30%;">                                        
+				                             @Html.TextBoxFor(model => model.cussupname, new { @class ="form-control"})                                                                
+                                </td>
+                                <td style="width:5%;"></td>
+                                <td style="width:15%;"><label class="control-label" >@Html.LabelFor(model => model.cocode)</label></td>
+                                <td style="width:30%;">
+                                           @Html.DropDownListFor(model => model.cocode, new SelectList(@ViewBag.CompanyOptions,"id","name"), new { @class ="form-control"})                                            
+                                </td>
+                                <td style="width:5%;"></td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label" for="input1">@Html.LabelFor(model => model.nric)</label></td>
+                                <td>
+                                  
+				                                @Html.TextBoxFor(model => model.nric, new { @class ="form-control"})                                            
+                                                <span>@Html.ValidationMessageFor(model => model.nric)</span>	    
+
+                                </td>
+                                <td ><span style="color:red;">*</span></td>
+                                <td style="width:15%;"><label class="control-label" >@Html.LabelFor(model => model.branchcode)</label></td>
+                                <td style="width:30%;">                                            
+                                            @Html.DropDownListFor(model => model.branchcode, new SelectList(@ViewBag.BranchOptions,"id","branchname"), new { @class ="form-control"})                                           
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label" for="input1">@Html.LabelFor(model => model.dateofbirth)</label></td>
+                                <td>
+                                                @Html.TextBoxFor(model => model.email, new { @class ="form-control"})                                                                                    
+                                </td>
+                                <td></td>
+                                <td ><label class="control-label" >Member Code</label></td>
+                                <td>
+				                               @* @Html.TextBoxFor(model => model.inhousecode, new { @class ="form-control"})    *@                
+                                    <input class ="form-control" disabled  />
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label" for="input1">@Html.LabelFor(model => model.email)</label></td>
+                                <td>
+                                                @Html.TextBoxFor(model => model.email, new { @class ="form-control"})                                                                                    
+
+                                </td>
+                                <td></td>
+                                <td><label class="control-label" for="input1">@Html.LabelFor(model => model.userid)</label></td>
+                                <td>
+                                                @Html.TextBoxFor(model => model.userid, new { @class ="form-control"})                                                                                    
+
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>                                
+                                <td><label class="control-label" for="input1">@Html.LabelFor(model => model.Tel)</label></td>
+                                <td>
+                                                @Html.TextBoxFor(model => model.Tel, new { @class ="form-control"})                                                                                    
+                                </td>
+                                <td></td>
+                                <td><label class="control-label" for="input1">@Html.LabelFor(model => model.password)</label></td>
+                                <td>
+                                                @Html.PasswordFor(model => model.password, new { @class ="form-control"})                                                                                    
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label" for="input1">@Html.LabelFor(model => model.mobile)</label></td>
+                                <td>
+                                                @Html.TextBoxFor(model => model.mobile, new { @class ="form-control"})                                                                                    
+                                </td>
+                                <td><span style="color:red;">*</span></td>
+                                <td><label class="control-label" for="input1">Expired Date</label></td>
+                                <td><input class="form-control date-picker"  /></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label" for="input1">@Html.LabelFor(model => model.address)</label></td>
+                                <td colspan ="4">
+                                                @Html.TextBoxFor(model => model.address, new { @class ="form-control"})                                                                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label" for="input1">@Html.LabelFor(model => model.postalcode)</label></td>
+                                <td>
+                                                @Html.TextBoxFor(model => model.postalcode, new { @class ="form-control"})                                                                                    
+                                </td>
+                                <td style="width:10%;"></td>                                
+                                <td style="width:15%;"><label class="control-label" >@Html.LabelFor(model => model.status)</label> @Html.HiddenFor( model => model.cussuptype) </td>
+                                <td>
+                                            @Html.DropDownListFor(model => model.status, new SelectList(@ViewBag.StatusOptions,"id","status"), new { @class ="form-control"})                                            
+                                </td>
+
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label" for="input1">Create By</label></td>
+                                <td><label class="control-label" for="input1">Admin</label></td>
+                                <td></td>
+                                <td><label class="control-label" for="input1">Create Date</label></td>
+                                <td><label class="control-label" for="input1">@DateTime.Today</label></td>
+                            </tr>
+                            <tr>
+                                <td colspan ="6">
+		                            <div style="padding: 19px 20px 20px;background-color: whiteSmoke;">
+			                            <button type="submit" class="btn btn-primary" value="Save" >Save changes</button>
+                                        @*<a class="btn btn-primary" href="@Url.Action("UserSave", "Access", new { id = item.id })" title ="Edit User"></a>*@
+			                            <button type="reset" class="btn">Clear</button>                                        
+		                            </div>
+                                </td>     
+                            </tr>
+                        </table>

@@ -1,0 +1,223 @@
+﻿@{
+    ViewBag.Title = "Redeem";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <div class="row"  style="padding-top: 0px;margin-top:0px;">
+        <div class ="col-lg-12" style="padding-top: 0px;margin-top:0px;">
+            <div class="box" style="padding-top: 0px;margin-top:0px;">
+                        <div style ="float:right;padding-right:5px;">
+                        <label>Date : &nbsp;&nbsp;&nbsp;@DateTime.Today.ToString("dd MMM yyyy")</label>
+                        </div>
+                        <div class="clearfix"></div>
+                <div class ="box-header" >
+							<h2><i class="fa fa-edit"></i>Top Up (Branch - CCK )</h2>
+							<div class="box-icon">
+								<a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+								<a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+								<a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+							</div>
+                </div>
+                <div class ="box-content">
+                        <div >
+                            <center>
+                                <table style="border-spacing:5px;border-collapse:separate;" >
+                                    <tr>
+                                        <td style="width:150px;"><label class="control-label" >Member Code/Name : </label></td>
+                                        <td style="width:250px;"><input type="text"  class ="form-control"/></td>
+                                        <td style="width:20px;"></td>
+                                        <td><button id="btnsearch" type="button" class="btn btn-primary" value="search" style="width:150px;">Search</button></td>
+                                    </tr>
+                                </table>
+                                </center>
+                        </div>
+                        <hr width="100%" align="left">                        
+                        <table style="width:100%;border-spacing:5px;border-collapse:separate;padding-left:10px;" >
+                            <tr>
+                                <td style="text-align:center;width:100px;"><label class="control-label" >Member :</label></td>
+                                <td style="text-align:left;width:250px;color:green;font-weight:bold;">M00000001 (Angellin)</td>
+                            </tr>
+                            <tr>
+                                <td colspan ="2" rowspan ="5">
+                                    <div style="width:100%;height:100%;border:1px solid #DDD">
+                                        <center>
+                                        <img src="~/assets/img/Products/girl1.jpg" class ="img-thumbnail" style="width:130px;height:130px;" />
+                                        </center>
+                                    </div>
+                                      
+                                </td>
+                                <td style ="width:20px;"></td>
+                                <td style ="width:150px;"></td>
+                                <td style="text-align:center;width:100px;">Gliss$</td>
+                                <td style ="width:20px;"></td>
+                                <td style="text-align:center;width:100px;">Bonus$</td>
+                                <td ></td>
+                            </tr>
+                            <tr>
+                                <td style ="width:20px;"></td>
+                                <td><label class="control-label" >Balance</label></td>
+                                <td><input type="text" class ="form-control"/></td>
+                                <td></td>
+                                <td><input type="text" class ="form-control"/></td>
+                                <td ></td>
+                            </tr>
+                            <tr>
+                                <td style ="width:20px;"></td>
+                                <td><label class="control-label" >Reserved Amount</label></td>
+                                <td><input type="text" class ="form-control"/></td>
+                                <td></td>
+                                <td><input type="text" class ="form-control"/></td>
+                                <td ></td>
+                            </tr>
+                            <tr>
+                                <td style ="width:20px;"></td>
+                                <td><label class="control-label" >Available</label></td>
+                                <td><input type="text" class ="form-control"/></td>
+                                <td></td>
+                                <td><input type="text" class ="form-control"/></td>
+                                <td ></td>
+                            </tr>
+                            <tr></tr>
+                        </table>
+
+				<div class="col-lg-12" >
+					<div class="box">
+						<div class="box-content">
+							<table class="table table-bordered">
+								  <thead>
+									  <tr>
+										  <th>Sr.</th>
+										  <th style="width:500px;">Promotion</th>
+										  <th>Gliss$</th>
+										  <th>Bonus$</th>
+                                          <th style="width:50px;">Select</th>                                             
+									  </tr>
+								  </thead>   
+								  <tbody>
+                                      <tr>
+                                          <td>1</td>
+                                          <td>Gliss$ Package 1</td>
+                                          <td>100</td>
+                                          <td>300</td>
+                                          <td><center><input type ="checkbox" /></center></td>                                          
+                                          
+                                      </tr>
+                                      <tr>
+                                          <td>2</td>
+                                          <td>Gliss$ Package 2</td>
+                                          <td>500</td>
+                                          <td>1000</td>
+                                          <td><center><input type ="checkbox" /></center></td>
+                                      </tr>
+                                      <tr>
+                                          <td>3</td>
+                                          <td>Gliss$ Package 3</td>
+                                          <td>800</td>
+                                          <td>1600</td>
+                                          <td><center><input type ="checkbox" /></center></td>
+                                      </tr>
+
+
+                                  </tbody>
+                            </table>                           
+                            <div style ="text-align:center;float:right;width:100%;">
+                                <table style="width:100%;border-spacing:5px;border-collapse:separate;">
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td style="width:120px;">Citi $</td>
+                                        <td style="width:120px;">Bonus $</td>
+                                        <td style="width:2px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td style="width:150px;">Total</td>
+                                        <td><input type="text" class ="form-control" disabled /></td>
+                                        <td><input type="text" class ="form-control" disabled/></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr >
+                                        <td style="width:150px;"><label class="control-label" style="color:green;">POS Receipt Ref:</label></td>
+                                        <td style="width:150px;"> <input type="text" class ="form-control"/></td>
+                                        <td style="text-align:left;"><span style="color:red;">*</span></td>
+                                        <td ></td>
+                                        <td colspan ="2"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan ="4"></td>
+                                        <td><br /><button id ="print" type="button" class="btn btn-success" value="confirm" style="width:120px;">Print Receipt</button> </td>
+                                        <td><br /><button type="button" class="btn btn-primary" value="Save" style="width:120px;">Save</button> </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <br />
+
+                                                         
+                            <div class="clearfix"></div>                                                       
+                        </div>
+                        </div>
+                    </div>
+                </div>                   
+			        <div class="row" >	
+				        <div class="col-lg-12" >
+					        <div class="box">
+							    <div class="col-sm-2">
+								    <a class="quick-button" href="~/POS/Redeem">
+									    <i class="fa fa-ticket"></i>
+									    <p>Redeem</p>
+								    </a>
+							    </div>
+							    <div class="col-sm-2">
+								    <a class="quick-button" href="~/POS/Customer/0?type=Customer">
+									    <i class="fa fa-user" ></i>
+									    <p>Create Member</p>
+								    </a>
+							    </div>
+							    <div class="col-sm-2">
+								    <a class="quick-button" href="~/POS/DailySales">
+									    <i class="fa fa-bar-chart-o"></i>
+									    <p>Daily Sales Summary</p>
+								    </a>
+							    </div>                          
+							    <div class="col-sm-2">
+								    <a class="quick-button" href="~/POS/MembershipEnquiry">
+									    <i class="fa fa-users"></i>
+									    <p>Membership Enquiry</p>
+								    </a>
+							    </div>
+							    <div class="col-sm-2">
+								    <a class="quick-button" href="~/POS/ProductListing">
+									    <i class="fa fa-list-alt"></i>
+									    <p>Product Listing</p>
+								    </a>
+							    </div>
+							    <div class="col-sm-2">
+								    <a class="quick-button" href="~/Home/Index">
+									    <i class="fa fa-home"></i>
+									    <p>Home</p>
+								    </a>
+							    </div>                                              
+                           </div>
+                        </div>
+                    </div>
+
+
+                <div class="clearfix"></div>
+
+                </div>
+            </div>
+        </div>
+    <div id="Print_dialog-modal">
+    <div class="col-lg-12" id="divPrintDialog" style="overflow-style:scrollbar;">
+        <div class="col-lg-12" style="padding: 10px 10px 10px;text-align:right;">
+            <button type="button" id="btnGoToHome" onclick="goToHome();" class="btn btn-primary" style="width:100px;">Home</button>
+            <button type="button" id="btnGotoNew" onclick="goToNew();" class="btn btn-primary" style="width:120px;">New Redeem</button>
+        </div>
+    </div>
+</div>

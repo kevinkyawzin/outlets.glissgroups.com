@@ -1,0 +1,126 @@
+﻿@{
+    ViewBag.Title = "DailyRedemptionByBranch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row" style="padding-top: 0px;margin-top:0px;">
+    <div class="col-lg-12" style="padding-top: 0px;margin-top:0px;">
+        <div class="box" style="padding-top: 0px;margin-top:0px;">
+            <div class="box-header">
+                <h2><i class="fa fa-list-alt"></i>Daily Redemption</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+                    <a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                <div>
+                    <input type="hidden" id="uname" value="@Html.Encode(User.Identity.Name)">
+                    <table style="width:100%;border-spacing:5px;border-collapse:separate;padding-left:10px;">
+                        <tr>
+                            <td style="width:50px;"><label class="control-label">Branch</label></td>
+                            <td style="width:150px;">@Html.DropDownList("cboBptype", new SelectList(@ViewBag.BranchOptions, "branchcode", "branchcode"), new { @class = "form-control" })</td>
+                            <td style="width:30px;"></td>
+                            <td style="width:50px;"><label class="control-label">From</label></td>
+                            <td style="width:120px;"><input class="form-control date-picker" data-date-format="dd/mm/yyyy" id="dF" /> </td>
+                            <td style="width:50px;"><label class="control-label">To</label></td>
+                            <td style="width:120px;"><input class="form-control date-picker" data-date-format="dd/mm/yyyy" id="dT" /> </td>
+                            <td style="width:50px;"></td>
+                            <td style="width:120px;"><button type="button" id="btnPrint" onclick="rptDailySales()" class="btn btn-primary" style="width:100px;">Print</button></td>
+                            <td></td>
+                        </tr>
+                        @*<tr>
+                                <td style="width:400px;"></td>
+                                <td></td>
+                            </tr>*@
+                    </table>
+                    @*<table>
+                            <tr>
+                               <td style="width:500px;"></td>
+                                <td style="width:120px;"><button type="button" id="btnCardSave" onclick="SaveCardItem()" class="btn btn-primary" style="width:100px;">Print</button></td>
+                                <td ></td>
+                            </tr>
+                        </table>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box">            
+                <div class="col-sm-2" data-rcode="TOPUP" style="display:none;">
+                    <a class="quick-button" onclick="TopUpFunction(this, 3, $('#memberid').val());" data-rcode="TOPUP" style="display:none;">
+                        <i class="fa fa-ticket"></i>
+                        <p>Club</p>
+                    </a>
+                </div>
+
+                <div class="col-sm-2" style="display:none;" data-rcode="REDEEM">
+                    <a class="quick-button" data-rcode="REDEEM" onclick="RedeemFunction(this, 3, $('#memberid').val());" style="display:none;">
+                        <i class="fa fa-ticket"></i>
+                        <p>Redeem</p>
+                    </a>
+                </div>
+
+                <div class="col-sm-2" data-rcode="CREATEMEMBER" style="display:none;">
+                    <a class="quick-button" onclick="CreateMemberFunction(this);" data-rcode="CREATEMEMBER">
+                        <i class="fa fa-user"></i>
+                        <p>Create Member</p>
+                    </a>
+                </div>
+
+                <div class="col-sm-2" data-rcode="MEMBERLISTING" style="display:none;">
+                    <a class="quick-button" onclick="MemberSearchFunction(this);" id="BTNMEMBERLISTING" data-rcode="MEMBERLISTING">
+                        <i class="fa fa-users"></i>
+                        <p>Membership Enquiry</p>
+                    </a>
+                </div>
+
+                @*<div class="col-sm-2" data-rcode="PRODUCTLISTING" style="display:none;">
+                <a class="quick-button" data-rcode="PRODUCTLISTING" href="~/Product/ProductListing?rcode=ProductListing&ptype=%">
+                    <i class="fa fa-list-alt"></i>
+                    <p>Product Listing</p>
+                </a>
+            </div>
+
+            <div class="col-sm-2" data-rcode="PROMOTIONLISTING" style="display:none;">
+                <a class="quick-button" data-rcode="PROMOTIONLISTING" onclick="PromotionListingFunction(this);">
+                    <i class="fa fa-list-alt"></i>
+                    <p>Promotion Listing</p>
+                </a>
+            </div>*@
+
+                <div class="col-sm-2">
+                    <a class="quick-button" href="~/Access/BranchStaffIndex">
+                        <i class="fa fa-user"></i>
+                        <p>Branch Staff</p>
+                    </a>
+                </div>
+
+                <div class="col-sm-2">
+                    <a class="quick-button" href="~/POS/Index">
+                        <i class="fa fa-home"></i>
+                        <p>Home</p>
+                    </a>
+                </div>
+
+            </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function rptDailySales() {
+        var uname = $('#uname').val();
+        var fdate = $('#dF').val();
+        var tdate = $('#dT').val();
+        var bcode = $('#cboBptype').val();
+
+        //alert("../../BigMac/Reports/DailySalesByBranch.aspx?uname=" + uname + "&fdate=" + fdate + "&tdate=" + tdate);
+        window.open("../../Reports/DailyRedemptionByBranch.aspx?uname=" + uname + "&fdate=" + fdate + "&tdate=" + tdate + "&bcode=" + bcode);
+    }
+</script>
+

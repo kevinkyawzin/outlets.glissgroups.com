@@ -1,0 +1,350 @@
+﻿@model BigMac.Models.CusSup_m_CusSup
+
+@{
+    ViewBag.Title = "MembershipEnquiry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <div class="row" style="padding-top: 0px;margin-top:0px;">
+        <div class ="col-lg-12" style="padding-top: 0px;margin-top:0px;">
+            <div class="box" style="padding-top: 0px;margin-top:0px;">
+@*                        <div style ="float:right;padding-right:5px;">
+                        <label>Date : &nbsp;&nbsp;&nbsp;@DateTime.Today.ToString("dd MMM yyyy")</label>
+                        </div>*@
+                <div class="clearfix"></div>
+                <div class ="box-header">
+							<h2><i class="fa fa-edit"></i>Membership Enquiry</h2>
+							<div class="box-icon">
+								<a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+								<a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+								<a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+							</div>
+                </div>
+                <div class ="box-content">
+                        <div >
+                            <center>
+                                <table style="border-spacing:5px;border-collapse:separate;" >
+                                    <tr>
+                                        <td style="width:200px;"><label class="control-label" >Member Code/Name : </label></td>
+                                        <td style="width:250px;"><input type="text"  class ="form-control"/></td>
+                                        <td style="width:20px;"></td>
+                                        <td><button id="btnsearch" type="button" class="btn btn-primary" value="search" style="width:150px;">Search</button></td>
+                                    </tr>
+                                </table>
+                                </center>
+                        </div>
+                        <hr width="100%" align="left">
+                        <table style="width:100%;border-spacing:5px;border-collapse:separate;padding-left:10px;" >
+                            <tr>
+                                <td style="text-align:center;width:100px;"><label class="control-label" >Member :</label></td>
+                                <td style="text-align:left;width:250px;color:green;font-weight:bold;">M00000001 (Angellin)</td>
+                            </tr>
+                            <tr>
+                                <td colspan ="2" rowspan ="4">
+                                    <div style="width:100%;height:100%;border:1px solid #DDD">
+                                        <center>
+                                        <img src="~/assets/img/Products/girl1.jpg" class ="img-thumbnail" style="width:130px;height:130px;" />
+                                        </center>
+                                    </div>
+                                      
+                                </td>
+                                <td style ="width:20px;"></td>
+                                <td style ="width:150px;"></td>
+                                <td style="text-align:center;width:100px;">Gliss$</td>
+                                <td style ="width:20px;"></td>
+                                <td style="text-align:center;width:100px;">Bonus$</td>
+                                <td ></td>
+                            </tr>
+                            <tr>
+                                <td style ="width:20px;"></td>
+                                <td><label class="control-label" >Balance</label></td>
+                                <td><input type="text" class ="form-control"/></td>
+                                <td></td>
+                                <td><input type="text" class ="form-control"/></td>
+                                <td ></td>
+                            </tr>
+                            <tr>
+                                <td style ="width:20px;"></td>
+                                <td><label class="control-label" >Reserved Amount</label></td>
+                                <td><input type="text" class ="form-control"/></td>
+                                <td></td>
+                                <td><input type="text" class ="form-control"/></td>
+                                <td ></td>
+                            </tr>
+                            <tr>
+                                <td style ="width:20px;"></td>
+                                <td><label class="control-label" >Available</label></td>
+                                <td><input type="text" class ="form-control"/></td>
+                                <td></td>
+                                <td><input type="text" class ="form-control"/></td>
+                                <td style="float:right;padding-right:10px;">
+
+                                </td>
+                            </tr>
+
+
+                        </table>
+                    
+                     <div class="row">
+                        <div class="col-lg-12">					
+	                    <div class="box">
+                            <div class="box-header" style="background-color:#EEE;"></div>
+		                    <div class="box-content">
+
+			                    <ul class="nav tab-menu nav-tabs" id="myTab" style ="padding-left:10px;list-style: none;">
+				                    <li id="liMember" name="liMember" class="active" style ='float: left;' ><a href="#member">Member Info</a></li>
+				                    <li id="liRedeem" name="liRedeem" style ='float: left;'><a href="#redeem">Redeem History</a></li>                                    
+                                    <li id="liTopup" name="liTopup" style ='float: left;'><a href="#topup">TopUp History</a></li>  
+			                    </ul>
+                                
+			                    <div id="myTabContent" class="tab-content">
+
+				                    <div class="tab-pane active" id="member">
+					                    <div class="box">
+@*						                    <div class="box-header" data-original-title>
+							                    
+                                                <h2><i class="fa fa-dollar"></i><span class="break"></span>Product Entry</h2>
+							                    <div class="box-icon">
+								                    <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+								                    <a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+								                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+							                    </div>
+
+						                    </div>*@
+						                    <div class="box-content">            
+                                                <div id ="divMember">
+                                                    @Html.Partial("Member",Model) 
+@*                                                        @if (grid.HasSelection)
+                                                        {
+                                                            BigMac.Models.CusSup_m_CusSup mem = new BigMac.Models.CusSup_m_CusSup();
+                                                            Html.RenderPartial("Member", mem);           
+                                                        }*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane" id="redeem">
+					                    <div class="box">
+						                    <div class="box-content">            
+                                                <div id ="divRedeem">
+							                        <table class="table table-striped table-bordered bootstrap-datatable datatable dataTable" style ="vertical-align:central;">
+								                          <thead>
+									                          <tr >
+										                          <th rowspan ="2" style="vertical-align:middle;" >Sr.</th>
+                                                                  <th rowspan ="2" style="vertical-align:middle;width:100px;">Date</th>
+                                                                  <th rowspan ="2" style="vertical-align:middle;width:150px;">Redeemption No.</th>
+										                          <th rowspan ="2" style="width:500px;vertical-align:middle;">Service/Product</th>
+                                                                  <th rowspan ="2" style ="text-align:center;vertical-align:middle;">Qty</th>
+                                                                  <th colspan="2" style ="text-align:center;vertical-align:middle;">Amount</th>                                                                                                           
+									                          </tr>
+                                                              <tr>
+                                                                  @*<th colspan="4"></th>*@
+										                          <th style ="text-align:center;">Gliss$</th>
+										                          <th style ="text-align:center;">Bonus$</th>
+                                                              </tr>
+								                          </thead>   
+								                          <tbody>
+                                                              <tr>
+                                                                  <td>1</td>
+                                                                  <td>01 Jan 2013</td>
+                                                                  <td>RDM0000078</td>                                                                  
+                                                                  <td>Nail Art</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">1</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">100</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">300</td>                                          
+                                                              </tr>
+                                                              <tr>
+                                                                  <td>2</td>
+                                                                  <td>10 Feb 2013</td>
+                                                                  <td>RDM0000080</td>                                                                  
+                                                                  <td>Hair Reborning</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">1</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">500</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">1000</td>                                                                  
+                                                              </tr>
+                                                              <tr>
+                                                                  <td>3</td>
+                                                                  <td>12 Mar 2013</td>
+                                                                  <td>RDM0000090</td>
+                                                                  <td>Hair Perming</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">1</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">800</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">1600</td>                                                                  
+                                                              </tr>
+                                                              <tr>
+                                                                  <td>4</td>
+                                                                  <td>25 Apr 2013</td>
+                                                                  <td>RDM0000110</td>
+                                                                  <td>Face Hydration</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">1</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">500</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">1000</td>                                                                  
+                                                              </tr>
+                                                              <tr>
+                                                                  <td>5</td>
+                                                                  <td>01 Aug 2013</td>
+                                                                  <td>RDM0000178</td>
+                                                                  <td>Face Cleansing</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">1</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">200</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">400</td>
+                                                              </tr>
+                                                              <tr>
+                                                                  <td>6</td>
+                                                                  <td>10 Oct 2013</td>
+                                                                  <td>RDM0000190</td>
+                                                                  <td>Face Treatment</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">1</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">2000</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">4000</td>
+                                                              </tr>
+                                                              <tr>
+                                                                  <td>7</td>
+                                                                  <td>30 Nov 2013</td>
+                                                                  <td>RDM0000210</td>
+                                                                  <td>Hair Coloring</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">1</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">1000</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">2000</td>
+                                                              </tr>
+                                                          </tbody>
+                                                    </table>                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane" id="topup">
+					                    <div class="box">
+						                    <div class="box-content">            
+                                                <div id ="divTopUp">
+							                        <table class="table table-striped table-bordered bootstrap-datatable datatable dataTable" style ="vertical-align:central;">
+								                          <thead>
+									                          <tr >
+										                          <th rowspan ="2" style="vertical-align:middle;" >Sr.</th>
+                                                                  <th rowspan ="2" style="vertical-align:middle;width:100px;">Date</th>
+                                                                  <th rowspan ="2" style="vertical-align:middle;width:150px;">TopUp Ref.</th>
+										                          <th rowspan ="2" style="width:500px;vertical-align:middle;">Product</th>
+                                                                  <th rowspan ="2" style ="text-align:center;vertical-align:middle;">Qty</th>
+                                                                  <th colspan="2" style ="text-align:center;vertical-align:middle;">Amount</th>                                                                                                           
+									                          </tr>
+                                                              <tr>
+                                                                  @*<th colspan="4"></th>*@
+										                          <th style ="text-align:center;">Gliss$</th>
+										                          <th style ="text-align:center;">Bonus$</th>
+                                                              </tr>
+								                          </thead>   
+								                          <tbody>
+                                                              <tr>
+                                                                  <td>1</td>
+                                                                  <td>01 Jan 2013</td>
+                                                                  <td>TP0000078</td>                                                                  
+                                                                  <td>TopUp Promotion Package 1</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">1</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">1000</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">500</td>                                          
+                                                              </tr>
+                                                              <tr>
+                                                                  <td>2</td>
+                                                                  <td>10 Jul 2013</td>
+                                                                  <td>TP0000100</td>                                                                  
+                                                                  <td>TopUp Promotion Package 4</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">1</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">1500</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">800</td>                                                                                                 
+                                                              </tr>
+                                                              <tr>
+                                                                  <td>3</td>
+                                                                  <td>15 Oct 2013</td>
+                                                                  <td>TP0000200</td>                                                                  
+                                                                  <td>TopUp Promotion Package 2</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">1</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">500</td>
+                                                                  <td style ="text-align:right;padding-right:20px;">300</td>                                                                 
+                                                              </tr>
+
+                                                          </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    
+                </div>
+
+
+              </div>   
+
+			            <div class="row" >	
+				            <div class="col-lg-12" >
+					            <div class="box">
+                                          
+							    <div class="col-sm-2">
+								    <a class="quick-button" href="~/POS/Redeem">
+									    <i class="fa fa-ticket"></i>
+									    <p>Redeem</p>
+								    </a>
+							    </div>
+
+							    <div class="col-sm-2">
+								    <a class="quick-button" href="~/POS/TopUp">
+									    <i class="fa fa-money"></i>
+									    <p>Top Up</p>
+								    </a>
+							    </div>
+
+							    <div class="col-sm-2">
+								    <a class="quick-button" href="~/POS/Customer/0?type=Customer">
+									    <i class="fa fa-user" ></i>
+									    <p>Create Member</p>
+								    </a>
+							    </div>
+                                   
+							    <div class="col-sm-2">
+								    <a class="quick-button" href="~/POS/DailySales">
+									    <i class="fa fa-bar-chart-o"></i>
+									    <p>Daily Sales Summary</p>
+								    </a>
+							    </div>                          
+
+@*							    <div class="col-sm-2">
+								    <a class="quick-button" href="~/POS/DailyRedemption">
+									    <i class="fa fa-bar-chart-o"></i>
+									    <p>Daily Redemption</p>
+								    </a>
+							    </div> *@  
+
+
+
+							    <div class="col-sm-2">
+								    <a class="quick-button" href="~/POS/ProductListing">
+									    <i class="fa fa-list-alt"></i>
+									    <p>Product Listing</p>
+								    </a>
+							    </div>   
+
+							    <div class="col-sm-2">
+								    <a class="quick-button" href="~/Home/Index">
+									    <i class="fa fa-home"></i>
+									    <p>Home</p>
+								    </a>
+							    </div> 
+
+                                             
+                                        @*<div class="clearfix"></div>*@
+                                    </div>
+                                </div>
+                            </div>
+
+
+                <div class="clearfix"></div>
+
+          </div>
+    </div>

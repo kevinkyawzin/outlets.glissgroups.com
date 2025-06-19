@@ -1,0 +1,1220 @@
+﻿@model BigMac.Models.Product_m_Product
+
+@{
+    ViewBag.Title = "ProductSave";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var i = 0;
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box">
+            <div class="box-header" style="background-color:#EEE;"><i class="fa fa-edit"></i>Product Entry</div>
+
+            <div class="box-content">
+                <div id="divproductDetail">
+                    <div class="col-lg-3">
+                        <table style="width:100%;border-spacing:5px;border-collapse:separate;padding-left:10px;">
+                            <tr>
+                                <td>
+                                    <input type="file" name="fileUpload" id="fileUpload" />
+                                    <img src="~/assets/img/Products/Product3.jpg" class="img-thumbnail" style="width:130px;height:140px;" id="imgProduct" />
+                                    <input id="photo" type="hidden" value="@ViewBag.ProductImage" />
+                                    <input id="rcode" type="hidden" value="@ViewBag.RCode" />
+                                    <div style="padding:0px;"><button type="button" class="btn btn-small btn-success" onclick="UploadImage();" style="width:130px;">Upload</button></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align:top;">
+                                    @*<div style="padding-top:10px;text-align:center;font-weight:bold;color:green;"><u><a href="#">SetUp High Resolution Image</a></u> </div>
+                                    <div style="border:1px solid #EEE;width:100%">
+                                        <center>
+                                            <a style="min-width:30px;height:100%;"><span style="font-size:20px;"><</span></a>
+                                            <img src="~/assets/img/Products/Product2.jpg" class="img-thumbnail" style="width:150px;height:140px;" id="imgHRProduct" />
+                                            <label style="min-width:30px;height:100%;"><i class="fa fa-angle-right"></i></label>
+                                        </center>
+                                    </div>*@
+                                </td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-lg-6">
+                        <table style="width:100%;border-spacing:5px;border-collapse:separate;padding-left:10px;">
+                            <tr>
+                                <td style="width:30%;"><label class="control-label">Product Code</label></td>
+                                <td style="width:60%;">@Html.TextBoxFor(model => model.productcode, new { @class = "form-control" ,@disabled=""})</td>
+                                <td style="width:10%;">@*<input id="ptype" type="hidden" value ="@Model.category"/>*@<input id="pid" type="hidden" value="@Model.id" /></td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label">Type</label></td>
+                                <td>
+                                    @*@Html.DropDownListFor(model => model.category, new SelectList(@ViewBag.CategoryOptions, "category", "category"), new { @class = "form-control", @data_rel = "chosen" })*@
+                                    @Html.DropDownListFor(model => model.category, new SelectList(@ViewBag.CategoryOptions, "category", "category"), new { @class = "form-control"})
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label">Category</label></td>
+                                <td>
+
+                                    @Html.DropDownListFor(model => model.categorysub, new SelectList(@ViewBag.SubCategoryOptions, "category", "Category"), new { @class = "form-control"})
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label">Brand</label></td>
+
+                                <td>
+                                    @Html.DropDownListFor(model => model.brand, new SelectList(@ViewBag.BrandOptions, "value", "value"), new { @class = "form-control" })
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label">Ranges & Series</label></td>
+
+                                <td>
+                                    @Html.DropDownListFor(model => model.RangesNSeries, new SelectList(@ViewBag.RangesNSeriesOptions, "value", "value"), new { @class = "form-control" })
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><label class="control-label">Description</label></td>
+                                <td>@Html.TextBoxFor(model => model.desc, new { @class = "form-control" })</td>
+
+                            </tr>
+                            <tr>
+                                <td><label class="control-label">Remark</label></td>
+                                <td>@Html.TextBoxFor(model => model.remark, new { @class = "form-control" })</td>
+
+                            </tr>
+                            <tr>
+                                <td><label class="control-label">Status</label></td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.status, new SelectList(@ViewBag.StatusOptions, "status", "status"), new { @class = "form-control" })
+                                </td>
+                            </tr>
+                        </table>
+
+                        <br />
+
+                        <table style="width:100%;border-spacing:5px;border-collapse:separate;padding-left:10px;">
+                            <tr>
+                                <td colspan="3"><label class="control-label">Unit of Measurements</label></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td style="width:120px;">UOM1 @Html.DropDownList("cboUOM1", new SelectList(@ViewBag.UOMOptions, "UOM", "UOM",@Model.uom), new { @class = "form-control",@data_rel="chosen" })  </td>
+                                <td style="width:80px;">Factor <input id="uomfactor2" class="form-control" value="@Model.uomfactor2" /></td>
+                                <td style="width:120px;">UOM2 @Html.DropDownList("cboUOM2", new SelectList(@ViewBag.UOMOptions, "UOM", "UOM",@Model.uom2), new { @class = "form-control",@data_rel="chosen" })  </td>
+                                <td style="width:80px;">Factor <input id="uomfactor3" class="form-control" value="@Model.uomfactor3" /></td>
+                                <td style="width:120px;">UOM3 @Html.DropDownList("cboUOM3", new SelectList(@ViewBag.UOMOptions, "UOM", "UOM",@Model.uom3), new { @class = "form-control",@data_rel="chosen" })  </td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+
+
+
+                    <div class="col-lg-3" id="divAltWrap" style="display:none;">
+                        <div style="width:100%;text-align:right;">
+
+                            <button type="button" class="btn btn-small btn-success" style="width:100%;" onclick="OpenALTDialog(0);">Add New Alternate Code</button>
+
+                        </div>
+                        <div id="divALT" style="width:100%;"></div>
+
+                        <div id="dialog-modal-ALT">
+                            <div class="col-lg-12" id="divALTDialog">
+                                <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+                                    Alternate Code <input type="hidden" id="txtALTID" value="0" />
+                                </div>
+                                @*@Html.DropDownList("cboBundlePrdouct",) *@
+                                <table style="width:100%;border-spacing:5px;border-collapse:separate;padding-left:10px;margin-top:10px;">
+                                    <tr>
+                                        <td style="width:120px;">Alternate Code</td>
+                                        <td colspan="2"><input type="text" id="txtALTCode" class="form-control" /></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td style="width:100px;"><button type="button" id="btnALTSave" onclick="SaveALTCode();" class="btn btn-primary" style="width:100px;">Save</button></td>
+                                        <td style="width:100px;"><button type="button" id="btnALTClose" onclick="CloseALTDialog();" class="btn btn-primary" style="width:100px;">Cancel</button></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    
+                        @*<div class="col-lg-12">
+                            <div class="box">
+                                <div class="box-header" style="background-color:#EEE;"><i class="fa fa-edit"></i><div style="padding-top:10px;text-align:center;font-weight:bold;color:green;"><u><a href="#s">SetUp High Resolution Image</a></u> </div></div>
+
+                            </div>
+                        </div>*@
+                    
+                    <div class="col-lg-12" id="divBundleWrap" style="Display:none;">
+                        @*                                        <br />
+                                <div  style ="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+                                    Product Bundle <a style="color:orange;" href="#" onclick ="OpenDialog(0)"  title ="Add New Item">( Click here to add Item )</a>
+                                </div>
+                                <br />
+                            <div>
+                        *@
+                        <div class="box">
+
+                            <div class="box-header" data-original-title>
+                                <h2>Product Bundle <a style="color:black;font-weight:bold;" href="#" onclick="OpenDialog(0)" title="Add New Item">( Click here to add Item )</a></h2>
+                                <div class="box-icon">
+                                    <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+                                    <a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                                </div>
+                            </div>
+                            <div class="box-content">
+
+                                <div style="width:70%;" id="divBundle">
+                                    <table class="table table-bordered" id="tblBundle"></table>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="dialog-modal">
+                            <div class="col-lg-12" id="divBundleDialog">
+                                <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+                                    Product Bundle
+                                </div>
+                                @*@Html.DropDownList("cboBundlePrdouct",) *@
+                                <table style="width:100%;border-spacing:5px;border-collapse:separate;padding-left:10px;margin-top:10px;">
+                                    <tr>
+                                        <td style="width:100px;">Line No.</td>
+                                        <td style="width:100px;"><input type="text" id="txtLineNo" class="form-control" /></td>
+                                        <td style="width:100px;"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Type</td>
+                                        <td colspan="2">@Html.DropDownList("cboBptype", new SelectList(@ViewBag.CategoryOptions, "category", "category"), new { @class = "form-control"})</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Category</td>
+                                        <td colspan="2">@Html.DropDownList("cboBpcategory", new SelectList(@ViewBag.SubCategoryOptions, "category", "category"), new { @class = "form-control"})</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Brand</td>
+                                        <td colspan="2">@Html.DropDownList("cboBpbrand", new SelectList(@ViewBag.BrandOptions, "value", "value"), new { @class = "form-control"})</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ranges & Series</td>
+                                        <td colspan="2">@Html.DropDownList("cboBprnc", new SelectList(@ViewBag.RangesNSeriesOptions, "value", "value"), new { @class = "form-control"})</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Product<input type="hidden" id="txtBundleID" /></td>
+                                        @*                                                        <td >
+
+                                               <select id ="cboBptype" class ="form-control">
+                                                    <option value ="Product">Product</option>
+                                                    <option value ="Service">Service</option>
+                                                    <option value ="Package">Package</option>
+                                                    <option value ="TopUp">TopUp</option>
+                                                </select>
+                                            </td>*@
+                                        <td colspan="2"><select id="cboProduct" class="form-control"></select></td>
+                                        @*<td><input id="productdesc" type="text" disabled /></td>*@
+                                    </tr>
+                                    <tr>
+                                        <td>Qty</td>
+                                        <td colspan="2" style="width:100px;"><input type="text" id="txtQty" class="form-control" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td><button type="button" id="btnBundleSave" onclick="SaveBundleItem()" class="btn btn-primary" style="width:100px;">Save</button></td>
+                                        <td><button type="button" id="btnClose" onclick="CloseDialog()" class="btn btn-primary" style="width:100px;">Cancel</button></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div class="col-lg-12">
+                        <div id="divPricingWrap">
+
+                            @*
+                                <br />
+                                <div  style ="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+                                    Product Pricing
+                                </div>
+                                <br />
+                                <div>
+                            *@
+                            <div class="box">
+
+                                <div class="box-header" data-original-title>
+                                    <h2>Product Pricing</h2>
+                                    <div class="box-icon">
+                                        <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+                                        <a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                                        <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                                    </div>
+                                </div>
+                                <div class="box-content">
+                                    <div style="width:70%;">
+                                        <table class="table table-bordered" id="tblprc">
+                                            <thead>
+                                                <tr style="text-align:center;">
+                                                    <th rowspan="2" style="display:none;">id</th>
+                                                    <th rowspan="2" style="width:30%">Unit of Measurements</th>
+                                                    <th colspan="2" style="text-align:center;width:25%">Redemption</th>
+                                                    <th colspan="2" style="text-align:center;width:25%">Awards</th>
+                                                    <th style="text-align:center;width:10%" rowspan="2">Commission</th>
+                                                    <th style="text-align:center;width:10%" rowspan="2">Sell Price</th>
+                                                </tr>
+                                                <tr>
+                                                    <th style="text-align:center;">Citi$</th>
+                                                    <th style="text-align:center;">Bonus$</th>
+                                                    <th style="text-align:center;">Citi$</th>
+                                                    <th style="text-align:center;">Bonus$</th>
+                                                    @*<th  style="text-align:center;">Service$</th>   *@
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.prices)
+                                                    {
+                                                        i = i + 1;
+                                                    <tr>
+                                                        <td style="display:none">@item.id</td>
+                                                        <td>@Html.DropDownList("cboPUOM" + i.ToString(), new SelectList(@ViewBag.UOMOptions, "UOM", "UOM",@item.uom), new { @class = "form-control",@data_rel="chosen"}) </td>
+                                                        <td><input id="rc_@i" class="form-control" value="@item.redeemdollars" style="text-align:center;" /></td>
+                                                        <td><input id="rb_@i" class="form-control" style="text-align:center;" value="@item.redeembonus" /></td>
+                                                        <td><input id="ac_@i" class="form-control" style="text-align:center;" value="@item.awarddollars" /></td>
+                                                        <td><input id="ab_@i" class="form-control" style="text-align:center;" value="@item.awardbonus" /></td>
+                                                        <td><center><input id="sc_@i" class="form-control" style="text-align:center;" value="@item.servicecommission" /></center></td>
+                                                        <td><center><input id="sp_@i" class="form-control" style="text-align:center;" value="@item.sellprice" /></center></td>
+                                                    </tr>
+                                                    }
+                                                @if (i < 5)
+                                                    {
+                                                        var c = 0;
+                                                        for (c = i + 1; c < 6; c++)
+                                                        {
+                                                    <tr>
+                                                        <td style="display:none">0</td>
+                                                        <td>@Html.DropDownList("cb0oPUOM" + c.ToString(), new SelectList(@ViewBag.UOMOptions, "UOM", "UOM"), new { @class = "form-control",@data_rel="chosen" }) </td>
+                                                        <td><input id="rc_@c" class="form-control" style="text-align:center;" /></td>
+                                                        <td><input id="rb_@c" class="form-control" style="text-align:center;" /></td>
+                                                        <td><input id="ac_@c" class="form-control" style="text-align:center;" /></td>
+                                                        <td><input id="ab_@c" class="form-control" style="text-align:center;" /></td>
+                                                        <td><center><input id="sc_@c" class="form-control" style="text-align:center;" /></center></td>
+                                                        <td><center><input id="sp_@c" class="form-control" style="text-align:center;" /></center></td>
+                                                    </tr>
+                                                        }
+                                                    }
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br />
+                        <div style="width:100%;background-color: whiteSmoke;padding: 20px 20px 20px;">
+                            <button type="button" class="btn btn-primary" value="Save" onclick="SaveProduct();">Save changes</button>
+                            <button type="reset" class="btn">Clear</button>
+                            <button class="btn btn-primary" onclick="window.history.back();">Back</button>
+                        </div>
+                        @*</div>*@
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="box">
+
+                        <div class="col-sm-2" style="display:none;" data-rcode="REDEEM">
+                            <a class="quick-button" data-rcode="REDEEM" onclick="RedeemFunction(this);" style="display:none;">
+                                <i class="fa fa-ticket"></i>
+                                <p>Redeem</p>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-2" data-rcode="TOPUP" style="display:none;">
+                            <a class="quick-button" onclick="TopUpFunction(this);" data-rcode="TOPUP" style="display:none;">
+                                <i class="fa fa-ticket"></i>
+                                <p>Club</p>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-2" data-rcode="CREATEMEMBER" style="display:none;">
+                            <a class="quick-button" onclick="CreateMemberFunction(this);" data-rcode="CREATEMEMBER">
+                                <i class="fa fa-user"></i>
+                                <p>Create Member</p>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-2" data-rcode="MEMBERLISTING" style="display:none;">
+                            <a class="quick-button" onclick="MemberSearchFunction(this);" id="BTNMEMBERLISTING" data-rcode="MEMBERLISTING">
+                                <i class="fa fa-users"></i>
+                                <p>Membership Enquiry</p>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-2" data-rcode="PROMOTIONLISTING" style="display:none;">
+                            <a class="quick-button" data-rcode="PROMOTIONLISTING" onclick="PromotionListingFunction(this);">
+                                <i class="fa fa-list-alt"></i>
+                                <p>Promotion Listing</p>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <a class="quick-button" href="~/POS/Index">
+                                <i class="fa fa-home"></i>
+                                <p>Home</p>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <script type="text/javascript">
+                var altindex = 0;
+                $(function () {
+                    var pt = $('#category').val().toUpperCase();
+                    var pid = $('#pid').val();
+
+                    if (pid > "0")
+                        $('#divAltWrap').show();
+                    if (pt == "SALESKIT")
+                        $('#divPricingWrap').attr("style", "Display:none");
+
+                    if (pt == "PACKAGE" || pt == "SALESKIT") {
+                        //alert(pid);
+                        if (pid > "0")
+                            $('#divBundleWrap').show();
+                        //$('#divBundleWrap').attr("style='Display:block'");
+                        showBundleGrid();
+                    }
+
+                    if (pt == "SALESKIT") {
+                        initSalesKit();
+                    }
+
+                    $('#dialog-modal').dialog({
+                        position: [400, 100],
+                        width: 450,
+                        hight: 400,
+                        modal: true,
+                        autoOpen: false,
+                        open: function (event, ui) {
+                            $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+                        }
+
+                    });
+
+                    $('#dialog-modal-ALT').dialog({
+                        position: [300, 200],
+                        width: 420,
+                        hight: 400,
+                        modal: true,
+                        autoOpen: false,
+                        open: function (event, ui) {
+                            $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+                        }
+
+                    });
+
+                    $('#cboBptype').click(function e() { getProducts(0); });
+                    $('#cboBpcategory').click(function e() { getProducts(0); });
+                    $('#cboBpbrand').click(function e() { getProducts(0); });
+                    $('#cboBprnc').click(function e() { getProducts(0); });
+                    showAltGrid();
+                    //var category = $("#category").val();
+                    $("#imgProduct").attr("src", "../assets/img/Product/" + $("#photo").val());
+                    var tt = "";
+
+                    $("#tblprc > tbody > tr").find('input:text').each(function (index) {
+                        $(this).on('input', function (event) {
+                            this.value = this.value.replace(/[^0-9\.]/g, '');
+                        });
+                    });
+
+                    $("#uomfactor2").on('input', function (event) {
+                        this.value = this.value.replace(/[^0-9]/g, '');
+                    });
+
+                    $("#uomfactor3").on('input', function (event) {
+                        this.value = this.value.replace(/[^0-9]/g, '');
+                    });
+
+                    $("#txtLineNo").on('input', function (event) {
+                        this.value = this.value.replace(/[^0-9]/g, '');
+                    });
+
+                    $("#txtQty").on('input', function (event) {
+                        this.value = this.value.replace(/[^0-9]/g, '');
+                    });
+                });
+
+                function initSalesKit()
+                {
+                    //var pid = $('#pid').val();
+                    //if (pid ==0)
+                    //alert("InitSalesKit");
+                    //$('#categorysub').class = "form-control disabled";
+                    //$('#brand').addClass("form-control disabled");
+                    //$('#RangesNSeries').addClass("form-control disabled");
+                    $('#categorysub').attr("disabled", 1);
+                    $('#brand').attr("disabled", 1);
+                    $('#RangesNSeries').attr("disabled", 1);
+                    //$('#RangesNSeries').disabled = true;
+                    //$('#RangesNSeries').val("NONE");
+                    //alert($('#RangesNSeries').val());
+                    //$('#RangesNSeries').reset();
+                    //$('#categorysub').val("NONE");
+                    //$('#brand').val("InHouse");
+                    //$('#RangesNSeries').val("NONE");
+                    //alert("F-sInitSalesKit");
+                }
+
+                function getProducts(value) {
+                    var ptype = $('#cboBptype').val();
+                    var pcategory = $('#cboBpcategory').val();
+                    var pbrand = $('#cboBpbrand').val();
+                    var prnc = $('#cboBprnc').val();
+
+                    $.ajax({
+                        url: '@Url.Action("getProducts", "Product")',
+                        data: { ptype: ptype, pcategory: pcategory, pbrand: pbrand, prnc: prnc },
+                        type: 'POST',
+                        success: function (data) {
+                            //$("#tese").html(data);
+                            //$("#cbobranch").html("<option value = \"\"></option>")
+                            var Htmlstr = "";
+                            //alert(data);
+                            for (var x = 0; x < data.length; x++) {
+
+                                Htmlstr += "<option value=" + data[x].id + ">" + data[x].desc + " (" + data[x].productcode + ")</option>";
+                            }
+                            $('#cboProduct').html(Htmlstr).show();
+                            if (value != '0') $('#cboProduct').val(value);
+                            //alert(Htmlstr);
+                            //alert($('#cbocampaign').val() + "," + $('#cbobranch').val() + "," + $('#cbogroup').val());
+                            //populateCampaignDetail();
+                        }
+                    });
+                }
+
+                function showAltGrid() {
+                    var pid = $('#pid').val();
+
+                    $.ajax({
+                        url: '@Url.Action("getProductAlternateCode", "Product")',
+                        data: { pid: pid },
+                        type: 'POST',
+                        success: function (data) {
+                            //if (data)
+                            populateAltList(data);
+                        },
+                        error: function (ts) { alert(ts.responseText) }
+                    });
+                }
+
+                function populateAltList(data) {
+
+                    //var Htmlstr = "";//class='table table-bordered
+                    var Htmlstr = "<table id='tblALT' class='table table-bordered'><thead>";
+                    //var Htmlstr = "<thead>";
+                    var closeHtml = "</tbody></table>";
+                    var tmpstr = "";
+                    Htmlstr = Htmlstr + "<tr><td style='Display:none;'>ID</td><th >Sr.</th><th>Alternate Code</th><td style='width:100px;'></td></tr></thead><tbody>";
+
+                    //var rows = "";
+                    for (var x = 0; x < data.length; x++) {
+                        Htmlstr += "<tr id='bundle_" + data[x].id + "'><td style='Display:none;'>" + data[x].id + "</td><td >" + (x + 1) + "</td><td >" + data[x].altcode + "</td>";
+                        Htmlstr += " <td><a class='btn btn-info'  onclick='OpenALTDialog(" + data[x].id + ",this)' title ='Edit Item'><i class='fa fa-edit'></i></a><a class='btn btn-danger'  onclick='RemoveALTRow(this," + data[x].id + ")' title ='Remove Item'><i class='fa fa-trash-o '></i></a></td></tr>";
+                        //Htmlstr += "<td><a class='btn btn-info' href='ProductSave?id=" + data[x].id + "' title ='Edit Product'><i class='fa fa-edit></i></a></td></tr>";
+                    }
+                    Htmlstr += closeHtml;
+                    $('#divALT').html(Htmlstr);
+                    if (x > 0) altindex = x;
+                    //$('#divBundle table').last().dataTable({
+                    //    //"sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>"
+                    //});
+                }
+
+                function OpenALTDialog(id, paramtr) {
+                    if (id == 0) {
+                        $('#txtALTID').val(0);
+                        $('#txtALTCode').val("");
+                    }
+                    else {
+                        var tds = $(paramtr).closest('tr').find('td');
+                        //alert('qty'+tds.eq(6).html());
+                        $('#txtALTID').val(id);
+                        $('#txtALTCode').val(tds.eq(2).html());
+                    }
+                    $('#dialog-modal-ALT').dialog('open');
+                }
+                function CloseALTDialog() {
+                    $('#dialog-modal-ALT').dialog("close");
+                }
+                function SaveALTCode() {
+                    var altid = $('#txtALTID').val();
+                    var rcode = $('#rcode').val();
+                    var pid = $('#pid').val();
+                    var pcode = $('#productcode').val();
+                    var altcode = $('#txtALTCode').val();
+
+                    var altItem = new Object();
+                    altItem.id = altid;
+                    //prc.uom = tds.eq(0).find('select').val();
+                    altItem.productid = pid;
+                    altItem.altcode = altcode;
+
+                    $.ajax({
+                        url: '@Url.Action("ProductALTCodeSave", "Product")',
+                        data: JSON.stringify({ palt: altItem, rcode: rcode, pcode: pcode }),
+                        type: 'POST',
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            if (data == "SUCCESS") {
+                                $('#dialog-modal-ALT').dialog("close");
+                                showAltGrid();
+                                //alert(data);
+                            }
+                        }
+                    });
+                }
+
+                function RemoveALTRow(paramtr, id) {
+                    var result = confirm("Are you sure you want to remove this code?");
+                    var rcode = $('#rcode').val();
+                    var pcode = $('#productcode').val();
+                    if (result == true) {
+                        //{ $(paramtr).closest('tr').remove(); }
+                        $.ajax({
+                            url: '@Url.Action("ProductALTCodeRemove", "Product")',
+                            data: { paltid: id, rcode: rcode, pcode: pcode },
+                            type: 'POST',
+                            success: function (data) {
+                                if (data == "SUCCESS") {
+                                    $(paramtr).closest('tr').remove();
+                                }
+                                //alert(data);
+                            }
+                        });
+                    }
+                }
+
+                //function RemoveALTRow(paramtr)
+                //{
+                //    var result = confirm("Are you sure you want to remove this code?");
+                //    if (result == true)
+                //    {
+                //        $(paramtr).closest('tr').remove();
+                //     }
+                //}
+
+                function OpenDialog(itemid, paramtr) {
+
+                    //var pid = $('#pid').val();
+                    $('#txtBundleID').val(itemid);
+
+                    //alert(itemid);
+                    if (itemid == '0') {
+                        $('#txtQty').val("1");
+                        $('#txtLineNo').val("");
+                        getProducts(0);
+                    }
+                    else {
+                        var tds = $(paramtr).closest('tr').find('td');
+                        //alert('qty'+tds.eq(6).html());
+                        $('#txtQty').val(tds.eq(8).html());
+                        $('#cboBptype').val(tds.eq(3).html());
+                        $('#cboBpcategory').val(tds.eq(4).html());
+                        $('#cboBpbrand').val(tds.eq(5).html());
+                        $('#cboBprnc').val(tds.eq(6).html());
+                        //$('#cboProduct').val(tds.eq(1).html());
+                        getProducts(tds.eq(1).html());
+                        $('#txtLineNo').val(tds.eq(2).html());
+
+                    }
+                    $('#dialog-modal').dialog('open');
+
+                }
+
+                function CloseDialog() {
+                    $('#dialog-modal').dialog("close");
+                }
+
+                function showBundleGrid() {
+                    var pid = $('#pid').val();
+                    var pt = $('#category').val();
+
+                    $.ajax({
+                        url: '@Url.Action("getProductBundle", "Product")',
+                        data: { pid: pid, ptype: pt },
+                        type: 'POST',
+                        success: function (data) {
+                            if (data)
+                                populateBundleList(data);
+                        },
+                        error: function (ts) { alert(ts.responseText) }
+                    });
+                }
+
+                function populateBundleList(data) {
+
+                    //var Htmlstr = "";//class='table table-bordered
+                    var Htmlstr = "<table id='tblBundle' class='table table-bordered'><thead>";
+                    //var Htmlstr = "<thead>";
+                    var closeHtml = "</tbody></table>";
+                    var tmpstr = "";
+                    Htmlstr = Htmlstr + "<tr><td style='Display:none;'>ID</td><td style='Display:none;'>PID</td><th >Line No</th><th>Type</th>";
+                    Htmlstr = Htmlstr + "<th>Category</th>";
+                    Htmlstr = Htmlstr + "<th>Brand</th>";
+                    Htmlstr = Htmlstr + "<th>Ranges & Series</th>";
+                    Htmlstr = Htmlstr + "<th>Description</th>";
+                    Htmlstr = Htmlstr + "<th>Qty</th><th style='width:100px;'></th>";
+                    Htmlstr = Htmlstr + "</tr></thead><tbody>";
+                    //var rows = "";
+                    for (var x = 0; x < data.length; x++) {
+                        //ctmp = getDateFromAspString(data[x].createdate);
+                        //alert(data[x].createdate + "," + ctmp + "," + ctmp.getFullYear());
+                        Htmlstr += "<tr id='bundle_" + data[x].id + "'><td style='Display:none;'>" + data[x].id + "</td><td style='Display:none;'>" + data[x].itemid + "</td><td >" + data[x].lineno + "</td><td >" + data[x].Product.category + "</td><td >" + data[x].Product.categorysub + "</td><td >" + data[x].Product.brand + "</td><td >" + data[x].Product.RangesNSeries + "</td><td>" + data[x].Product.desc + " ( " + data[x].Product.productcode + " )</td><td>" + data[x].qty + "</td>";
+                        Htmlstr += " <td><a class='btn btn-info'  onclick='OpenDialog(" + data[x].id + ",this)' title ='Edit Item'><i class='fa fa-edit'></i></a><a class='btn btn-danger'  onclick='RemoveBundleRow(this," + data[x].id + ")' title ='Remove Item'><i class='fa fa-trash-o '></i></a></td></tr>";
+                        //Htmlstr += "<td><a class='btn btn-info' href='ProductSave?id=" + data[x].id + "' title ='Edit Product'><i class='fa fa-edit></i></a></td></tr>";
+                    }
+                    Htmlstr += closeHtml;
+
+                    $('#divBundle').html(Htmlstr);
+                    //$('#divBundle table').last().dataTable({
+                    //    //"sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>"
+                    //});
+
+                }
+
+
+                function SaveBundleItem() {
+                    var bid = $('#txtBundleID').val();
+                    var pid = $('#pid').val();;
+                    //var ptype = $('#cboBptype').val();
+                    //var pcat = $('#cboBpcategory').val();
+                    //var pbrand = $('#cboBpbrand').val();
+                    //var prnc = $('#cboBprnc').val();
+                    if ($('#txtQty').val().trim() == "")
+                        $('#txtQty').val("0");
+                    var itemid = $('#cboProduct').val();
+                    var lno = $('#txtLineNo').val();
+                    var qty = $('#txtQty').val();
+                    var rcode = $('#rcode').val();
+                    var pcode = $('#productcode').val();
+
+                    var b = new Object();
+                    b.id = bid;
+                    //prc.uom = tds.eq(0).find('select').val();
+                    b.productid = pid;
+                    b.itemid = itemid;
+                    b.lineno = lno;
+                    b.qty = qty;
+
+                    //alert(b.id + "," + b.productid + "," + b.itemid + "," + b.lineno + "," + b.qty);
+
+                    $.ajax({
+                        url: '@Url.Action("ProductBundleSave", "Product")',
+                        data: JSON.stringify({ pb: b, rcode: rcode, pcode: pcode }),
+                        type: 'POST',
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            if (data == "SUCCESS") {
+                                $('#dialog-modal').dialog("close");
+                                showBundleGrid();
+                                //alert(data);
+                            }
+                        }
+                    });
+
+                }
+
+
+                function RemoveBundleRow(paramtr, id) {
+                    var result = confirm("Are you sure you want to remove this item?");
+
+                    if (result == true) {
+                        //{ $(paramtr).closest('tr').remove(); }
+                        var rcode = $('#rcode').val();
+                        var pcode = $('#productcode').val();
+
+                        $.ajax({
+                            url: '@Url.Action("ProductBundleRemove", "Product")',
+                            data: { pbid: id, rcode: rcode, pcode: pcode },
+                            type: 'POST',
+                            success: function (data) {
+                                if (data == "SUCCESS")
+                                { $(paramtr).closest('tr').remove(); }
+                                //alert(data);
+                            }
+                        });
+                    }
+                }
+                function SaveValidation() {
+                    //alert('SAVEing');
+                    if (IsNumeric($('#uomfactor2').val().trim()) == false) {
+                        alert("Invalid UOM Factor. It must be numeric value.");
+                        $('#uomfactor2').focus();
+                        return false;
+                    }
+
+                    if (IsNumeric($('#uomfactor3').val()) == false) {
+                        alert("Invalid UOM Factor. It must be numeric value.");
+                        $('#uomfactor3').focus();
+                        return false;
+                    }
+                    //alert(true);
+                    return true;
+                }
+
+                function SaveProduct() {
+                   
+                    //if (SaveValidation() == false) return false;
+                    //alert('SAVEing');
+                    var pid = $('#pid').val();
+                    var rcode = $('#rcode').val();
+                    var obj = new Object();
+                    var pitemids = "";
+                    var bitemids = "";
+                    var altcodes = "";
+                    //var acodes ="";
+
+                    obj.id = pid;
+                    //alert(pid);
+                    obj.productcode = $('#productcode').val();
+                    obj.category = $('#category').val();
+                    obj.categorysub = $('#categorysub').val();
+                    obj.brand = $('#brand').val();
+                    obj.RangesNSeries = $('#RangesNSeries').val();
+                    obj.desc = $('#desc').val();
+                    obj.uom = $('#cboUOM1').val();
+                    obj.uom2 = $('#cboUOM2').val();
+                    obj.uomfactor2 = $('#uomfactor2').val();
+                    obj.uom3 = $('#cboUOM3').val();
+                    obj.uomfactor3 = $('#uomfactor3').val();
+                    obj.remark = $('#remark').val();
+                    obj.status = $('#status').val();
+
+                    var prcCollection = new Array();
+
+                    var rowcount = $("#tblprc > tbody > tr").length;
+                    $("#tblprc > tbody > tr").each(function (i, row) {
+
+
+                        var tds = $(row).find('td');
+                        //alert(tds.eq(0).find('select').val() + ',' + tds.eq(1).find('input').val());
+                        //if (tds.eq(1).find('input').val() > '0' || tds.eq(2).find('input').val() > '0' || tds.eq(3).find('input').val() > '0' || tds.eq(4).find('input').val() > '0' || tds.eq(5).find('input').val() > '0') {
+                        if (tds.eq(1).find('input').val().trim() != '' || tds.eq(2).find('input').val().trim() != '' || tds.eq(3).find('input').val().trim() != '' || tds.eq(4).find('input').val().trim() != '' || tds.eq(5).find('input').val().trim() != '') {
+                            var prc = new Object();
+                            prc.productid = pid;
+                            prc.id = tds.eq(0).html();
+                            prc.uom = tds.eq(1).find('select').val();
+                            prc.redeemdollars = tds.eq(2).find('input').val();
+                            prc.redeembonus = tds.eq(3).find('input').val();
+                            prc.awarddollars = tds.eq(4).find('input').val();
+                            prc.awardbonus = tds.eq(5).find('input').val();
+                            prc.servicecommission = tds.eq(6).find('input').val();
+                            prc.sellprice = tds.eq(7).find('input').val();
+                            if (prc.id != '0')
+                                pitemids += prc.id + ",";
+                            prcCollection.push(prc);
+                        }
+                    });
+
+                    obj.prices = prcCollection;
+
+                    //var bundleCollection = new Array();
+
+                    ////var rowcount = $("#tblBundle > tbody > tr").length;
+                    //if ($('#category').val() == 'PACKAGE' || $('#category').val() == 'SALESKIT') {
+                    //    $("#tblBundle > tbody > tr").each(function (i, row) {
+
+                    //        var tds = $(row).find('td');
+                    //        //alert(tds.eq(1).html());
+                    //        //alert(tds.eq(0).find('select').val() + ',' + tds.eq(1).find('input').val());
+                    //        //if (tds.eq(1).find('input').val() > '0' || tds.eq(2).find('input').val() > '0' || tds.eq(3).find('input').val() > '0' || tds.eq(4).find('input').val() > '0' || tds.eq(5).find('input').val() > '0')
+                    //        {
+                    //            var b = new Object();
+                    //            b.id = tds.eq(0).html();
+                    //            //prc.uom = tds.eq(0).find('select').val();
+                    //            b.productid = pid;
+                    //            b.itemid = tds.eq(1).html();
+                    //            b.lineno = tds.eq(2).html();
+                    //            b.qty = tds.eq(8).html();
+                    //            if (b.id != '0')
+                    //                bitemids += b.id + ",";
+                    //            bundleCollection.push(b);
+                    //        }
+                    //        //alert(b.itemid);
+                    //    });
+                    //}
+                    //obj.bundleItems = bundleCollection;
+                    //alert(bundleCollection.length);
+                    //var altcodes = "";
+
+                    //$("#tblALT > tbody > tr").each(function (i, row)
+                    //{
+                    //    var tds = $(row).find('td');
+                    //    altcodes = altcodes + tds.eq(2).html() + ",";
+                    //});
+
+                    //var imgCollection = new Array();
+
+                    //var rowcount = $("#tblBundle > tbody > tr").length;
+                    if ($("#photo").val()) {
+                        if ($("#photo").val().length > 0) {
+                            var img = new Object();
+                            img.image = $("#photo").val();
+                            img.defaultflag = 1;
+                            imgCollection.push(img);
+                            obj.Images = imgCollection;
+                        }
+                    }
+
+                    //var a = new Object();
+                    //var altCollection = new Array();
+                    //a.altcode = altcodes;
+                    //altCollection.push(a);
+                    //obj.AltCodes = altCollection;
+                    //obj.tmpAltCodes = altcodes;
+                    //alert('Saved In Object , ' + obj.tmpAltCodes);
+                    //var inputArray = $(ctlstr);
+                    //alert("Saving");
+                    $.ajax({
+                        url: '@Url.Action("ProductSave", "Product")',
+                        data: JSON.stringify({ p: obj, priceItemids: pitemids, bundleItemids: bitemids, altcodes: altcodes, rcode: rcode }),
+                        type: 'POST',
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            //alert(data);
+                            if (data > "0") {
+                                alert("Success");
+                                window.open("ProductSave?id=" + data, "_self");
+                            }
+
+                        },
+                        error: function (req, status, err) {
+                            alert(err);
+                        }
+
+                    });
+
+                }
+
+                function UploadImage() {
+
+                    var form_data = new FormData();
+                    var fileInput = document.getElementById('fileUpload');
+                    //var category = $("#category").val();
+                    //Iterating through each files selected in fileInput
+                    for (i = 0; i < fileInput.files.length; i++) {
+                        //Appending each file to FormData object
+                        form_data.append(fileInput.files[i].name, fileInput.files[i]);
+                    }
+                    var xhr = new XMLHttpRequest();
+                    //xhr.open('POST', 'UploadProductImage?cat=' + category + '&hr=0');
+                    xhr.open('POST', 'UploadProductImage?cat=product&hr=0');
+                    xhr.send(form_data);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            //alert(xhr.responseText);
+
+                            $("#photo").val(xhr.responseText.substring(1, xhr.responseText.length - 1));
+                            //$("#imgProduct").attr("src", "../assets/img/" + category + "/" + $("#photo").val());
+                            $("#imgProduct").attr("src", "../assets/img/product/" + $("#photo").val());
+                        }
+                    }
+                    return false;
+
+                }
+
+                @*    function showGrid() {
+
+        var pid = $('#productid').val();
+        $.ajax({
+            url: '@Url.Action("ProductPriceList", "Product")',
+            data: { productid: pid },
+            type: 'POST',
+            success: function (data) {
+                if (data) {
+                    populateGrid(data);
+                }
+                //alert(data);
+            }
+        });
+    }*@
+
+
+
+                //function populateGrid(data) {
+                //    var i = 0;
+                //    var htmlstr = "<table class='table table-striped table-bordered bootstrap-datatable datatable' id ='tblAccessRight' ><thead>";
+                //    htmlstr = htmlstr + "<tr><th>PriceType</th><th>Price</th><th>Currency</th><th>Exchange Rate</th><th>Stock Received Ref:</th><th  style ='width:10%'></th></tr></thead><tbody>";
+
+                //    for (i = 0; i < data.length; i++) {
+                //        htmlstr = htmlstr + "<tr><td>" + data[i].pricetype + "</td><td>" + data[i].price + "</td><td>" + data[i].currency + "</td><td>" + data[i].exchangerate + "</td><td>" + data[i].stockreceivedref + "</td><td class='center'><a class='btn btn-danger' href='#' onclick ='RemoveRow(this," + data[i].id + ")' ><i class='fa fa-trash-o'></i></a></td></td> ";
+                //    }
+
+                //    htmlstr = htmlstr + "</tbody></table>";
+                //    $('#divgrid').html(htmlstr);
+                //}
+
+
+            </script>
+
+            @*                     <div class="row">
+                    <div class="col-lg-12">
+                    <div class="box">
+                        <div class="box-header" style="background-color:#EEE;"></div>
+                        <div class="box-content">
+                        @using (Html.BeginForm("ProductPrice","Product",FormMethod.Post))
+                        {
+                            @Html.ValidationSummary(true)
+                            <fieldset  class ="col-sm-12">
+                            <ul class="nav tab-menu nav-tabs" id="myTab" style ="padding-left:10px;list-style: none;">
+                                <li id="liProduct" name="liProduct" class="active" style ='float: left;' ><a href="#productDetail">Product Detail</a></li>
+                                <li id="liPrice" name="liPrice" style ='float: left;'><a href="#price">Pricing</a></li>
+                            </ul>
+
+                            <div id="myTabContent" class="tab-content">
+
+                                <div class="tab-pane active" id="productDetail">
+                                    <div class="box">
+                                        <div class="box-header" data-original-title>
+                                            <h2><i class="fa fa-dollar"></i><span class="break"></span>Product Entry</h2>
+                                            <div class="box-icon">
+                                                <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+                                                <a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="box-content">
+                                            <div id ="divproductDetail">
+                                                <table>
+                                                    <tr>
+                                                        <td >
+                                                            <img src="~/assets/img/Products/Nail1.jpg" class ="img-thumbnail" />
+                                                            <div style ="padding-left:10px;"><button type="button" class ="btn btn-small btn-success">Choose Image</button></div>
+                                                        </td>
+                                                        <td colspan ="2" style ="vertical-align:top;">
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="width:15%;"><label class="control-label" >@Html.LabelFor(model => model.cocode)</label> <input type="hidden" id ="productid" value ="@Model.id"> </td>
+                                                        <td style="width:30%;">
+                                                            <div class="form-group">
+                                                                <div class="controls row">
+                                                                    @Html.DropDownListFor(model => model.cocode, new SelectList(@ViewBag.CompanyOptions,"id","name"), new { @class ="form-control"})
+                                                                    @Html.ValidationMessageFor(model => model.cocode)
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td style="width:5%;"></td>
+                                                        <td style="width:15%;"><label class="control-label" >@Html.LabelFor(model => model.category)</label></td>
+                                                        <td style="width:30%;">
+                                                            <div class="form-group">
+                                                                <div class="controls row">
+                                                                    @Html.DropDownListFor(model => model.category, new SelectList(@ViewBag.CategoryOptions,"id","Category"), new { @class ="form-control"})
+                                                                    @Html.ValidationMessageFor(model => model.category)
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td style="width:5%;"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><label class="control-label" >@Html.LabelFor(model => model.desc)</label></td>
+                                                        <td colspan ="4">
+                                                            <div class="form-group">
+                                                                <div class="controls row">
+                                                                        @Html.TextBoxFor(model => model.desc, new { @class ="form-control"})
+                                                                    <span>@Html.ValidationMessageFor(model => model.desc)</span>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><label class="control-label" >@Html.LabelFor(model => model.uom)</label></td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <div class="controls row">
+                                                                        @Html.DropDownListFor(model => model.status, new SelectList(@ViewBag.UOMOptions,"id","UOM"), new { @class ="form-control"})
+                                                                    <span>@Html.ValidationMessageFor(model => model.uom)</span>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td style="width:10%;"></td>
+                                                        <td style="width:15%;"><label class="control-label" >@Html.LabelFor(model => model.status)</label></td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <div class="controls row">
+                                                                    @Html.DropDownListFor(model => model.status, new SelectList(@ViewBag.StatusOptions,"id","status"), new { @class ="form-control"})
+                                                                    @Html.ValidationMessageFor(model => model.status)
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><label class="control-label" for="input1">@Html.LabelFor(model => model.remark)</label></td>
+                                                        <td colspan ="4">
+                                                            <div class="form-group">
+                                                                <div class="controls row">
+                                                                        @Html.TextBoxFor(model => model.remark, new { @class ="form-control"})
+                                                                        <span>@Html.ValidationMessageFor(model => model.remark)</span>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan ="6" style ="width:100%;background-color: whiteSmoke;padding: 20px 20px 20px;">
+                                                            <div >
+                                                                <button type="submit" class="btn btn-primary" value="Save" >Save changes</button>
+
+                                                                <button type="reset" class="btn">Cancel</button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="price">
+                                    <div class="box">
+                                        <div class="box-header" data-original-title>
+                                            <h2><i class="fa fa-dollar"></i><span class="break"></span>Product's Pricing</h2>
+                                            <div class="box-icon">
+                                                <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+                                                <a href="#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="box-content">
+                                            <div id ="divprice">
+                                                <table>
+                                                    <tr>
+                                                        <td><input type ="hidden" value ="@ViewBag.prc" id="txtprc"/></td>
+                                                        <td colspan ="4"><label class ="control-label" style ="color:green;">Product : @ViewBag.ProductName</label><br /></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td style ="width:10px;"> @Html.HiddenFor(model => model.priceItem.productid)    </td>
+                                                        <td style ="width:20%;">
+                                                            <div class="form-group">
+                                                                <label class="control-label" >@Html.LabelFor(model => model.priceItem.pricetype) </label>
+                                                                <div class="controls">
+
+                                                                     @Html.DropDownListFor(model => model.priceItem.pricetype, new SelectList(@ViewBag.PriceTypeOptions,"id","pricetype"), new { @class ="form-control"})
+                                                                </div>
+                                                            </div>
+                                                        </td>
+
+                                                        <td style ="width:15%;">
+                                                            <div class="form-group">
+                                                                <label class="control-label" >@Html.LabelFor(model => model.priceItem.price) </label>
+                                                                <div class="controls">
+
+                                                                     @Html.TextBoxFor(model => model.priceItem.price, new { @class ="form-control"})
+                                                                </div>
+                                                            </div>
+                                                        </td>
+
+                                                        <td style ="width:15%;">
+                                                            <div class="form-group">
+                                                                <label class="control-label" >@Html.LabelFor(model => model.priceItem.currency) </label>
+                                                                <div class="controls">
+
+                                                                     @Html.TextBoxFor(model => model.priceItem.currency, new { @class ="form-control"})
+                                                                </div>
+                                                            </div>
+                                                        </td>
+
+                                                        <td style ="width:15%;">
+                                                            <div class="form-group">
+                                                                <label class="control-label" >@Html.LabelFor(model => model.priceItem.exchangerate) </label>
+                                                                <div class="controls">
+
+                                                                     @Html.TextBoxFor(model => model.priceItem.exchangerate, new { @class ="form-control"})
+                                                                </div>
+                                                            </div>
+                                                        </td>
+
+                                                        <td style ="width:15%;">
+                                                            <div class="form-group">
+                                                                <label class="control-label" >@Html.LabelFor(model => model.priceItem.stockreceivedref) </label>
+                                                                <div class="controls">
+
+                                                                     @Html.TextBoxFor(model => model.priceItem.stockreceivedref, new { @class ="form-control"})
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td colspan ="7">
+                                                            <div class="form-actions">
+                                                                <button type="button" class="btn btn-primary" value="Save" >Save changes</button>
+
+                                                                <button type="reset" class="btn">Cancel</button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="box">
+                                                            <div class="box-header" data-original-title>
+                                                                <h2>Pricing</h2>
+                                                                <div class="box-icon">
+                                                                    <a href="#" class="btn-setting"><i class="icon-wrench"></i></a>
+                                                                    <a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>
+                                                                    <a href="#" class="btn-close"><i class="icon-remove"></i></a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="box-content">
+                                                                <div id="divgrid"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            </fieldset>
+                        }
+
+                        </div>
+                    </div>
+                </div>
+                 </div>*@

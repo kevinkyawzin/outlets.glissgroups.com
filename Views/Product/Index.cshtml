@@ -1,0 +1,491 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+			<div class="row">	
+				<div class="col-lg-3">
+					<div class="box">                       
+						<div class="box-header">
+							<center><i class="fa fa-hand-up"></i></center>
+						</div>
+						<div class="box-content">
+                            <div class="col-sm-12">
+                                <div class="col-sm-12">
+                                    <input type ="text" class="form-control" placeholder="By Card No" id ="txtRedeemMember"/>
+                                </div>
+                                <br/>                                
+							    <div class="col-sm-12">                                    
+								    <a class="quick-button" onclick="RedeemFunction();">
+									    <i class="fa fa-ticket"></i>
+									    <p>Redeem</p>
+								    </a>                                        
+							    </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                       
+                    
+				<div class="col-lg-3">
+					<div class="box">                       
+						<div class="box-header">
+							<center><i class="fa fa-hand-up"></i></center>
+						</div>
+						<div class="box-content">
+                            <div class="col-sm-12">
+                                <div class="col-sm-12">
+                                    <input type ="text" class="form-control" placeholder="By Card No" id ="txtTopUpMember"/>
+                                </div>
+                                <br/>                                
+							    <div class="col-sm-12">
+								    <a class="quick-button" onclick="TopUpFunction();">
+									    <i class="fa fa-money"></i>
+									    <p>Top Up</p>
+								    </a>
+							    </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>   
+                        
+				<div class="col-lg-3">
+					<div class="box">                       
+						<div class="box-header">
+							<center><i class="fa fa-hand-up"></i></center>
+						</div>
+						<div class="box-content">
+                            <div class="col-sm-12">
+                                <div class="col-sm-12">
+                                    <input type ="text" class="form-control" placeholder="By Card No" id ="txtCheckInMember"/>
+                                </div>
+                                <br/>                                
+							    <div class="col-sm-12">
+								    <a class="quick-button" onclick="MemberCheckInOut(1)">
+									    <i class="fa fa-sign-in"></i>
+									    <p>Check In</p>
+								    </a>
+							    </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+				<div class="col-lg-3">
+					<div class="box">                       
+						<div class="box-header">
+							<center><i class="fa fa-hand-up"></i></center>
+						</div>
+						<div class="box-content">
+                            <div class="col-sm-12">
+                                <div class="col-sm-12">
+                                    <input type ="text" class="form-control" placeholder="By Card No" id ="txtCheckOutMember"/>
+                                </div>
+                                <br/>                                
+							    <div class="col-sm-12">
+								    <a class="quick-button" onclick="MemberCheckInOut(0)">
+									    <i class="fa fa-sign-out"></i>
+									    <p>Check Out</p>
+								    </a>
+							    </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+			<div class="row">	
+				<div class="col-lg-6">
+					<div class="box">
+                        <div style ="float:right;padding-right:5px;">
+                        @*<label>Date : &nbsp;&nbsp;&nbsp;@DateTime.Today.ToString("dd MMM yyyy")</label>*@
+                        </div>
+                        @*<div class="clearfix"></div>*@
+						<div class="box-header">
+							<center><i class="fa fa-hand-up"></i>Membership</center>
+						</div>
+						<div class="box-content">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-10">
+                                    <input type ="text" class="form-control" placeholder="By MemberCode/Name/NRIC" id="txtMemberDesc"/>
+                                    </div>
+                                    <div class="col-sm-2" style="padding-left:0px;height:28px;">
+                                        <button type="button" style="width:80px;height:28px;" onclick ="MemerSearchFunction()" id ="btnMemberSearch">Search</button>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="col-sm-12" style="padding-top:10px;margin-top:10px;">
+							        <div class="col-sm-4">
+								        <a class="quick-button" href="~/CusSup/CreateMember">
+									        <i class="fa fa-user" ></i>
+									        <p>Create Member</p>
+								        </a>
+							        </div>
+							        <div class="col-sm-4">
+								        <a class="quick-button" href="~/CusSup/MemberListing?">
+									        <i class="fa fa-users"></i>
+									        <p>Member Enquiry</p>
+								        </a>
+							        </div>
+@*                                    <br /> 
+                                    <div class="clearfix"></div>*@
+							        <div class="col-sm-4">
+								        <a class="quick-button" href="~/CusSup/MemberListing?">
+									        <i class="fa fa-share-square-o"></i>
+									        <p>Customer Transfer</p>
+								        </a>
+							        </div>
+                                </div>
+                               
+                                <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>    
+
+				<div class="col-lg-6">
+					<div class="box">
+                        <div style ="float:right;padding-right:5px;">
+                        @*<label>Date : &nbsp;&nbsp;&nbsp;@DateTime.Today.ToString("dd MMM yyyy")</label>*@
+                        </div>
+                                                
+						<div class="box-header">
+							<center><i class="fa fa-hand-up"></i>Promotion</center>
+						</div>
+						<div class="box-content">
+
+							    <div class="col-sm-4">
+								    <a class="quick-button" href="~/Product/PromotionListing">
+									    <i class="fa fa-signal"></i>
+									    <p>Listing</p>
+								    </a>
+							    </div>
+
+							    <div class="col-sm-4">
+								    <a class="quick-button" href="~/Product/PromotionSave">
+									    <i class="fa fa-gift"></i>
+									    <p>Create</p>
+								    </a>
+							    </div>
+
+                                <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            
+            <div class="row">
+            
+				<div class="col-lg-6">
+					<div class="box">
+                        <div style ="float:right;padding-right:5px;">
+                        @*<label>Date : &nbsp;&nbsp;&nbsp;@DateTime.Today.ToString("dd MMM yyyy")</label>*@
+                        </div>
+                        @*<div class="clearfix"></div>*@
+						<div class="box-header">
+							<center><i class="fa fa-hand-up"></i>Product</center>
+						</div>
+						<div class="box-content">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-10">
+                                    <input type ="text" class="form-control" placeholder="By Product Code/Alternate Code/Description" id ="txtProductDesc"/>
+                                    </div>
+                                    <div class="col-sm-2" style="padding-left:0px;">
+                                        <button type="button" style="width:80px;height:28px;" onclick="productSearchFunction();" id ="btnProductSearch">Search</button>
+                                        @* @Html.ActionLink("Search", "Index", new { ptype = "%",filter " }, new  { @class="btn btn-primary"}) *@
+                                    </div>
+                                </div>
+                            <br />
+                            <div class="col-sm-12" style="padding-top:10px;margin-top:10px;" id="divProduct">
+                            </div>
+                                <div class="clearfix"></div>
+                        </div>
+                    </div>
+               </div>
+
+				<div class="col-lg-6">
+					<div class="box">
+                        <div style ="float:right;padding-right:5px;">
+                        @*<label>Date : &nbsp;&nbsp;&nbsp;@DateTime.Today.ToString("dd MMM yyyy")</label>*@
+                        </div>
+                        @*<div class="clearfix"></div>*@
+						<div class="box-header">
+							<center><i class="fa fa-hand-up"></i>Sales</center>
+						</div>
+						<div class="box-content">
+							<div class="col-sm-4">
+								<a class="quick-button" href="~/Product/ProductListing?ptype=PACKAGE">
+									<i class="fa fa-dollar"></i>
+									<p>Package</p>
+								</a>
+							</div>
+							<div class="col-sm-4">
+								<a class="quick-button" href="~/Product/ProductListing?ptype=SALESKIT">
+									<i class="fa fa-wrench"></i>									
+									<p>Sales Kit</p>
+								</a>
+							</div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+				<div class="col-lg-6">
+					<div class="box">
+                        <div style ="float:right;padding-right:5px;">
+                        @*<label>Date : &nbsp;&nbsp;&nbsp;@DateTime.Today.ToString("dd MMM yyyy")</label>*@
+                        </div>
+                        @*<div class="clearfix"></div>*@
+						<div class="box-header">
+							<center><i class="fa fa-hand-up"></i>Reports</center>
+						</div>
+						<div class="box-content">
+                                <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                                            
+				<div class="col-lg-6">
+					<div class="box">
+						<div class="box-header">
+							<center><i class="fa fa-hand-up"></i></center>
+						</div>
+						<div class="box-content">
+					        <div class="col-sm-4">
+						        <a class="quick-button" href="~/Product/ProductCitiBellaList">
+							        <i class="fa fa-share-square-o"></i>
+							        <p>Product Transfer</p>
+						        </a>
+					        </div>
+					        <div class="col-sm-4">
+						        <a class="quick-button" href="~/Product/PostedProductCitiBellaList">
+							        <i class="fa fa-share-square-o"></i>
+							        <p>Completed Transfer</p>
+						        </a>
+					        </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+@*							    <div class="col-sm-3">
+								    <a class="quick-button" href="~/Product/ProductListing?ptype=SPA">
+									    <i class="fa fa-list-alt"></i>
+									    <p>SPA</p>
+								    </a>
+							    </div>
+							    <div class="col-sm-3">
+								    <a class="quick-button" href="~/Product/ProductListing?ptype=SKIN">
+									    <i class="fa fa-list-alt"></i>
+									    <p>SKIN</p>
+								    </a>
+							    </div>
+							    <div class="col-sm-3">
+								    <a class="quick-button" href="~/Product/Index?ptype=SHAPE">
+									    <i class="fa fa-list-alt"></i>
+									    <p>Shape</p>
+								    </a>
+							    </div>
+							    <div class="col-sm-3">
+								    <a class="quick-button" href="~/Product/Index?ptype=Package">
+									    <i class="fa fa-list-alt"></i>
+									    <p>Package</p>
+								    </a>
+							    </div>
+							    <div class="col-sm-3">
+								    <a class="quick-button" href="~/Product/Index?ptype=TopUp">
+									    <i class="fa fa-list-alt"></i>
+									    <p>Top Up</p>
+								    </a>
+							    </div>*@
+
+@*				<div class="col-lg-6">
+					<div class="box">
+                    </div>  
+                </div> 
+            
+            </div>*@
+
+<script type ="text/javascript">
+
+    $(function ()
+    {
+        showProductCategory();
+        $('#txtTopUpMember').live("keypress", function (e) {
+            if (e.keyCode == 13) {
+                TopUpFunction();
+                return false; // prevent the button click from happening
+            }
+        });
+
+        $('#txtRedeemMember').live("keypress", function (e) {
+            if (e.keyCode == 13) {
+                RedeemFunction();
+                return false; // prevent the button click from happening
+            }
+        });
+
+        $('#txtProductDesc').live("keypress", function (e) {
+            if (e.keyCode == 13) {
+                productSearchFunction();
+                return false; // prevent the button click from happening
+            }
+        });
+
+        $('#txtMemberDesc').live("keypress", function (e) {
+            if (e.keyCode == 13) {
+                MemerSearchFunction();
+                return false; // prevent the button click from happening
+            }
+        });
+
+        $('#txtCheckInMember').live("keypress", function (e) {
+            if (e.keyCode == 13) {
+                MemberCheckInOut(1);
+                return false; // prevent the button click from happening
+            }
+        });
+
+        $('#txtCheckOutMember').live("keypress", function (e) {
+            if (e.keyCode == 13) {
+                MemberCheckInOut(0);
+                return false; // prevent the button click from happening
+            }
+        });
+
+    });
+
+
+    function MemerSearchFunction() {
+        var desc = $('#txtMemberDesc').val();
+        window.open("../CusSup/MemberListing?filter=" + desc, "_self");
+    }
+
+    function TopUpFunction()
+    {
+        var cno = $('#txtTopUpMember').val();
+        window.open("../sales/TopUp?cardno=" + cno, "_self");
+    }
+
+    function RedeemFunction() {
+        var cno = $('#txtRedeemMember').val();
+        window.open("../sales/Redeem?cardno=" + cno, "_self");
+    }
+
+    function MemberCheckInOut(inFlag) {
+        var cNo = "";
+        //alert(inFlag);
+        if (inFlag == '1')
+        {
+            if ($('#txtCheckInMember').val().trim() == "") { alert("Please key in cardno!"); return false; }
+            cNo = $('#txtCheckInMember').val();
+        }
+
+        else {
+            if ($('#txtCheckOutMember').val().trim() == "") { alert("Please key in cardno!"); return false; }
+            cNo = $('#txtCheckOutMember').val();
+        }
+
+        
+        $.ajax({
+            url: '@Url.Action("MemberCheckInOut", "CusSup")',
+            data: { cno: cNo , inflag: inFlag },
+            type: 'POST',
+            success: function (data) {
+                alert(data);
+            },
+            error: function (ts) { alert(ts.responseText) }
+        });
+    }
+
+    function productSearchFunction() {
+        var desc = $('#txtProductDesc').val();
+        window.open("../Product/ProductListing?ptype=%&filter=" + desc, "_self");
+    }
+
+    function showProductCategory() {
+        //var pid = $('#pid').val();
+        //alert("topup");
+        $.ajax({
+            url: '@Url.Action("getProductCategoryForIndex", "Product")',
+            //data: { ptype: "TopUp", filter: "%", cat: "", brand: "", firstUOM: 0 },
+            type: 'POST',
+            success: function (data) {
+                //if (data)
+                //alert(data);
+                populateProductCategory(data);
+            },
+            error: function (ts) { alert(ts.responseText) }
+        });
+    }
+
+    function populateProductCategory(data)
+    {
+        //divProduct
+        var Htmlstr = "";
+        for (var x = 0; x < data.length; x++) {
+            if (data[x].Category != "Package")
+            {                
+                Htmlstr += "<div class='col-sm-4'><a class='quick-button' href='../Product/ProductListing?ptype=" + data[x].Category + "'><i class='fa fa-list-alt'></i><p>" + data[x].Category + "</p></a> </div>";
+                if (((x + 1) % 3 == 0) && x != 0) Htmlstr += "<div class='clearfix'><div class='col-sm-12' style='min-height:10px;'></div>";
+            }
+        }
+        $('#divProduct').html(Htmlstr);
+    
+    }
+</script>
+@*			<div class="row">	
+				<div class="col-lg-12">
+					<div class="box">
+                        <div style ="float:right;padding-right:5px;">
+                        <label>Date : &nbsp;&nbsp;&nbsp;@DateTime.Today.ToString("dd MMM yyyy")</label>
+                        </div>
+                        <div class="clearfix"></div>
+						<div class="box-header">
+							<center><i class="fa fa-hand-up"></i>Main Menu</center>
+						</div>
+						<div class="box-content">
+                            
+                            <div class="row" style ="padding:20px;">
+                                
+
+
+
+                                   
+							    <div class="col-sm-2">
+								    <a class="quick-button" href="~/POS/DailySales">
+									    <i class="fa fa-bar-chart-o"></i>
+									    <p>Daily Sales Summary</p>
+								    </a>
+							    </div>                          
+
+
+
+
+                                
+  
+
+							    <div class="col-sm-2" style="margin-top :20px;">
+								    <a class="quick-button" href="#">
+									    <i class="fa fa-list-alt"></i>
+									    <p>HQ Reports</p>
+								    </a>
+							    </div>                                   
+                                                                 
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>*@

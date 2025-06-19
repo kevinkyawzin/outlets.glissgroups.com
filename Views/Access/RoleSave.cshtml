@@ -1,0 +1,50 @@
+﻿@model BigMac.Models.Access_z_Roles
+
+@{
+    ViewBag.Title = "RoleSave";
+    Layout = "~/Views/Shared/_Layout.cshtml";   
+}
+
+<div class="row">
+    <div class ="col-lg-12">
+        <div class="box">
+            <div class ="box-header">
+					<h2><i class="fa fa-edit"></i>Role Entry</h2>   
+					<div class="box-icon">
+						<a href="table.html#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+						<a href="table.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+						<a href="table.html#" class="btn-close"><i class="fa fa-times"></i></a>
+					</div>
+            </div>
+            <div class ="box-content">
+            @using (Html.BeginForm("RoleSave", "Access", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+                <fieldset  class ="col-sm-12">
+		            <div class="form-group">
+			            <label class="control-label" for="input1">@Html.LabelFor(model => model.Role)</label>
+			            <div class="controls row">
+                            <div class="col-lg-4">
+				                @Html.TextBoxFor(model => model.Role, new { @class ="form-control"})
+                            </div>                                        
+			            </div>
+		            </div>
+		            <div class="form-actions">
+			            <button type="submit" class="btn btn-primary" value="Save">Save Changes</button>
+			            <button type="reset" class="btn">Cancel</button>
+                        <a class="btn btn-primary" href="@Url.Action("RoleIndex")" >Back to List</a>
+		            </div>
+                </fieldset>
+            }                 
+            </div>
+        </div> @*box*@
+    </div>
+</div>@*row*@
+
+@*<div>
+    @Html.ActionLink("Back to List", "BranchIndex")
+</div>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

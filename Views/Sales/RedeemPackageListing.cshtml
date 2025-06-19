@@ -1,0 +1,280 @@
+﻿@{
+    ViewBag.Title = "Redeem Package Listing";
+    Layout = "~/Views/Shared/_GeneralLayoutPage.cshtml";
+    var i = 0;
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box">
+            <input type="hidden" id="rcode" value="@ViewBag.Rcode" />
+            <div class="box-header" data-original-title>
+                <h2><i class="fa fa-list-alt"></i><span class="break"></span>Package Redeem Listing</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+                    <a href="#" class="btn-minimize"><i class="fa fa-chev1on-up"></i></a>
+                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                <div id="divPOS">
+                    <table class='table table-striped table-bordered' id="tblPOS" width="100%">
+                        <thead>
+                            <tr>
+                                <th style='width:120px;'>Date</th>
+                                <th>Branch</th>
+                                <th style='width:100px;'>Ref#</th>
+                                <th style='text-align:center'>Member</th>
+                                <th style='text-align:center'>GST</th>
+                                <th style='text-align:center'>Discount</th>
+                                <th style='text-align:center'>Total</th>
+                                <th>Status</th>
+                                <th></th>
+                                <th></th>
+                                @*<th rowspan ='2' style='width:60px;'></th>*@
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div> @*box-content*@
+        </div> @*box*@
+    </div>
+</div> @*row*@
+
+<ul class="noty_cont noty_layout_topRight" id="ulBalance"></ul>
+<button id="btnMessage" class="btn btn-primary noty" data-noty-options='{"text":"Please select Member","layout":"topRight","type":"error"}' style="display:none;">Top Right</button>
+
+
+<div id="Login_dialog-modal">
+    <div class="col-lg-12" id="divLoginDialog" style="overflow-style:scrollbar;">
+        <div style="width:100%;background-color: #EEE;padding: 10px 10px 10px;font-weight:bold;color:black;">
+            <span id="loginheader"></span>
+        </div>
+        <div id="divMember">
+            <table style="width:100%;border-spacing:5px;border-collapse:separate;padding-top:10px;">
+                <tr>
+                    <td style="width:20px;"></td>
+                    <td style="width:200px;">User Name</td>
+                    <td colspan="2" style="width:200px;"><input id="txtname" class="form-control" /></td>
+                    <td><span style="color:red;">*</span></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Password</td>
+                    <td colspan="2"><input type="password" id="txtpwd" class="form-control" /></td>
+                    <td><span style="color:red;">*</span></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td style="width:60px;"><button type="button" id="btnVoid" onclick="voidPOS();" class="btn btn-primary" style="width:100px;">Void</button></td>
+                    <td style="width:60px;"><button type="button" id="btnClose" onclick="closeLoginDialog()" class="btn btn-primary" style="width: 100px;">Cancel</button></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box">
+            <div class="col-sm-2">
+                <a class="quick-button" href="~/Access/BranchStaffIndex">
+                    <i class="fa fa-user"></i>
+                    <p>Home</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var load = 1;
+    var posid = 0;
+    var posno = "";
+    $(document).ready(function () {
+        $('#Login_dialog-modal').dialog({
+            position: [320, 140],
+            modal: true,
+            autoOpen: false,
+            open: function (event, ui) {
+                $('.ui-widget-header').removeClass('ui-widget-header').htm('');
+            }
+        });
+
+        var loginOptions = {
+            modal: true,
+            height: 250,
+            minHeight: 250,
+            maxHeight: 250,
+            width: 480,
+            minWidth: 480,
+            maxWidth: 480,
+            dialogClass: "sfFormwrapper"
+        };
+        $('#Login_dialog-modal').dialog('option', loginOptions);
+
+        getPOSList();
+
+        $("#txtpwd").keyup(function (event) {
+            if (event.keyCode == 13) {
+                $("#btnVoid").focus();
+            }
+        });
+
+    });
+
+    function getPOSList() {
+        //var f = '%' + $('#txtDesc').val() + '%';
+        var f = $('#txtDesc').val();
+        var mno = $('#txtMobile').val();
+        // var f = '%%';
+        var s = $('#txtDesc').val();
+        //var mno = "";
+
+        var oTable = $('#tblPOS').dataTable({
+            "iDisplayLength": 10, // Default No of Records per page on 1st load
+            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]], // Set no of records in per page
+            "aaSorting": [[0, "createdate"], [1, "resourcecode"]], // Default 1st column sorting
+            "bProcessing": true,
+            //"bJQueryUI": true, //No themeroller
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "mRender": function (data, type, full) {
+                        if (data) {
+                            var ctmp = getDateFromAspString(data);
+                            return (ctmp.getDate() + "/" + (ctmp.getMonth() + 1) + "/" + ctmp.getFullYear() + ' ' + ctmp.getHours() + ":" + ctmp.getMinutes() + ":" + ctmp.getSeconds());
+                            //return (ctmp.getDate() + "/" + ctmp.getMonth() + "/" + ctmp.getFullYear());
+                        }
+                        return "";
+                    }
+                },
+                {
+                    "aTargets": [4, 5, 6],
+                    "mRender": function (data, type, full) {
+                        if (data) {
+                            return ("<div style='text-align:right'>" + parseFloat(data).toFixed(2) + "</div>");
+                        }
+                        else
+                            return ("<div style='text-align:right'>0.00</div>");
+                    }
+                },
+                {
+                    "aTargets": [8],
+                    "mRender": function (data, type, full) {
+                        var str = "<a class='btn btn-primary' title ='Click to edit.' onclick='goToPOS(" + data + ");'><i class='fa fa-edit'></i></a>";
+                        return str;
+                    }
+                },
+                {
+                    "aTargets": [9],
+                    "mRender": function (data, type, full) {
+                        var str = "<a class='btn btn-danger' title ='Click to void.' onclick='openPasswordDialog(" + data + ",this);'><i class='fa fa-trash-o '></i></a>";
+                        return str;
+                    }
+                }
+                //{ "bVisible": false, "aTargets": [9, 10, 11] }
+            ], //, { "bVisible": false, "aTargets": [1] }], // Hide Column
+            "sAjaxSource": 'getPOSListWithPaging',
+            "bStateSave": false, // Remember paging & filters
+            "bDeferRender": false,
+            "bServerSide": true,
+            "bDestroy": true,
+            "oSearch": { "sSearch": "" },
+            //"sPaginationType": "full_numbers", // Include page number
+            "aoColumns": [
+                         { "sWidth": "150px", "mDataProp": "createdate" }, { "sWidth": "100px", "mDataProp": "branchcode" },
+                         { "sWidth": "130px", "mDataProp": "resourcecode" }, { "mDataProp": "cussupname" },
+                         { "sWidth": "130px", "mDataProp": "total_salestax" }, { "sWidth": "130px", "mDataProp": "total_discount" },
+                         { "sWidth": "130px", "mDataProp": "total_total" }, { "sWidth": "130px", "mDataProp": "status" }, { "mDataProp": "id" }, { "mDataProp": "id" }
+            ],
+            "fnDrawCallback": function () {
+            }
+        });
+    }
+
+    function refreshPOSList() {
+        //var mid = $('#id').val();
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: 'getPOSListWithPaging',
+            success: function (data) {
+                var oTable = $('#tblPOS').dataTable();
+                oTable.fnReloadAjax();
+                //$.msg("Data Retrieved!", { header: 'Retrieved!' });
+            },
+            error: function () {
+                //$.wl_Alert('Unable to retrieve data!', 'warning', '#content');
+                //$.msg("Unable to retrieve data!", { header: 'Failed' });
+            }
+        });
+    }
+
+    function goToPOS(posid) {
+        var url = "POS";
+        var rcode = $('#rcode').val();
+        var form = $('<form action="' + url + '" method="post">' +
+          '<input type="hidden" name="id"  id="id" value="' + posid + '" />' +
+          '<input type="hidden" name="rcode"  id="rcode" value="' + rcode + '" />' +
+          '</form>');
+        $('body').append(form);
+        $(form).submit();
+    }
+
+    function openPasswordDialog(pid, paramtr) {
+        posid = pid;
+        posno = $(paramtr).closest('tr').find('td').eq(2).html();
+        $('#txtname').val("");
+        $('#txtpwd').val("");
+        $('#loginheader').html("Enter user name and password to void #" + posno);
+        $('#Login_dialog-modal').dialog("open");
+    }
+
+    function closeLoginDialog() {
+        $('#Login_dialog-modal').dialog("close");
+        posid = 0;
+        posno = "";
+    }
+
+    function voidPOS() {
+        var rcode = $('#rcode').val();
+        $.ajax({
+            url: '@Url.Action("POSVOID", "POS")',
+            data: JSON.stringify({ posid: posid, uname: $('#txtname').val(), pwd: $('#txtpwd').val(), resource: $('#rcode').val() }),
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                //alert(data);
+                if (data == "SUCCESS") {
+                    var pno = posno;
+                    closeLoginDialog();
+                    var msg = "Already voided POS# " + pno;
+                    var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"success"}';
+                    showMessage(attrvalue);
+                    refreshPOSList();
+                }
+                else {
+                    closeLoginDialog();
+                    var msg = data;
+                    var attrvalue = '{"text":"' + msg + '","layout":"topRight","type":"error"}';
+                    showMessage(attrvalue);
+                }
+            },
+            error: function (req, status, err) {
+                showMessage(err, "error");
+                $("#btnPOSPrint").removeAttr("disabled");
+            }
+        });
+    }
+
+    function showMessage(attrvalue) {
+        $('#btnMessage').attr('data-noty-options', attrvalue);
+        $('#btnMessage').trigger("click");
+    }
+</script>

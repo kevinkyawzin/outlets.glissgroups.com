@@ -1,0 +1,94 @@
+﻿@using BigMac.Models;
+
+
+@{
+    ViewBag.Title = "ReportGroupSummary";
+    Layout = null;
+     int dtlcount = 0;
+     int c=0;
+    
+}
+<!DOCTYPE html>
+<html>
+    <head>
+	    <!-- start: CSS -->
+         <link rel="stylesheet" href="@Url.Content("~/css/bootstrap.min.css")" />
+         <link rel="stylesheet" href="@Url.Content("~/css/style.min.css")" />
+         <link rel="stylesheet" href="@Url.Content("~/css/retina.css")" />
+	    <!-- end: CSS -->
+    </head>
+<body onload="alert('a');">
+
+    <div class="row">
+        <div class="col-lg-12">					
+		    <div class="box">
+			    <div class="box-content"> 
+                    <div id ="divReportDetail">
+                        <table class='table table-striped table-bordered bootstrap-datatable datatable'>
+                            <thead>
+                                <tr>
+                                    <th>Staff Name</th>
+                                    <th>Sales Target<br/>Daily Sales Target</th>
+                                    <th>Sales Total<br/>Sales achieved till now</th>
+                                    <th>Sales Total<br/>Sales achieved till now</th>
+                                    <th>Shortage</th>
+                                    @foreach (var category in @ViewBag.categories)
+                                    {
+                                        <th >@category.Category.Category</th>
+                                    } 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var staff in @ViewBag.staffs)
+                                {
+                                   <tr>
+                                       <td >@staff.Staff.name</td>
+                                    @{                                          
+                                    ICollection<Campaign_m_CampaignDetails> dtls = ViewBag.details;
+                                    ICollection<Campaign_m_CampaignDetails> Daydtls = ViewBag.Daydetails;
+                                    ICollection<Campaign_m_CampaignDetails> dtl = dtls.Where(x => x.staffid == staff.staffid).OrderBy(x => x.Category.Category).ToList();
+                                    double hourlyforcest = dtls.Where(x => x.staffid == staff.staffid).Sum(x => (double?)x.forecast) ?? 0d;
+                                    double saleForcest = Daydtls.Where(x => x.staffid == staff.staffid).Sum(x => (double?)x.forecast) ?? 0d;
+                                    double saleActual = Daydtls.Where(x => x.staffid == staff.staffid).Sum(x => (double?)x.actual) ?? 0d;
+                                    double sh = saleForcest - saleActual;
+                                    dtlcount = dtl.Count; c = 0;
+                                    }
+                                    <td >@saleForcest</td>
+                                    <td >@saleActual</td>
+                                    <td >@hourlyforcest</td>
+                                    <td >@sh</td>                                   
+                                    @foreach (var category in @ViewBag.categories)
+                                    {
+
+                                        if (c < dtl.Count)
+                                        {
+                                            if (dtl.ElementAt(c).categoryid == category.campaigncategoryid)
+                                            {
+                                                <td ><label>@dtl.ElementAt(c).actual</label><br/><label>@dtl.ElementAt(c).forecast</label></td>
+                                                //returnHtml = returnHtml + "<td id='tdf_" + id + "'><input type='text' onchange='txtonChanged(this);' ch ='0' class='form-control' af ='a' id=F'" + id + "' value ='" + dtl.ElementAt(c).salesamt + "'></td>";
+                                                c = c + 1;
+                                            }
+                                            else
+                                            {
+                                                <td ><label>0</label><br/><label>0</label></td>
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            <td ><label>0</label><br/><label>0</label></td>
+                                        }
+                                    }
+                                    </tr>                                                                      
+                                }                                
+                            </tbody>
+                        </table>
+                    </div>                     
+                </div> @*box-content*@
+                        
+            </div> @*box*@		
+    </div><!--/row-->                    	
+    </div>
+</body>
+</html>
+

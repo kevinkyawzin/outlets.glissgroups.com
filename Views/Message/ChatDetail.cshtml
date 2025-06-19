@@ -1,0 +1,145 @@
+﻿
+@using System.Web.Security;
+
+@{
+    ViewBag.Title = "ChatDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var uid = @Session["userid"];
+}
+
+<div class="row">	
+    <div class="col-sm-12 dark">
+	@*<div class="col-sm-5 dark">	
+		<div class="box">
+			<div class="box-header" data-original-title>
+				<h2><i class="fa fa-user"></i><span class="break"></span>Message</h2>
+				<div class="box-icon">
+					<a href="#" class="btn-setting"><i class="icon-wrench"s></i></a>
+					<a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>
+					<a href="#" class="btn-close"><i class="icon-remove"></i></a>
+				</div>
+			</div>
+			<div class="box-content">*@				
+                <div>
+                    <input type ="hidden" id="txtgID" name ="txtgiD" value ="@ViewBag.gID"/>
+                    <input type ="hidden" id ="txtsID" name ="txtsID" value ="@uid" />
+                    <input type ="hidden" id ="txtsName" name ="txtsName" value ="@User.Identity.Name" />
+                </div>
+                <h1>@ViewBag.gName</h1>
+                <div class="timeline" id="divMsg" style="height:520px;overflow-y:scroll;overflow-x:no-display;">  
+
+                </div>               
+                
+                <div class="form-group"> 
+                    <div style ="background-color:#E5E5E5;">                                                                                                                    
+                    <table style="width:100%;background-color:#E5E5E5;">
+                        <tr>
+                            <td style="padding:10px 10px 10px 10px;"><textarea id="txtMessage" name="txtMessage"  class ="form-control" ></textarea> </td>
+                            <td style="width:50px;padding:10px 10px 10px 10px;"><button type="button" id="btnSend" name="btnSend" class="btn btn-primary">Send</button></td>
+                        </tr>
+                    </table>    
+                    </div>                                                  
+                </div>   
+            @*</div> box-content*@
+         @*</div>box*@
+    </div>
+ </div>@*row*@
+
+<script type ="text/javascript">
+    var myVar;
+    var m = 0;
+    $(document).ready(function () {
+        $('#btnSend').click(function e() { SendMessage(); });
+        getMessages();
+        //myVar = setTimeout(function () { getMessages(); }, 2000);
+    });
+
+@*</script>   
+<script type ="text/javascript">*@
+
+    //alert('script');
+
+
+    function getMessages() {
+        //alert('getmsg');
+        var gid = $('#txtgID').val();
+        $.ajax({
+            url: '@Url.Action("MessageList", "Message")',
+            data: { groupid: gid,mid:m },
+            type: 'POST',
+            success: function (data) {
+                //alert(data.length);
+                var Htmlstr = "";
+
+                for (var x = 0; x < data.length; x++)
+                {
+                    m = data[x].id;
+                    //alert('i=' + data[x].groupName);
+                    //var myDate = new Date(data[x].datecreated);                    
+                    //alert(myDate.toString());
+                    //var h = myDate.getHours();
+                    //var m = myDate.getMinutes();      
+                    //alert(data[x].ctime);
+                    Htmlstr += showMessage(data[x].groupName, data[x].senderid, data[x].receiverid, data[x].message, data[x].ctime);
+                }
+                //alert(Htmlstr);
+                if (m == 0) { $('#divMsg').empty(); }
+
+                if (x > 0)
+                {
+                    Htmlstr = $('#divMsg').html() + Htmlstr;
+                    $('#divMsg').html(Htmlstr).show();
+                    $("#divMsg").resize();
+                    $("#divMsg").scrollTop($("#divMsg")[0].scrollHeight);
+                }
+                myVar = setTimeout(function () { getMessages(); }, 5000);
+                //$("#divMsg").redraw();
+                //$("#divMsg").load(this);
+            }
+        });
+    }
+
+    //$.fn.redraw = function () {
+    //    $(this).each(function () {
+    //        var redraw = this.offsetHeight;
+    //    });
+    //};
+    function showMessage(sname,sid,rid,msg,t)
+    {
+        //alert(sname);
+        var htmlstr ="";
+        var timeclass = "timeslot"
+        if ($('#txtsID').val() == sid)
+        { timeclass = "timeslot alt"; }
+        htmlstr = "<div class='" + timeclass + "' ><div class='task'><span><span>" + sname + "</span><span class='details'>" + msg + "</span></span><div class='arrow'></div></div><div class='icon'><i class='fa fa-map-marker'></i></div><div class='time'>" + t + "</div></div>";
+        //alert(htmlstr);
+        return htmlstr;
+    }
+
+    function SendMessage() {
+        var gid = $('#txtgID').val();
+        var sid = $('#txtsID').val();
+        var rid = 0;
+        var msg = $('#txtMessage').val();
+        clearTimeout(myVar);
+        $.ajax({
+            url: '@Url.Action("SendMessage", "Message")',
+            data: { groupid: gid, senderid: sid, receiverid: rid, message: msg },
+            type: 'POST',
+            success: function (data) {
+                var Htmlstr = $('#divMsg').html();
+                var d = new Date();
+                var t = d.getHours() + ':' + d.getMinutes();
+                getMessages();
+                //myVar = setTimeout(function () { getMessages(); }, 2000);
+                if (data == "SUCCESS") {
+                    //Htmlstr += showMessage($('#txtsName').val(), sid, rid, msg, t);
+                    $('#txtMessage').val("");
+                }
+                //$('#divMsg').empty();
+                //$('#divMsg').html(Htmlstr).show();
+                //$("#divMsg").resize();
+            }
+        });
+    }
+ </script>

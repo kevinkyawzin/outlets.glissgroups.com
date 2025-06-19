@@ -1,0 +1,317 @@
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\obj\Debug\Citiwarrior.csprojResolveAssemblyReference.cache
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\Microsoft.Web.Infrastructure.dll
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\Microsoft.Web.WebPages.OAuth.dll
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\System.Net.Http.dll
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\System.Net.Http.Formatting.dll
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\System.Net.Http.WebRequest.dll
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\System.Web.Helpers.dll
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\System.Web.Http.dll
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\System.Web.Http.WebHost.dll
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\System.Web.Mvc.dll
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\System.Web.Razor.dll
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\System.Web.WebPages.Deployment.dll
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\System.Web.WebPages.dll
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\System.Web.WebPages.Razor.dll
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\WebMatrix.Data.dll
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\WebMatrix.WebData.dll
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\itextsharp.dll
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\DotNetOpenAuth.AspNet.xml
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\DotNetOpenAuth.Core.xml
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\DotNetOpenAuth.OAuth.xml
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\DotNetOpenAuth.OAuth.Consumer.xml
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\DotNetOpenAuth.OpenId.xml
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\EntityFramework.xml
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\Microsoft.Web.Infrastructure.xml
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\Newtonsoft.Json.xml
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\System.Net.Http.xml
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\System.Net.Http.Formatting.xml
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\System.Net.Http.WebRequest.xml
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\System.Web.Helpers.xml
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\System.Web.Http.xml
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\System.Web.Http.WebHost.xml
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\System.Web.Mvc.xml
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\System.Web.Razor.xml
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\System.Web.WebPages.xml
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\System.Web.WebPages.Deployment.xml
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\System.Web.WebPages.Razor.xml
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\WebMatrix.Data.xml
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\Microsoft.Web.WebPages.OAuth.xml
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\WebMatrix.WebData.xml
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\BigMac.dll
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\bin\BigMac.pdb
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\obj\Debug\BigMac.dll
+C:\Web Projects\httpdocs [Citiwarrior - Red Color Theme] [26-Dec-2014]\obj\Debug\BigMac.pdb
+C:\WebProjects\staging.citiwarrior.com\bin\BigMac.dll.config
+C:\WebProjects\staging.citiwarrior.com\bin\BigMac.dll
+C:\WebProjects\staging.citiwarrior.com\bin\BigMac.pdb
+C:\WebProjects\staging.citiwarrior.com\bin\Microsoft.Web.Infrastructure.dll
+C:\WebProjects\staging.citiwarrior.com\bin\Microsoft.Web.WebPages.OAuth.dll
+C:\WebProjects\staging.citiwarrior.com\bin\Newtonsoft.Json.dll
+C:\WebProjects\staging.citiwarrior.com\bin\System.Net.Http.dll
+C:\WebProjects\staging.citiwarrior.com\bin\System.Net.Http.WebRequest.dll
+C:\WebProjects\staging.citiwarrior.com\bin\System.Web.Helpers.dll
+C:\WebProjects\staging.citiwarrior.com\bin\System.Web.Razor.dll
+C:\WebProjects\staging.citiwarrior.com\bin\System.Web.WebPages.Deployment.dll
+C:\WebProjects\staging.citiwarrior.com\bin\System.Web.WebPages.dll
+C:\WebProjects\staging.citiwarrior.com\bin\System.Web.WebPages.Razor.dll
+C:\WebProjects\staging.citiwarrior.com\bin\WebMatrix.Data.dll
+C:\WebProjects\staging.citiwarrior.com\bin\WebMatrix.WebData.dll
+C:\WebProjects\staging.citiwarrior.com\bin\Microsoft.Web.Infrastructure.xml
+C:\WebProjects\staging.citiwarrior.com\bin\System.Net.Http.xml
+C:\WebProjects\staging.citiwarrior.com\bin\System.Net.Http.WebRequest.xml
+C:\WebProjects\staging.citiwarrior.com\bin\System.Web.Helpers.xml
+C:\WebProjects\staging.citiwarrior.com\bin\System.Web.Razor.xml
+C:\WebProjects\staging.citiwarrior.com\bin\System.Web.WebPages.xml
+C:\WebProjects\staging.citiwarrior.com\bin\System.Web.WebPages.Deployment.xml
+C:\WebProjects\staging.citiwarrior.com\bin\System.Web.WebPages.Razor.xml
+C:\WebProjects\staging.citiwarrior.com\bin\WebMatrix.Data.xml
+C:\WebProjects\staging.citiwarrior.com\bin\Microsoft.Web.WebPages.OAuth.xml
+C:\WebProjects\staging.citiwarrior.com\bin\WebMatrix.WebData.xml
+C:\WebProjects\staging.citiwarrior.com\obj\Debug\BigMac.dll
+C:\WebProjects\staging.citiwarrior.com\obj\Debug\BigMac.pdb
+D:\jayson\citi\outlets.1MMclub.com\bin\BigMac.dll.config
+D:\jayson\citi\outlets.1MMclub.com\bin\BigMac.dll
+D:\jayson\citi\outlets.1MMclub.com\bin\BigMac.pdb
+D:\jayson\citi\outlets.1MMclub.com\bin\Microsoft.Web.Infrastructure.dll
+D:\jayson\citi\outlets.1MMclub.com\bin\Microsoft.Web.WebPages.OAuth.dll
+D:\jayson\citi\outlets.1MMclub.com\bin\System.Net.Http.dll
+D:\jayson\citi\outlets.1MMclub.com\bin\System.Net.Http.Formatting.dll
+D:\jayson\citi\outlets.1MMclub.com\bin\System.Net.Http.WebRequest.dll
+D:\jayson\citi\outlets.1MMclub.com\bin\System.Web.Helpers.dll
+D:\jayson\citi\outlets.1MMclub.com\bin\System.Web.Http.dll
+D:\jayson\citi\outlets.1MMclub.com\bin\System.Web.Http.WebHost.dll
+D:\jayson\citi\outlets.1MMclub.com\bin\System.Web.Mvc.dll
+D:\jayson\citi\outlets.1MMclub.com\bin\System.Web.Razor.dll
+D:\jayson\citi\outlets.1MMclub.com\bin\System.Web.WebPages.Deployment.dll
+D:\jayson\citi\outlets.1MMclub.com\bin\System.Web.WebPages.dll
+D:\jayson\citi\outlets.1MMclub.com\bin\System.Web.WebPages.Razor.dll
+D:\jayson\citi\outlets.1MMclub.com\bin\WebMatrix.Data.dll
+D:\jayson\citi\outlets.1MMclub.com\bin\WebMatrix.WebData.dll
+D:\jayson\citi\outlets.1MMclub.com\bin\Microsoft.Web.Infrastructure.xml
+D:\jayson\citi\outlets.1MMclub.com\bin\System.Net.Http.xml
+D:\jayson\citi\outlets.1MMclub.com\bin\System.Net.Http.Formatting.xml
+D:\jayson\citi\outlets.1MMclub.com\bin\System.Net.Http.WebRequest.xml
+D:\jayson\citi\outlets.1MMclub.com\bin\System.Web.Helpers.xml
+D:\jayson\citi\outlets.1MMclub.com\bin\System.Web.Http.xml
+D:\jayson\citi\outlets.1MMclub.com\bin\System.Web.Http.WebHost.xml
+D:\jayson\citi\outlets.1MMclub.com\bin\System.Web.Mvc.xml
+D:\jayson\citi\outlets.1MMclub.com\bin\System.Web.Razor.xml
+D:\jayson\citi\outlets.1MMclub.com\bin\System.Web.WebPages.xml
+D:\jayson\citi\outlets.1MMclub.com\bin\System.Web.WebPages.Deployment.xml
+D:\jayson\citi\outlets.1MMclub.com\bin\System.Web.WebPages.Razor.xml
+D:\jayson\citi\outlets.1MMclub.com\bin\WebMatrix.Data.xml
+D:\jayson\citi\outlets.1MMclub.com\bin\Microsoft.Web.WebPages.OAuth.xml
+D:\jayson\citi\outlets.1MMclub.com\bin\WebMatrix.WebData.xml
+D:\jayson\citi\outlets.1MMclub.com\obj\Debug\BigMac.dll
+D:\jayson\citi\outlets.1MMclub.com\obj\Debug\BigMac.pdb
+D:\jayson\citi\outlets.1MMclub.com\bin\MySql.Data.dll
+D:\jayson\citi\outlets.1MMclub.com\bin\MySql.Data.Entity.dll
+D:\jayson\citi\outlets.1MMclub.com\bin\MySql.Web.dll
+D:\jayson\citi\outlets.1MMclub.com\obj\Debug\Citiwarrior.csprojResolveAssemblyReference.cache
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\BigMac.dll.config
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\BigMac.dll
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\BigMac.pdb
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\Microsoft.Web.Infrastructure.dll
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\Microsoft.Web.WebPages.OAuth.dll
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\Newtonsoft.Json.dll
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\System.Net.Http.dll
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\System.Net.Http.Formatting.dll
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\System.Net.Http.WebRequest.dll
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\System.Web.Helpers.dll
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\System.Web.Http.dll
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\System.Web.Http.WebHost.dll
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\System.Web.Mvc.dll
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\System.Web.Razor.dll
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\System.Web.WebPages.Deployment.dll
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\System.Web.WebPages.dll
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\System.Web.WebPages.Razor.dll
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\WebMatrix.Data.dll
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\WebMatrix.WebData.dll
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\Microsoft.Web.Infrastructure.xml
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\System.Net.Http.xml
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\System.Net.Http.Formatting.xml
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\System.Net.Http.WebRequest.xml
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\System.Web.Helpers.xml
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\System.Web.Http.xml
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\System.Web.Http.WebHost.xml
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\System.Web.Mvc.xml
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\System.Web.Razor.xml
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\System.Web.WebPages.xml
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\System.Web.WebPages.Deployment.xml
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\System.Web.WebPages.Razor.xml
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\WebMatrix.Data.xml
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\Microsoft.Web.WebPages.OAuth.xml
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\WebMatrix.WebData.xml
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\obj\Debug\BigMac.dll
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\obj\Debug\BigMac.pdb
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\MySql.Data.dll
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\MySql.Data.Entity.dll
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\bin\MySql.Web.dll
+C:\inetpub\wwwroot\Citiwarrior\outlets.citiwarrior.com\obj\Debug\Citiwarrior.csprojResolveAssemblyReference.cache
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\BigMac.dll.config
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\BigMac.dll
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\BigMac.pdb
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\Microsoft.Web.Infrastructure.dll
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\Microsoft.Web.WebPages.OAuth.dll
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\MySql.Data.dll
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\MySql.Data.Entity.dll
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\MySql.Web.dll
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\Newtonsoft.Json.dll
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\System.Net.Http.dll
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\System.Net.Http.Formatting.dll
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\System.Net.Http.WebRequest.dll
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Helpers.dll
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Http.dll
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Http.WebHost.dll
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Mvc.dll
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Razor.dll
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.WebPages.Deployment.dll
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.WebPages.dll
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.WebPages.Razor.dll
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\WebMatrix.Data.dll
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\WebMatrix.WebData.dll
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\Newtonsoft.Json.xml
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\Microsoft.Web.Infrastructure.xml
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\System.Net.Http.xml
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\System.Net.Http.Formatting.xml
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\System.Net.Http.WebRequest.xml
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Helpers.xml
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Http.xml
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Http.WebHost.xml
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Mvc.xml
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Razor.xml
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.WebPages.xml
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.WebPages.Deployment.xml
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.WebPages.Razor.xml
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\WebMatrix.Data.xml
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\Microsoft.Web.WebPages.OAuth.xml
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\bin\WebMatrix.WebData.xml
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\obj\Debug\BigMac.dll
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\obj\Debug\BigMac.pdb
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\BigMac.dll.config
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\BigMac.dll
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\BigMac.pdb
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\Microsoft.Web.Infrastructure.dll
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\Microsoft.Web.WebPages.OAuth.dll
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\MySql.Data.dll
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\MySql.Data.Entity.dll
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\MySql.Web.dll
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\Newtonsoft.Json.dll
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\System.Net.Http.dll
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\System.Net.Http.Formatting.dll
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\System.Net.Http.WebRequest.dll
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\System.Web.Helpers.dll
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\System.Web.Http.dll
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\System.Web.Http.WebHost.dll
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\System.Web.Mvc.dll
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\System.Web.Razor.dll
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\System.Web.WebPages.Deployment.dll
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\System.Web.WebPages.dll
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\System.Web.WebPages.Razor.dll
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\WebMatrix.Data.dll
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\WebMatrix.WebData.dll
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\Newtonsoft.Json.xml
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\Microsoft.Web.Infrastructure.xml
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\System.Net.Http.xml
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\System.Net.Http.Formatting.xml
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\System.Net.Http.WebRequest.xml
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\System.Web.Helpers.xml
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\System.Web.Http.xml
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\System.Web.Http.WebHost.xml
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\System.Web.Mvc.xml
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\System.Web.Razor.xml
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\System.Web.WebPages.xml
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\System.Web.WebPages.Deployment.xml
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\System.Web.WebPages.Razor.xml
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\WebMatrix.Data.xml
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\Microsoft.Web.WebPages.OAuth.xml
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\bin\WebMatrix.WebData.xml
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\obj\Debug\Citiwarrior.csprojResolveAssemblyReference.cache
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\obj\Debug\BigMac.dll
+C:\inetpub\vhosts\citiwarrior.com\httpdocs\obj\Debug\BigMac.pdb
+C:\inetpub\vhosts\citiwarrior.com\outlets.citiwarrior.com\obj\Debug\Citiwarrior.csprojResolveAssemblyReference.cache
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\BigMac.dll.config
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\BigMac.dll
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\BigMac.pdb
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\Microsoft.Web.Infrastructure.dll
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\Microsoft.Web.WebPages.OAuth.dll
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\MySql.Data.dll
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\MySql.Data.Entity.dll
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\MySql.Web.dll
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\Newtonsoft.Json.dll
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\System.Net.Http.dll
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\System.Net.Http.Formatting.dll
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\System.Net.Http.WebRequest.dll
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Helpers.dll
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Http.dll
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Http.WebHost.dll
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Mvc.dll
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Razor.dll
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.WebPages.Deployment.dll
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.WebPages.dll
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.WebPages.Razor.dll
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\WebMatrix.Data.dll
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\WebMatrix.WebData.dll
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\Newtonsoft.Json.xml
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\Microsoft.Web.Infrastructure.xml
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\System.Net.Http.xml
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\System.Net.Http.Formatting.xml
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\System.Net.Http.WebRequest.xml
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Helpers.xml
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Http.xml
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Http.WebHost.xml
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Mvc.xml
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Razor.xml
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.WebPages.xml
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.WebPages.Deployment.xml
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.WebPages.Razor.xml
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\WebMatrix.Data.xml
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\Microsoft.Web.WebPages.OAuth.xml
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\bin\WebMatrix.WebData.xml
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\obj\Debug\Citiwarrior.csprojResolveAssemblyReference.cache
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\obj\Debug\BigMac.dll
+C:\inetpub\wwwroot\Citiwarrior\citiwarrior.com\outlets.citiwarrior.com\obj\Debug\BigMac.pdb
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\BigMac.dll.config
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\BigMac.dll
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\BigMac.pdb
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\Microsoft.Web.Infrastructure.dll
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\Microsoft.Web.WebPages.OAuth.dll
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\MySql.Data.dll
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\MySql.Data.Entity.dll
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\MySql.Web.dll
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\Newtonsoft.Json.dll
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\System.Net.Http.dll
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\System.Net.Http.Formatting.dll
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\System.Net.Http.WebRequest.dll
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Helpers.dll
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Http.dll
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Http.WebHost.dll
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Mvc.dll
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Razor.dll
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.WebPages.Deployment.dll
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.WebPages.dll
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.WebPages.Razor.dll
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\WebMatrix.Data.dll
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\WebMatrix.WebData.dll
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\Newtonsoft.Json.xml
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\Microsoft.Web.Infrastructure.xml
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\System.Net.Http.xml
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\System.Net.Http.Formatting.xml
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\System.Net.Http.WebRequest.xml
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Helpers.xml
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Http.xml
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Http.WebHost.xml
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Mvc.xml
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.Razor.xml
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.WebPages.xml
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.WebPages.Deployment.xml
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\System.Web.WebPages.Razor.xml
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\WebMatrix.Data.xml
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\Microsoft.Web.WebPages.OAuth.xml
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\bin\WebMatrix.WebData.xml
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\obj\Debug\Citiwarrior.csprojResolveAssemblyReference.cache
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\obj\Debug\BigMac.dll
+C:\inetpub\wwwroot\citiwarrior.com\outlets.citiwarrior.com\obj\Debug\BigMac.pdb
+C:\inetpub\wwwroot\outlets.gliss.com\obj\Debug\Citiwarrior.csprojResolveAssemblyReference.cache
+C:\inetpub\wwwroot\outlets.gliss.com\obj\Debug\BigMac.dll
+C:\inetpub\wwwroot\outlets.gliss.com\obj\Debug\BigMac.pdb

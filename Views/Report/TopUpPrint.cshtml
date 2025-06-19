@@ -1,0 +1,58 @@
+﻿@using BigMac
+@model BigMac.Models.Invoice_m_Invoice
+
+@{
+    ViewBag.Title = "TopUpPrint";
+    Layout = null;
+    var name = BigMac.cAESEncryption.getDecryptedString(@Model.Create.name);
+    var coname = BigMac.cAESEncryption.getDecryptedString(@Session["company"].ToString()); 
+}
+<meta charset="utf-8">
+<link rel="stylesheet" href="~/assets/css/a5.css">
+
+<body>
+    <div style="width:100%;text-align:center;font-weight:bold;">@coname (@Model.branchcode)</div>
+    <table style ="width:100%;">
+        <tr>
+            <td style="width:10px"></td>
+            <td ></td>
+            <td></td>
+            <td style="width:150px"><b>Date : @String.Format("{0:dd/MM/yyyy}", Model.createdate)</b></td>
+            <td style="width:10px"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><b>Ref. @Model.resourcecode </b></td>
+            <td></td>
+            <td><b>By: @name</b></td>
+            <td></td>
+        </tr>
+    </table>
+
+    <table style ="width:100%;">
+        <thead>
+            <tr>
+                <td style="width:10px"></td>
+                <td>Description</td>
+                <td style="width:80px">@ViewBag.CitiDesc</td>
+                <td style="width:80px">@ViewBag.BonusDesc</td>
+                <td style="width:10px"></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.items)
+            {
+            <tr>
+                <td></td>
+                <td>@item.productdesc</td>
+                <td>@item.awarddollars</td>
+                <td>@item.awardbonus</td>
+                <td></td>
+            </tr>            
+            }
+        </tbody>
+    </table>
+</body>
+
+
+
